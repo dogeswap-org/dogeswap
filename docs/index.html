@@ -9,43 +9,117 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <style>
+        .btn-custom {
+            --bs-btn-color: #fff;
+            --bs-btn-bg: rgb(255, 89, 155);
+            --bs-btn-border-color: #ff599c;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #fe0d6e;
+            --bs-btn-hover-border-color: #fe0d6e;
+            --bs-btn-focus-shadow-rgb: 255, 89, 156;
+            --bs-btn-active-color: #fff;
+            --bs-btn-active-bg: #fe0d6e;
+            --bs-btn-active-border-color: #fe0d6e;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #fff;
+            --bs-btn-disabled-bg: #ff599c;
+            --bs-btn-disabled-border-color: #ff599c;
+        }
+
         body {
-            background: radial-gradient(circle at center, white 0, white 20%, #FF599C 80%, #FE0D6E 100%);
+            background: radial-gradient(circle at center, white 0, white 20%, #ff599c 80%, #fe0d6e 100%);
             font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", Chalkboard, Chilanka, Arial, sans-serif !important;
             margin: 0;
         }
 
-        .main-card {
+        /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+        .flip-card {
+            background-color: transparent;
+            height: 500px;
+            min-width: 350px;
+            perspective: 1000px;
+            /* Remove this if you don't want the 3D effect */
+        }
+
+        /* This container is needed to position the front and back side */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+
+        }
+
+        /* Do an horizontal flip when you move the mouse over the flip box container */
+        /* .flip-card:hover .flip-card-inner, */
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Position the front and back side */
+        .flip-card-front,
+        .flip-card-back {
             border: 6px solid #FF599C;
             outline: 3px solid white;
+
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            /* Safari */
+            backface-visibility: hidden;
+        }
+
+        /* Style the back side */
+        .flip-card-back {
+            transform: rotateY(180deg);
         }
     </style>
 </head>
 
 <body>
-    <div class="d-flex vw-100 vh-100 align-items-center">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-5 col-xl-4 bg-white rounded-5 p-5 fs-1 fw-bold shadow-lg main-card">
-                    <div class="row">
-                        <div class="col d-flex justify-content-end">
+    <div class="container vh-100 vw-100 d-flex justify-content-center align-items-center">
+        <div class="row w-100 justify-content-center">
+            <div id="flip-card" class="flip-card col-md-8 col-lg-6 col-xl-4">
+                <div class="flip-card-inner">
+                    <div
+                        class="flip-card-front d-flex flex-column justify-content-evenly rounded-5 bg-white px-3 px-sm-4 px-md-5 fs-3 fs-md-2 fs-lg-1 shadow-lg">
+                        <div class="d-flex justify-content-end">
                             <div>such defi...</div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col d-flex justify-content-center">
-                            <img class="m-4" src="logo.svg" width="300px" height="300px" />
+                        <div class="d-flex justify-content-center">
+                            <img src="logo.svg" width="300px" height="300px" />
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col d-flex justify-content-start">
+                        <div class="d-flex justify-content-start">
                             <div>very soon...</div>
                         </div>
+                    </div>
+                    <div
+                        class="flip-card-back rounded-5 bg-white p-3 p-lg-4 p-xl-5 shadow-lg d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-lg btn-custom">Telegram coming soon</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        const flippedClass = "flipped";
+        const card = document.getElementById("flip-card");
+        const toggleCard = () => !card.classList.contains(flippedClass)
+            ? card.classList.add(flippedClass)
+            : card.classList.remove(flippedClass);
+
+        card.addEventListener("touchend", (e) => {
+            if (e.target.nodeName !== "BUTTON") {
+                toggleCard();
+            }
+        });
+
+        card.addEventListener("mouseenter", () => card.classList.add(flippedClass));
+        card.addEventListener("mouseleave", () => card.classList.remove(flippedClass));
+    </script>
 </body>
 
 </html>
