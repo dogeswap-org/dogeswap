@@ -30,6 +30,7 @@
             background: radial-gradient(circle at center, white 0, white 20%, #ff599c 80%, #fe0d6e 100%);
             font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", Chalkboard, Chilanka, Arial, sans-serif !important;
             margin: 0;
+            overscroll-behavior: none;
         }
 
         /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
@@ -48,8 +49,9 @@
             height: 100%;
             text-align: center;
             transition: transform 0.8s;
+            transform: rotateY(0deg);
             transform-style: preserve-3d;
-
+            -webkit-transform-style: preserve-3d;
         }
 
         /* Do an horizontal flip when you move the mouse over the flip box container */
@@ -70,6 +72,10 @@
             -webkit-backface-visibility: hidden;
             /* Safari */
             backface-visibility: hidden;
+        }
+
+        .flip-card-front {
+            transform: rotateY(0deg);
         }
 
         /* Style the back side */
