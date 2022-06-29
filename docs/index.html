@@ -48,7 +48,7 @@
             width: 100%;
             height: 100%;
             text-align: center;
-            transition: transform 0.8s;
+            transition: transform 0.5s;
             transform: rotateY(0deg);
             transform-style: preserve-3d;
             -webkit-transform-style: preserve-3d;
@@ -76,6 +76,8 @@
 
         .flip-card-front {
             transform: rotateY(0deg);
+            /* https://github.com/google/model-viewer/issues/662#issuecomment-506750593 */
+            transform: translateZ(0);
         }
 
         /* Style the back side */
@@ -113,9 +115,14 @@
     <script>
         const flippedClass = "flipped";
         const card = document.getElementById("flip-card");
-        const toggleCard = () => !card.classList.contains(flippedClass)
-            ? card.classList.add(flippedClass)
-            : card.classList.remove(flippedClass);
+        let didFlip = false;
+
+        const flip = (flipToBack) => {
+            flipToBack ? card.classList.add(flippedClass) : card.classList.remove(flippedClass);
+            didFlip = true;
+        }
+
+        const toggleCard = () => flip(!card.classList.contains(flippedClass));
 
         card.addEventListener("touchend", (e) => {
             if (e.target.nodeName !== "BUTTON") {
@@ -123,8 +130,14 @@
             }
         });
 
-        card.addEventListener("mouseenter", () => card.classList.add(flippedClass));
-        card.addEventListener("mouseleave", () => card.classList.remove(flippedClass));
+        card.addEventListener("mouseenter", () => flip(true));
+        card.addEventListener("mouseleave", () => flip(false));
+
+        setTimeout(() => {
+            if (!didFlip) {
+                flip(true);
+            }
+        }, 3000);
     </script>
 </body>
 
