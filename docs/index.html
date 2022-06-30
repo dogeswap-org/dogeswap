@@ -105,8 +105,12 @@
                         </div>
                     </div>
                     <div
-                        class="flip-card-back rounded-5 bg-white p-3 p-lg-4 p-xl-5 shadow-lg d-flex justify-content-center align-items-center">
-                        <button type="button" class="btn btn-lg btn-custom">Telegram coming soon</button>
+                        class="flip-card-back rounded-5 bg-white p-3 p-lg-4 p-xl-5 shadow-lg d-flex align-items-center justify-content-center">
+                        <button id="telegramButton" type="button"
+                            class="btn btn-lg btn-custom d-flex align-items-center">
+                            <img src="telegram.svg" height="28px" width="28px" class="me-2" />
+                            Join us on Telegram
+                        </button>
                     </div>
                 </div>
             </div>
@@ -138,6 +142,10 @@
                 flip(true);
             }
         }, 3000);
+
+        document.getElementById("telegramButton").addEventListener("click", () => {
+            window.open("https://t.me/+6eGjC6hMjf5iYWIy");
+        });
     </script>
 </body>
 
