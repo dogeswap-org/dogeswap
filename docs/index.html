@@ -29,7 +29,10 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
         <div class="container px-5">
-            <a class="navbar-brand fw-bold" href="#page-top">DogeSwap.org</a>
+            <a class="navbar-brand fw-bold" href="#page-top">
+                <img class="mb-1 me-2" src="assets/logo.svg" width="40px" height="40px" />
+                DogeSwap.org
+            </a>
             <div class="align-items-center">
                 <button id="header-telegram-button-big" class="btn btn-primary rounded-pill px-3 d-none d-sm-block">
                     <span class="d-flex align-items-center">
@@ -69,56 +72,102 @@
         <div class="container px-5">
             <div class="row gx-5 justify-content-center">
                 <div class="col-xl-8">
-                    <div class="h2 fs-1 text-white mb-4">We are the first decentralized exchange on Dogechain.</div>
-                    <div class="h2 fs-1 text-white mt-5 mb-2">
-                        Ethereum has Uniswap,<br />
-                        BSC has Pancakeswap,<br />
-                        Polygon has Quickswap,<br />
-                        and Dogechain has DogeSwap.org.
-                    </div>
+                    <div class="h2 fs-1 text-white mt-3">We are the first decentralized exchange on Dogechain.</div>
                 </div>
             </div>
         </div>
     </aside>
     <!-- App features section-->
-    <section id="features">
+    <section id="features" class="doge-features">
         <div class="container px-5">
             <div class="row gx-5 align-items-center justify-content-center">
-                <div class="col-lg-8 order-lg-1 mb-5 mb-lg-0">
-                    <div class="container-fluid px-5">
-                        <div class="row gx-5">
-                            <div class="col-md-6 mb-5">
+                <div class="col-lg-10 order-lg-1 mb-5 mb-lg-0">
+
+                    <!-- Mobile -->
+                    <div class="container-fluid px-5 doge-features d-block d-md-none">
+                        <div class="row gx-5 mb-5">
+                            <div class="col-md-6 mb-5 feature-item">
                                 <!-- Feature item-->
-                                <div class="text-center">
-                                    <span class="emoji">🦄</span>
+                                <img src="assets/doge-familiar.jpeg" />
+                                <div class="text-center mt-4">
                                     <h3 class="font-alt">Familiar</h3>
                                     <p class="text-muted mb-0">Our first public launch will be as a Uniswap v2 clone</p>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-5">
+                            <div class="col-md-6 feature-item">
                                 <!-- Feature item-->
-                                <div class="text-center">
-                                    <span class="emoji">🚀</span>
+                                <img src="assets/doge-futuristic.jpeg" />
+                                <div class="text-center mt-4">
                                     <h3 class="font-alt">Futuristic</h3>
                                     <p class="text-muted mb-0">The next iteration of DogeSwap will use an off-chain
                                         oracle to eliminate impermanent loss</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-5">
+                        <div class="row mt-5">
+                            <div class="col-md-6 mb-5 feature-item">
                                 <!-- Feature item-->
-                                <div class="text-center">
-                                    <span class="emoji">🤝</span>
+                                <img src="assets/doge-fair.jpeg" />
+                                <div class="text-center mt-4">
                                     <h3 class="font-alt">Fair</h3>
                                     <p class="text-muted mb-0">There is no private round, no seed-round, no pre-sale,
                                         and no public sale for DogeSwap Token</p>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 feature-item">
                                 <!-- Feature item-->
+                                <img src="assets/doge-fun.jpeg" />
+                                <div class="text-center mt-4">
+                                    <h3 class="font-alt">Fun</h3>
+                                    <p class="text-muted mb-0">This is a meme-based Dex after all ;)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop -->
+                    <div class="container-fluid px-5 doge-features d-none d-md-block">
+                        <div class="row gx-5 mb-5 d-flex align-items-center">
+                            <div class="col-md-6 feature-item">
+                                <img src="assets/doge-familiar.jpeg" />
+                            </div>
+                            <div class="col-md-6 feature-item">
+                                <img src="assets/doge-futuristic.jpeg" />
+                            </div>
+                        </div>
+                        <div class="row gx-5 mb-5 d-flex">
+                            <div class="col-md-6 feature-item">
                                 <div class="text-center">
-                                    <span class="emoji">🎉</span>
+                                    <h3 class="font-alt">Familiar</h3>
+                                    <p class="text-muted mb-0">Our first public launch will be as a Uniswap v2 clone</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 feature-item">
+                                <div class="text-center">
+                                    <h3 class="font-alt">Futuristic</h3>
+                                    <p class="text-muted mb-0">The next iteration of DogeSwap will use an off-chain
+                                        oracle to eliminate impermanent loss</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gx-5 mb-5 d-flex align-items-center">
+                            <div class="col-md-6 feature-item">
+                                <img src="assets/doge-fair.jpeg" />
+                            </div>
+                            <div class="col-md-6 feature-item">
+                                <img src="assets/doge-fun.jpeg" />
+                            </div>
+                        </div>
+                        <div class="row gx-5 mb-5 d-flex">
+                            <div class="col-md-6 feature-item">
+                                <div class="text-center ">
+                                    <h3 class="font-alt">Fair</h3>
+                                    <p class="text-muted mb-0">There is no private round, no seed-round, no pre-sale,
+                                        and no public sale for DogeSwap Token</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 feature-item">
+                                <div class="text-center">
                                     <h3 class="font-alt">Fun</h3>
                                     <p class="text-muted mb-0">This is a meme-based Dex after all ;)</p>
                                 </div>
@@ -151,17 +200,50 @@
                     <p class="lead fw-normal">
                         DogeSwap V69 will look and feel like any other AMM dex, but will feature an off-chain oracle to
                         eliminate impermanent loss. We believe this is the future of decentralized exchanges… not just
-                        on Dogechain, but across all of DeFi. Smol fee, big profit, wow.
+                        on Dogechain, but across all of DeFi. Smol fee, big profit, wow!
                     </p>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Basic features section-->
-    <section class="bg-light">
+    <!-- Tokenomics section-->
+    <section class="bg-light pb-3">
         <div class="container px-5">
             <div class="row gx-5 align-items-center justify-content-center">
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-lg-7">
+                    <h2 class="display-4 lh-1 mb-4">Tokenomics</h2>
+                    <p class="lead fw-normal text-muted mb-5 mb-lg-3">
+                        It’s a fair launch :)
+                    </p>
+                    <p class="lead fw-normal text-muted mb-5 mb-lg-3">
+                        There is no private round, no seed-round, no pre-sale, and no public sale
+                        for DST.
+                    </p>
+                    <p class="lead fw-normal text-muted mb-5 mb-lg-3">
+                        Total supply: 420 billion DST:
+                    </p>
+                    <p class="lead fw-normal text-muted mb-5 mb-lg-3">
+                    <ul class="text-muted fs-5">
+                        <li>80% for liquidity/trade mining</li>
+                        <li>10% for development & audits</li>
+                        <li>10% to initial contributors</li>
+                    </ul>
+                    </p>
+                </div>
+                <div class="col col-lg-5">
+                    <img class="img-distribution my-5" src="assets/distribution.jpeg" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Roadmap section-->
+    <section class="bg-light pt-0">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center justify-content-center">
+                <div class="col col-lg-5">
+                    <img class="img-roadmap my-5" src="assets/roadmap.jpg" />
+                </div>
+                <div class="col-12 col-lg-7">
                     <h2 class="display-4 lh-1 mb-4">Roadmap</h2>
                     <ul class="text-muted fs-5 roadmap-list">
                         <li>

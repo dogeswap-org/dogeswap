@@ -1,5 +1,22 @@
-.emoji {
-    font-size: 72px;
+.doge-features {
+    background-color: #f7f7f7;
+}
+
+.doge-features img {
+    height: auto;
+    width: 200px;
+}
+
+img[src="assets/doge-familiar.jpeg"] {
+    width: 150px;
+}
+
+img[src="assets/doge-fair.jpeg"] {
+    width: 170px;
+}
+
+img[src="assets/doge-fun.jpeg"] {
+    width: 220px;
 }
 
 .logo {
@@ -42,3 +59,20 @@
 .roadmap-list>li {
     margin-bottom: 16px;
 }
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.img-roadmap,
+.img-distribution {
+    border-radius: 1rem;
+    width: 100%;
+}
+
+.img-roadmap {}
+
+.img-distribution {}
