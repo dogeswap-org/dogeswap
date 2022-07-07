@@ -32,7 +32,7 @@ img[src="assets/doge-fun.jpeg"] {
     background-image: url("../assets/stats-background.jpg");
     background-size: 200%;
     background-repeat: no-repeat;
-    background-color: #1a1b20;
+    background-color: #101113;
 }
 
 /* Small devices (landscape phones, 576px and up) */
@@ -73,6 +73,6 @@ img[src="assets/doge-fun.jpeg"] {
     width: 100%;
 }
 
-.img-roadmap {}
-
-.img-distribution {}
+.comic-sans {
+    font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", Chalkboard, Chilanka, Arial, sans-serif;
+}
