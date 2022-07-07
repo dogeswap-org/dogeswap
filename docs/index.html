@@ -279,21 +279,35 @@
                     <i class="bi-telegram me-3 fs-3"></i>
                     Join us on Telegram!
                 </button>
-
-                <button id="blog-button" type="button"
-                    class="btn btn-secondary mt-4 px-3 py-2 fs-5 d-flex align-items-center footer-telegram-button">
-                    <i class="bi-file-earmark-richtext me-3 fs-3"></i>
-                    Check out our blog!
-                </button>
             </div>
         </div>
     </section>
     <!-- Footer-->
-    <footer class="bg-black text-center py-5">
+    <footer class="bg-black text-center pt-5 py-1">
         <div class="container px-5">
-            <div class="text-white-50 small comic-sans">
-                <div class="mb-2">&copy; DogeSwap.org 2022. All Rights Reserved.</div>
+            <div class="row">
+                <div class="col col-md-3 footer-links d-flex flex-column align-items-start">
+                    <a class="fs-5" href="https://medium.com/@DogeSwapOrg">
+                        <i class="bi-file-earmark-richtext me-3 fs-3"></i>Blog
+                    </a>
+                    <a class="fs-5" href="https://twitter.com/DogeSwapOrg">
+                        <i class="bi-twitter me-3 fs-3"></i>Twitter
+                    </a>
+                    <a class="fs-5" href="https://github.com/Dogeswap-org">
+                        <i class="bi-github me-3 fs-3"></i>GitHub
+                    </a>
+                </div>
+                <div class="col col-md-6 align-items-center justify-content-center d-flex">
+                    <div class="text-white-50 small comic-sans">
+                        <div class="mb-2">&copy; DogeSwap.org 2022. All Rights Reserved.</div>
+                    </div>
+                </div>
             </div>
+
+            <div class="text-white mb-5">
+
+            </div>
+
         </div>
     </footer>
     </div>
@@ -307,8 +321,6 @@
             document.getElementById("header-telegram-button-small"),
             document.getElementById("footer-telegram-button"),
         ].forEach(x => x.addEventListener("click", () => window.open("https://t.me/+6eGjC6hMjf5iYWIy")));
-
-        document.getElementById("blog-button").addEventListener("click", () => window.open("https://medium.com/@DogeSwapOrg"));
     </script>
 
 </body>
