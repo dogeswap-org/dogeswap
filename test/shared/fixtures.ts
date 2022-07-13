@@ -39,10 +39,10 @@ interface V2Fixture {
 
 export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Promise<V2Fixture> {
   // deploy tokens
-  const tokenA = await deployContract(wallet, ERC20, [expandTo18Decimals(10000)])
-  const tokenB = await deployContract(wallet, ERC20, [expandTo18Decimals(10000)])
+  const tokenA = await deployContract(wallet, ERC20, ["Test Token", "TT", expandTo18Decimals(10000)])
+  const tokenB = await deployContract(wallet, ERC20, ["Test Token", "TT", expandTo18Decimals(10000)])
   const WETH = await deployContract(wallet, WETH9)
-  const WETHPartner = await deployContract(wallet, ERC20, [expandTo18Decimals(10000)])
+  const WETHPartner = await deployContract(wallet, ERC20, ["Test Token", "TT", expandTo18Decimals(10000)])
 
   // deploy V1
   const factoryV1 = await deployContract(wallet, UniswapV1Factory, [])
