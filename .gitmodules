@@ -1,0 +1,6 @@
+[submodule "src/v2-sdk"]
+	path = src/v2-sdk
+	url = git@github.com:dogeswap-org/v2-sdk.git
+[submodule "src/sdk-core"]
+	path = src/sdk-core
+	url = git@github.com:dogeswap-org/sdk-core.git

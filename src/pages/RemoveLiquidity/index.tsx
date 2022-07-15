@@ -1,7 +1,6 @@
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, Percent, WETH } from '@uniswap/sdk'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { ArrowDown, Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -41,6 +40,11 @@ import { Field } from '../../state/burn/actions'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
+import Percent from "../../sdk-core/src/entities/fractions/percent"
+import { ETHER } from "../../sdk-core/src/entities/ether"
+import { currencyEquals } from "../../sdk-core/src/utils/currencyEquals"
+import { WETH } from "../../sdk-core/src/entities/token"
+import { Currency } from "../../sdk-core/src/entities/currency"
 
 export default function RemoveLiquidity({
   history,

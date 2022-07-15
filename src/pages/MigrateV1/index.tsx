@@ -1,4 +1,4 @@
-import { JSBI, Token } from '@uniswap/sdk'
+import JSBI from "jsbi"
 import React, { useCallback, useContext, useMemo, useState, useEffect } from 'react'
 import { ThemeContext } from 'styled-components'
 import { AutoColumn } from '../../components/Column'
@@ -18,6 +18,7 @@ import QuestionHelper from '../../components/QuestionHelper'
 import { Dots } from '../../components/swap/styleds'
 import { useAddUserToken } from '../../state/user/hooks'
 import { isTokenOnList } from '../../utils'
+import { Token } from "../../sdk-core/src/entities/token"
 
 export default function MigrateV1() {
   const theme = useContext(ThemeContext)

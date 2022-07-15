@@ -1,4 +1,3 @@
-import { Currency } from '@uniswap/sdk'
 import React from 'react'
 import styled from 'styled-components'
 import CurrencyLogo from '../CurrencyLogo'

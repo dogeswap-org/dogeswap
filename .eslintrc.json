@@ -2,7 +2,6 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2020,
-    "sourceType": "module",
     "ecmaFeatures": {
       // Allows for the parsing of JSX
       "jsx": true
@@ -17,15 +16,16 @@
     }
   },
   "extends": [
+    "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "prettier"
   ],
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
-    "prettier/prettier": "error",
-    "@typescript-eslint/no-explicit-any": "off"
-  }
+    "import/first": "off"
+  },
+  "plugins": ["react", "@typescript-eslint"]
 }

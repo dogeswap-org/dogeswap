@@ -1,4 +1,3 @@
-import { TokenAmount, Pair, Currency } from '@uniswap/sdk'
 import { useMemo } from 'react'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { Interface } from '@ethersproject/abi'
@@ -6,6 +5,9 @@ import { useActiveWeb3React } from '../hooks'
 
 import { useMultipleContractSingleData } from '../state/multicall/hooks'
 import { wrappedCurrency } from '../utils/wrappedCurrency'
+import { Currency } from "../sdk-core/src/entities/currency"
+import { Pair } from "../../v2-sdk/src/entities/pair"
+import TokenAmount from "../sdk-core/src/entities/fractions/token-amount"
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
 

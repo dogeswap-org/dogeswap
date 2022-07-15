@@ -1,4 +1,3 @@
-import { ChainId } from '@uniswap/sdk'
 import React from 'react'
 import { isMobile } from 'react-device-detect'
 import { Text } from 'rebass'
@@ -103,7 +102,7 @@ const UniIcon = styled.div`
     transform: rotate(-5deg);
   }
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    img { 
+    img {
       width: 4.5rem;
     }
   `};
@@ -128,10 +127,8 @@ const BalanceText = styled(Text)`
 
 const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.MAINNET]: null,
-  [ChainId.RINKEBY]: 'Rinkeby',
-  [ChainId.ROPSTEN]: 'Ropsten',
-  [ChainId.GÖRLI]: 'Görli',
-  [ChainId.KOVAN]: 'Kovan'
+  [ChainId.TESTNET]: "Testnet",
+  [ChainId.LOCALNET]: "Localnet",
 }
 
 export default function Header() {

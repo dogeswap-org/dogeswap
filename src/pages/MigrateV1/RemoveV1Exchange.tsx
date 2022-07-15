@@ -1,5 +1,4 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider'
-import { JSBI, Token, TokenAmount, WETH, Fraction, Percent, CurrencyAmount } from '@uniswap/sdk'
 import React, { useCallback, useMemo, useState } from 'react'
 import ReactGA from 'react-ga'
 import { Redirect, RouteComponentProps } from 'react-router'
@@ -24,6 +23,12 @@ import { AddressZero } from '@ethersproject/constants'
 import { Dots } from '../../components/swap/styleds'
 import { Contract } from '@ethersproject/contracts'
 import { useTotalSupply } from '../../data/TotalSupply'
+import Fraction from "../../sdk-core/src/entities/fractions/fraction"
+import JSBI from "jsbi"
+import CurrencyAmount from "../../sdk-core/src/entities/fractions/currencyAmount"
+import { Token, WETH } from "../../sdk-core/src/entities/token"
+import TokenAmount from "../../sdk-core/src/entities/fractions/token-amount"
+import Percent from "../../sdk-core/src/entities/fractions/percent"
 
 const WEI_DENOM = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
 const ZERO = JSBI.BigInt(0)

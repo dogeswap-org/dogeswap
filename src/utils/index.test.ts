@@ -1,7 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { AddressZero } from '@ethersproject/constants'
-import { TokenAmount, Token, ChainId, Percent, JSBI } from '@uniswap/sdk'
-
+import JSBI from "jsbi"
 import {
   getEtherscanLink,
   calculateSlippageAmount,
@@ -10,6 +9,10 @@ import {
   calculateGasMargin,
   basisPointsToPercent
 } from '.'
+import { ChainId } from "../sdk-core/src/constants"
+import TokenAmount from "../sdk-core/src/entities/fractions/token-amount"
+import { Token } from "../sdk-core/src/entities/token"
+import Percent from "../sdk-core/src/entities/fractions/percent"
 
 describe('utils', () => {
   describe('#getEtherscanLink', () => {
@@ -29,7 +32,7 @@ describe('utils', () => {
       expect(getEtherscanLink(3, 'abc', 'address')).toEqual('https://ropsten.etherscan.io/address/abc')
     })
     it('enum', () => {
-      expect(getEtherscanLink(ChainId.RINKEBY, 'abc', 'address')).toEqual('https://rinkeby.etherscan.io/address/abc')
+      expect(getEtherscanLink(ChainId.TESTNET, 'abc', 'address')).toEqual('https://rinkeby.etherscan.io/address/abc')
     })
   })
 

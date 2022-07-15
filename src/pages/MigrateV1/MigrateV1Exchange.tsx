@@ -1,6 +1,5 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { AddressZero } from '@ethersproject/constants'
-import { Currency, CurrencyAmount, Fraction, JSBI, Percent, Token, TokenAmount, WETH } from '@uniswap/sdk'
 import React, { useCallback, useMemo, useState } from 'react'
 import ReactGA from 'react-ga'
 import { Redirect, RouteComponentProps } from 'react-router'
@@ -27,6 +26,13 @@ import { BackArrow, ExternalLink, TYPE } from '../../theme'
 import { getEtherscanLink, isAddress } from '../../utils'
 import { BodyWrapper } from '../AppBody'
 import { EmptyState } from './EmptyState'
+import JSBI from "jsbi";
+import Fraction from "../../sdk-core/src/entities/fractions/fraction"
+import Percent from "../../sdk-core/src/entities/fractions/percent"
+import CurrencyAmount from "../../sdk-core/src/entities/fractions/currencyAmount"
+import { Token, WETH } from "../../sdk-core/src/entities/token"
+import TokenAmount from "../../sdk-core/src/entities/fractions/token-amount"
+import { ETHER } from "../../sdk-core/src/entities/ether"
 
 const POOL_CURRENCY_AMOUNT_MIN = new Fraction(JSBI.BigInt(1), JSBI.BigInt(1000000))
 const WEI_DENOM = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))
@@ -91,7 +97,7 @@ export function V1LiquidityInfo({
           <Text fontSize={16} fontWeight={500} marginLeft={'6px'}>
             <FormattedPoolCurrencyAmount currencyAmount={ethWorth} />
           </Text>
-          <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={Currency.ETHER} />
+          <CurrencyLogo size="20px" style={{ marginLeft: '8px' }} currency={ETHER} />
         </RowFixed>
       </RowBetween>
     </>

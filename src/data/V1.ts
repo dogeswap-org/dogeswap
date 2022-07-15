@@ -1,27 +1,23 @@
+import JSBI from 'jsbi'
 import { AddressZero } from '@ethersproject/constants'
-import {
-  BigintIsh,
-  Currency,
-  CurrencyAmount,
-  currencyEquals,
-  ETHER,
-  JSBI,
-  Pair,
-  Percent,
-  Route,
-  Token,
-  TokenAmount,
-  Trade,
-  TradeType,
-  WETH
-} from '@uniswap/sdk'
 import { useMemo } from 'react'
+import { BigintIsh, TradeType } from "../sdk-core/src/constants"
+import { Currency } from "../sdk-core/src/entities/currency"
+import TokenAmount from "../sdk-core/src/entities/fractions/token-amount"
+import { Token, WETH } from "../sdk-core/src/entities/token"
+import { Pair } from "../../v2-sdk/src/entities/pair"
+import { Trade } from "../../v2-sdk/src/entities/trade"
 import { useActiveWeb3React } from '../hooks'
 import { useAllTokens } from '../hooks/Tokens'
 import { useV1FactoryContract } from '../hooks/useContract'
 import { Version } from '../hooks/useToggledVersion'
 import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from '../state/multicall/hooks'
 import { useETHBalances, useTokenBalance, useTokenBalances } from '../state/wallet/hooks'
+import { ETHER } from "../sdk-core/src/entities/ether"
+import CurrencyAmount from "../sdk-core/src/entities/fractions/currencyAmount"
+import { Route } from "../../v2-sdk/src/entities/route"
+import Percent from "../sdk-core/src/entities/fractions/percent"
+import { currencyEquals } from "../sdk-core/src/utils/currencyEquals"
 
 export function useV1ExchangeAddress(tokenAddress?: string): string | undefined {
   const contract = useV1FactoryContract()

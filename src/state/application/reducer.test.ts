@@ -1,5 +1,5 @@
-import { ChainId } from '@uniswap/sdk'
 import { createStore, Store } from 'redux'
+import { ChainId } from "../../sdk-core/src/constants"
 import { addPopup, removePopup, toggleSettingsMenu, toggleWalletModal, updateBlockNumber } from './actions'
 import reducer, { ApplicationState } from './reducer'
 
@@ -72,10 +72,10 @@ describe('application reducer', () => {
       expect(store.getState().blockNumber[ChainId.MAINNET]).toEqual(3)
     })
     it('works with non-set chains', () => {
-      store.dispatch(updateBlockNumber({ chainId: ChainId.ROPSTEN, blockNumber: 2 }))
+      store.dispatch(updateBlockNumber({ chainId: ChainId.TESTNET, blockNumber: 2 }))
       expect(store.getState().blockNumber).toEqual({
         [ChainId.MAINNET]: 3,
-        [ChainId.ROPSTEN]: 2
+        [ChainId.TESTNET]: 2
       })
     })
   })
