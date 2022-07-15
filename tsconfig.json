@@ -1,5 +1,5 @@
 {
-  "include": ["src", "test"],
+  "include": ["src", "test", "../sdk-core/src/declarations.d.ts"],
   "compilerOptions": {
     "target": "es2018",
     "module": "esnext",
@@ -23,6 +23,8 @@
       "*": ["src/*", "node_modules/*"]
     },
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "typeRoots": ["./node_modules/@types"]
   }
 }

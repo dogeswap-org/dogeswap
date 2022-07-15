@@ -1,5 +1,9 @@
-import { ChainId, Currency, ETHER, Price, Token, WETH9 } from '@uniswap/sdk-core'
 import invariant from 'tiny-invariant'
+import { ChainId } from "../../../sdk-core/src/constants"
+import { Currency } from "../../../sdk-core/src/entities/currency"
+import { ETHER } from "../../../sdk-core/src/entities/ether"
+import Price from "../../../sdk-core/src/entities/fractions/price"
+import { Token, WETH } from "../../../sdk-core/src/entities/token"
 
 import { Pair } from './pair'
 
@@ -29,7 +33,7 @@ export class Route {
       'CHAIN_IDS'
     )
 
-    const weth: Token | undefined = WETH9[chainId as ChainId]
+    const weth: Token | undefined = WETH[chainId as ChainId]
 
     invariant(
       (input.isToken && pairs[0].involvesToken(input)) || (input === ETHER && weth && pairs[0].involvesToken(weth)),

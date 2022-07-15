@@ -1,22 +1,18 @@
-import {
-  ChainId,
-  Currency,
-  CurrencyAmount,
-  currencyEquals,
-  ETHER,
-  Fraction,
-  Percent,
-  Price,
-  sortedInsert,
-  Token,
-  TradeType,
-  WETH9
-} from '@uniswap/sdk-core'
 import { ONE, ZERO } from '../constants'
 import invariant from 'tiny-invariant'
 
 import { Pair } from './pair'
 import { Route } from './route'
+import Price from "../../../sdk-core/src/entities/fractions/price"
+import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
+import { currencyEquals } from "../../../sdk-core/src/utils/currencyEquals"
+import { ChainId, TradeType } from "../../../sdk-core/src/constants"
+import { Currency } from "../../../sdk-core/src/entities/currency"
+import { Token, WETH } from "../../../sdk-core/src/entities/token"
+import Percent from "../../../sdk-core/src/entities/fractions/percent"
+import { ETHER } from "../../../sdk-core/src/entities/ether"
+import Fraction from "../../../sdk-core/src/entities/fractions/fraction"
+import sortedInsert from "../../../sdk-core/src/utils/sortedInsert"
 
 /**
  * Returns the percent difference between the mid price and the execution price, i.e. price impact.
@@ -90,18 +86,18 @@ export interface BestTradeOptions {
 
 /**
  * Given a currency amount and a chain ID, returns the equivalent representation as the token amount.
- * In other words, if the currency is ETHER, returns the WETH9 token amount for the given chain. Otherwise, returns
+ * In other words, if the currency is ETHER, returns the WETH token amount for the given chain. Otherwise, returns
  * the input currency amount.
  */
 function wrappedAmount(currencyAmount: CurrencyAmount, chainId: ChainId): CurrencyAmount {
   if (currencyAmount.currency.isToken) return currencyAmount
-  if (currencyAmount.currency.isEther) return new CurrencyAmount(WETH9[chainId], currencyAmount.raw)
+  if (currencyAmount.currency.isEther) return new CurrencyAmount(WETH[chainId], currencyAmount.raw)
   throw new Error('CURRENCY')
 }
 
 function wrappedCurrency(currency: Currency, chainId: ChainId): Token {
   if (currency.isToken) return currency
-  if (currency === ETHER) return WETH9[chainId]
+  if (currency === ETHER) return WETH[chainId]
   throw new Error('CURRENCY')
 }
 
@@ -282,7 +278,7 @@ export class Trade {
         ;[amountOut] = pair.getOutputAmount(amountIn)
       } catch (error) {
         // input too low
-        if (error.isInsufficientInputAmountError) {
+        if ((error as any).isInsufficientInputAmountError) {
           continue
         }
         throw error
@@ -382,7 +378,7 @@ export class Trade {
         ;[amountIn] = pair.getInputAmount(amountOut)
       } catch (error) {
         // not enough liquidity in this pair
-        if (error.isInsufficientReservesError) {
+        if ((error as any).isInsufficientReservesError) {
           continue
         }
         throw error

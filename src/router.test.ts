@@ -2,7 +2,11 @@ import JSBI from 'jsbi'
 import { Pair, Route, Trade } from './entities'
 import { Router } from './router'
 import invariant from 'tiny-invariant'
-import { ChainId, CurrencyAmount, ETHER, Percent, Token, WETH9 } from '@uniswap/sdk-core'
+import { ChainId } from "../../sdk-core/src/constants"
+import { Token, WETH } from "../../sdk-core/src/entities/token"
+import CurrencyAmount from "../../sdk-core/src/entities/fractions/currencyAmount"
+import { ETHER } from "../../sdk-core/src/entities/ether"
+import Percent from "../../sdk-core/src/entities/fractions/percent"
 
 function checkDeadline(deadline: string[] | string): void {
   expect(typeof deadline).toBe('string')
@@ -20,7 +24,7 @@ describe('Router', () => {
     new CurrencyAmount(token1, JSBI.BigInt(1000))
   )
 
-  const pair_weth_0 = new Pair(new CurrencyAmount(WETH9[ChainId.MAINNET], '1000'), new CurrencyAmount(token0, '1000'))
+  const pair_weth_0 = new Pair(new CurrencyAmount(WETH[ChainId.MAINNET], '1000'), new CurrencyAmount(token0, '1000'))
 
   describe('#swapCallParameters', () => {
     describe('exact in', () => {
@@ -32,7 +36,7 @@ describe('Router', () => {
         expect(result.methodName).toEqual('swapExactETHForTokens')
         expect(result.args.slice(0, -1)).toEqual([
           '0x51',
-          [WETH9[ChainId.MAINNET].address, token0.address, token1.address],
+          [WETH[ChainId.MAINNET].address, token0.address, token1.address],
           '0x0000000000000000000000000000000000000004'
         ])
         expect(result.value).toEqual('0x64')
@@ -51,7 +55,7 @@ describe('Router', () => {
         expect(result.methodName).toEqual('swapExactETHForTokens')
         expect(result.args).toEqual([
           '0x51',
-          [WETH9[ChainId.MAINNET].address, token0.address, token1.address],
+          [WETH[ChainId.MAINNET].address, token0.address, token1.address],
           '0x0000000000000000000000000000000000000004',
           '0x32'
         ])
@@ -70,7 +74,7 @@ describe('Router', () => {
         expect(result.args.slice(0, -1)).toEqual([
           '0x64',
           '0x51',
-          [token1.address, token0.address, WETH9[ChainId.MAINNET].address],
+          [token1.address, token0.address, WETH[ChainId.MAINNET].address],
           '0x0000000000000000000000000000000000000004'
         ])
         expect(result.value).toEqual('0x0')
@@ -104,7 +108,7 @@ describe('Router', () => {
         expect(result.methodName).toEqual('swapETHForExactTokens')
         expect(result.args.slice(0, -1)).toEqual([
           '0x64',
-          [WETH9[ChainId.MAINNET].address, token0.address, token1.address],
+          [WETH[ChainId.MAINNET].address, token0.address, token1.address],
           '0x0000000000000000000000000000000000000004'
         ])
         expect(result.value).toEqual('0x80')
@@ -119,7 +123,7 @@ describe('Router', () => {
         expect(result.args.slice(0, -1)).toEqual([
           '0x64',
           '0x80',
-          [token1.address, token0.address, WETH9[ChainId.MAINNET].address],
+          [token1.address, token0.address, WETH[ChainId.MAINNET].address],
           '0x0000000000000000000000000000000000000004'
         ])
         expect(result.value).toEqual('0x0')
@@ -156,7 +160,7 @@ describe('Router', () => {
           expect(result.methodName).toEqual('swapExactETHForTokensSupportingFeeOnTransferTokens')
           expect(result.args.slice(0, -1)).toEqual([
             '0x51',
-            [WETH9[ChainId.MAINNET].address, token0.address, token1.address],
+            [WETH[ChainId.MAINNET].address, token0.address, token1.address],
             '0x0000000000000000000000000000000000000004'
           ])
           expect(result.value).toEqual('0x64')
@@ -179,7 +183,7 @@ describe('Router', () => {
           expect(result.args.slice(0, -1)).toEqual([
             '0x64',
             '0x51',
-            [token1.address, token0.address, WETH9[ChainId.MAINNET].address],
+            [token1.address, token0.address, WETH[ChainId.MAINNET].address],
             '0x0000000000000000000000000000000000000004'
           ])
           expect(result.value).toEqual('0x0')

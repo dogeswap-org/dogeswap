@@ -1,10 +1,13 @@
-import { Token, WETH9, ChainId, CurrencyAmount, ETHER } from '@uniswap/sdk-core'
+import { ChainId } from "../../../sdk-core/src/constants"
+import { ETHER } from "../../../sdk-core/src/entities/ether"
+import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
+import { Token, WETH } from "../../../sdk-core/src/entities/token"
 import { Pair, Route } from './index'
 
 describe('Route', () => {
   const token0 = new Token(ChainId.MAINNET, '0x0000000000000000000000000000000000000001', 18, 't0')
   const token1 = new Token(ChainId.MAINNET, '0x0000000000000000000000000000000000000002', 18, 't1')
-  const weth = WETH9[ChainId.MAINNET]
+  const weth = WETH[ChainId.MAINNET]
   const pair_0_1 = new Pair(new CurrencyAmount(token0, '100'), new CurrencyAmount(token1, '200'))
   const pair_0_weth = new Pair(new CurrencyAmount(token0, '100'), new CurrencyAmount(weth, '100'))
   const pair_1_weth = new Pair(new CurrencyAmount(token1, '175'), new CurrencyAmount(weth, '100'))

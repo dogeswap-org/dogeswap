@@ -1,4 +1,8 @@
-import { ChainId, Token, WETH9, Price, CurrencyAmount, currencyEquals } from '@uniswap/sdk-core'
+import { ChainId } from "../../../sdk-core/src/constants"
+import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
+import Price from "../../../sdk-core/src/entities/fractions/price"
+import { Token, WETH } from "../../../sdk-core/src/entities/token"
+import { currencyEquals } from "../../../sdk-core/src/utils/currencyEquals"
 import { InsufficientInputAmountError } from '../errors'
 import { computePairAddress, Pair } from './pair'
 
@@ -44,7 +48,7 @@ describe('Pair', () => {
   describe('constructor', () => {
     it('cannot be used for tokens on different chains', () => {
       expect(
-        () => new Pair(new CurrencyAmount(USDC, '100'), new CurrencyAmount(WETH9[ChainId.RINKEBY], '100'))
+        () => new Pair(new CurrencyAmount(USDC, '100'), new CurrencyAmount(WETH[ChainId.TESTNET], '100'))
       ).toThrow('CHAIN_IDS')
     })
   })
@@ -118,7 +122,7 @@ describe('Pair', () => {
     })
 
     it('throws if invalid token', () => {
-      expect(() => pair.priceOf(WETH9[ChainId.MAINNET])).toThrow('TOKEN')
+      expect(() => pair.priceOf(WETH[ChainId.MAINNET])).toThrow('TOKEN')
     })
   })
 
@@ -134,7 +138,7 @@ describe('Pair', () => {
 
     it('throws if not in the pair', () => {
       expect(() =>
-        new Pair(new CurrencyAmount(DAI, '101'), new CurrencyAmount(USDC, '100')).reserveOf(WETH9[ChainId.MAINNET])
+        new Pair(new CurrencyAmount(DAI, '101'), new CurrencyAmount(USDC, '100')).reserveOf(WETH[ChainId.MAINNET])
       ).toThrow('TOKEN')
     })
   })
@@ -149,13 +153,13 @@ describe('Pair', () => {
     expect(new Pair(new CurrencyAmount(USDC, '100'), new CurrencyAmount(DAI, '100')).involvesToken(USDC)).toEqual(true)
     expect(new Pair(new CurrencyAmount(USDC, '100'), new CurrencyAmount(DAI, '100')).involvesToken(DAI)).toEqual(true)
     expect(
-      new Pair(new CurrencyAmount(USDC, '100'), new CurrencyAmount(DAI, '100')).involvesToken(WETH9[ChainId.MAINNET])
+      new Pair(new CurrencyAmount(USDC, '100'), new CurrencyAmount(DAI, '100')).involvesToken(WETH[ChainId.MAINNET])
     ).toEqual(false)
   })
   describe('miscellaneous', () => {
     it('getLiquidityMinted:0', async () => {
-      const tokenA = new Token(ChainId.RINKEBY, '0x0000000000000000000000000000000000000001', 18)
-      const tokenB = new Token(ChainId.RINKEBY, '0x0000000000000000000000000000000000000002', 18)
+      const tokenA = new Token(ChainId.TESTNET, '0x0000000000000000000000000000000000000001', 18)
+      const tokenB = new Token(ChainId.TESTNET, '0x0000000000000000000000000000000000000002', 18)
       const pair = new Pair(new CurrencyAmount(tokenA, '0'), new CurrencyAmount(tokenB, '0'))
 
       expect(() => {
@@ -184,8 +188,8 @@ describe('Pair', () => {
     })
 
     it('getLiquidityMinted:!0', async () => {
-      const tokenA = new Token(ChainId.RINKEBY, '0x0000000000000000000000000000000000000001', 18)
-      const tokenB = new Token(ChainId.RINKEBY, '0x0000000000000000000000000000000000000002', 18)
+      const tokenA = new Token(ChainId.TESTNET, '0x0000000000000000000000000000000000000001', 18)
+      const tokenB = new Token(ChainId.TESTNET, '0x0000000000000000000000000000000000000002', 18)
       const pair = new Pair(new CurrencyAmount(tokenA, '10000'), new CurrencyAmount(tokenB, '10000'))
 
       expect(
@@ -200,8 +204,8 @@ describe('Pair', () => {
     })
 
     it('getLiquidityValue:!feeOn', async () => {
-      const tokenA = new Token(ChainId.RINKEBY, '0x0000000000000000000000000000000000000001', 18)
-      const tokenB = new Token(ChainId.RINKEBY, '0x0000000000000000000000000000000000000002', 18)
+      const tokenA = new Token(ChainId.TESTNET, '0x0000000000000000000000000000000000000001', 18)
+      const tokenB = new Token(ChainId.TESTNET, '0x0000000000000000000000000000000000000002', 18)
       const pair = new Pair(new CurrencyAmount(tokenA, '1000'), new CurrencyAmount(tokenB, '1000'))
 
       {
@@ -241,8 +245,8 @@ describe('Pair', () => {
     })
 
     it('getLiquidityValue:feeOn', async () => {
-      const tokenA = new Token(ChainId.RINKEBY, '0x0000000000000000000000000000000000000001', 18)
-      const tokenB = new Token(ChainId.RINKEBY, '0x0000000000000000000000000000000000000002', 18)
+      const tokenA = new Token(ChainId.TESTNET, '0x0000000000000000000000000000000000000001', 18)
+      const tokenB = new Token(ChainId.TESTNET, '0x0000000000000000000000000000000000000002', 18)
       const pair = new Pair(new CurrencyAmount(tokenA, '1000'), new CurrencyAmount(tokenB, '1000'))
 
       const liquidityValue = pair.getLiquidityValue(

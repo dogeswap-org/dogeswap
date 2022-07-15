@@ -1,4 +1,3 @@
-import { BigintIsh, ChainId, Price, sqrt, Token, CurrencyAmount } from '@uniswap/sdk-core'
 import invariant from 'tiny-invariant'
 import JSBI from 'jsbi'
 import { pack, keccak256 } from '@ethersproject/solidity'
@@ -6,6 +5,11 @@ import { getCreate2Address } from '@ethersproject/address'
 
 import { FACTORY_ADDRESS, INIT_CODE_HASH, MINIMUM_LIQUIDITY, FIVE, _997, _1000, ONE, ZERO } from '../constants'
 import { InsufficientReservesError, InsufficientInputAmountError } from '../errors'
+import { Token } from "../../../sdk-core/src/entities/token"
+import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
+import Price from "../../../sdk-core/src/entities/fractions/price"
+import { BigintIsh, ChainId } from "../../../sdk-core/src/constants"
+import sqrt from "../../../sdk-core/src/utils/sqrt"
 
 export const computePairAddress = ({
   factoryAddress,
