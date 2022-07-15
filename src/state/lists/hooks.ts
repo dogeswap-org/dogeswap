@@ -1,8 +1,8 @@
 import { Tags, TokenInfo, TokenList } from '@uniswap/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { ChainId } from "../../sdk-core/src/constants"
-import { Token } from "../../sdk-core/src/entities/token"
+import { ChainId } from "../../../../sdk-core/src/constants"
+import { Token } from "../../../../sdk-core/src/entities/token"
 import { AppState } from '../index'
 
 type TagDetails = Tags[keyof Tags]

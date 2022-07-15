@@ -9,8 +9,8 @@ import { FixedHeightRow, HoverCard } from './index'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { useActiveWeb3React } from '../../hooks'
 import { ThemeContext } from 'styled-components'
-import TokenAmount from "../../sdk-core/src/entities/fractions/token-amount"
-import { Token, WETH } from "../../sdk-core/src/entities/token"
+import TokenAmount from "../../../../sdk-core/src/entities/fractions/token-amount"
+import { Token, WETH } from "../../../../sdk-core/src/entities/token"
 
 interface PositionCardProps extends RouteComponentProps<{}> {
   token: Token

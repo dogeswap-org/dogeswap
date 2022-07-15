@@ -9,10 +9,10 @@ import {
   calculateGasMargin,
   basisPointsToPercent
 } from '.'
-import { ChainId } from "../sdk-core/src/constants"
-import TokenAmount from "../sdk-core/src/entities/fractions/token-amount"
-import { Token } from "../sdk-core/src/entities/token"
-import Percent from "../sdk-core/src/entities/fractions/percent"
+import { ChainId } from "../../../sdk-core/src/constants"
+import TokenAmount from "../../../sdk-core/src/entities/fractions/token-amount"
+import { Token } from "../../../sdk-core/src/entities/token"
+import Percent from "../../../sdk-core/src/entities/fractions/percent"
 
 describe('utils', () => {
   describe('#getEtherscanLink', () => {

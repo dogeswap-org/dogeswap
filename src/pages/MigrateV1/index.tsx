@@ -18,7 +18,7 @@ import QuestionHelper from '../../components/QuestionHelper'
 import { Dots } from '../../components/swap/styleds'
 import { useAddUserToken } from '../../state/user/hooks'
 import { isTokenOnList } from '../../utils'
-import { Token } from "../../sdk-core/src/entities/token"
+import { Token } from "../../../../sdk-core/src/entities/token"
 
 export default function MigrateV1() {
   const theme = useContext(ThemeContext)

@@ -1,5 +1,5 @@
 import MULTICALL_ABI from './abi.json'
-import { ChainId } from "../../sdk-core/src/constants";
+import { ChainId } from "../../../../sdk-core/src/constants";
 
 // TODO DOGESWAP
 const MULTICALL_NETWORKS: { [chainId in ChainId]: string } = {

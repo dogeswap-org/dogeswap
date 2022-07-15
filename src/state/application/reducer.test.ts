@@ -1,5 +1,5 @@
 import { createStore, Store } from 'redux'
-import { ChainId } from "../../sdk-core/src/constants"
+import { ChainId } from "../../../../sdk-core/src/constants"
 import { addPopup, removePopup, toggleSettingsMenu, toggleWalletModal, updateBlockNumber } from './actions'
 import reducer, { ApplicationState } from './reducer'
 

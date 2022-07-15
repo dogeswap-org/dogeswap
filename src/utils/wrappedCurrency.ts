@@ -1,9 +1,9 @@
-import { ChainId } from "../sdk-core/src/constants"
-import { Currency } from "../sdk-core/src/entities/currency"
-import { ETHER } from "../sdk-core/src/entities/ether"
-import CurrencyAmount from "../sdk-core/src/entities/fractions/currencyAmount"
-import TokenAmount from "../sdk-core/src/entities/fractions/token-amount"
-import { Token, WETH } from "../sdk-core/src/entities/token"
+import { ChainId } from "../../../sdk-core/src/constants"
+import { Currency } from "../../../sdk-core/src/entities/currency"
+import { ETHER } from "../../../sdk-core/src/entities/ether"
+import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
+import TokenAmount from "../../../sdk-core/src/entities/fractions/token-amount"
+import { Token, WETH } from "../../../sdk-core/src/entities/token"
 
 // TODO DOGESWAP: update this to use DS instead of ETHER and update currency to accept DS instead of ETHER
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {

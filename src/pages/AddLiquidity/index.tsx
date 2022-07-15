@@ -36,11 +36,11 @@ import { Dots, Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { currencyId } from '../../utils/currencyId'
 import { PoolPriceBar } from './PoolPriceBar'
-import { currencyEquals } from "../../sdk-core/src/utils/currencyEquals"
-import { WETH } from "../../sdk-core/src/entities/token"
-import TokenAmount from "../../sdk-core/src/entities/fractions/token-amount"
-import { ETHER } from "../../sdk-core/src/entities/ether"
-import { Currency } from "../../sdk-core/src/entities/currency"
+import { currencyEquals } from "../../../../sdk-core/src/utils/currencyEquals"
+import { WETH } from "../../../../sdk-core/src/entities/token"
+import TokenAmount from "../../../../sdk-core/src/entities/fractions/token-amount"
+import { ETHER } from "../../../../sdk-core/src/entities/ether"
+import { Currency } from "../../../../sdk-core/src/entities/currency"
 
 export default function AddLiquidity({
   match: {

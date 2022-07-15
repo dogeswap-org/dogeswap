@@ -1,7 +1,7 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { ChainId } from "../sdk-core/src/constants"
-import Percent from "../sdk-core/src/entities/fractions/percent"
-import { Token, WETH } from "../sdk-core/src/entities/token"
+import { ChainId } from "../../../sdk-core/src/constants"
+import Percent from "../../../sdk-core/src/entities/fractions/percent"
+import { Token, WETH } from "../../../sdk-core/src/entities/token"
 import JSBI from 'jsbi'
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 

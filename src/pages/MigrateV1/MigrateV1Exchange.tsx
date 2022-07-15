@@ -27,12 +27,12 @@ import { getEtherscanLink, isAddress } from '../../utils'
 import { BodyWrapper } from '../AppBody'
 import { EmptyState } from './EmptyState'
 import JSBI from "jsbi";
-import Fraction from "../../sdk-core/src/entities/fractions/fraction"
-import Percent from "../../sdk-core/src/entities/fractions/percent"
-import CurrencyAmount from "../../sdk-core/src/entities/fractions/currencyAmount"
-import { Token, WETH } from "../../sdk-core/src/entities/token"
-import TokenAmount from "../../sdk-core/src/entities/fractions/token-amount"
-import { ETHER } from "../../sdk-core/src/entities/ether"
+import Fraction from "../../../../sdk-core/src/entities/fractions/fraction"
+import Percent from "../../../../sdk-core/src/entities/fractions/percent"
+import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount"
+import { Token, WETH } from "../../../../sdk-core/src/entities/token"
+import TokenAmount from "../../../../sdk-core/src/entities/fractions/token-amount"
+import { ETHER } from "../../../../sdk-core/src/entities/ether"
 
 const POOL_CURRENCY_AMOUNT_MIN = new Fraction(JSBI.BigInt(1), JSBI.BigInt(1000000))
 const WEI_DENOM = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18))

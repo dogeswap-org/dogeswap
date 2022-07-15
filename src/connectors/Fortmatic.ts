@@ -1,5 +1,5 @@
 import { FortmaticConnector as FortmaticConnectorCore } from '@web3-react/fortmatic-connector'
-import { ChainId } from "../sdk-core/src/constants"
+import { ChainId } from "../../../sdk-core/src/constants"
 
 export const OVERLAY_READY = 'OVERLAY_READY'
 
