@@ -1,4 +1,4 @@
-import { Trade } from 'entities'
+import { Trade } from './entities/trade'
 import invariant from 'tiny-invariant'
 import { TradeType } from "../../sdk-core/src/constants"
 import { ETHER } from "../../sdk-core/src/entities/ether"
