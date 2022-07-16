@@ -4,6 +4,7 @@ import fs from "fs/promises";
 import glob from "glob";
 import { ethers } from "hardhat";
 import { Artifact } from "hardhat/types";
+import os from "os";
 import path from "path";
 
 const exec = (command: string, cwd: string) => {
@@ -73,7 +74,10 @@ const getProjectContractArtifacts = async (project: string) => {
 };
 
 const writeLocalEnvFile = async (contractAddresses: Record<string, string>) => {
-    const data = Object.entries({
+    const envPath = path.resolve(__dirname, "..", ".env");
+    const env = await fs.readFile(envPath, { encoding: "utf8" });
+
+    const envVariables = {
         // TODO: Staking rewards!
         // USDT_STAKING_REWARD_ADDRESS=${contractAddresses["UniswapV2Factory"]}
         // DAI_STAKING_REWARD_ADDRESS=${contractAddresses["UniswapV2Factory"]}
@@ -87,9 +91,27 @@ const writeLocalEnvFile = async (contractAddresses: Record<string, string>) => {
         USDC_ADDRESS: contractAddresses["USDC"],
         DAI_ADDRESS: contractAddresses["DAI"],
         WBTC_ADDRESS: contractAddresses["WBTC"],
-    }).reduce((r, [key, value]) => `${r}REACT_APP_${key}=${value}\n`, "");
+    };
 
-    await fs.writeFile(path.join(__dirname, "..", ".env.local"), data, { encoding: "utf-8" });
+    const existingEnvVariables = env
+        .split(os.EOL)
+        .map(x => x.trim())
+        .filter(x => x !== "")
+        .map(x => {
+            const indexOfEquals = x.indexOf("=");
+            return [x.substring(0, indexOfEquals), x.substring(indexOfEquals + 1)];
+        })
+        .reduce((r, [key, value]) => {
+            r[key] = value;
+            return r;
+        }, {});
+
+    const data = Object.entries({ ...existingEnvVariables, ...envVariables }).reduce(
+        (r, [key, value]) => `${r}${key}=${value}\n`,
+        "",
+    );
+
+    await fs.writeFile(envPath, data, { encoding: "utf-8" });
 };
 
 const deployExternalContracts = async () => {
