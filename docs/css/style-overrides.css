@@ -56,7 +56,7 @@ img[src="assets/doge-fun.jpeg"] {
     color: var(--bs-gray-200);
 }
 
-.roadmap-list>li {
+.roadmap-list > li {
     margin-bottom: 16px;
 }
 
