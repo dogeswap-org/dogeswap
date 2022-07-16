@@ -8,8 +8,8 @@ import { useWalletModalOpen, useWalletModalToggle } from '../../state/applicatio
 
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import MetamaskIcon from '../../assets/images/metamask.png'
-import Close from '../../assets/images/x.svg'
+import MetamaskIcon from '../../../assets/images/metamask.png'
+import Close from '../../../assets/images/x.svg'
 import { fortmatic, injected, portis } from '../../connectors'
 import { OVERLAY_READY } from '../../connectors/Fortmatic'
 import { SUPPORTED_WALLETS } from '../../constants'
@@ -226,7 +226,7 @@ export default function WalletModal({
               link={option.href}
               header={option.name}
               subheader={null}
-              icon={require('../../assets/images/' + option.iconName)}
+              icon={require('../../../assets/images/' + option.iconName)}
             />
           )
         }
@@ -280,7 +280,7 @@ export default function WalletModal({
             link={option.href}
             header={option.name}
             subheader={null} //use option.descriptio to bring back multi-line
-            icon={require('../../assets/images/' + option.iconName)}
+            icon={require('../../../assets/images/' + option.iconName)}
           />
         )
       )

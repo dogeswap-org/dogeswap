@@ -4,7 +4,7 @@ import { Currency } from "../../../../sdk-core/src/entities/currency"
 import { ETHER } from "../../../../sdk-core/src/entities/ether"
 import { Token } from "../../../../sdk-core/src/entities/token"
 
-import EthereumLogo from '../../assets/images/ethereum-logo.png'
+import EthereumLogo from '../../../assets/images/ethereum-logo.png'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
@@ -19,7 +19,7 @@ const StyledEthereumLogo = styled.img<{ size: string }>`
   border-radius: 24px;
 `
 
-const StyledLogo = styled(Logo)<{ size: string }>`
+const StyledLogo = styled(Logo) <{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
 `
