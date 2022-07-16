@@ -6,10 +6,8 @@ import { Activity } from "react-feather";
 import { useTranslation } from "react-i18next";
 import styled, { css } from "styled-components";
 import CoinbaseWalletIcon from "../../../assets/images/coinbaseWalletIcon.svg";
-import FortmaticIcon from "../../../assets/images/fortmaticIcon.png";
-import PortisIcon from "../../../assets/images/portisIcon.png";
 import WalletConnectIcon from "../../../assets/images/walletConnectIcon.svg";
-import { fortmatic, injected, portis, walletconnect, walletlink } from "../../connectors";
+import { injected, walletconnect, walletlink } from "../../connectors";
 import { NetworkContextName } from "../../constants";
 import useENSName from "../../hooks/useENSName";
 import { useHasSocks } from "../../hooks/useSocksBalance";
@@ -58,7 +56,7 @@ const Web3StatusError = styled(Web3StatusGeneric)`
     }
 `;
 
-const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
+const Web3StatusConnect = styled(Web3StatusGeneric) <{ faded?: boolean }>`
     background-color: ${({ theme }) => theme.primary4};
     border: none;
     color: ${({ theme }) => theme.primaryText1};
@@ -85,7 +83,7 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
         `}
 `;
 
-const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
+const Web3StatusConnected = styled(Web3StatusGeneric) <{ pending?: boolean }>`
     background-color: ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg2)};
     border: 1px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
     color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
@@ -93,7 +91,7 @@ const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
     :hover,
     :focus {
         background-color: ${({ pending, theme }) =>
-            pending ? darken(0.05, theme.primary1) : lighten(0.05, theme.bg2)};
+        pending ? darken(0.05, theme.primary1) : lighten(0.05, theme.bg2)};
 
         :focus {
             border: 1px solid
@@ -145,18 +143,6 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
         return (
             <IconWrapper size={16}>
                 <img src={CoinbaseWalletIcon} alt={""} />
-            </IconWrapper>
-        );
-    } else if (connector === fortmatic) {
-        return (
-            <IconWrapper size={16}>
-                <img src={FortmaticIcon} alt={""} />
-            </IconWrapper>
-        );
-    } else if (connector === portis) {
-        return (
-            <IconWrapper size={16}>
-                <img src={PortisIcon} alt={""} />
             </IconWrapper>
         );
     }

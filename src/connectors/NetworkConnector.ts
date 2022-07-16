@@ -1,5 +1,5 @@
-import { ConnectorUpdate } from "@web3-react/types";
 import { AbstractConnector } from "@web3-react/abstract-connector";
+import { ConnectorUpdate } from "@web3-react/types";
 import invariant from "tiny-invariant";
 
 interface NetworkConnectorArguments {
@@ -20,6 +20,7 @@ class RequestError extends Error {
     constructor(message: string, public code: number, public data?: unknown) {
         super(message);
     }
+    f;
 }
 
 interface BatchItem {

@@ -4,7 +4,7 @@ import { ThemeContext } from "styled-components";
 import { SwapPoolTabs } from "../../components/NavigationTabs";
 
 import { Text } from "rebass";
-import { ButtonPrimary, ButtonSecondary } from "../../components/Button";
+import { ButtonPrimary } from "../../components/Button";
 import { LightCard } from "../../components/Card";
 import { AutoColumn } from "../../components/Column";
 import FullPositionCard from "../../components/PositionCard";
@@ -102,7 +102,7 @@ export default function Pool() {
 
                         <div>
                             <Text textAlign="center" fontSize={14} style={{ padding: ".5rem 0 .5rem 0" }}>
-                                Don't see a pool you joined?
+                                Don't see a pool you joined?&nbsp;
                                 <StyledInternalLink id="import-pool-link" to="/find">
                                     Import it.
                                 </StyledInternalLink>
@@ -111,12 +111,6 @@ export default function Pool() {
                     </AutoColumn>
                 </AutoColumn>
             </AppBody>
-
-            <div style={{ display: "flex", alignItems: "center", marginTop: "1.5rem" }}>
-                <ButtonSecondary as={Link} style={{ width: "initial" }} to="/migrate/v1">
-                    Migrate V1 Liquidity
-                </ButtonSecondary>
-            </div>
         </>
     );
 }
