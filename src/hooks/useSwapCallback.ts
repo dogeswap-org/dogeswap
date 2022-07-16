@@ -1,16 +1,17 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
+import JSBI from "jsbi";
 import { useMemo } from "react";
+import { TradeType } from "../../../sdk-core/src/constants";
+import Percent from "../../../sdk-core/src/entities/fractions/percent";
+import { Trade } from "../../../v2-sdk/src/entities/trade";
+import { Router, SwapParameters } from "../../../v2-sdk/src/router";
 import { BIPS_BASE, DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from "../constants";
-import { getTradeVersion, useV1TradeExchangeAddress } from "../data/V1";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import { calculateGasMargin, getRouterContract, isAddress, shortenAddress } from "../utils";
 import isZero from "../utils/isZero";
-import v1SwapArguments from "../utils/v1SwapArguments";
 import { useActiveWeb3React } from "./index";
-import { useV1ExchangeContract } from "./useContract";
 import useENS from "./useENS";
-import { Version } from "./useToggledVersion";
 
 export enum SwapCallbackState {
     INVALID,
@@ -53,54 +54,37 @@ function useSwapCallArguments(
     const { address: recipientAddress } = useENS(recipientAddressOrName);
     const recipient = recipientAddressOrName === null ? account : recipientAddress;
 
-    const v1Exchange = useV1ExchangeContract(useV1TradeExchangeAddress(trade), true);
-
     return useMemo(() => {
-        const tradeVersion = getTradeVersion(trade);
-        if (!trade || !recipient || !library || !account || !tradeVersion || !chainId) return [];
+        if (!trade || !recipient || !library || !account || !chainId) return [];
 
-        const contract: Contract | null =
-            tradeVersion === Version.v2 ? getRouterContract(chainId, library, account) : v1Exchange;
+        const contract: Contract | null = getRouterContract(chainId, library, account);
         if (!contract) {
             return [];
         }
 
-        const swapMethods = [];
+        const swapMethods: SwapParameters[] = [];
 
-        switch (tradeVersion) {
-            case Version.v2:
-                swapMethods.push(
-                    Router.swapCallParameters(trade, {
-                        feeOnTransfer: false,
-                        allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
-                        recipient,
-                        ttl: deadline,
-                    }),
-                );
+        swapMethods.push(
+            Router.swapCallParameters(trade, {
+                feeOnTransfer: false,
+                allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
+                recipient,
+                ttl: deadline,
+            }),
+        );
 
-                if (trade.tradeType === TradeType.EXACT_INPUT) {
-                    swapMethods.push(
-                        Router.swapCallParameters(trade, {
-                            feeOnTransfer: true,
-                            allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
-                            recipient,
-                            ttl: deadline,
-                        }),
-                    );
-                }
-                break;
-            case Version.v1:
-                swapMethods.push(
-                    v1SwapArguments(trade, {
-                        allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
-                        recipient,
-                        ttl: deadline,
-                    }),
-                );
-                break;
+        if (trade.tradeType === TradeType.EXACT_INPUT) {
+            swapMethods.push(
+                Router.swapCallParameters(trade, {
+                    feeOnTransfer: true,
+                    allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
+                    recipient,
+                    ttl: deadline,
+                }),
+            );
         }
-        return swapMethods.map(parameters => ({ parameters, contract }));
-    }, [account, allowedSlippage, chainId, deadline, library, recipient, trade, v1Exchange]);
+        return swapMethods.map((parameters) => ({ parameters, contract }));
+    }, [account, allowedSlippage, chainId, deadline, library, recipient, trade]);
 }
 
 // returns a function that will execute a swap, if the parameters are all valid
@@ -138,7 +122,7 @@ export function useSwapCallback(
             state: SwapCallbackState.VALID,
             callback: async function onSwap(): Promise<string> {
                 const estimatedCalls: EstimatedSwapCall[] = await Promise.all(
-                    swapCalls.map(call => {
+                    swapCalls.map((call) => {
                         const {
                             parameters: { methodName, args, value },
                             contract,
@@ -146,17 +130,17 @@ export function useSwapCallback(
                         const options = !value || isZero(value) ? {} : { value };
 
                         return contract.estimateGas[methodName](...args, options)
-                            .then(gasEstimate => {
+                            .then((gasEstimate) => {
                                 return {
                                     call,
                                     gasEstimate,
                                 };
                             })
-                            .catch(gasError => {
+                            .catch((gasError) => {
                                 console.debug("Gas estimate failed, trying eth_call to extract error", call);
 
                                 return contract.callStatic[methodName](...args, options)
-                                    .then(result => {
+                                    .then((result) => {
                                         console.debug(
                                             "Unexpected successful call after failed estimate gas",
                                             call,
@@ -170,7 +154,7 @@ export function useSwapCallback(
                                             ),
                                         };
                                     })
-                                    .catch(callError => {
+                                    .catch((callError) => {
                                         console.debug("Call threw error", call, callError);
                                         let errorMessage: string;
                                         switch (callError.reason) {

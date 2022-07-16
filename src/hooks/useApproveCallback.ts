@@ -7,14 +7,12 @@ import TokenAmount from "../../../sdk-core/src/entities/fractions/token-amount";
 import { Trade } from "../../../v2-sdk/src/entities/trade";
 import { ROUTER_ADDRESS } from "../constants";
 import { useTokenAllowance } from "../data/Allowances";
-import { getTradeVersion, useV1TradeExchangeAddress } from "../data/V1";
 import { Field } from "../state/swap/actions";
 import { useHasPendingApproval, useTransactionAdder } from "../state/transactions/hooks";
 import { calculateGasMargin } from "../utils";
 import { computeSlippageAdjustedAmounts } from "../utils/prices";
 import { useActiveWeb3React } from "./index";
 import { useTokenContract } from "./useContract";
-import { Version } from "./useToggledVersion";
 
 export enum ApprovalState {
     UNKNOWN,
@@ -108,7 +106,5 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
         () => (trade ? computeSlippageAdjustedAmounts(trade, allowedSlippage)[Field.INPUT] : undefined),
         [trade, allowedSlippage],
     );
-    const tradeIsV1 = getTradeVersion(trade) === Version.v1;
-    const v1ExchangeAddress = useV1TradeExchangeAddress(trade);
-    return useApproveCallback(amountToApprove, tradeIsV1 ? v1ExchangeAddress : ROUTER_ADDRESS);
+    return useApproveCallback(amountToApprove, ROUTER_ADDRESS);
 }

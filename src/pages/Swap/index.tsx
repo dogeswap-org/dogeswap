@@ -12,7 +12,6 @@ import { SwapPoolTabs } from "../../components/NavigationTabs";
 import ProgressSteps from "../../components/ProgressSteps";
 import { AutoRow, RowBetween } from "../../components/Row";
 import AdvancedSwapDetailsDropdown from "../../components/swap/AdvancedSwapDetailsDropdown";
-import BetterTradeLink from "../../components/swap/BetterTradeLink";
 import confirmPriceImpactWithoutFee from "../../components/swap/confirmPriceImpactWithoutFee";
 import ConfirmSwapModal from "../../components/swap/ConfirmSwapModal";
 import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from "../../components/swap/styleds";
@@ -24,14 +23,12 @@ import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currency
 import { Token } from "../../../../sdk-core/src/entities/token";
 import { Trade } from "../../../../v2-sdk/src/entities/trade";
 import Loader from "../../components/Loader";
-import { BETTER_TRADE_LINK_THRESHOLD, INITIAL_ALLOWED_SLIPPAGE } from "../../constants";
-import { getTradeVersion, isTradeBetter } from "../../data/V1";
+import { INITIAL_ALLOWED_SLIPPAGE } from "../../constants";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { ApprovalState, useApproveCallbackFromTrade } from "../../hooks/useApproveCallback";
 import useENSAddress from "../../hooks/useENSAddress";
 import { useSwapCallback } from "../../hooks/useSwapCallback";
-import useToggledVersion, { Version } from "../../hooks/useToggledVersion";
 import useWrapCallback, { WrapType } from "../../hooks/useWrapCallback";
 import { useToggleSettingsMenu, useWalletModalToggle } from "../../state/application/hooks";
 import { Field } from "../../state/swap/actions";
@@ -39,7 +36,7 @@ import {
     useDefaultsFromURLSearch,
     useDerivedSwapInfo,
     useSwapActionHandlers,
-    useSwapState,
+    useSwapState
 } from "../../state/swap/hooks";
 import { useExpertModeManager, useUserDeadline, useUserSlippageTolerance } from "../../state/user/hooks";
 import { LinkStyledButton, TYPE } from "../../theme";
@@ -96,30 +93,19 @@ export default function Swap() {
     );
     const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE;
     const { address: recipientAddress } = useENSAddress(recipient);
-    const toggledVersion = useToggledVersion();
     const trade = showWrap
         ? undefined
-        : {
-              [Version.v1]: v1Trade,
-              [Version.v2]: v2Trade,
-          }[toggledVersion];
-
-    const betterTradeLinkVersion: Version | undefined =
-        toggledVersion === Version.v2 && isTradeBetter(v2Trade, v1Trade, BETTER_TRADE_LINK_THRESHOLD)
-            ? Version.v1
-            : toggledVersion === Version.v1 && isTradeBetter(v1Trade, v2Trade)
-            ? Version.v2
-            : undefined;
+        : v2Trade;
 
     const parsedAmounts = showWrap
         ? {
-              [Field.INPUT]: parsedAmount,
-              [Field.OUTPUT]: parsedAmount,
-          }
+            [Field.INPUT]: parsedAmount,
+            [Field.OUTPUT]: parsedAmount,
+        }
         : {
-              [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-              [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-          };
+            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+        };
 
     const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers();
     const isValid = !swapInputError;
@@ -163,8 +149,8 @@ export default function Swap() {
     const route = trade?.route;
     const userHasSpecifiedInputOutput = Boolean(
         currencies[Field.INPUT] &&
-            currencies[Field.OUTPUT] &&
-            parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0)),
+        currencies[Field.OUTPUT] &&
+        parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0)),
     );
     const noRoute = !route;
 
@@ -224,12 +210,11 @@ export default function Swap() {
                         recipient === null
                             ? "Swap w/o Send"
                             : (recipientAddress ?? recipient) === account
-                            ? "Swap w/o Send + recipient"
-                            : "Swap w/ Send",
+                                ? "Swap w/o Send + recipient"
+                                : "Swap w/ Send",
                     label: [
                         trade?.inputAmount?.currency?.symbol,
                         trade?.outputAmount?.currency?.symbol,
-                        getTradeVersion(trade),
                     ].join("/"),
                 });
             })
@@ -424,8 +409,8 @@ export default function Swap() {
                                     (wrapType === WrapType.WRAP
                                         ? "Wrap"
                                         : wrapType === WrapType.UNWRAP
-                                        ? "Unwrap"
-                                        : null)}
+                                            ? "Unwrap"
+                                            : null)}
                             </ButtonPrimary>
                         ) : noRoute && userHasSpecifiedInputOutput ? (
                             <GreyCard style={{ textAlign: "center" }}>
@@ -503,14 +488,13 @@ export default function Swap() {
                                     {swapInputError
                                         ? swapInputError
                                         : priceImpactSeverity > 3 && !isExpertMode
-                                        ? `Price Impact Too High`
-                                        : `Swap${priceImpactSeverity > 2 ? " Anyway" : ""}`}
+                                            ? `Price Impact Too High`
+                                            : `Swap${priceImpactSeverity > 2 ? " Anyway" : ""}`}
                                 </Text>
                             </ButtonError>
                         )}
                         {showApproveFlow && <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />}
                         {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
-                        {betterTradeLinkVersion && <BetterTradeLink version={betterTradeLinkVersion} />}
                     </BottomGrouping>
                 </Wrapper>
             </AppBody>
