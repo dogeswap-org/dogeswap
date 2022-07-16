@@ -1,12 +1,18 @@
-import { Contract } from '@ethersproject/contracts'
 import { getAddress } from '@ethersproject/address'
-import { AddressZero } from '@ethersproject/constants'
-import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
+import { AddressZero } from '@ethersproject/constants'
+import { Contract } from '@ethersproject/contracts'
+import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
+import JSBI from "jsbi"
+import { ChainId } from "../../../sdk-core/src/constants"
+import { Currency } from "../../../sdk-core/src/entities/currency"
+import { ETHER } from "../../../sdk-core/src/entities/ether"
+import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
+import Percent from "../../../sdk-core/src/entities/fractions/percent"
+import { Token } from "../../../sdk-core/src/entities/token"
 import { ROUTER_ADDRESS } from '../constants'
 import { TokenAddressMap } from '../state/lists/hooks'
-import { ChainId } from "../sdk-overrides/chain-id"
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {

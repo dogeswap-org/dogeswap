@@ -1,14 +1,19 @@
 const webpack = require("webpack");
 const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+require("dotenv/config");
 
-const mode = "development";
 const devtool = "inline-source-map";
 
 const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT ?? '10000');
+const envVars = [
+    'NODE_ENV',
+    'DEBUG',
+    "REACT_APP_NETWORK_URL",
+]
 
 module.exports = {
-    mode,
+    mode: process.env.NODE_ENV,
     devtool,
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".scss"],
@@ -23,16 +28,21 @@ module.exports = {
         },
     },
     plugins: [
-        new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG']),
-        new ForkTsCheckerWebpackPlugin()
+        new webpack.ProvidePlugin({
+            // Make a global `process` variable that points to the `process` package,
+            // because the `util` package expects there to be a global variable named `process`.
+                 // Thanks to https://stackoverflow.com/a/65018686/14239942
+            process: 'process/browser'
+         }),
+        new webpack.EnvironmentPlugin(envVars),
+        new ForkTsCheckerWebpackPlugin(),
     ],
     module: {
         rules: [
-            // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
             { test: /\.tsx?$/, loader: "ts-loader" },
             {
                 test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
-                loader: require.resolve('url-loader'),
+                loader: 'url-loader',
                 options: {
                   limit: imageInlineSizeLimit,
                   name: 'static/media/[name].[hash:8].[ext]',
@@ -52,7 +62,6 @@ module.exports = {
         compress: true,
         open: true,
         port: 9000,
-        // publicPath: path.resolve(__dirname, "src"),
         static: [path.resolve(__dirname, "src"), path.resolve(__dirname, "dist"), path.resolve(__dirname)],
     },
 };

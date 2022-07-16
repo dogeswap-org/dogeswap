@@ -3,6 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { PairState, usePair } from '../../data/Reserves'
 import { useTotalSupply } from '../../data/TotalSupply'
 
+import JSBI from "jsbi"
+import { Currency } from "../../../../sdk-core/src/entities/currency"
+import { ETHER } from "../../../../sdk-core/src/entities/ether"
+import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount"
+import Percent from "../../../../sdk-core/src/entities/fractions/percent"
+import Price from "../../../../sdk-core/src/entities/fractions/price"
+import TokenAmount from "../../../../sdk-core/src/entities/fractions/token-amount"
+import { Pair } from "../../../../v2-sdk/src/entities/pair"
 import { useActiveWeb3React } from '../../hooks'
 import { wrappedCurrency, wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
 import { AppDispatch, AppState } from '../index'

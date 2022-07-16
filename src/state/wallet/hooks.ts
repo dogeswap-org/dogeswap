@@ -1,10 +1,16 @@
+import JSBI from "jsbi"
 import { useMemo } from 'react'
+import { Currency } from "../../../../sdk-core/src/entities/currency"
+import { ETHER } from "../../../../sdk-core/src/entities/ether"
+import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount"
+import TokenAmount from "../../../../sdk-core/src/entities/fractions/token-amount"
+import { Token } from "../../../../sdk-core/src/entities/token"
 import ERC20_INTERFACE from '../../constants/abis/erc20'
-import { useAllTokens } from '../../hooks/Tokens'
 import { useActiveWeb3React } from '../../hooks'
+import { useAllTokens } from '../../hooks/Tokens'
 import { useMulticallContract } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
-import { useSingleContractMultipleData, useMultipleContractSingleData } from '../multicall/hooks'
+import { useMultipleContractSingleData, useSingleContractMultipleData } from '../multicall/hooks'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
@@ -18,9 +24,9 @@ export function useETHBalances(
     () =>
       uncheckedAddresses
         ? uncheckedAddresses
-            .map(isAddress)
-            .filter((a): a is string => a !== false)
-            .sort()
+          .map(isAddress)
+          .filter((a): a is string => a !== false)
+          .sort()
         : [],
     [uncheckedAddresses]
   )
@@ -65,13 +71,13 @@ export function useTokenBalancesWithLoadingIndicator(
       () =>
         address && validatedTokens.length > 0
           ? validatedTokens.reduce<{ [tokenAddress: string]: TokenAmount | undefined }>((memo, token, i) => {
-              const value = balances?.[i]?.result?.[0]
-              const amount = value ? JSBI.BigInt(value.toString()) : undefined
-              if (amount) {
-                memo[token.address] = new TokenAmount(token, amount)
-              }
-              return memo
-            }, {})
+            const value = balances?.[i]?.result?.[0]
+            const amount = value ? JSBI.BigInt(value.toString()) : undefined
+            if (amount) {
+              memo[token.address] = new TokenAmount(token, amount)
+            }
+            return memo
+          }, {})
           : {},
       [address, validatedTokens, balances]
     ),

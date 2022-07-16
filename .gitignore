@@ -15,6 +15,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.env
 
 /.netlify
 
@@ -22,12 +23,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-notes.txt
 .idea/
-
-.vscode/
-
-package-lock.json
 
 cypress/videos
 cypress/screenshots

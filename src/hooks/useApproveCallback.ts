@@ -1,15 +1,19 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useCallback, useMemo } from 'react'
+import { ETHER } from "../../../sdk-core/src/entities/ether"
+import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
+import TokenAmount from "../../../sdk-core/src/entities/fractions/token-amount"
+import { Trade } from "../../../v2-sdk/src/entities/trade"
 import { ROUTER_ADDRESS } from '../constants'
 import { useTokenAllowance } from '../data/Allowances'
 import { getTradeVersion, useV1TradeExchangeAddress } from '../data/V1'
 import { Field } from '../state/swap/actions'
-import { useTransactionAdder, useHasPendingApproval } from '../state/transactions/hooks'
-import { computeSlippageAdjustedAmounts } from '../utils/prices'
+import { useHasPendingApproval, useTransactionAdder } from '../state/transactions/hooks'
 import { calculateGasMargin } from '../utils'
-import { useTokenContract } from './useContract'
+import { computeSlippageAdjustedAmounts } from '../utils/prices'
 import { useActiveWeb3React } from './index'
+import { useTokenContract } from './useContract'
 import { Version } from './useToggledVersion'
 
 export enum ApprovalState {

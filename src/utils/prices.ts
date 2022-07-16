@@ -1,5 +1,10 @@
-import { BLOCKED_PRICE_IMPACT_NON_EXPERT } from '../constants'
-import { ALLOWED_PRICE_IMPACT_HIGH, ALLOWED_PRICE_IMPACT_LOW, ALLOWED_PRICE_IMPACT_MEDIUM } from '../constants'
+import JSBI from "jsbi"
+import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
+import Fraction from "../../../sdk-core/src/entities/fractions/fraction"
+import Percent from "../../../sdk-core/src/entities/fractions/percent"
+import TokenAmount from "../../../sdk-core/src/entities/fractions/token-amount"
+import { Trade } from "../../../v2-sdk/src/entities/trade"
+import { ALLOWED_PRICE_IMPACT_HIGH, ALLOWED_PRICE_IMPACT_LOW, ALLOWED_PRICE_IMPACT_MEDIUM, BLOCKED_PRICE_IMPACT_NON_EXPERT } from '../constants'
 import { Field } from '../state/swap/actions'
 import { basisPointsToPercent } from './index'
 
@@ -16,11 +21,11 @@ export function computeTradePriceBreakdown(
   const realizedLPFee = !trade
     ? undefined
     : ONE_HUNDRED_PERCENT.subtract(
-        trade.route.pairs.reduce<Fraction>(
-          (currentFee: Fraction): Fraction => currentFee.multiply(INPUT_FRACTION_AFTER_FEE),
-          ONE_HUNDRED_PERCENT
-        )
+      trade.route.pairs.reduce<Fraction>(
+        (currentFee: Fraction): Fraction => currentFee.multiply(INPUT_FRACTION_AFTER_FEE),
+        ONE_HUNDRED_PERCENT
       )
+    )
 
   // remove lp fees from price impact
   const priceImpactWithoutFeeFraction = trade && realizedLPFee ? trade.priceImpact.subtract(realizedLPFee) : undefined
@@ -66,10 +71,8 @@ export function formatExecutionPrice(trade?: Trade, inverted?: boolean): string 
     return ''
   }
   return inverted
-    ? `${trade.executionPrice.invert().toSignificant(6)} ${trade.inputAmount.currency.symbol} / ${
-        trade.outputAmount.currency.symbol
-      }`
-    : `${trade.executionPrice.toSignificant(6)} ${trade.outputAmount.currency.symbol} / ${
-        trade.inputAmount.currency.symbol
-      }`
+    ? `${trade.executionPrice.invert().toSignificant(6)} ${trade.inputAmount.currency.symbol} / ${trade.outputAmount.currency.symbol
+    }`
+    : `${trade.executionPrice.toSignificant(6)} ${trade.outputAmount.currency.symbol} / ${trade.inputAmount.currency.symbol
+    }`
 }

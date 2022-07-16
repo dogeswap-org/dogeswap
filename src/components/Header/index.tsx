@@ -13,9 +13,10 @@ import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 
 import { YellowCard } from '../Card'
-import Settings from '../Settings'
 import Menu from '../Menu'
+import Settings from '../Settings'
 
+import { ChainId } from "../../../../sdk-core/src/constants"
 import Row, { RowBetween } from '../Row'
 import Web3Status from '../Web3Status'
 import VersionSwitch from './VersionSwitch'

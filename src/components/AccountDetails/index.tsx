@@ -9,18 +9,18 @@ import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
 
-import { SUPPORTED_WALLETS } from '../../constants'
-import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { getEtherscanLink } from '../../utils'
-import { injected, walletconnect, walletlink, fortmatic, portis } from '../../connectors'
+import { ExternalLink as LinkIcon } from 'react-feather'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
-import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import FortmaticIcon from '../../assets/images/fortmaticIcon.png'
 import PortisIcon from '../../assets/images/portisIcon.png'
-import Identicon from '../Identicon'
-import { ButtonSecondary } from '../Button'
-import { ExternalLink as LinkIcon } from 'react-feather'
+import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
+import Close from '../../assets/images/x.svg'
+import { fortmatic, injected, portis, walletconnect, walletlink } from '../../connectors'
+import { SUPPORTED_WALLETS } from '../../constants'
 import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
+import { getEtherscanLink } from '../../utils'
+import { ButtonSecondary } from '../Button'
+import Identicon from '../Identicon'
 
 const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
@@ -131,7 +131,7 @@ const AccountControl = styled.div`
   }
 `
 
-const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolean }>`
+const AddressLink = styled(ExternalLink) <{ hasENS: boolean; isENS: boolean }>`
   font-size: 0.825rem;
   color: ${({ theme }) => theme.text3};
   margin-left: 1rem;
@@ -306,7 +306,7 @@ export default function AccountDetails({
                     <WalletAction
                       style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
                       onClick={() => {
-                        ;(connector as any).close()
+                        ; (connector as any).close()
                       }}
                     >
                       Disconnect

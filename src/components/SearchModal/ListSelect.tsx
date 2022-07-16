@@ -5,7 +5,7 @@ import { usePopper } from 'react-popper'
 import { useDispatch, useSelector } from 'react-redux'
 import { Text } from 'rebass'
 import styled from 'styled-components'
-import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
+import DropDown from '../../assets/images/dropdown.svg'
 import { useFetchListCallback } from '../../hooks/useFetchListCallback'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 
@@ -311,8 +311,8 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
           return l1.name.toLowerCase() < l2.name.toLowerCase()
             ? -1
             : l1.name.toLowerCase() === l2.name.toLowerCase()
-            ? 0
-            : 1
+              ? 0
+              : 1
         }
         if (l1) return -1
         if (l2) return 1

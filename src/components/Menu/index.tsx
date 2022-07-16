@@ -1,13 +1,13 @@
 import React, { useRef } from 'react'
-import { Info, BookOpen, Code, PieChart, MessageCircle } from 'react-feather'
+import { BookOpen, Code, Info, MessageCircle, PieChart } from 'react-feather'
 import styled from 'styled-components'
-import { ReactComponent as MenuIcon } from '../../assets/images/menu.svg'
+import MenuIcon from '../../assets/images/menu.svg'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import useToggle from '../../hooks/useToggle'
 
 import { ExternalLink } from '../../theme'
 
-const StyledMenuIcon = styled(MenuIcon)`
+const StyledMenuIcon = styled(() => <img src={MenuIcon} />)`
   path {
     stroke: ${({ theme }) => theme.text1};
   }
