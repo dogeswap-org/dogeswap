@@ -1,11 +1,11 @@
-import { INIT_CODE_HASH } from './constants'
+import { INIT_CODE_HASH } from '../src/constants'
 
 import { bytecode } from "../../contracts-core/artifacts/contracts/UniswapV2Pair.sol/UniswapV2Pair.json"
 import { keccak256 } from '@ethersproject/solidity'
 
 // this _could_ go in constants, except that it would cost every consumer of the sdk the CPU to compute the hash
 // and load the JSON.
-const COMPUTED_INIT_CODE_HASH = keccak256(['bytes'], [`0x${bytecode}`])
+const COMPUTED_INIT_CODE_HASH = keccak256(['bytes'], [bytecode])
 
 describe('constants', () => {
   describe('INIT_CODE_HASH', () => {

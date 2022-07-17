@@ -1,9 +1,9 @@
 import invariant from 'tiny-invariant'
 import { ChainId } from "../../../sdk-core/src/constants"
 import { Currency } from "../../../sdk-core/src/entities/currency"
-import { ETHER } from "../../../sdk-core/src/entities/ether"
+import { ETHER, WETH } from "../../../sdk-core/src/entities/ether"
 import Price from "../../../sdk-core/src/entities/fractions/price"
-import { Token, WETH } from "../../../sdk-core/src/entities/token"
+import { Token } from "../../../sdk-core/src/entities/token"
 
 import { Pair } from './pair'
 
@@ -25,7 +25,7 @@ export class Route {
     return prices.slice(1).reduce((accumulator, currentValue) => accumulator.multiply(currentValue), prices[0])
   }
 
-  public constructor(pairs: Pair[], input: Currency, output?: Currency) {
+  public constructor(pairs: Pair[], weth: WETH, input: Currency, output?: Currency) {
     invariant(pairs.length > 0, 'PAIRS')
     const chainId: ChainId | number = pairs[0].chainId
     invariant(
@@ -33,10 +33,8 @@ export class Route {
       'CHAIN_IDS'
     )
 
-    const weth: Token | undefined = WETH[chainId as ChainId]
-
     invariant(
-      (input.isToken && pairs[0].involvesToken(input)) || (input === ETHER && weth && pairs[0].involvesToken(weth)),
+      (input.isToken && pairs[0].involvesToken(input)) || (input === ETHER && pairs[0].involvesToken(weth)),
       'INPUT'
     )
     invariant(

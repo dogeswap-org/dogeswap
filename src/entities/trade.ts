@@ -8,9 +8,9 @@ import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmo
 import { currencyEquals } from "../../../sdk-core/src/utils/currencyEquals"
 import { ChainId, TradeType } from "../../../sdk-core/src/constants"
 import { Currency } from "../../../sdk-core/src/entities/currency"
-import { Token, WETH } from "../../../sdk-core/src/entities/token"
+import { Token } from "../../../sdk-core/src/entities/token"
 import Percent from "../../../sdk-core/src/entities/fractions/percent"
-import { ETHER } from "../../../sdk-core/src/entities/ether"
+import { ETHER, WETH } from "../../../sdk-core/src/entities/ether"
 import Fraction from "../../../sdk-core/src/entities/fractions/fraction"
 import sortedInsert from "../../../sdk-core/src/utils/sortedInsert"
 
@@ -89,15 +89,15 @@ export interface BestTradeOptions {
  * In other words, if the currency is ETHER, returns the WETH token amount for the given chain. Otherwise, returns
  * the input currency amount.
  */
-function wrappedAmount(currencyAmount: CurrencyAmount, chainId: ChainId): CurrencyAmount {
+function wrappedAmount(currencyAmount: CurrencyAmount, weth: WETH): CurrencyAmount {
   if (currencyAmount.currency.isToken) return currencyAmount
-  if (currencyAmount.currency.isEther) return new CurrencyAmount(WETH[chainId], currencyAmount.raw)
+  if (currencyAmount.currency.isEther) return new CurrencyAmount(weth, currencyAmount.raw)
   throw new Error('CURRENCY')
 }
 
-function wrappedCurrency(currency: Currency, chainId: ChainId): Token {
+function wrappedCurrency(currency: Currency, weth: WETH): Token {
   if (currency.isToken) return currency
-  if (currency === ETHER) return WETH[chainId]
+  if (currency === ETHER) return weth
   throw new Error('CURRENCY')
 }
 
@@ -140,8 +140,8 @@ export class Trade {
    * @param route route of the exact in trade
    * @param amountIn the amount being passed in
    */
-  public static exactIn(route: Route, amountIn: CurrencyAmount): Trade {
-    return new Trade(route, amountIn, TradeType.EXACT_INPUT)
+  public static exactIn(route: Route, amountIn: CurrencyAmount, weth: WETH): Trade {
+    return new Trade(route, amountIn, TradeType.EXACT_INPUT, weth)
   }
 
   /**
@@ -149,16 +149,16 @@ export class Trade {
    * @param route route of the exact out trade
    * @param amountOut the amount returned by the trade
    */
-  public static exactOut(route: Route, amountOut: CurrencyAmount): Trade {
-    return new Trade(route, amountOut, TradeType.EXACT_OUTPUT)
+  public static exactOut(route: Route, amountOut: CurrencyAmount, weth: WETH): Trade {
+    return new Trade(route, amountOut, TradeType.EXACT_OUTPUT, weth)
   }
 
-  public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType) {
+  public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType, weth: WETH) {
     const amounts: CurrencyAmount[] = new Array(route.path.length)
     const nextPairs: Pair[] = new Array(route.pairs.length)
     if (tradeType === TradeType.EXACT_INPUT) {
       invariant(currencyEquals(amount.currency, route.input), 'INPUT')
-      amounts[0] = wrappedAmount(amount, route.chainId)
+      amounts[0] = wrappedAmount(amount, weth)
       for (let i = 0; i < route.path.length - 1; i++) {
         const pair = route.pairs[i]
         const [outputAmount, nextPair] = pair.getOutputAmount(amounts[i])
@@ -167,7 +167,7 @@ export class Trade {
       }
     } else {
       invariant(currencyEquals(amount.currency, route.output), 'OUTPUT')
-      amounts[amounts.length - 1] = wrappedAmount(amount, route.chainId)
+      amounts[amounts.length - 1] = wrappedAmount(amount, weth)
       for (let i = route.path.length - 1; i > 0; i--) {
         const pair = route.pairs[i - 1]
         const [inputAmount, nextPair] = pair.getInputAmount(amounts[i])
@@ -196,7 +196,7 @@ export class Trade {
       this.inputAmount.raw,
       this.outputAmount.raw
     )
-    this.nextMidPrice = new Route(nextPairs, route.input).midPrice
+    this.nextMidPrice = new Route(nextPairs, weth, route.input).midPrice
     this.priceImpact = computePriceImpact(route.midPrice, this.inputAmount, this.outputAmount)
   }
 
@@ -249,6 +249,7 @@ export class Trade {
     pairs: Pair[],
     currencyAmountIn: CurrencyAmount,
     currencyOut: Currency,
+    weth: WETH,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
     // used in recursion.
     currentPairs: Pair[] = [],
@@ -265,8 +266,8 @@ export class Trade {
       : undefined
     invariant(chainId !== undefined, 'CHAIN_ID')
 
-    const amountIn = wrappedAmount(currencyAmountIn, chainId)
-    const tokenOut = wrappedCurrency(currencyOut, chainId)
+    const amountIn = wrappedAmount(currencyAmountIn, weth)
+    const tokenOut = wrappedCurrency(currencyOut, weth)
     for (let i = 0; i < pairs.length; i++) {
       const pair = pairs[i]
       // pair irrelevant
@@ -288,9 +289,10 @@ export class Trade {
         sortedInsert(
           bestTrades,
           new Trade(
-            new Route([...currentPairs, pair], originalAmountIn.currency, currencyOut),
+            new Route([...currentPairs, pair], weth, originalAmountIn.currency, currencyOut),
             originalAmountIn,
-            TradeType.EXACT_INPUT
+            TradeType.EXACT_INPUT,
+            weth
           ),
           maxNumResults,
           tradeComparator
@@ -303,6 +305,7 @@ export class Trade {
           pairsExcludingThisPair,
           amountOut,
           currencyOut,
+          weth,
           {
             maxNumResults,
             maxHops: maxHops - 1
@@ -349,6 +352,7 @@ export class Trade {
     pairs: Pair[],
     currencyIn: Currency,
     currencyAmountOut: CurrencyAmount,
+    weth: WETH,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
     // used in recursion.
     currentPairs: Pair[] = [],
@@ -365,8 +369,8 @@ export class Trade {
       : undefined
     invariant(chainId !== undefined, 'CHAIN_ID')
 
-    const amountOut = wrappedAmount(currencyAmountOut, chainId)
-    const tokenIn = wrappedCurrency(currencyIn, chainId)
+    const amountOut = wrappedAmount(currencyAmountOut, weth)
+    const tokenIn = wrappedCurrency(currencyIn, weth)
     for (let i = 0; i < pairs.length; i++) {
       const pair = pairs[i]
       // pair irrelevant
@@ -388,9 +392,10 @@ export class Trade {
         sortedInsert(
           bestTrades,
           new Trade(
-            new Route([pair, ...currentPairs], currencyIn, originalAmountOut.currency),
+            new Route([pair, ...currentPairs], weth, currencyIn, originalAmountOut.currency),
             originalAmountOut,
-            TradeType.EXACT_OUTPUT
+            TradeType.EXACT_OUTPUT,
+            weth
           ),
           maxNumResults,
           tradeComparator
@@ -403,6 +408,7 @@ export class Trade {
           pairsExcludingThisPair,
           currencyIn,
           amountIn,
+          weth,
           {
             maxNumResults,
             maxHops: maxHops - 1
