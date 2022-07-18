@@ -5,10 +5,9 @@ import fs from "fs/promises";
 import glob from "glob";
 import { ethers } from "hardhat";
 import { Artifact } from "hardhat/types";
-import os from "os";
 import path from "path";
 
-const erc20Tokens = ["WDC", "DST", "USDT", "USDC", "DAI"];
+const erc20Tokens = ["DST", "USDT", "USDC", "DAI"];
 
 const exec = (command: string, cwd: string) => {
     return new Promise<void>((res, rej) => {
@@ -42,7 +41,11 @@ const getContractArtifact = async (project: string, globPattern: string) => {
     const dir = getContractArtifactsDir(project);
     const result = await getGlob(globPattern, dir);
     if (result.length !== 1) {
-        throw new Error(`Could not retrieve single contract artifact. Results: ${JSON.stringify(result)}`);
+        throw new Error(
+            `Could not retrieve single contract artifact. Project: ${project}. Pattern: ${globPattern}. Results: ${JSON.stringify(
+                result,
+            )}`,
+        );
     }
 
     return parseArtifact(path.join(dir, result[0]));
@@ -76,60 +79,45 @@ const getProjectContractArtifacts = async (project: string) => {
         });
 };
 
-const writeLocalEnvFile = async (contractAddresses: Record<string, string>) => {
-    const envPath = path.resolve(__dirname, "..", ".env");
-    let env: string;
-    if (fsSync.existsSync(envPath)) {
-        env = await fs.readFile(envPath, { encoding: "utf8" });
-    } else {
-        env = "";
+const writeConfigFile = async (contractAddresses: Record<string, string>) => {
+    const configPath = path.resolve(__dirname, "..", "config.json");
+    let existingConfig = {};
+    if (fsSync.existsSync(configPath)) {
+        const existingConfigJson = await fs.readFile(configPath, { encoding: "utf8" });
+        try {
+            existingConfig = JSON.parse(existingConfigJson);
+        } catch {
+            console.log("Could not parse existing config.json. A new config file will be created.");
+        }
     }
 
-    const contractEnvVariables = {
-        // TODO: Staking rewards?
-        // USDT_STAKING_REWARD_ADDRESS=${contractAddresses["UniswapV2Factory"]}
-        // DAI_STAKING_REWARD_ADDRESS=${contractAddresses["UniswapV2Factory"]}
-        // USDC_STAKING_REWARD_ADDRESS=${contractAddresses["UniswapV2Factory"]}
-        FACTORY_ADDRESS: contractAddresses["UniswapV2Factory"],
-        ROUTER_01_ADDRESS: contractAddresses["UniswapV2Router01"],
-        ROUTER_02_ADDRESS: contractAddresses["UniswapV2Router02"],
-    };
-
     const erc20EnvVariables = erc20Tokens.reduce((r, x) => {
-        r[`${x}_ADDRESS`] = contractAddresses[x];
+        r[`${x.toLowerCase()}Address`] = contractAddresses[x];
         return r;
     }, {});
 
-    const existingEnvVariables = env
-        .split(os.EOL)
-        .map(x => x.trim())
-        .filter(x => x !== "")
-        .map(x => {
-            const indexOfEquals = x.indexOf("=");
-            return [x.substring(0, indexOfEquals), x.substring(indexOfEquals + 1)];
-        })
-        .reduce((r, [key, value]) => {
-            r[key] = value;
-            return r;
-        }, {});
+    const data = {
+        ...existingConfig,
+        localnet: {
+            factoryAddress: contractAddresses["UniswapV2Factory"],
+            router01Address: contractAddresses["UniswapV2Router01"],
+            router02Address: contractAddresses["UniswapV2Router02"],
+            multicallAddress: contractAddresses["Multicall"],
+            ...erc20EnvVariables,
+            wdcAddress: contractAddresses["WDC"],
+        },
+    };
 
-    const data = Object.entries({ ...existingEnvVariables, ...contractEnvVariables, ...erc20EnvVariables }).reduce(
-        (r, [key, value]) => `${r}${key}=${value}\n`,
-        "",
-    );
-
-    await fs.writeFile(envPath, data, { encoding: "utf-8" });
+    await fs.writeFile(configPath, JSON.stringify(data, undefined, 4), { encoding: "utf-8" });
 };
 
 const deployExternalContracts = async () => {
     const signers = await ethers.getSigners();
     const [owner] = signers;
 
-    const erc20Artifact = await getContractArtifact("contracts-periphery", "**/ERC20.json");
-    const wethArtifact = await getContractArtifact("contracts-periphery", "**/WDC9.json");
     const coreArtifacts = await getProjectContractArtifacts("contracts-core");
     const peripheryArtifacts = await getProjectContractArtifacts("contracts-periphery");
-    const artifacts = [erc20Artifact, wethArtifact, ...coreArtifacts, ...peripheryArtifacts];
+    const artifacts = [...coreArtifacts, ...peripheryArtifacts];
 
     const addresses: Record<string, string> = {};
     let didDeploySafeMath = false;
@@ -163,7 +151,7 @@ const deployExternalContracts = async () => {
                 break;
             case "UniswapV2Router01":
             case "UniswapV2Router02":
-                await deployContract(addresses["UniswapV2Factory"], addresses["WDC9"]);
+                await deployContract(addresses["UniswapV2Factory"], addresses["WDC"]);
                 break;
             case "SafeMath":
                 if (didDeploySafeMath) {
@@ -187,7 +175,7 @@ const deployExternalContracts = async () => {
 const run = async () => {
     await buildExternalContracts();
     const contractAddresses = await deployExternalContracts();
-    await writeLocalEnvFile(contractAddresses);
+    await writeConfigFile(contractAddresses);
 };
 
 run();

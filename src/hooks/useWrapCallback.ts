@@ -28,14 +28,14 @@ export default function useWrapCallback(
     typedValue: string | undefined,
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
     const { chainId, account } = useActiveWeb3React();
-    const wethContract = useWDCContract();
+    const wdcContract = useWDCContract();
     const balance = useCurrencyBalance(account ?? undefined, inputCurrency);
     // we can always parse the amount typed as the input currency, since wrapping is 1:1
     const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue]);
     const addTransaction = useTransactionAdder();
 
     return useMemo(() => {
-        if (!wethContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE;
+        if (!wdcContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE;
 
         const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount);
 
@@ -46,7 +46,7 @@ export default function useWrapCallback(
                     sufficientBalance && inputAmount
                         ? async () => {
                               try {
-                                  const txReceipt = await wethContract.deposit({
+                                  const txReceipt = await wdcContract.deposit({
                                       value: `0x${inputAmount.raw.toString(16)}`,
                                   });
                                   addTransaction(txReceipt, {
@@ -66,7 +66,7 @@ export default function useWrapCallback(
                     sufficientBalance && inputAmount
                         ? async () => {
                               try {
-                                  const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
+                                  const txReceipt = await wdcContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
                                   addTransaction(txReceipt, {
                                       summary: `Unwrap ${inputAmount.toSignificant(6)} WDC to ETH`,
                                   });
@@ -80,5 +80,5 @@ export default function useWrapCallback(
         } else {
             return NOT_APPLICABLE;
         }
-    }, [wethContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction]);
+    }, [wdcContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction]);
 }

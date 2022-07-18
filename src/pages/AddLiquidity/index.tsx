@@ -29,7 +29,7 @@ import { Currency } from "../../../../sdk-core/src/entities/currency";
 import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
 import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
 import { currencyEquals } from "../../../../sdk-core/src/utils/currencyEquals";
-import { WDC } from "../../constants/currencies";
+import { WDC } from "../../constants/addresses";
 import { useTransactionAdder } from "../../state/transactions/hooks";
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from "../../state/user/hooks";
 import { TYPE } from "../../theme";

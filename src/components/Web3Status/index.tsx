@@ -9,8 +9,6 @@ import CoinbaseWalletIcon from "../../../assets/images/coinbaseWalletIcon.svg";
 import WalletConnectIcon from "../../../assets/images/walletConnectIcon.svg";
 import { injected, walletconnect, walletlink } from "../../connectors";
 import { NetworkContextName } from "../../constants";
-import useENSName from "../../hooks/useENSName";
-import { useHasSocks } from "../../hooks/useSocksBalance";
 import { useWalletModalToggle } from "../../state/application/hooks";
 import { isTransactionRecent, useAllTransactions } from "../../state/transactions/hooks";
 import { TransactionDetails } from "../../state/transactions/reducer";
@@ -153,8 +151,6 @@ function Web3StatusInner() {
     const { t } = useTranslation();
     const { account, connector, error } = useWeb3React();
 
-    const { ENSName } = useENSName(account ?? undefined);
-
     const allTransactions = useAllTransactions();
 
     const sortedRecentTransactions = useMemo(() => {
@@ -165,7 +161,6 @@ function Web3StatusInner() {
     const pending = sortedRecentTransactions.filter(tx => !tx.receipt).map(tx => tx.hash);
 
     const hasPendingTransactions = !!pending.length;
-    const hasSocks = useHasSocks();
     const toggleWalletModal = useWalletModalToggle();
 
     if (account) {
@@ -181,8 +176,7 @@ function Web3StatusInner() {
                     </RowBetween>
                 ) : (
                     <>
-                        {hasSocks ? SOCK : null}
-                        <Text>{ENSName || shortenAddress(account)}</Text>
+                        <Text>{shortenAddress(account)}</Text>
                     </>
                 )}
                 {!hasPendingTransactions && connector && <StatusIcon connector={connector} />}
@@ -208,8 +202,6 @@ export default function Web3Status() {
     const { active, account } = useWeb3React();
     const contextNetwork = useWeb3React(NetworkContextName);
 
-    const { ENSName } = useENSName(account ?? undefined);
-
     const allTransactions = useAllTransactions();
 
     const sortedRecentTransactions = useMemo(() => {
@@ -228,7 +220,6 @@ export default function Web3Status() {
         <>
             <Web3StatusInner />
             <WalletModal
-                ENSName={ENSName ?? undefined}
                 pendingTransactions={pending}
                 confirmedTransactions={confirmed}
             />

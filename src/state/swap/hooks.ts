@@ -11,10 +11,9 @@ import { Trade } from "../../../../v2-sdk/src/entities/trade";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { useTradeExactIn, useTradeExactOut } from "../../hooks/Trades";
-import useENS from "../../hooks/useENS";
 import useParsedQueryString from "../../hooks/useParsedQueryString";
 import { isAddress } from "../../utils";
-import { env } from "../../utils/env";
+import { factoryAddress, router01Address, router02Address } from "../../utils/config";
 import { computeSlippageAdjustedAmounts } from "../../utils/prices";
 import { AppDispatch, AppState } from "../index";
 import { useUserSlippageTolerance } from "../user/hooks";
@@ -91,7 +90,7 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
     return undefined;
 }
 
-const BAD_RECIPIENT_ADDRESSES: string[] = [env.FACTORY_ADDRESS, env.ROUTER_01_ADDRESS, env.ROUTER_02_ADDRESS];
+const BAD_RECIPIENT_ADDRESSES: string[] = [factoryAddress, router01Address, router02Address];
 
 /**
  * Returns true if any of the pairs or tokens in a trade have the given checksummed address
@@ -125,8 +124,7 @@ export function useDerivedSwapInfo(): {
 
     const inputCurrency = useCurrency(inputCurrencyId);
     const outputCurrency = useCurrency(outputCurrencyId);
-    const recipientLookup = useENS(recipient ?? undefined);
-    const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null;
+    const to = account;
 
     const relevantTokenBalances = useCurrencyBalances(account ?? undefined, [
         inputCurrency ?? undefined,

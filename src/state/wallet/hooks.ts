@@ -4,7 +4,7 @@ import { Currency } from "../../../../sdk-core/src/entities/currency";
 import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
 import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
 import { Token } from "../../../../sdk-core/src/entities/token";
-import ERC20_INTERFACE from "../../constants/abis/erc20";
+import { erc20Interface } from "../../constants/abis";
 import { useActiveWeb3React } from "../../hooks";
 import { useAllTokens } from "../../hooks/Tokens";
 import { useMulticallContract } from "../../hooks/useContract";
@@ -61,7 +61,7 @@ export function useTokenBalancesWithLoadingIndicator(
 
     const validatedTokenAddresses = useMemo(() => validatedTokens.map(vt => vt.address), [validatedTokens]);
 
-    const balances = useMultipleContractSingleData(validatedTokenAddresses, ERC20_INTERFACE, "balanceOf", [address]);
+    const balances = useMultipleContractSingleData(validatedTokenAddresses, erc20Interface, "balanceOf", [address]);
 
     const anyLoading: boolean = useMemo(() => balances.some(callState => callState.loading), [balances]);
 

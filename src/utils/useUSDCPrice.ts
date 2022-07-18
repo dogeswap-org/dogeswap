@@ -1,5 +1,11 @@
+import JSBI from "jsbi";
 import { useMemo } from "react";
+import { ChainId } from "../../../sdk-core/src/constants";
+import { Currency } from "../../../sdk-core/src/entities/currency";
+import Price from "../../../sdk-core/src/entities/fractions/price";
+import { currencyEquals } from "../../../sdk-core/src/utils";
 import { USDC } from "../constants";
+import { WDC } from "../constants/currencies";
 import { PairState, usePairs } from "../data/Reserves";
 import { useActiveWeb3React } from "../hooks";
 import { wrappedCurrency } from "./wrappedCurrency";
@@ -28,7 +34,7 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
         if (!currency || !wrapped || !chainId) {
             return undefined;
         }
-        // handle weth/eth
+        // handle wdc/eth
         if (wrapped.equals(WDC[chainId])) {
             if (usdcPair) {
                 const price = usdcPair.priceOf(WDC[chainId]);

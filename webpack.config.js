@@ -1,14 +1,13 @@
 const webpack = require("webpack");
 const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-require("dotenv/config");
+const config = require("./config.json");
 
 const devtool = "inline-source-map";
 
 const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT ?? "10000");
-const envVars = [
 
-];
+console.log(JSON.stringify(config));
 
 module.exports = {
     mode: process.env.NODE_ENV ?? "development",
@@ -32,7 +31,7 @@ module.exports = {
             // Thanks to https://stackoverflow.com/a/65018686/14239942
             process: "process/browser",
         }),
-        new webpack.EnvironmentPlugin(envVars),
+        new webpack.DefinePlugin({ __CONFIG__: JSON.stringify(config) }),
         new ForkTsCheckerWebpackPlugin(),
     ],
     module: {

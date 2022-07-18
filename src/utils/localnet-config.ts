@@ -1,16 +1,18 @@
 import { ChainId } from "../../../sdk-core/src/constants";
+import { localnet } from "../utils/config";
 
 const localTokens = {
-  WDC: true,
   DST: true,
   USDT: true,
   USDC: true,
   DAI: true,
+  WDC: true,
 }
 
 interface LocalnetConfigBase {
   v2FactoryAddress: string;
   v2RouterAddress: string;
+  multicallAddress: string;
   localTokenList?: string;
 }
 
@@ -20,9 +22,7 @@ type RewardAddressConfig = { [key in keyof (typeof localTokens) as `${Lowercase<
 
 type LocalnetConfig = LocalnetConfigBase & TokenAddressConfig & RewardAddressConfig;
 
-const getEnv = (localnetKey: string) => process.env[localnetKey]
-
-const getTokenAddress = (symbol: string) => getEnv(`${symbol}_ADDRESS`);
+const getTokenAddress = (token: string) => localnet[`${token.toLowerCase()}Address`]
 
 const createLocalnetTokenListItem = (symbol: string) => ({
   chainId: ChainId.LOCALNET,
@@ -35,7 +35,6 @@ const createLocalnetTokenListItem = (symbol: string) => ({
 
 const addressConfig = Object.keys(localTokens).reduce<Record<string, string>>((r, x) => {
   r[`${x.toLowerCase()}Address`] = getTokenAddress(x) as string;
-  r[`${x.toLowerCase()}StakingRewardAddress`] = getEnv(`${x}_STAKING_REWARD_ADDRESS`) as string;
   return r;
 }, {});
 
@@ -54,10 +53,11 @@ const createLocalnetTokenList = () => ({
 })
 
 export const localnetConfig = {
-  v2FactoryAddress: getEnv('FACTORY_ADDRESS'),
-  v2RouterAddress: getEnv('ROUTER_ADDRESS'),
+  v2FactoryAddress: localnet.factoryAddress,
+  v2RouterAddress: localnet.router01Address,
+  multicallAddress: localnet.multicallAddress,
 
   ...addressConfig,
 
-  localTokenList: getEnv('LOCAL_TOKEN_LIST') ? createLocalnetTokenList() : undefined
+  localTokenList: JSON.stringify(createLocalnetTokenList()),
 } as LocalnetConfig;
