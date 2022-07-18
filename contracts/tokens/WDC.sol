@@ -15,7 +15,7 @@
 
 pragma solidity =0.6.6;
 
-// TODO DOGECHAIN: Replace with ERC20?
+// TODO DOGESWAP: Replace with ERC20?
 contract WDC {
     string public name     = "Wrapped Dogechain";
     string public symbol   = "WDC";
