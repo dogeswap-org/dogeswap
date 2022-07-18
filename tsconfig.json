@@ -2,7 +2,7 @@
   "include": ["src", "../sdk-core/src/declarations.d.ts",],
   "compilerOptions": {
     "target": "es2018",
-    "module": "esnext",
+    "module": "CommonJS",
     "importHelpers": true,
     "declaration": true,
     "sourceMap": true,
