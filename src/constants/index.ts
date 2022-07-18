@@ -13,19 +13,13 @@ type ChainTokenList = {
     readonly [chainId in ChainId]: Token[];
 };
 
-const createListElement = (chain: ChainId, ...tokens: ChainTokens[]) => tokens.map((x) => x[chain]);
-
-const WDC_ONLY: ChainTokenList = {
-    [ChainId.MAINNET]: createListElement(ChainId.MAINNET, WDC),
-    [ChainId.TESTNET]: createListElement(ChainId.TESTNET, WDC),
-    [ChainId.LOCALNET]: createListElement(ChainId.LOCALNET, WDC),
-};
+const createListElement = (chain: ChainId, ...tokens: ChainTokens[]) => tokens.map(x => x[chain]);
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     [ChainId.MAINNET]: createListElement(ChainId.MAINNET, WDC, DAI, USDC, USDT),
-    [ChainId.TESTNET]: createListElement(ChainId.MAINNET, WDC),
-    [ChainId.LOCALNET]: createListElement(ChainId.MAINNET, WDC, DAI, USDC, USDT),
+    [ChainId.TESTNET]: createListElement(ChainId.TESTNET, WDC),
+    [ChainId.LOCALNET]: createListElement(ChainId.LOCALNET, WDC, DAI, USDC, USDT),
 };
 
 /**

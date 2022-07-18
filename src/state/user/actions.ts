@@ -4,7 +4,7 @@ export interface SerializedToken {
     chainId: number;
     address: string;
     decimals: number;
-    symbol?: string;
+    symbol: string;
     name?: string;
 }
 
