@@ -1,11 +1,10 @@
-import React, { useContext, useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
-import useENS from "../../hooks/useENS";
 import { useActiveWeb3React } from "../../hooks";
 import { ExternalLink, TYPE } from "../../theme";
+import { getEtherscanLink } from "../../utils";
 import { AutoColumn } from "../Column";
 import { RowBetween } from "../Row";
-import { getEtherscanLink } from "../../utils";
 
 const InputPanel = styled.div`
     ${({ theme }) => theme.flexColumnNoWrap}
@@ -79,8 +78,6 @@ export default function AddressInputPanel({
     const { chainId } = useActiveWeb3React();
     const theme = useContext(ThemeContext);
 
-    const { address, loading, name } = useENS(value);
-
     const handleInput = useCallback(
         event => {
             const input = event.target.value;
@@ -90,7 +87,7 @@ export default function AddressInputPanel({
         [onChange],
     );
 
-    const error = Boolean(value.length > 0 && !loading && !address);
+    const error = false; // Used to be true when an ENS lookup failed.
 
     return (
         <InputPanel id={id}>
@@ -101,9 +98,9 @@ export default function AddressInputPanel({
                             <TYPE.black color={theme.text2} fontWeight={500} fontSize={14}>
                                 Recipient
                             </TYPE.black>
-                            {address && chainId && (
+                            {value && chainId && (
                                 <ExternalLink
-                                    href={getEtherscanLink(chainId, name ?? address, "address")}
+                                    href={getEtherscanLink(chainId, value, "address")}
                                     style={{ fontSize: "14px" }}
                                 >
                                     (View on Etherscan)
@@ -117,7 +114,7 @@ export default function AddressInputPanel({
                             autoCorrect="off"
                             autoCapitalize="off"
                             spellCheck="false"
-                            placeholder="Wallet Address or ENS name"
+                            placeholder="Wallet Address"
                             error={error}
                             pattern="^(0x[a-fA-F0-9]{40})$"
                             onChange={handleInput}

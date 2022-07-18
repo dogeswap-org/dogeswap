@@ -1,6 +1,7 @@
 import { Contract } from "@ethersproject/contracts";
 import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.json";
 import { useMemo } from "react";
+import { ChainId } from "../../../sdk-core/src/constants";
 import { erc20Abi, multicallAbi, wdcAbi } from "../constants/abis";
 import { Multicall, WDC } from "../constants/addresses";
 import { getContract } from "../utils";
@@ -30,25 +31,24 @@ export function useWDCContract(withSignerIfPossible?: boolean): Contract | null 
     return useContract(chainId ? WDC[chainId]?.address : undefined, wdcAbi, withSignerIfPossible);
 }
 
+// If these ENS functions are ever needed, fill in the ABI/resolver ABI variables as well as the contract address.
+
 export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contract | null {
-    throw new Error("ENS is not supported");
-    // const { chainId } = useActiveWeb3React();
-    // let address: string | undefined;
-    // if (chainId) {
-    //     switch (chainId) {
-    //         case ChainId.MAINNET:
-    //         case ChainId.TESTNET:
-    //             // TODO DOGESWAP: update to the right contract
-    //             address = "0x0000000000000000000000000000000000000000";
-    //             break;
-    //     }
-    // }
-    // return useContract(address, ENS_ABI, withSignerIfPossible);
+    const { chainId } = useActiveWeb3React();
+    let address: string | undefined;
+    if (chainId) {
+        switch (chainId) {
+            case ChainId.MAINNET:
+            case ChainId.TESTNET:
+                address = "0x0000000000000000000000000000000000000000";
+                break;
+        }
+    }
+    return useContract(address, "<ENS_ABI>", withSignerIfPossible);
 }
 
 export function useENSResolverContract(address: string | undefined, withSignerIfPossible?: boolean): Contract | null {
-    throw new Error("ENS is not supported");
-    // return useContract(address, ENS_PUBLIC_RESOLVER_ABI, withSignerIfPossible);
+    return useContract(address, "<ENS_PUBLIC_RESOLVER_ABI>", withSignerIfPossible);
 }
 
 export function usePairContract(pairAddress?: string, withSignerIfPossible?: boolean): Contract | null {

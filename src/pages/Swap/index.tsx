@@ -27,7 +27,6 @@ import { INITIAL_ALLOWED_SLIPPAGE } from "../../constants";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { ApprovalState, useApproveCallbackFromTrade } from "../../hooks/useApproveCallback";
-import useENSAddress from "../../hooks/useENSAddress";
 import { useSwapCallback } from "../../hooks/useSwapCallback";
 import useWrapCallback, { WrapType } from "../../hooks/useWrapCallback";
 import { useToggleSettingsMenu, useWalletModalToggle } from "../../state/application/hooks";
@@ -79,7 +78,6 @@ export default function Swap() {
     // swap state
     const { independentField, typedValue, recipient } = useSwapState();
     const {
-        v1Trade,
         v2Trade,
         currencyBalances,
         parsedAmount,
@@ -92,7 +90,6 @@ export default function Swap() {
         typedValue,
     );
     const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE;
-    const { address: recipientAddress } = useENSAddress(recipient);
     const trade = showWrap
         ? undefined
         : v2Trade;
@@ -209,7 +206,7 @@ export default function Swap() {
                     action:
                         recipient === null
                             ? "Swap w/o Send"
-                            : (recipientAddress ?? recipient) === account
+                            : recipient === account
                                 ? "Swap w/o Send + recipient"
                                 : "Swap w/ Send",
                     label: [
@@ -227,7 +224,7 @@ export default function Swap() {
                     txHash: undefined,
                 });
             });
-    }, [tradeToConfirm, account, priceImpactWithoutFee, recipient, recipientAddress, showConfirm, swapCallback, trade]);
+    }, [tradeToConfirm, account, priceImpactWithoutFee, recipient, showConfirm, swapCallback, trade]);
 
     // errors
     const [showInverted, setShowInverted] = useState<boolean>(false);

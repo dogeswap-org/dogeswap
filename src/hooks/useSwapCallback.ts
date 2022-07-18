@@ -11,7 +11,6 @@ import { useTransactionAdder } from "../state/transactions/hooks";
 import { calculateGasMargin, getRouterContract, isAddress, shortenAddress } from "../utils";
 import isZero from "../utils/isZero";
 import { useActiveWeb3React } from "./index";
-import useENS from "./useENS";
 
 export enum SwapCallbackState {
     INVALID,
@@ -51,8 +50,7 @@ function useSwapCallArguments(
 ): SwapCall[] {
     const { account, chainId, library } = useActiveWeb3React();
 
-    const { address: recipientAddress } = useENS(recipientAddressOrName);
-    const recipient = recipientAddressOrName === null ? account : recipientAddress;
+    const recipient = recipientAddressOrName ?? account;
 
     return useMemo(() => {
         if (!trade || !recipient || !library || !account || !chainId) return [];
@@ -101,8 +99,7 @@ export function useSwapCallback(
 
     const addTransaction = useTransactionAdder();
 
-    const { address: recipientAddress } = useENS(recipientAddressOrName);
-    const recipient = recipientAddressOrName === null ? account : recipientAddress;
+    const recipient = recipientAddressOrName ?? account;
 
     return useMemo(() => {
         if (!trade || !library || !account || !chainId) {
@@ -115,8 +112,6 @@ export function useSwapCallback(
                 return { state: SwapCallbackState.LOADING, callback: null, error: null };
             }
         }
-
-        const tradeVersion = getTradeVersion(trade);
 
         return {
             state: SwapCallbackState.VALID,
@@ -212,11 +207,7 @@ export function useSwapCallback(
                                           : recipientAddressOrName
                                   }`;
 
-                        const withVersion =
-                            tradeVersion === Version.v2
-                                ? withRecipient
-                                : `${withRecipient} on ${(tradeVersion as any).toUpperCase()}`;
-
+                        const withVersion = withRecipient;
                         addTransaction(response, {
                             summary: withVersion,
                         });

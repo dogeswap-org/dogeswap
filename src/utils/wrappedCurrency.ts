@@ -3,6 +3,7 @@ import { Currency } from "../../../sdk-core/src/entities/currency";
 import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
 import { Token } from "../../../sdk-core/src/entities/token";
+import { WDC } from "../constants/addresses";
 
 // TODO DOGESWAP: update this to use DS instead of DOGECHAIN and update currency to accept DS instead of DOGECHAIN
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {
