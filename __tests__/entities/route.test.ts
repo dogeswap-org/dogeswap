@@ -1,5 +1,5 @@
 import { ChainId } from "../../../sdk-core/src/constants"
-import { ETHER } from "../../../sdk-core/src/entities/ether"
+import { DOGECHAIN } from "../../../sdk-core/src/entities/ether"
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
 import { Token } from "../../../sdk-core/src/entities/token"
 import { Pair } from "../../src/entities/pair"
@@ -30,16 +30,16 @@ describe('Route', () => {
   })
 
   it('supports ether input', () => {
-    const route = new Route([pair_0_weth], testWDC, ETHER)
+    const route = new Route([pair_0_weth], testWDC, DOGECHAIN)
     expect(route.pairs).toEqual([pair_0_weth])
-    expect(route.input).toEqual(ETHER)
+    expect(route.input).toEqual(DOGECHAIN)
     expect(route.output).toEqual(token0)
   })
 
   it('supports ether output', () => {
-    const route = new Route([pair_0_weth], testWDC, token0, ETHER)
+    const route = new Route([pair_0_weth], testWDC, token0, DOGECHAIN)
     expect(route.pairs).toEqual([pair_0_weth])
     expect(route.input).toEqual(token0)
-    expect(route.output).toEqual(ETHER)
+    expect(route.output).toEqual(DOGECHAIN)
   })
 })

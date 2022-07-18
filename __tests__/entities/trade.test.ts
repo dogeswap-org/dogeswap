@@ -6,7 +6,7 @@ import { Token } from "../../../sdk-core/src/entities/token"
 import { ChainId, TradeType } from "../../../sdk-core/src/constants"
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
 import Percent from "../../../sdk-core/src/entities/fractions/percent"
-import { ETHER } from "../../../sdk-core/src/entities/ether"
+import { DOGECHAIN } from "../../../sdk-core/src/entities/ether"
 import Price from "../../../sdk-core/src/entities/fractions/price"
 import { testWDC } from "../testUtils"
 
@@ -44,46 +44,46 @@ describe('Trade', () => {
     new CurrencyAmount(token1, JSBI.BigInt(0))
   )
 
-  it('can be constructed with ETHER as input', () => {
+  it('can be constructed with DOGECHAIN as input', () => {
     const trade = new Trade(
-      new Route([pair_weth_0], testWDC, ETHER),
+      new Route([pair_weth_0], testWDC, DOGECHAIN),
       CurrencyAmount.ether(JSBI.BigInt(100)),
       TradeType.EXACT_INPUT,
       testWDC
     )
-    expect(trade.inputAmount.currency).toEqual(ETHER)
+    expect(trade.inputAmount.currency).toEqual(DOGECHAIN)
     expect(trade.outputAmount.currency).toEqual(token0)
   })
-  it('can be constructed with ETHER as input for exact output', () => {
+  it('can be constructed with DOGECHAIN as input for exact output', () => {
     const trade = new Trade(
-      new Route([pair_weth_0], testWDC, ETHER, token0),
+      new Route([pair_weth_0], testWDC, DOGECHAIN, token0),
       new CurrencyAmount(token0, JSBI.BigInt(100)),
       TradeType.EXACT_OUTPUT,
       testWDC
     )
-    expect(trade.inputAmount.currency).toEqual(ETHER)
+    expect(trade.inputAmount.currency).toEqual(DOGECHAIN)
     expect(trade.outputAmount.currency).toEqual(token0)
   })
 
-  it('can be constructed with ETHER as output', () => {
+  it('can be constructed with DOGECHAIN as output', () => {
     const trade = new Trade(
-      new Route([pair_weth_0], testWDC, token0, ETHER),
+      new Route([pair_weth_0], testWDC, token0, DOGECHAIN),
       CurrencyAmount.ether(JSBI.BigInt(100)),
       TradeType.EXACT_OUTPUT,
       testWDC
     )
     expect(trade.inputAmount.currency).toEqual(token0)
-    expect(trade.outputAmount.currency).toEqual(ETHER)
+    expect(trade.outputAmount.currency).toEqual(DOGECHAIN)
   })
-  it('can be constructed with ETHER as output for exact input', () => {
+  it('can be constructed with DOGECHAIN as output for exact input', () => {
     const trade = new Trade(
-      new Route([pair_weth_0], testWDC, token0, ETHER),
+      new Route([pair_weth_0], testWDC, token0, DOGECHAIN),
       new CurrencyAmount(token0, JSBI.BigInt(100)),
       TradeType.EXACT_INPUT,
       testWDC,
     )
     expect(trade.inputAmount.currency).toEqual(token0)
-    expect(trade.outputAmount.currency).toEqual(ETHER)
+    expect(trade.outputAmount.currency).toEqual(DOGECHAIN)
   })
 
   describe('#bestTradeExactIn', () => {
@@ -168,7 +168,7 @@ describe('Trade', () => {
       expect(result).toHaveLength(0)
     })
 
-    it('works for ETHER currency input', () => {
+    it('works for DOGECHAIN currency input', () => {
       const result = Trade.bestTradeExactIn(
         [pair_weth_0, pair_0_1, pair_0_3, pair_1_3],
         CurrencyAmount.ether(JSBI.BigInt(100)),
@@ -176,27 +176,27 @@ describe('Trade', () => {
         testWDC
       )
       expect(result).toHaveLength(2)
-      expect(result[0].inputAmount.currency).toEqual(ETHER)
+      expect(result[0].inputAmount.currency).toEqual(DOGECHAIN)
       expect(result[0].route.path).toEqual([testWDC, token0, token1, token3])
       expect(result[0].outputAmount.currency).toEqual(token3)
-      expect(result[1].inputAmount.currency).toEqual(ETHER)
+      expect(result[1].inputAmount.currency).toEqual(DOGECHAIN)
       expect(result[1].route.path).toEqual([testWDC, token0, token3])
       expect(result[1].outputAmount.currency).toEqual(token3)
     })
-    it('works for ETHER currency output', () => {
+    it('works for DOGECHAIN currency output', () => {
       const result = Trade.bestTradeExactIn(
         [pair_weth_0, pair_0_1, pair_0_3, pair_1_3],
         new CurrencyAmount(token3, JSBI.BigInt(100)),
-        ETHER,
+        DOGECHAIN,
         testWDC,
       )
       expect(result).toHaveLength(2)
       expect(result[0].inputAmount.currency).toEqual(token3)
       expect(result[0].route.path).toEqual([token3, token0, testWDC])
-      expect(result[0].outputAmount.currency).toEqual(ETHER)
+      expect(result[0].outputAmount.currency).toEqual(DOGECHAIN)
       expect(result[1].inputAmount.currency).toEqual(token3)
       expect(result[1].route.path).toEqual([token3, token1, token0, testWDC])
-      expect(result[1].outputAmount.currency).toEqual(ETHER)
+      expect(result[1].outputAmount.currency).toEqual(DOGECHAIN)
     })
   })
 
@@ -447,22 +447,22 @@ describe('Trade', () => {
       expect(result).toHaveLength(0)
     })
 
-    it('works for ETHER currency input', () => {
+    it('works for DOGECHAIN currency input', () => {
       const result = Trade.bestTradeExactOut(
         [pair_weth_0, pair_0_1, pair_0_3, pair_1_3],
-        ETHER,
+        DOGECHAIN,
         new CurrencyAmount(token3, JSBI.BigInt(100)),
         testWDC
       )
       expect(result).toHaveLength(2)
-      expect(result[0].inputAmount.currency).toEqual(ETHER)
+      expect(result[0].inputAmount.currency).toEqual(DOGECHAIN)
       expect(result[0].route.path).toEqual([testWDC, token0, token1, token3])
       expect(result[0].outputAmount.currency).toEqual(token3)
-      expect(result[1].inputAmount.currency).toEqual(ETHER)
+      expect(result[1].inputAmount.currency).toEqual(DOGECHAIN)
       expect(result[1].route.path).toEqual([testWDC, token0, token3])
       expect(result[1].outputAmount.currency).toEqual(token3)
     })
-    it('works for ETHER currency output', () => {
+    it('works for DOGECHAIN currency output', () => {
       const result = Trade.bestTradeExactOut(
         [pair_weth_0, pair_0_1, pair_0_3, pair_1_3],
         token3,
@@ -472,10 +472,10 @@ describe('Trade', () => {
       expect(result).toHaveLength(2)
       expect(result[0].inputAmount.currency).toEqual(token3)
       expect(result[0].route.path).toEqual([token3, token0, testWDC])
-      expect(result[0].outputAmount.currency).toEqual(ETHER)
+      expect(result[0].outputAmount.currency).toEqual(DOGECHAIN)
       expect(result[1].inputAmount.currency).toEqual(token3)
       expect(result[1].route.path).toEqual([token3, token1, token0, testWDC])
-      expect(result[1].outputAmount.currency).toEqual(ETHER)
+      expect(result[1].outputAmount.currency).toEqual(DOGECHAIN)
     })
   })
 })

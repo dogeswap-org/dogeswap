@@ -1,7 +1,7 @@
 import { Trade } from './entities/trade'
 import invariant from 'tiny-invariant'
 import { TradeType } from "../../sdk-core/src/constants"
-import { ETHER } from "../../sdk-core/src/entities/ether"
+import { DOGECHAIN } from "../../sdk-core/src/entities/ether"
 import CurrencyAmount from "../../sdk-core/src/entities/fractions/currencyAmount"
 import Percent from "../../sdk-core/src/entities/fractions/percent"
 import validateAndParseAddress from "../../sdk-core/src/utils/validateAndParseAddress"
@@ -77,10 +77,10 @@ export abstract class Router {
    * @param options options for the call parameters
    */
   public static swapCallParameters(trade: Trade, options: TradeOptions | TradeOptionsDeadline): SwapParameters {
-    const etherIn = trade.inputAmount.currency === ETHER
-    const etherOut = trade.outputAmount.currency === ETHER
+    const etherIn = trade.inputAmount.currency === DOGECHAIN
+    const etherOut = trade.outputAmount.currency === DOGECHAIN
     // the router does not support both ether in and out
-    invariant(!(etherIn && etherOut), 'ETHER_IN_OUT')
+    invariant(!(etherIn && etherOut), 'DOGECHAIN_IN_OUT')
     invariant(!('ttl' in options) || options.ttl > 0, 'TTL')
 
     const to: string = validateAndParseAddress(options.recipient)

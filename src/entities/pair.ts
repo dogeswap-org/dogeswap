@@ -29,26 +29,26 @@ export const computePairAddress = ({
 }
 export class Pair {
   public readonly liquidityToken: Token
-  private readonly tokenAmounts: [CurrencyAmount, CurrencyAmount]
+  private readonly currencyAmounts: [CurrencyAmount, CurrencyAmount]
 
   public static getAddress(tokenA: Token, tokenB: Token): string {
     return computePairAddress({ factoryAddress: FACTORY_ADDRESS, tokenA, tokenB })
   }
 
-  public constructor(currencyAmountA: CurrencyAmount, tokenAmountB: CurrencyAmount) {
-    invariant(currencyAmountA.currency.isToken && tokenAmountB.currency.isToken, 'TOKEN')
-    const tokenAmounts = currencyAmountA.currency.sortsBefore(tokenAmountB.currency) // does safety checks
-      ? [currencyAmountA, tokenAmountB]
-      : [tokenAmountB, currencyAmountA]
-    invariant(tokenAmounts[0].currency.isToken && tokenAmounts[1].currency.isToken, 'TOKEN')
+  public constructor(currencyAmountA: CurrencyAmount, currencyAmountB: CurrencyAmount) {
+    invariant(currencyAmountA.currency.isToken && currencyAmountB.currency.isToken, 'TOKEN')
+    const currencyAmounts = currencyAmountA.currency.sortsBefore(currencyAmountB.currency) // does safety checks
+      ? [currencyAmountA, currencyAmountB]
+      : [currencyAmountB, currencyAmountA]
+    invariant(currencyAmounts[0].currency.isToken && currencyAmounts[1].currency.isToken, 'TOKEN')
     this.liquidityToken = new Token(
-      tokenAmounts[0].currency.chainId,
-      Pair.getAddress(tokenAmounts[0].currency, tokenAmounts[1].currency),
+      currencyAmounts[0].currency.chainId,
+      Pair.getAddress(currencyAmounts[0].currency, currencyAmounts[1].currency),
       18,
       'UNI-V2',
       'Uniswap V2'
     )
-    this.tokenAmounts = tokenAmounts as [CurrencyAmount, CurrencyAmount]
+    this.currencyAmounts = currencyAmounts as [CurrencyAmount, CurrencyAmount]
   }
 
   /**
@@ -63,14 +63,14 @@ export class Pair {
    * Returns the current mid price of the pair in terms of token0, i.e. the ratio of reserve1 to reserve0
    */
   public get token0Price(): Price {
-    return new Price(this.token0, this.token1, this.tokenAmounts[0].raw, this.tokenAmounts[1].raw)
+    return new Price(this.token0, this.token1, this.currencyAmounts[0].raw, this.currencyAmounts[1].raw)
   }
 
   /**
    * Returns the current mid price of the pair in terms of token1, i.e. the ratio of reserve0 to reserve1
    */
   public get token1Price(): Price {
-    return new Price(this.token1, this.token0, this.tokenAmounts[1].raw, this.tokenAmounts[0].raw)
+    return new Price(this.token1, this.token0, this.currencyAmounts[1].raw, this.currencyAmounts[0].raw)
   }
 
   /**
@@ -90,24 +90,24 @@ export class Pair {
   }
 
   public get token0(): Token {
-    invariant(this.tokenAmounts[0].currency.isToken)
-    return this.tokenAmounts[0].currency
+    invariant(this.currencyAmounts[0].currency.isToken)
+    return this.currencyAmounts[0].currency
   }
 
   public get token1(): Token {
-    invariant(this.tokenAmounts[1].currency.isToken)
-    return this.tokenAmounts[1].currency
+    invariant(this.currencyAmounts[1].currency.isToken)
+    return this.currencyAmounts[1].currency
   }
 
   public get reserve0(): CurrencyAmount {
-    return this.tokenAmounts[0]
+    return this.currencyAmounts[0]
   }
 
   public get reserve1(): CurrencyAmount {
-    return this.tokenAmounts[1]
+    return this.currencyAmounts[1]
   }
 
-  public reserveOf(token: Token): CurrencyAmount {
+  public reserveOf(token: Token) {
     invariant(this.involvesToken(token), 'TOKEN')
     return token.equals(this.token0) ? this.reserve0 : this.reserve1
   }
@@ -129,6 +129,7 @@ export class Pair {
     if (JSBI.equal(outputAmount.raw, ZERO)) {
       throw new InsufficientInputAmountError()
     }
+
     return [outputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
   }
 
@@ -155,25 +156,25 @@ export class Pair {
 
   public getLiquidityMinted(
     totalSupply: CurrencyAmount,
-    tokenAmountA: CurrencyAmount,
-    tokenAmountB: CurrencyAmount
+    currencyAmountA: CurrencyAmount,
+    currencyAmountB: CurrencyAmount
   ): CurrencyAmount {
     invariant(totalSupply.currency.isToken && totalSupply.currency.equals(this.liquidityToken), 'LIQUIDITY')
-    const tokenAmounts =
-      tokenAmountA.currency.isToken &&
-      tokenAmountB.currency.isToken &&
-      tokenAmountA.currency.sortsBefore(tokenAmountB.currency) // does safety checks
-        ? [tokenAmountA, tokenAmountB]
-        : [tokenAmountB, tokenAmountA]
-    invariant(tokenAmounts[0].currency.isToken && tokenAmounts[1].currency.isToken)
-    invariant(tokenAmounts[0].currency.equals(this.token0) && tokenAmounts[1].currency.equals(this.token1), 'TOKEN')
+    const currencyAmounts =
+      currencyAmountA.currency.isToken &&
+      currencyAmountB.currency.isToken &&
+      currencyAmountA.currency.sortsBefore(currencyAmountB.currency) // does safety checks
+        ? [currencyAmountA, currencyAmountB]
+        : [currencyAmountB, currencyAmountA]
+    invariant(currencyAmounts[0].currency.isToken && currencyAmounts[1].currency.isToken)
+    invariant(currencyAmounts[0].currency.equals(this.token0) && currencyAmounts[1].currency.equals(this.token1), 'TOKEN')
 
     let liquidity: JSBI
     if (JSBI.equal(totalSupply.raw, ZERO)) {
-      liquidity = JSBI.subtract(sqrt(JSBI.multiply(tokenAmounts[0].raw, tokenAmounts[1].raw)), MINIMUM_LIQUIDITY)
+      liquidity = JSBI.subtract(sqrt(JSBI.multiply(currencyAmounts[0].raw, currencyAmounts[1].raw)), MINIMUM_LIQUIDITY)
     } else {
-      const amount0 = JSBI.divide(JSBI.multiply(tokenAmounts[0].raw, totalSupply.raw), this.reserve0.raw)
-      const amount1 = JSBI.divide(JSBI.multiply(tokenAmounts[1].raw, totalSupply.raw), this.reserve1.raw)
+      const amount0 = JSBI.divide(JSBI.multiply(currencyAmounts[0].raw, totalSupply.raw), this.reserve0.raw)
+      const amount1 = JSBI.divide(JSBI.multiply(currencyAmounts[1].raw, totalSupply.raw), this.reserve1.raw)
       liquidity = JSBI.lessThanOrEqual(amount0, amount1) ? amount0 : amount1
     }
     if (!JSBI.greaterThan(liquidity, ZERO)) {

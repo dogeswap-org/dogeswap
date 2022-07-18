@@ -10,7 +10,7 @@ import { ChainId, TradeType } from "../../../sdk-core/src/constants"
 import { Currency } from "../../../sdk-core/src/entities/currency"
 import { Token } from "../../../sdk-core/src/entities/token"
 import Percent from "../../../sdk-core/src/entities/fractions/percent"
-import { ETHER, WETH } from "../../../sdk-core/src/entities/ether"
+import { DOGECHAIN, WDC } from "../../../sdk-core/src/entities/ether"
 import Fraction from "../../../sdk-core/src/entities/fractions/fraction"
 import sortedInsert from "../../../sdk-core/src/utils/sortedInsert"
 
@@ -86,18 +86,18 @@ export interface BestTradeOptions {
 
 /**
  * Given a currency amount and a chain ID, returns the equivalent representation as the token amount.
- * In other words, if the currency is ETHER, returns the WETH token amount for the given chain. Otherwise, returns
+ * In other words, if the currency is DOGECHAIN, returns the WDC token amount for the given chain. Otherwise, returns
  * the input currency amount.
  */
-function wrappedAmount(currencyAmount: CurrencyAmount, weth: WETH): CurrencyAmount {
+function wrappedAmount(currencyAmount: CurrencyAmount, weth: WDC): CurrencyAmount {
   if (currencyAmount.currency.isToken) return currencyAmount
   if (currencyAmount.currency.isEther) return new CurrencyAmount(weth, currencyAmount.raw)
   throw new Error('CURRENCY')
 }
 
-function wrappedCurrency(currency: Currency, weth: WETH): Token {
+function wrappedCurrency(currency: Currency, weth: WDC): Token {
   if (currency.isToken) return currency
-  if (currency === ETHER) return weth
+  if (currency === DOGECHAIN) return weth
   throw new Error('CURRENCY')
 }
 
@@ -140,7 +140,7 @@ export class Trade {
    * @param route route of the exact in trade
    * @param amountIn the amount being passed in
    */
-  public static exactIn(route: Route, amountIn: CurrencyAmount, weth: WETH): Trade {
+  public static exactIn(route: Route, amountIn: CurrencyAmount, weth: WDC): Trade {
     return new Trade(route, amountIn, TradeType.EXACT_INPUT, weth)
   }
 
@@ -149,11 +149,11 @@ export class Trade {
    * @param route route of the exact out trade
    * @param amountOut the amount returned by the trade
    */
-  public static exactOut(route: Route, amountOut: CurrencyAmount, weth: WETH): Trade {
+  public static exactOut(route: Route, amountOut: CurrencyAmount, weth: WDC): Trade {
     return new Trade(route, amountOut, TradeType.EXACT_OUTPUT, weth)
   }
 
-  public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType, weth: WETH) {
+  public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType, weth: WDC) {
     const amounts: CurrencyAmount[] = new Array(route.path.length)
     const nextPairs: Pair[] = new Array(route.pairs.length)
     if (tradeType === TradeType.EXACT_INPUT) {
@@ -181,13 +181,13 @@ export class Trade {
     this.inputAmount =
       tradeType === TradeType.EXACT_INPUT
         ? amount
-        : route.input === ETHER
+        : route.input === DOGECHAIN
         ? CurrencyAmount.ether(amounts[0].raw)
         : amounts[0]
     this.outputAmount =
       tradeType === TradeType.EXACT_OUTPUT
         ? amount
-        : route.output === ETHER
+        : route.output === DOGECHAIN
         ? CurrencyAmount.ether(amounts[amounts.length - 1].raw)
         : amounts[amounts.length - 1]
     this.executionPrice = new Price(
@@ -249,7 +249,7 @@ export class Trade {
     pairs: Pair[],
     currencyAmountIn: CurrencyAmount,
     currencyOut: Currency,
-    weth: WETH,
+    weth: WDC,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
     // used in recursion.
     currentPairs: Pair[] = [],
@@ -352,7 +352,7 @@ export class Trade {
     pairs: Pair[],
     currencyIn: Currency,
     currencyAmountOut: CurrencyAmount,
-    weth: WETH,
+    weth: WDC,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
     // used in recursion.
     currentPairs: Pair[] = [],
