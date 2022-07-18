@@ -56,8 +56,8 @@ export default function AddLiquidity({
 
     const oneCurrencyIsWDC = Boolean(
         chainId &&
-        ((currencyA && currencyEquals(currencyA, WDC[chainId])) ||
-            (currencyB && currencyEquals(currencyB, WDC[chainId]))),
+            ((currencyA && currencyEquals(currencyA, WDC[chainId])) ||
+                (currencyB && currencyEquals(currencyB, WDC[chainId]))),
     );
 
     const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
@@ -176,11 +176,11 @@ export default function AddLiquidity({
 
         setAttemptingTxn(true);
         await estimate(...args, value ? { value } : {})
-            .then(estimatedGasLimit =>
+            .then((estimatedGasLimit) =>
                 method(...args, {
                     ...(value ? { value } : {}),
                     gasLimit: calculateGasMargin(estimatedGasLimit),
-                }).then(response => {
+                }).then((response) => {
                     setAttemptingTxn(false);
 
                     addTransaction(response, {
@@ -204,7 +204,7 @@ export default function AddLiquidity({
                     });
                 }),
             )
-            .catch(error => {
+            .catch((error) => {
                 setAttemptingTxn(false);
                 // we only care if the error is something _other_ than the user rejected the tx
                 if (error?.code !== 4001) {
@@ -250,8 +250,9 @@ export default function AddLiquidity({
                     </Text>
                 </Row>
                 <TYPE.italic fontSize={12} textAlign="left" padding={"8px 0 0 0 "}>
-                    {`Output is estimated. If the price changes by more than ${allowedSlippage /
-                        100}% your transaction will revert.`}
+                    {`Output is estimated. If the price changes by more than ${
+                        allowedSlippage / 100
+                    }% your transaction will revert.`}
                 </TYPE.italic>
             </AutoColumn>
         );
@@ -270,8 +271,9 @@ export default function AddLiquidity({
         );
     };
 
-    const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencies[Field.CURRENCY_A]?.symbol
-        } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
+    const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
+        currencies[Field.CURRENCY_A]?.symbol
+    } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
 
     const handleCurrencyASelect = useCallback(
         (currencyA: Currency) => {

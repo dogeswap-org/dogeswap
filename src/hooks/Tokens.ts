@@ -37,7 +37,7 @@ export function useAllTokens(): { [address: string]: Token } {
 // Check if currency is included in custom list from user storage
 export function useIsUserAddedToken(currency: Currency): boolean {
     const userAddedTokens = useUserAddedTokens();
-    return !!userAddedTokens.find(token => currencyEquals(currency, token));
+    return !!userAddedTokens.find((token) => currencyEquals(currency, token));
 }
 
 // undefined if invalid or does not exist

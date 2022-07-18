@@ -52,11 +52,10 @@ export default function RemoveLiquidity({
 }: RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>) {
     const [currencyA, currencyB] = [useCurrency(currencyIdA) ?? undefined, useCurrency(currencyIdB) ?? undefined];
     const { account, chainId, library } = useActiveWeb3React();
-    const [tokenA, tokenB] = useMemo(() => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)], [
-        currencyA,
-        currencyB,
-        chainId,
-    ]);
+    const [tokenA, tokenB] = useMemo(
+        () => [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)],
+        [currencyA, currencyB, chainId],
+    );
 
     const theme = useContext(ThemeContext);
 
@@ -83,8 +82,8 @@ export default function RemoveLiquidity({
         [Field.LIQUIDITY_PERCENT]: parsedAmounts[Field.LIQUIDITY_PERCENT].equalTo("0")
             ? "0"
             : parsedAmounts[Field.LIQUIDITY_PERCENT].lessThan(new Percent("1", "100"))
-                ? "<1"
-                : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
+            ? "<1"
+            : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
         [Field.LIQUIDITY]:
             independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? "",
         [Field.CURRENCY_A]:
@@ -155,7 +154,7 @@ export default function RemoveLiquidity({
         library
             .send("eth_signTypedData_v4", [account, data])
             .then(splitSignature)
-            .then(signature => {
+            .then((signature) => {
                 setSignatureData({
                     v: signature.v,
                     r: signature.r,
@@ -163,7 +162,7 @@ export default function RemoveLiquidity({
                     deadline: deadlineForSignature,
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 // for all errors other than 4001 (EIP-1193 user rejected request), fall back to manual approve
                 if (error?.code !== 4001) {
                     approveCallback();
@@ -180,15 +179,18 @@ export default function RemoveLiquidity({
         [_onUserInput],
     );
 
-    const onLiquidityInput = useCallback((typedValue: string): void => onUserInput(Field.LIQUIDITY, typedValue), [
-        onUserInput,
-    ]);
-    const onCurrencyAInput = useCallback((typedValue: string): void => onUserInput(Field.CURRENCY_A, typedValue), [
-        onUserInput,
-    ]);
-    const onCurrencyBInput = useCallback((typedValue: string): void => onUserInput(Field.CURRENCY_B, typedValue), [
-        onUserInput,
-    ]);
+    const onLiquidityInput = useCallback(
+        (typedValue: string): void => onUserInput(Field.LIQUIDITY, typedValue),
+        [onUserInput],
+    );
+    const onCurrencyAInput = useCallback(
+        (typedValue: string): void => onUserInput(Field.CURRENCY_A, typedValue),
+        [onUserInput],
+    );
+    const onCurrencyBInput = useCallback(
+        (typedValue: string): void => onUserInput(Field.CURRENCY_B, typedValue),
+        [onUserInput],
+    );
 
     // tx sending
     const addTransaction = useTransactionAdder();
@@ -287,17 +289,17 @@ export default function RemoveLiquidity({
         }
 
         const safeGasEstimates: (BigNumber | undefined)[] = await Promise.all(
-            methodNames.map(methodName =>
+            methodNames.map((methodName) =>
                 router.estimateGas[methodName](...args)
                     .then(calculateGasMargin)
-                    .catch(error => {
+                    .catch((error) => {
                         console.error(`estimateGas failed`, methodName, args, error);
                         return undefined;
                     }),
             ),
         );
 
-        const indexOfSuccessfulEstimation = safeGasEstimates.findIndex(safeGasEstimate =>
+        const indexOfSuccessfulEstimation = safeGasEstimates.findIndex((safeGasEstimate) =>
             BigNumber.isBigNumber(safeGasEstimate),
         );
 
@@ -373,8 +375,9 @@ export default function RemoveLiquidity({
                 </RowBetween>
 
                 <TYPE.italic fontSize={12} color={theme.text2} textAlign="left" padding={"12px 0 0 0"}>
-                    {`Output is estimated. If the price changes by more than ${allowedSlippage /
-                        100}% your transaction will revert.`}
+                    {`Output is estimated. If the price changes by more than ${
+                        allowedSlippage / 100
+                    }% your transaction will revert.`}
                 </TYPE.italic>
             </AutoColumn>
         );
@@ -426,8 +429,9 @@ export default function RemoveLiquidity({
         );
     }
 
-    const pendingText = `Removing ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencyA?.symbol
-        } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`;
+    const pendingText = `Removing ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
+        currencyA?.symbol
+    } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`;
 
     const liquidityPercentChangeCallback = useCallback(
         (value: number) => {
@@ -439,8 +443,8 @@ export default function RemoveLiquidity({
     const oneCurrencyIsETH = currencyA === DOGECHAIN || currencyB === DOGECHAIN;
     const oneCurrencyIsWDC = Boolean(
         chainId &&
-        ((currencyA && currencyEquals(WDC[chainId], currencyA)) ||
-            (currencyB && currencyEquals(WDC[chainId], currencyB))),
+            ((currencyA && currencyEquals(WDC[chainId], currencyA)) ||
+                (currencyB && currencyEquals(WDC[chainId], currencyB))),
     );
 
     const handleSelectCurrencyA = useCallback(
@@ -595,20 +599,25 @@ export default function RemoveLiquidity({
                                             <RowBetween style={{ justifyContent: "flex-end" }}>
                                                 {oneCurrencyIsETH ? (
                                                     <StyledInternalLink
-                                                        to={`/remove/${currencyA === DOGECHAIN ? WDC[chainId].address : currencyIdA
-                                                            }/${currencyB === DOGECHAIN ? WDC[chainId].address : currencyIdB}`}
+                                                        to={`/remove/${
+                                                            currencyA === DOGECHAIN ? WDC[chainId].address : currencyIdA
+                                                        }/${
+                                                            currencyB === DOGECHAIN ? WDC[chainId].address : currencyIdB
+                                                        }`}
                                                     >
                                                         Receive WDC
                                                     </StyledInternalLink>
                                                 ) : oneCurrencyIsWDC ? (
                                                     <StyledInternalLink
-                                                        to={`/remove/${currencyA && currencyEquals(currencyA, WDC[chainId])
-                                                            ? "ETH"
-                                                            : currencyIdA
-                                                            }/${currencyB && currencyEquals(currencyB, WDC[chainId])
+                                                        to={`/remove/${
+                                                            currencyA && currencyEquals(currencyA, WDC[chainId])
+                                                                ? "ETH"
+                                                                : currencyIdA
+                                                        }/${
+                                                            currencyB && currencyEquals(currencyB, WDC[chainId])
                                                                 ? "ETH"
                                                                 : currencyIdB
-                                                            }`}
+                                                        }`}
                                                     >
                                                         Receive ETH
                                                     </StyledInternalLink>

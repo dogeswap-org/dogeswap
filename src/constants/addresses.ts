@@ -6,12 +6,10 @@ export type ChainTokens = { [chainId in ChainId]: Token };
 export type ChainContracts = { [chainId in ChainId]: string };
 
 const createChainTokens = (addresses: ChainContracts, decimals: number, symbol: string, name: string) =>
-    Object.entries(addresses).reduce(
-        (r, [chainId, address]) => {
-            r[chainId] = new Token(parseInt(chainId) as ChainId, address, decimals, symbol, name);
-            return r;
-        }
-    , {}) as ChainTokens;
+    Object.entries(addresses).reduce((r, [chainId, address]) => {
+        r[chainId] = new Token(parseInt(chainId) as ChainId, address, decimals, symbol, name);
+        return r;
+    }, {}) as ChainTokens;
 
 export const WDC = createChainTokens(
     {

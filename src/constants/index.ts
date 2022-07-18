@@ -13,7 +13,7 @@ type ChainTokenList = {
     readonly [chainId in ChainId]: Token[];
 };
 
-const createListElement = (chain: ChainId, ...tokens: ChainTokens[]) => tokens.map(x => x[chain]);
+const createListElement = (chain: ChainId, ...tokens: ChainTokens[]) => tokens.map((x) => x[chain]);
 
 const WDC_ONLY: ChainTokenList = {
     [ChainId.MAINNET]: createListElement(ChainId.MAINNET, WDC),

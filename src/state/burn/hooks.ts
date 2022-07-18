@@ -11,7 +11,7 @@ import { useTokenBalances } from "../wallet/hooks";
 import { Field, typeInput } from "./actions";
 
 export function useBurnState(): AppState["burn"] {
-    return useSelector<AppState, AppState["burn"]>(state => state.burn);
+    return useSelector<AppState, AppState["burn"]>((state) => state.burn);
 }
 
 export function useDerivedBurnInfo(

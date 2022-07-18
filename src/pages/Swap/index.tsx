@@ -35,7 +35,7 @@ import {
     useDefaultsFromURLSearch,
     useDerivedSwapInfo,
     useSwapActionHandlers,
-    useSwapState
+    useSwapState,
 } from "../../state/swap/hooks";
 import { useExpertModeManager, useUserDeadline, useUserSlippageTolerance } from "../../state/user/hooks";
 import { LinkStyledButton, TYPE } from "../../theme";
@@ -77,32 +77,24 @@ export default function Swap() {
 
     // swap state
     const { independentField, typedValue, recipient } = useSwapState();
+    const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo();
     const {
-        v2Trade,
-        currencyBalances,
-        parsedAmount,
-        currencies,
-        inputError: swapInputError,
-    } = useDerivedSwapInfo();
-    const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapCallback(
-        currencies[Field.INPUT],
-        currencies[Field.OUTPUT],
-        typedValue,
-    );
+        wrapType,
+        execute: onWrap,
+        inputError: wrapInputError,
+    } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue);
     const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE;
-    const trade = showWrap
-        ? undefined
-        : v2Trade;
+    const trade = showWrap ? undefined : v2Trade;
 
     const parsedAmounts = showWrap
         ? {
-            [Field.INPUT]: parsedAmount,
-            [Field.OUTPUT]: parsedAmount,
-        }
+              [Field.INPUT]: parsedAmount,
+              [Field.OUTPUT]: parsedAmount,
+          }
         : {
-            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-        };
+              [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+              [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+          };
 
     const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers();
     const isValid = !swapInputError;
@@ -146,8 +138,8 @@ export default function Swap() {
     const route = trade?.route;
     const userHasSpecifiedInputOutput = Boolean(
         currencies[Field.INPUT] &&
-        currencies[Field.OUTPUT] &&
-        parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0)),
+            currencies[Field.OUTPUT] &&
+            parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0)),
     );
     const noRoute = !route;
 
@@ -192,7 +184,7 @@ export default function Swap() {
             txHash: undefined,
         });
         swapCallback()
-            .then(hash => {
+            .then((hash) => {
                 setSwapState({
                     attemptingTxn: false,
                     tradeToConfirm,
@@ -207,15 +199,12 @@ export default function Swap() {
                         recipient === null
                             ? "Swap w/o Send"
                             : recipient === account
-                                ? "Swap w/o Send + recipient"
-                                : "Swap w/ Send",
-                    label: [
-                        trade?.inputAmount?.currency?.symbol,
-                        trade?.outputAmount?.currency?.symbol,
-                    ].join("/"),
+                            ? "Swap w/o Send + recipient"
+                            : "Swap w/ Send",
+                    label: [trade?.inputAmount?.currency?.symbol, trade?.outputAmount?.currency?.symbol].join("/"),
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 setSwapState({
                     attemptingTxn: false,
                     tradeToConfirm,
@@ -254,7 +243,7 @@ export default function Swap() {
     }, [attemptingTxn, showConfirm, swapErrorMessage, trade, txHash]);
 
     const handleInputSelect = useCallback(
-        inputCurrency => {
+        (inputCurrency) => {
             setApprovalSubmitted(false); // reset 2 step UI for approvals
             onCurrencySelection(Field.INPUT, inputCurrency);
         },
@@ -265,9 +254,10 @@ export default function Swap() {
         maxAmountInput && onUserInput(Field.INPUT, maxAmountInput.toExact());
     }, [maxAmountInput, onUserInput]);
 
-    const handleOutputSelect = useCallback(outputCurrency => onCurrencySelection(Field.OUTPUT, outputCurrency), [
-        onCurrencySelection,
-    ]);
+    const handleOutputSelect = useCallback(
+        (outputCurrency) => onCurrencySelection(Field.OUTPUT, outputCurrency),
+        [onCurrencySelection],
+    );
 
     return (
         <>
@@ -406,8 +396,8 @@ export default function Swap() {
                                     (wrapType === WrapType.WRAP
                                         ? "Wrap"
                                         : wrapType === WrapType.UNWRAP
-                                            ? "Unwrap"
-                                            : null)}
+                                        ? "Unwrap"
+                                        : null)}
                             </ButtonPrimary>
                         ) : noRoute && userHasSpecifiedInputOutput ? (
                             <GreyCard style={{ textAlign: "center" }}>
@@ -485,8 +475,8 @@ export default function Swap() {
                                     {swapInputError
                                         ? swapInputError
                                         : priceImpactSeverity > 3 && !isExpertMode
-                                            ? `Price Impact Too High`
-                                            : `Swap${priceImpactSeverity > 2 ? " Anyway" : ""}`}
+                                        ? `Price Impact Too High`
+                                        : `Swap${priceImpactSeverity > 2 ? " Anyway" : ""}`}
                                 </Text>
                             </ButtonError>
                         )}

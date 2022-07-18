@@ -79,7 +79,7 @@ export default function AddressInputPanel({
     const theme = useContext(ThemeContext);
 
     const handleInput = useCallback(
-        event => {
+        (event) => {
             const input = event.target.value;
             const withoutSpaces = input.replace(/\s+/g, "");
             onChange(withoutSpaces);

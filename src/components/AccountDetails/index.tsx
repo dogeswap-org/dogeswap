@@ -24,7 +24,7 @@ const HeaderRow = styled.div`
     ${({ theme }) => theme.flexRowNoWrap};
     padding: 1rem 1rem;
     font-weight: 500;
-    color: ${props => (props.color === "blue" ? ({ theme }) => theme.primary1 : "inherit")};
+    color: ${(props) => (props.color === "blue" ? ({ theme }) => theme.primary1 : "inherit")};
     ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem;
   `};
@@ -129,7 +129,7 @@ const AccountControl = styled.div`
     }
 `;
 
-const AddressLink = styled(ExternalLink) <{ hasENS: boolean; isENS: boolean }>`
+const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolean }>`
     font-size: 0.825rem;
     color: ${({ theme }) => theme.text3};
     margin-left: 1rem;
@@ -232,11 +232,11 @@ export default function AccountDetails({
         const isMetaMask = !!(ethereum && ethereum.isMetaMask);
         const name = Object.keys(SUPPORTED_WALLETS)
             .filter(
-                k =>
+                (k) =>
                     SUPPORTED_WALLETS[k].connector === connector &&
                     (connector !== injected || isMetaMask === (k === "METAMASK")),
             )
-            .map(k => SUPPORTED_WALLETS[k].name)[0];
+            .map((k) => SUPPORTED_WALLETS[k].name)[0];
         return <WalletName>Connected with {name}</WalletName>;
     }
 

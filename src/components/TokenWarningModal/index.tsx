@@ -47,7 +47,7 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
     const duplicateNameOrSymbol = useMemo(() => {
         if (!token || !chainId) return false;
 
-        return Object.keys(allTokens).some(tokenAddress => {
+        return Object.keys(allTokens).some((tokenAddress) => {
             const userToken = allTokens[tokenAddress];
             if (userToken.equals(token)) {
                 return false;
@@ -97,7 +97,7 @@ export default function TokenWarningModal({
     onConfirm: () => void;
 }) {
     const [understandChecked, setUnderstandChecked] = useState(false);
-    const toggleUnderstand = useCallback(() => setUnderstandChecked(uc => !uc), []);
+    const toggleUnderstand = useCallback(() => setUnderstandChecked((uc) => !uc), []);
 
     const handleDismiss = useCallback(() => null, []);
     return (
@@ -120,7 +120,7 @@ export default function TokenWarningModal({
                     <TYPE.body color={"red2"}>
                         If you purchase an arbitrary token, <strong>you may be unable to sell it back.</strong>
                     </TYPE.body>
-                    {tokens.map(token => {
+                    {tokens.map((token) => {
                         return <TokenWarningCard key={token.address} token={token} />;
                     })}
                     <RowBetween>

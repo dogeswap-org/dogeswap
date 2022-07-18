@@ -63,9 +63,9 @@ export const initialState: UserState = {
     timestamp: currentTimestamp(),
 };
 
-export default createReducer(initialState, builder =>
+export default createReducer(initialState, (builder) =>
     builder
-        .addCase(updateVersion, state => {
+        .addCase(updateVersion, (state) => {
             // slippage isnt being tracked in local storage, reset to default
             // noinspection SuspiciousTypeOfGuard
             if (typeof state.userSlippageTolerance !== "number") {
@@ -117,9 +117,8 @@ export default createReducer(initialState, builder =>
             ) {
                 const chainId = serializedPair.token0.chainId;
                 state.pairs[chainId] = state.pairs[chainId] || {};
-                state.pairs[chainId][
-                    pairKey(serializedPair.token0.address, serializedPair.token1.address)
-                ] = serializedPair;
+                state.pairs[chainId][pairKey(serializedPair.token0.address, serializedPair.token1.address)] =
+                    serializedPair;
             }
             state.timestamp = currentTimestamp();
         })
