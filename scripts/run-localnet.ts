@@ -100,7 +100,6 @@ const writeConfigFile = async (contractAddresses: Record<string, string>) => {
         ...existingConfig,
         localnet: {
             factoryAddress: contractAddresses["UniswapV2Factory"],
-            router01Address: contractAddresses["UniswapV2Router01"],
             router02Address: contractAddresses["UniswapV2Router02"],
             multicallAddress: contractAddresses["Multicall"],
             ...erc20EnvVariables,
@@ -149,7 +148,6 @@ const deployExternalContracts = async () => {
             case "UniswapV2Factory":
                 await deployContract(owner.address);
                 break;
-            case "UniswapV2Router01":
             case "UniswapV2Router02":
                 await deployContract(addresses["UniswapV2Factory"], addresses["WDC"]);
                 break;
@@ -161,6 +159,7 @@ const deployExternalContracts = async () => {
                 await deployContract();
                 didDeploySafeMath = true;
                 break;
+            case "UniswapV2Router01":
             case "UniswapV2Migrator":
             case "IUniswapV2Migrator":
                 continue;

@@ -1,8 +1,8 @@
 import { createReducer } from "@reduxjs/toolkit";
-import UNISWAP_DEFAULT_LIST from "@uniswap/default-token-list";
 import { getVersionUpgrade, VersionUpgrade } from "@uniswap/token-lists";
 import { TokenList } from "@uniswap/token-lists/dist/types";
 import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL } from "../../constants/lists";
+import { localnetConfig } from "../../utils/localnet-config";
 import { updateVersion } from "../global/actions";
 import { acceptListUpdate, addList, fetchTokenList, removeList, selectList } from "./actions";
 
@@ -38,7 +38,8 @@ const initialState: ListsState = {
         }, {}),
         [DEFAULT_TOKEN_LIST_URL]: {
             error: null,
-            current: UNISWAP_DEFAULT_LIST,
+            // TODO DOGESWAP: load this from a file.
+            current: localnetConfig.localTokenList,
             loadingRequestId: null,
             pendingUpdate: null,
         },

@@ -13,7 +13,7 @@ import { useCurrency } from "../../hooks/Tokens";
 import { useTradeExactIn, useTradeExactOut } from "../../hooks/Trades";
 import useParsedQueryString from "../../hooks/useParsedQueryString";
 import { isAddress } from "../../utils";
-import { factoryAddress, router01Address, router02Address } from "../../utils/config";
+import { localnetConfig } from "../../utils/localnet-config";
 import { computeSlippageAdjustedAmounts } from "../../utils/prices";
 import { AppDispatch, AppState } from "../index";
 import { useUserSlippageTolerance } from "../user/hooks";
@@ -90,7 +90,7 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
     return undefined;
 }
 
-const BAD_RECIPIENT_ADDRESSES: string[] = [factoryAddress, router01Address, router02Address];
+const BAD_RECIPIENT_ADDRESSES: string[] = [localnetConfig.factoryAddress, localnetConfig.routerAddress];
 
 /**
  * Returns true if any of the pairs or tokens in a trade have the given checksummed address

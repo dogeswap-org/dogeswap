@@ -1,3 +1,4 @@
+import { TokenList } from "@uniswap/token-lists";
 import { ChainId } from "../../../sdk-core/src/constants";
 import { localnet } from "../utils/config";
 
@@ -10,10 +11,10 @@ const localTokens = {
 }
 
 interface LocalnetConfigBase {
-  v2FactoryAddress: string;
-  v2RouterAddress: string;
+  factoryAddress: string;
+  routerAddress: string;
   multicallAddress: string;
-  localTokenList?: string;
+  localTokenList: TokenList;
 }
 
 type TokenAddressConfig = { [key in keyof (typeof localTokens) as `${Lowercase<key>}StakingRewardAddress`]: string }
@@ -50,14 +51,14 @@ const createLocalnetTokenList = () => ({
     logoURI: "ipfs://QmNa8mQkrNKp1WEEeGjFezDmDeodkWRevGFN8JCV7b4Xir",
     keywords: [],
     tokens: Object.keys(localTokens).map(x => createLocalnetTokenListItem(x))
-})
+}) as TokenList;
 
 export const localnetConfig = {
-  v2FactoryAddress: localnet.factoryAddress,
-  v2RouterAddress: localnet.router01Address,
+  factoryAddress: localnet.factoryAddress,
+  routerAddress: localnet.router02Address,
   multicallAddress: localnet.multicallAddress,
 
   ...addressConfig,
 
-  localTokenList: JSON.stringify(createLocalnetTokenList()),
+  localTokenList: createLocalnetTokenList(),
 } as LocalnetConfig;

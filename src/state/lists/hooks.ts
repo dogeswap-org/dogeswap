@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { ChainId } from "../../../../sdk-core/src/constants";
 import { Token } from "../../../../sdk-core/src/entities/token";
+import { localListUrl } from "../../constants/lists";
 import { AppState } from "../index";
 
 type TagDetails = Tags[keyof Tags];
@@ -87,7 +88,8 @@ export function useTokenList(url: string | undefined): TokenAddressMap {
 }
 
 export function useSelectedListUrl(): string | undefined {
-    return useSelector<AppState, AppState["lists"]["selectedListUrl"]>(state => state.lists.selectedListUrl);
+    return localListUrl;
+    // return useSelector<AppState, AppState["lists"]["selectedListUrl"]>(state => state.lists.selectedListUrl);
 }
 
 export function useSelectedTokenList(): TokenAddressMap {

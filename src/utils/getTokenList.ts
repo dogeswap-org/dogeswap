@@ -1,21 +1,15 @@
 import { TokenList } from "@uniswap/token-lists";
 import schema from "@uniswap/token-lists/src/tokenlist.schema.json";
 import Ajv from "ajv";
+import { localListUrl } from "../constants/lists";
 import contenthashToUri from "./contenthashToUri";
+import { localnetConfig } from "./localnet-config";
 import { parseENSAddress } from "./parseENSAddress";
 import uriToHttp from "./uriToHttp";
 
 const tokenListValidator = new Ajv({ allErrors: true }).compile(schema);
 
-/**
- * Contains the logic for resolving a list URL to a validated token list
- * @param listUrl list url
- * @param resolveENSContentHash resolves an ens name to a contenthash
- */
-export default async function getTokenList(
-    listUrl: string,
-    resolveENSContentHash: (ensName: string) => Promise<string>,
-): Promise<TokenList> {
+const getRemoteTokenList = async (listUrl: string, resolveENSContentHash: (ensName: string) => Promise<string>) => {
     const parsedENS = parseENSAddress(listUrl);
     let urls: string[];
     if (parsedENS) {
@@ -66,4 +60,19 @@ export default async function getTokenList(
         return json;
     }
     throw new Error("Unrecognized list URL protocol.");
+};
+
+/**
+ * Contains the logic for resolving a list URL to a validated token list
+ * @param listUrl list url
+ * @param resolveENSContentHash resolves an ens name to a contenthash
+ */
+export default async function getTokenList(
+    listUrl: string,
+    resolveENSContentHash: (ensName: string) => Promise<string>,
+): Promise<TokenList> {
+    // TODO DOGESWAP: extract local token list to file and add testnet/mainnet tokens
+    return listUrl === localListUrl
+        ? localnetConfig.localTokenList
+        : getRemoteTokenList(listUrl, resolveENSContentHash);
 }
