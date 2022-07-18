@@ -28,7 +28,7 @@ const CloseIcon = styled.div`
     }
 `;
 
-const CloseColor = styled(Close)`
+const CloseColor = styled(() => <img src={Close} />)`
     path {
         stroke: ${({ theme }) => theme.text4};
     }

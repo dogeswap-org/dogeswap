@@ -189,7 +189,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
                     onClick={toggle}
                     ref={setReferenceElement}
                 >
-                    <DropDown />
+                    <img src={DropDown} />
                 </ButtonOutlined>
 
                 {open && (
@@ -327,8 +327,8 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
                     return l1.name.toLowerCase() < l2.name.toLowerCase()
                         ? -1
                         : l1.name.toLowerCase() === l2.name.toLowerCase()
-                        ? 0
-                        : 1;
+                            ? 0
+                            : 1;
                 }
                 if (l1) return -1;
                 if (l2) return 1;
