@@ -27,13 +27,13 @@ describe('Router', () => {
     new CurrencyAmount(token1, JSBI.BigInt(1000))
   )
 
-  const pair_weth_0 = new Pair(new CurrencyAmount(testWDC, '1000'), new CurrencyAmount(token0, '1000'))
+  const pair_wdc_0 = new Pair(new CurrencyAmount(testWDC, '1000'), new CurrencyAmount(token0, '1000'))
 
   describe('#swapCallParameters', () => {
     describe('exact in', () => {
       it('ether to token1', () => {
         const result = Router.swapCallParameters(
-          Trade.exactIn(new Route([pair_weth_0, pair_0_1], testWDC, DOGECHAIN, token1), CurrencyAmount.ether(JSBI.BigInt(100)), testWDC),
+          Trade.exactIn(new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1), CurrencyAmount.ether(JSBI.BigInt(100)), testWDC),
           { ttl: 50, recipient: '0x0000000000000000000000000000000000000004', allowedSlippage: new Percent('1', '100') }
         )
         expect(result.methodName).toEqual('swapExactETHForTokens')
@@ -48,7 +48,7 @@ describe('Router', () => {
 
       it('deadline specified', () => {
         const result = Router.swapCallParameters(
-          Trade.exactIn(new Route([pair_weth_0, pair_0_1], testWDC, DOGECHAIN, token1), CurrencyAmount.ether(JSBI.BigInt(100)), testWDC),
+          Trade.exactIn(new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1), CurrencyAmount.ether(JSBI.BigInt(100)), testWDC),
           {
             deadline: 50,
             recipient: '0x0000000000000000000000000000000000000004',
@@ -68,7 +68,7 @@ describe('Router', () => {
       it('token1 to ether', () => {
         const result = Router.swapCallParameters(
           Trade.exactIn(
-            new Route([pair_0_1, pair_weth_0], testWDC, token1, DOGECHAIN),
+            new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
             new CurrencyAmount(token1, JSBI.BigInt(100)),
             testWDC
           ),
@@ -104,7 +104,7 @@ describe('Router', () => {
       it('ether to token1', () => {
         const result = Router.swapCallParameters(
           Trade.exactOut(
-            new Route([pair_weth_0, pair_0_1], testWDC, DOGECHAIN, token1),
+            new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
             new CurrencyAmount(token1, JSBI.BigInt(100)),
             testWDC,
           ),
@@ -121,7 +121,7 @@ describe('Router', () => {
       })
       it('token1 to ether', () => {
         const result = Router.swapCallParameters(
-          Trade.exactOut(new Route([pair_0_1, pair_weth_0], testWDC, token1, DOGECHAIN), CurrencyAmount.ether(JSBI.BigInt(100)), testWDC),
+          Trade.exactOut(new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN), CurrencyAmount.ether(JSBI.BigInt(100)), testWDC),
           { ttl: 50, recipient: '0x0000000000000000000000000000000000000004', allowedSlippage: new Percent('1', '100') }
         )
         expect(result.methodName).toEqual('swapTokensForExactETH')
@@ -154,7 +154,7 @@ describe('Router', () => {
       describe('exact in', () => {
         it('ether to token1', () => {
           const result = Router.swapCallParameters(
-            Trade.exactIn(new Route([pair_weth_0, pair_0_1], testWDC, DOGECHAIN, token1), CurrencyAmount.ether(JSBI.BigInt(100)), testWDC),
+            Trade.exactIn(new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1), CurrencyAmount.ether(JSBI.BigInt(100)), testWDC),
             {
               ttl: 50,
               recipient: '0x0000000000000000000000000000000000000004',
@@ -174,7 +174,7 @@ describe('Router', () => {
         it('token1 to ether', () => {
           const result = Router.swapCallParameters(
             Trade.exactIn(
-              new Route([pair_0_1, pair_weth_0], testWDC, token1, DOGECHAIN),
+              new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
               new CurrencyAmount(token1, JSBI.BigInt(100)),
               testWDC
             ),
@@ -221,7 +221,7 @@ describe('Router', () => {
           expect(() =>
             Router.swapCallParameters(
               Trade.exactOut(
-                new Route([pair_weth_0, pair_0_1], testWDC, DOGECHAIN, token1),
+                new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
                 new CurrencyAmount(token1, JSBI.BigInt(100)),
                 testWDC
               ),
@@ -237,7 +237,7 @@ describe('Router', () => {
         it('token1 to ether', () => {
           expect(() =>
             Router.swapCallParameters(
-              Trade.exactOut(new Route([pair_0_1, pair_weth_0], testWDC, token1, DOGECHAIN), CurrencyAmount.ether(JSBI.BigInt(100)), testWDC),
+              Trade.exactOut(new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN), CurrencyAmount.ether(JSBI.BigInt(100)), testWDC),
               {
                 ttl: 50,
                 recipient: '0x0000000000000000000000000000000000000004',

@@ -89,15 +89,15 @@ export interface BestTradeOptions {
  * In other words, if the currency is DOGECHAIN, returns the WDC token amount for the given chain. Otherwise, returns
  * the input currency amount.
  */
-function wrappedAmount(currencyAmount: CurrencyAmount, weth: WDC): CurrencyAmount {
+function wrappedAmount(currencyAmount: CurrencyAmount, wdc: WDC): CurrencyAmount {
   if (currencyAmount.currency.isToken) return currencyAmount
-  if (currencyAmount.currency.isEther) return new CurrencyAmount(weth, currencyAmount.raw)
+  if (currencyAmount.currency.isEther) return new CurrencyAmount(wdc, currencyAmount.raw)
   throw new Error('CURRENCY')
 }
 
-function wrappedCurrency(currency: Currency, weth: WDC): Token {
+function wrappedCurrency(currency: Currency, wdc: WDC): Token {
   if (currency.isToken) return currency
-  if (currency === DOGECHAIN) return weth
+  if (currency === DOGECHAIN) return wdc
   throw new Error('CURRENCY')
 }
 
@@ -140,8 +140,8 @@ export class Trade {
    * @param route route of the exact in trade
    * @param amountIn the amount being passed in
    */
-  public static exactIn(route: Route, amountIn: CurrencyAmount, weth: WDC): Trade {
-    return new Trade(route, amountIn, TradeType.EXACT_INPUT, weth)
+  public static exactIn(route: Route, amountIn: CurrencyAmount, wdc: WDC): Trade {
+    return new Trade(route, amountIn, TradeType.EXACT_INPUT, wdc)
   }
 
   /**
@@ -149,16 +149,16 @@ export class Trade {
    * @param route route of the exact out trade
    * @param amountOut the amount returned by the trade
    */
-  public static exactOut(route: Route, amountOut: CurrencyAmount, weth: WDC): Trade {
-    return new Trade(route, amountOut, TradeType.EXACT_OUTPUT, weth)
+  public static exactOut(route: Route, amountOut: CurrencyAmount, wdc: WDC): Trade {
+    return new Trade(route, amountOut, TradeType.EXACT_OUTPUT, wdc)
   }
 
-  public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType, weth: WDC) {
+  public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType, wdc: WDC) {
     const amounts: CurrencyAmount[] = new Array(route.path.length)
     const nextPairs: Pair[] = new Array(route.pairs.length)
     if (tradeType === TradeType.EXACT_INPUT) {
       invariant(currencyEquals(amount.currency, route.input), 'INPUT')
-      amounts[0] = wrappedAmount(amount, weth)
+      amounts[0] = wrappedAmount(amount, wdc)
       for (let i = 0; i < route.path.length - 1; i++) {
         const pair = route.pairs[i]
         const [outputAmount, nextPair] = pair.getOutputAmount(amounts[i])
@@ -167,7 +167,7 @@ export class Trade {
       }
     } else {
       invariant(currencyEquals(amount.currency, route.output), 'OUTPUT')
-      amounts[amounts.length - 1] = wrappedAmount(amount, weth)
+      amounts[amounts.length - 1] = wrappedAmount(amount, wdc)
       for (let i = route.path.length - 1; i > 0; i--) {
         const pair = route.pairs[i - 1]
         const [inputAmount, nextPair] = pair.getInputAmount(amounts[i])
@@ -196,7 +196,7 @@ export class Trade {
       this.inputAmount.raw,
       this.outputAmount.raw
     )
-    this.nextMidPrice = new Route(nextPairs, weth, route.input).midPrice
+    this.nextMidPrice = new Route(nextPairs, wdc, route.input).midPrice
     this.priceImpact = computePriceImpact(route.midPrice, this.inputAmount, this.outputAmount)
   }
 
@@ -249,7 +249,7 @@ export class Trade {
     pairs: Pair[],
     currencyAmountIn: CurrencyAmount,
     currencyOut: Currency,
-    weth: WDC,
+    wdc: WDC,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
     // used in recursion.
     currentPairs: Pair[] = [],
@@ -266,8 +266,8 @@ export class Trade {
       : undefined
     invariant(chainId !== undefined, 'CHAIN_ID')
 
-    const amountIn = wrappedAmount(currencyAmountIn, weth)
-    const tokenOut = wrappedCurrency(currencyOut, weth)
+    const amountIn = wrappedAmount(currencyAmountIn, wdc)
+    const tokenOut = wrappedCurrency(currencyOut, wdc)
     for (let i = 0; i < pairs.length; i++) {
       const pair = pairs[i]
       // pair irrelevant
@@ -289,10 +289,10 @@ export class Trade {
         sortedInsert(
           bestTrades,
           new Trade(
-            new Route([...currentPairs, pair], weth, originalAmountIn.currency, currencyOut),
+            new Route([...currentPairs, pair], wdc, originalAmountIn.currency, currencyOut),
             originalAmountIn,
             TradeType.EXACT_INPUT,
-            weth
+            wdc
           ),
           maxNumResults,
           tradeComparator
@@ -305,7 +305,7 @@ export class Trade {
           pairsExcludingThisPair,
           amountOut,
           currencyOut,
-          weth,
+          wdc,
           {
             maxNumResults,
             maxHops: maxHops - 1
@@ -352,7 +352,7 @@ export class Trade {
     pairs: Pair[],
     currencyIn: Currency,
     currencyAmountOut: CurrencyAmount,
-    weth: WDC,
+    wdc: WDC,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
     // used in recursion.
     currentPairs: Pair[] = [],
@@ -369,8 +369,8 @@ export class Trade {
       : undefined
     invariant(chainId !== undefined, 'CHAIN_ID')
 
-    const amountOut = wrappedAmount(currencyAmountOut, weth)
-    const tokenIn = wrappedCurrency(currencyIn, weth)
+    const amountOut = wrappedAmount(currencyAmountOut, wdc)
+    const tokenIn = wrappedCurrency(currencyIn, wdc)
     for (let i = 0; i < pairs.length; i++) {
       const pair = pairs[i]
       // pair irrelevant
@@ -392,10 +392,10 @@ export class Trade {
         sortedInsert(
           bestTrades,
           new Trade(
-            new Route([pair, ...currentPairs], weth, currencyIn, originalAmountOut.currency),
+            new Route([pair, ...currentPairs], wdc, currencyIn, originalAmountOut.currency),
             originalAmountOut,
             TradeType.EXACT_OUTPUT,
-            weth
+            wdc
           ),
           maxNumResults,
           tradeComparator
@@ -408,7 +408,7 @@ export class Trade {
           pairsExcludingThisPair,
           currencyIn,
           amountIn,
-          weth,
+          wdc,
           {
             maxNumResults,
             maxHops: maxHops - 1

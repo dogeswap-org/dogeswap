@@ -34,7 +34,7 @@ describe('Trade', () => {
     new CurrencyAmount(token3, JSBI.BigInt(1300))
   )
 
-  const pair_weth_0 = new Pair(
+  const pair_wdc_0 = new Pair(
     new CurrencyAmount(testWDC, JSBI.BigInt(1000)),
     new CurrencyAmount(token0, JSBI.BigInt(1000))
   )
@@ -46,7 +46,7 @@ describe('Trade', () => {
 
   it('can be constructed with DOGECHAIN as input', () => {
     const trade = new Trade(
-      new Route([pair_weth_0], testWDC, DOGECHAIN),
+      new Route([pair_wdc_0], testWDC, DOGECHAIN),
       CurrencyAmount.ether(JSBI.BigInt(100)),
       TradeType.EXACT_INPUT,
       testWDC
@@ -56,7 +56,7 @@ describe('Trade', () => {
   })
   it('can be constructed with DOGECHAIN as input for exact output', () => {
     const trade = new Trade(
-      new Route([pair_weth_0], testWDC, DOGECHAIN, token0),
+      new Route([pair_wdc_0], testWDC, DOGECHAIN, token0),
       new CurrencyAmount(token0, JSBI.BigInt(100)),
       TradeType.EXACT_OUTPUT,
       testWDC
@@ -67,7 +67,7 @@ describe('Trade', () => {
 
   it('can be constructed with DOGECHAIN as output', () => {
     const trade = new Trade(
-      new Route([pair_weth_0], testWDC, token0, DOGECHAIN),
+      new Route([pair_wdc_0], testWDC, token0, DOGECHAIN),
       CurrencyAmount.ether(JSBI.BigInt(100)),
       TradeType.EXACT_OUTPUT,
       testWDC
@@ -77,7 +77,7 @@ describe('Trade', () => {
   })
   it('can be constructed with DOGECHAIN as output for exact input', () => {
     const trade = new Trade(
-      new Route([pair_weth_0], testWDC, token0, DOGECHAIN),
+      new Route([pair_wdc_0], testWDC, token0, DOGECHAIN),
       new CurrencyAmount(token0, JSBI.BigInt(100)),
       TradeType.EXACT_INPUT,
       testWDC,
@@ -170,7 +170,7 @@ describe('Trade', () => {
 
     it('works for DOGECHAIN currency input', () => {
       const result = Trade.bestTradeExactIn(
-        [pair_weth_0, pair_0_1, pair_0_3, pair_1_3],
+        [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
         CurrencyAmount.ether(JSBI.BigInt(100)),
         token3,
         testWDC
@@ -185,7 +185,7 @@ describe('Trade', () => {
     })
     it('works for DOGECHAIN currency output', () => {
       const result = Trade.bestTradeExactIn(
-        [pair_weth_0, pair_0_1, pair_0_3, pair_1_3],
+        [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
         new CurrencyAmount(token3, JSBI.BigInt(100)),
         DOGECHAIN,
         testWDC,
@@ -449,7 +449,7 @@ describe('Trade', () => {
 
     it('works for DOGECHAIN currency input', () => {
       const result = Trade.bestTradeExactOut(
-        [pair_weth_0, pair_0_1, pair_0_3, pair_1_3],
+        [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
         DOGECHAIN,
         new CurrencyAmount(token3, JSBI.BigInt(100)),
         testWDC
@@ -464,7 +464,7 @@ describe('Trade', () => {
     })
     it('works for DOGECHAIN currency output', () => {
       const result = Trade.bestTradeExactOut(
-        [pair_weth_0, pair_0_1, pair_0_3, pair_1_3],
+        [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
         token3,
         CurrencyAmount.ether(JSBI.BigInt(100)),
         testWDC
