@@ -1,5 +1,10 @@
 import flatMap from "lodash.flatmap";
 import { useMemo } from "react";
+import { Currency } from "../../../sdk-core/src/entities/currency";
+import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
+import { Token } from "../../../sdk-core/src/entities/token";
+import { Pair } from "../../../v2-sdk/src/entities/pair";
+import { Trade } from "../../../v2-sdk/src/entities/trade";
 
 import { BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES } from "../constants";
 import { PairState, usePairs } from "../data/Reserves";

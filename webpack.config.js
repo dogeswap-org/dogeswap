@@ -6,10 +6,12 @@ require("dotenv/config");
 const devtool = "inline-source-map";
 
 const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT ?? "10000");
-const envVars = ["NODE_ENV", "DEBUG", "REACT_APP_NETWORK_URL"];
+const envVars = [
+
+];
 
 module.exports = {
-    mode: process.env.NODE_ENV,
+    mode: process.env.NODE_ENV ?? "development",
     devtool,
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".scss"],

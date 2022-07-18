@@ -2,13 +2,13 @@ import { Contract } from "@ethersproject/contracts";
 import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.json";
 import { useMemo } from "react";
 import { ChainId } from "../../../sdk-core/src/constants";
-import { WETH } from "../../../sdk-core/src/entities/token";
+import { WDC } from "../../../sdk-core/src/entities/token";
 import ENS_PUBLIC_RESOLVER_ABI from "../constants/abis/ens-public-resolver.json";
 import ENS_ABI from "../constants/abis/ens-registrar.json";
 import { ERC20_BYTES32_ABI } from "../constants/abis/erc20";
 import ERC20_ABI from "../constants/abis/erc20.json";
 import UNISOCKS_ABI from "../constants/abis/unisocks.json";
-import WETH_ABI from "../constants/abis/weth.json";
+import WDC_ABI from "../constants/abis/weth.json";
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from "../constants/multicall";
 import { getContract } from "../utils";
 import { useActiveWeb3React } from "./index";
@@ -32,9 +32,9 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
     return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible);
 }
 
-export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
+export function useWDCContract(withSignerIfPossible?: boolean): Contract | null {
     const { chainId } = useActiveWeb3React();
-    return useContract(chainId ? WETH[chainId]?.address : undefined, WETH_ABI, withSignerIfPossible);
+    return useContract(chainId ? WDC[chainId]?.address : undefined, WDC_ABI, withSignerIfPossible);
 }
 
 export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contract | null {

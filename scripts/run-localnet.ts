@@ -1,11 +1,14 @@
 import childPromise from "child_process";
 import { Contract } from "ethers/lib/ethers";
+import fsSync from "fs";
 import fs from "fs/promises";
 import glob from "glob";
 import { ethers } from "hardhat";
 import { Artifact } from "hardhat/types";
 import os from "os";
 import path from "path";
+
+const erc20Tokens = ["WDC", "DST", "USDT", "USDC", "DAI"];
 
 const exec = (command: string, cwd: string) => {
     return new Promise<void>((res, rej) => {
@@ -75,23 +78,27 @@ const getProjectContractArtifacts = async (project: string) => {
 
 const writeLocalEnvFile = async (contractAddresses: Record<string, string>) => {
     const envPath = path.resolve(__dirname, "..", ".env");
-    const env = await fs.readFile(envPath, { encoding: "utf8" });
+    let env: string;
+    if (fsSync.existsSync(envPath)) {
+        env = await fs.readFile(envPath, { encoding: "utf8" });
+    } else {
+        env = "";
+    }
 
-    const envVariables = {
-        // TODO: Staking rewards!
+    const contractEnvVariables = {
+        // TODO: Staking rewards?
         // USDT_STAKING_REWARD_ADDRESS=${contractAddresses["UniswapV2Factory"]}
         // DAI_STAKING_REWARD_ADDRESS=${contractAddresses["UniswapV2Factory"]}
         // USDC_STAKING_REWARD_ADDRESS=${contractAddresses["UniswapV2Factory"]}
-        // WBTC_STAKING_REWARD_ADDRESS=${contractAddresses["UniswapV2Factory"]}
-        V2_FACTORY_ADDRESS: contractAddresses["UniswapV2Factory"],
-        V2_ROUTER_ADDRESS: contractAddresses["UniswapV2Router01"],
-
-        DST_ADDRESS: contractAddresses["DST"],
-        USDT_ADDRESS: contractAddresses["USDT"],
-        USDC_ADDRESS: contractAddresses["USDC"],
-        DAI_ADDRESS: contractAddresses["DAI"],
-        WBTC_ADDRESS: contractAddresses["WBTC"],
+        FACTORY_ADDRESS: contractAddresses["UniswapV2Factory"],
+        ROUTER_01_ADDRESS: contractAddresses["UniswapV2Router01"],
+        ROUTER_02_ADDRESS: contractAddresses["UniswapV2Router02"],
     };
+
+    const erc20EnvVariables = erc20Tokens.reduce((r, x) => {
+        r[`${x}_ADDRESS`] = contractAddresses[x];
+        return r;
+    }, {});
 
     const existingEnvVariables = env
         .split(os.EOL)
@@ -106,7 +113,7 @@ const writeLocalEnvFile = async (contractAddresses: Record<string, string>) => {
             return r;
         }, {});
 
-    const data = Object.entries({ ...existingEnvVariables, ...envVariables }).reduce(
+    const data = Object.entries({ ...existingEnvVariables, ...contractEnvVariables, ...erc20EnvVariables }).reduce(
         (r, [key, value]) => `${r}${key}=${value}\n`,
         "",
     );
@@ -119,12 +126,10 @@ const deployExternalContracts = async () => {
     const [owner] = signers;
 
     const erc20Artifact = await getContractArtifact("contracts-periphery", "**/ERC20.json");
-    const wethArtifact = await getContractArtifact("contracts-periphery", "**/WETH9.json");
+    const wethArtifact = await getContractArtifact("contracts-periphery", "**/WDC9.json");
     const coreArtifacts = await getProjectContractArtifacts("contracts-core");
     const peripheryArtifacts = await getProjectContractArtifacts("contracts-periphery");
     const artifacts = [erc20Artifact, wethArtifact, ...coreArtifacts, ...peripheryArtifacts];
-
-    const erc20Tokens = ["DST", "USDT", "USDC", "DAI", "WBTC"];
 
     const addresses: Record<string, string> = {};
     let didDeploySafeMath = false;
@@ -158,7 +163,7 @@ const deployExternalContracts = async () => {
                 break;
             case "UniswapV2Router01":
             case "UniswapV2Router02":
-                await deployContract(addresses["UniswapV2Factory"], addresses["WETH9"]);
+                await deployContract(addresses["UniswapV2Factory"], addresses["WDC9"]);
                 break;
             case "SafeMath":
                 if (didDeploySafeMath) {
@@ -169,7 +174,6 @@ const deployExternalContracts = async () => {
                 didDeploySafeMath = true;
                 break;
             case "UniswapV2Migrator":
-                continue;
             case "IUniswapV2Migrator":
                 continue;
             default:

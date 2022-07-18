@@ -7,24 +7,35 @@ import ReactGA from "react-ga";
 import { RouteComponentProps } from "react-router";
 import { Text } from "rebass";
 import { ThemeContext } from "styled-components";
-import { ButtonPrimary, ButtonLight, ButtonError, ButtonConfirmed } from "../../components/Button";
+import { ButtonConfirmed, ButtonError, ButtonLight, ButtonPrimary } from "../../components/Button";
 import { LightCard } from "../../components/Card";
 import { AutoColumn, ColumnCenter } from "../../components/Column";
-import TransactionConfirmationModal, { ConfirmationModalContent } from "../../components/TransactionConfirmationModal";
 import CurrencyInputPanel from "../../components/CurrencyInputPanel";
 import DoubleCurrencyLogo from "../../components/DoubleLogo";
 import { AddRemoveTabs } from "../../components/NavigationTabs";
 import { MinimalPositionCard } from "../../components/PositionCard";
 import Row, { RowBetween, RowFixed } from "../../components/Row";
+import TransactionConfirmationModal, { ConfirmationModalContent } from "../../components/TransactionConfirmationModal";
 
-import Slider from "../../components/Slider";
 import CurrencyLogo from "../../components/CurrencyLogo";
+import Slider from "../../components/Slider";
 import { ROUTER_ADDRESS } from "../../constants";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { usePairContract } from "../../hooks/useContract";
 
+import { BigNumber } from "@ethersproject/bignumber";
+import { Currency } from "../../../../sdk-core/src/entities/currency";
+import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
+import Percent from "../../../../sdk-core/src/entities/fractions/percent";
+import { currencyEquals } from "../../../../sdk-core/src/utils/currencyEquals";
+import { Dots } from "../../components/swap/styleds";
+import { ApprovalState, useApproveCallback } from "../../hooks/useApproveCallback";
+import { useWalletModalToggle } from "../../state/application/hooks";
+import { Field } from "../../state/burn/actions";
+import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from "../../state/burn/hooks";
 import { useTransactionAdder } from "../../state/transactions/hooks";
+import { useUserDeadline, useUserSlippageTolerance } from "../../state/user/hooks";
 import { StyledInternalLink, TYPE } from "../../theme";
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from "../../utils";
 import { currencyId } from "../../utils/currencyId";
@@ -32,19 +43,6 @@ import useDebouncedChangeHandler from "../../utils/useDebouncedChangeHandler";
 import { wrappedCurrency } from "../../utils/wrappedCurrency";
 import AppBody from "../AppBody";
 import { ClickableText, MaxButton, Wrapper } from "../Pool/styleds";
-import { useApproveCallback, ApprovalState } from "../../hooks/useApproveCallback";
-import { Dots } from "../../components/swap/styleds";
-import { useBurnActionHandlers } from "../../state/burn/hooks";
-import { useDerivedBurnInfo, useBurnState } from "../../state/burn/hooks";
-import { Field } from "../../state/burn/actions";
-import { useWalletModalToggle } from "../../state/application/hooks";
-import { useUserDeadline, useUserSlippageTolerance } from "../../state/user/hooks";
-import { BigNumber } from "@ethersproject/bignumber";
-import Percent from "../../../../sdk-core/src/entities/fractions/percent";
-import { ETHER } from "../../../../sdk-core/src/entities/ether";
-import { currencyEquals } from "../../../../sdk-core/src/utils/currencyEquals";
-import { WETH } from "../../../../sdk-core/src/entities/token";
-import { Currency } from "../../../../sdk-core/src/entities/currency";
 
 export default function RemoveLiquidity({
     history,
@@ -85,8 +83,8 @@ export default function RemoveLiquidity({
         [Field.LIQUIDITY_PERCENT]: parsedAmounts[Field.LIQUIDITY_PERCENT].equalTo("0")
             ? "0"
             : parsedAmounts[Field.LIQUIDITY_PERCENT].lessThan(new Percent("1", "100"))
-            ? "<1"
-            : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
+                ? "<1"
+                : parsedAmounts[Field.LIQUIDITY_PERCENT].toFixed(0),
         [Field.LIQUIDITY]:
             independentField === Field.LIQUIDITY ? typedValue : parsedAmounts[Field.LIQUIDITY]?.toSignificant(6) ?? "",
         [Field.CURRENCY_A]:
@@ -211,8 +209,8 @@ export default function RemoveLiquidity({
         const liquidityAmount = parsedAmounts[Field.LIQUIDITY];
         if (!liquidityAmount) throw new Error("missing liquidity amount");
 
-        const currencyBIsETH = currencyB === ETHER;
-        const oneCurrencyIsETH = currencyA === ETHER || currencyBIsETH;
+        const currencyBIsETH = currencyB === DOGECHAIN;
+        const oneCurrencyIsETH = currencyA === DOGECHAIN || currencyBIsETH;
         const deadlineFromNow = Math.ceil(Date.now() / 1000) + deadline;
 
         if (!tokenA || !tokenB) throw new Error("could not wrap");
@@ -428,9 +426,8 @@ export default function RemoveLiquidity({
         );
     }
 
-    const pendingText = `Removing ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
-        currencyA?.symbol
-    } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`;
+    const pendingText = `Removing ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencyA?.symbol
+        } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencyB?.symbol}`;
 
     const liquidityPercentChangeCallback = useCallback(
         (value: number) => {
@@ -439,11 +436,11 @@ export default function RemoveLiquidity({
         [onUserInput],
     );
 
-    const oneCurrencyIsETH = currencyA === ETHER || currencyB === ETHER;
-    const oneCurrencyIsWETH = Boolean(
+    const oneCurrencyIsETH = currencyA === DOGECHAIN || currencyB === DOGECHAIN;
+    const oneCurrencyIsWDC = Boolean(
         chainId &&
-            ((currencyA && currencyEquals(WETH[chainId], currencyA)) ||
-                (currencyB && currencyEquals(WETH[chainId], currencyB))),
+        ((currencyA && currencyEquals(WDC[chainId], currencyA)) ||
+            (currencyB && currencyEquals(WDC[chainId], currencyB))),
     );
 
     const handleSelectCurrencyA = useCallback(
@@ -594,27 +591,24 @@ export default function RemoveLiquidity({
                                                 </Text>
                                             </RowFixed>
                                         </RowBetween>
-                                        {chainId && (oneCurrencyIsWETH || oneCurrencyIsETH) ? (
+                                        {chainId && (oneCurrencyIsWDC || oneCurrencyIsETH) ? (
                                             <RowBetween style={{ justifyContent: "flex-end" }}>
                                                 {oneCurrencyIsETH ? (
                                                     <StyledInternalLink
-                                                        to={`/remove/${
-                                                            currencyA === ETHER ? WETH[chainId].address : currencyIdA
-                                                        }/${currencyB === ETHER ? WETH[chainId].address : currencyIdB}`}
+                                                        to={`/remove/${currencyA === DOGECHAIN ? WDC[chainId].address : currencyIdA
+                                                            }/${currencyB === DOGECHAIN ? WDC[chainId].address : currencyIdB}`}
                                                     >
-                                                        Receive WETH
+                                                        Receive WDC
                                                     </StyledInternalLink>
-                                                ) : oneCurrencyIsWETH ? (
+                                                ) : oneCurrencyIsWDC ? (
                                                     <StyledInternalLink
-                                                        to={`/remove/${
-                                                            currencyA && currencyEquals(currencyA, WETH[chainId])
-                                                                ? "ETH"
-                                                                : currencyIdA
-                                                        }/${
-                                                            currencyB && currencyEquals(currencyB, WETH[chainId])
+                                                        to={`/remove/${currencyA && currencyEquals(currencyA, WDC[chainId])
+                                                            ? "ETH"
+                                                            : currencyIdA
+                                                            }/${currencyB && currencyEquals(currencyB, WDC[chainId])
                                                                 ? "ETH"
                                                                 : currencyIdB
-                                                        }`}
+                                                            }`}
                                                     >
                                                         Receive ETH
                                                     </StyledInternalLink>
@@ -735,7 +729,7 @@ export default function RemoveLiquidity({
 
             {pair ? (
                 <AutoColumn style={{ minWidth: "20rem", marginTop: "1rem" }}>
-                    <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+                    <MinimalPositionCard showUnwrapped={oneCurrencyIsWDC} pair={pair} />
                 </AutoColumn>
             ) : null}
         </>

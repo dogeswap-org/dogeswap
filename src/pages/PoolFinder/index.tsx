@@ -29,7 +29,7 @@ export default function PoolFinder() {
     const [showSearch, setShowSearch] = useState<boolean>(false);
     const [activeField, setActiveField] = useState<number>(Fields.TOKEN1);
 
-    const [currency0, setCurrency0] = useState<Currency | null>(ETHER);
+    const [currency0, setCurrency0] = useState<Currency | null>(DOGECHAIN);
     const [currency1, setCurrency1] = useState<Currency | null>(null);
 
     const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined);
@@ -44,12 +44,12 @@ export default function PoolFinder() {
         pairState === PairState.NOT_EXISTS ||
         Boolean(
             pairState === PairState.EXISTS &&
-                pair &&
-                JSBI.equal(pair.reserve0.raw, JSBI.BigInt(0)) &&
-                JSBI.equal(pair.reserve1.raw, JSBI.BigInt(0)),
+            pair &&
+            JSBI.equal(pair.reserve0.raw, JSBI.BigInt(0)) &&
+            JSBI.equal(pair.reserve1.raw, JSBI.BigInt(0)),
         );
 
-    const position: TokenAmount | undefined = useTokenBalance(account ?? undefined, pair?.liquidityToken);
+    const position: CurrencyAmount | undefined = useTokenBalance(account ?? undefined, pair?.liquidityToken);
     const hasPosition = Boolean(position && JSBI.greaterThan(position.raw, JSBI.BigInt(0)));
 
     const handleCurrencySelect = useCallback(

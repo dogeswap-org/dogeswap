@@ -2,8 +2,10 @@ import { AbstractConnector } from "@web3-react/abstract-connector";
 import JSBI from "jsbi";
 import { ChainId } from "../../../sdk-core/src/constants";
 import Percent from "../../../sdk-core/src/entities/fractions/percent";
-import { Token, WETH } from "../../../sdk-core/src/entities/token";
+import { Token } from "../../../sdk-core/src/entities/token";
 import { injected, walletconnect, walletlink } from "../connectors";
+import { env } from "../utils/env";
+import { WDC } from "./currencies";
 
 export const ROUTER_ADDRESS = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
 
@@ -12,29 +14,20 @@ type ChainTokenList = {
     readonly [chainId in ChainId]: Token[];
 };
 
-export const DAI = new Token(
-    ChainId.MAINNET,
-    "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-    18,
-    "DAI",
-    "Dai Stablecoin",
-);
-export const USDC = new Token(ChainId.MAINNET, "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6, "USDC", "USD//C");
-export const USDT = new Token(ChainId.MAINNET, "0xdAC17F958D2ee523a2206206994597C13D831ec7", 6, "USDT", "Tether USD");
-export const COMP = new Token(ChainId.MAINNET, "0xc00e94Cb662C3520282E6f5717214004A7f26888", 18, "COMP", "Compound");
-export const MKR = new Token(ChainId.MAINNET, "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2", 18, "MKR", "Maker");
-export const AMPL = new Token(ChainId.MAINNET, "0xD46bA6D942050d489DBd938a2C909A5d5039A161", 9, "AMPL", "Ampleforth");
+export const DAI = new Token(env.CHAIN_ID, env.DAI_ADDRESS, 18, "DAI", "Dai Stablecoin");
+export const USDC = new Token(env.CHAIN_ID, env.USDC_ADDRESS, 18, "USDC", "USD//C");
+export const USDT = new Token(env.CHAIN_ID, env.USDT_ADDRESS, 18, "USDT", "Tether USD");
 
-const WETH_ONLY: ChainTokenList = {
-    [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
-    [ChainId.TESTNET]: [WETH[ChainId.TESTNET]],
-    [ChainId.LOCALNET]: [WETH[ChainId.LOCALNET]],
+const WDC_ONLY: ChainTokenList = {
+    [ChainId.MAINNET]: [WDC[ChainId.MAINNET]],
+    [ChainId.TESTNET]: [WDC[ChainId.TESTNET]],
+    [ChainId.LOCALNET]: [WDC[ChainId.LOCALNET]],
 };
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-    ...WETH_ONLY,
-    [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, COMP, MKR],
+    ...WDC_ONLY,
+    [ChainId.MAINNET]: [...WDC_ONLY[ChainId.MAINNET], DAI, USDC, USDT],
 };
 
 /**
@@ -43,20 +36,20 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
  */
 export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
     [ChainId.MAINNET]: {
-        [AMPL.address]: [DAI, WETH[ChainId.MAINNET]],
+        // e.g. [AMPL.address]: [DAI, WDC[ChainId.MAINNET]],
     },
 };
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
-    ...WETH_ONLY,
-    [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT],
+    ...WDC_ONLY,
+    [ChainId.MAINNET]: [...WDC_ONLY[ChainId.MAINNET], DAI, USDC, USDT],
 };
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
-    ...WETH_ONLY,
-    [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT],
+    ...WDC_ONLY,
+    [ChainId.MAINNET]: [...WDC_ONLY[ChainId.MAINNET], DAI, USDC, USDT],
 };
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {

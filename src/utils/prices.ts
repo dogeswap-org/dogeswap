@@ -2,7 +2,6 @@ import JSBI from "jsbi";
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
 import Fraction from "../../../sdk-core/src/entities/fractions/fraction";
 import Percent from "../../../sdk-core/src/entities/fractions/percent";
-import TokenAmount from "../../../sdk-core/src/entities/fractions/token-amount";
 import { Trade } from "../../../v2-sdk/src/entities/trade";
 import {
     ALLOWED_PRICE_IMPACT_HIGH,
@@ -45,9 +44,7 @@ export function computeTradePriceBreakdown(
     const realizedLPFeeAmount =
         realizedLPFee &&
         trade &&
-        (trade.inputAmount instanceof TokenAmount
-            ? new TokenAmount(trade.inputAmount.token, realizedLPFee.multiply(trade.inputAmount.raw).quotient)
-            : CurrencyAmount.ether(realizedLPFee.multiply(trade.inputAmount.raw).quotient));
+        new CurrencyAmount(trade.inputAmount.currency, realizedLPFee.multiply(trade.inputAmount.raw).quotient);
 
     return { priceImpactWithoutFee: priceImpactWithoutFeePercent, realizedLPFee: realizedLPFeeAmount };
 }

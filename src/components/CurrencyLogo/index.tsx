@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 import { Currency } from "../../../../sdk-core/src/entities/currency";
-import { ETHER } from "../../../../sdk-core/src/entities/ether";
+import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
 import { Token } from "../../../../sdk-core/src/entities/token";
 
 import EthereumLogo from "../../../assets/images/ethereum-logo.png";
@@ -19,7 +19,7 @@ const StyledEthereumLogo = styled.img<{ size: string }>`
     border-radius: 24px;
 `;
 
-const StyledLogo = styled(Logo)<{ size: string }>`
+const StyledLogo = styled(Logo) <{ size: string }>`
     width: ${({ size }) => size};
     height: ${({ size }) => size};
 `;
@@ -36,7 +36,7 @@ export default function CurrencyLogo({
     const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined);
 
     const srcs: string[] = useMemo(() => {
-        if (currency === ETHER) return [];
+        if (currency === DOGECHAIN) return [];
 
         if (currency instanceof Token) {
             if (currency instanceof WrappedTokenInfo) {
@@ -48,7 +48,7 @@ export default function CurrencyLogo({
         return [];
     }, [currency, uriLocations]);
 
-    if (currency === ETHER) {
+    if (currency === DOGECHAIN) {
         return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />;
     }
 

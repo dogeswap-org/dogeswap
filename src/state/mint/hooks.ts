@@ -5,11 +5,10 @@ import { useTotalSupply } from "../../data/TotalSupply";
 
 import JSBI from "jsbi";
 import { Currency } from "../../../../sdk-core/src/entities/currency";
-import { ETHER } from "../../../../sdk-core/src/entities/ether";
+import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
 import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
 import Percent from "../../../../sdk-core/src/entities/fractions/percent";
 import Price from "../../../../sdk-core/src/entities/fractions/price";
-import TokenAmount from "../../../../sdk-core/src/entities/fractions/token-amount";
 import { Pair } from "../../../../v2-sdk/src/entities/pair";
 import { useActiveWeb3React } from "../../hooks";
 import { wrappedCurrency, wrappedCurrencyAmount } from "../../utils/wrappedCurrency";
@@ -36,7 +35,7 @@ export function useDerivedMintInfo(
     parsedAmounts: { [field in Field]?: CurrencyAmount };
     price?: Price;
     noLiquidity?: boolean;
-    liquidityMinted?: TokenAmount;
+    liquidityMinted?: CurrencyAmount;
     poolTokenPercentage?: Percent;
     error?: string;
 } {
@@ -86,13 +85,13 @@ export function useDerivedMintInfo(
             const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)];
             if (tokenA && tokenB && wrappedIndependentAmount && pair) {
                 const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA;
-                const dependentTokenAmount =
+                const dependentCurrencyAmount =
                     dependentField === Field.CURRENCY_B
                         ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
                         : pair.priceOf(tokenB).quote(wrappedIndependentAmount);
-                return dependentCurrency === ETHER
-                    ? CurrencyAmount.ether(dependentTokenAmount.raw)
-                    : dependentTokenAmount;
+                return dependentCurrency === DOGECHAIN
+                    ? CurrencyAmount.ether(dependentCurrencyAmount.raw)
+                    : dependentCurrencyAmount;
             }
             return undefined;
         } else {
@@ -135,12 +134,12 @@ export function useDerivedMintInfo(
     // liquidity minted
     const liquidityMinted = useMemo(() => {
         const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts;
-        const [tokenAmountA, tokenAmountB] = [
+        const [currencyAmountA, currencyAmountB] = [
             wrappedCurrencyAmount(currencyAAmount, chainId),
             wrappedCurrencyAmount(currencyBAmount, chainId),
         ];
-        if (pair && totalSupply && tokenAmountA && tokenAmountB) {
-            return pair.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB);
+        if (pair && totalSupply && currencyAmountA && currencyAmountB) {
+            return pair.getLiquidityMinted(totalSupply, currencyAmountA, currencyAmountB);
         } else {
             return undefined;
         }

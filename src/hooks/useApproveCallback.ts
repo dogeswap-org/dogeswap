@@ -1,9 +1,8 @@
 import { MaxUint256 } from "@ethersproject/constants";
 import { TransactionResponse } from "@ethersproject/providers";
 import { useCallback, useMemo } from "react";
-import { ETHER } from "../../../sdk-core/src/entities/ether";
+import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import TokenAmount from "../../../sdk-core/src/entities/fractions/token-amount";
 import { Trade } from "../../../v2-sdk/src/entities/trade";
 import { ROUTER_ADDRESS } from "../constants";
 import { useTokenAllowance } from "../data/Allowances";
@@ -27,14 +26,14 @@ export function useApproveCallback(
     spender?: string,
 ): [ApprovalState, () => Promise<void>] {
     const { account } = useActiveWeb3React();
-    const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined;
+    const token = amountToApprove instanceof CurrencyAmount ? amountToApprove.token : undefined;
     const currentAllowance = useTokenAllowance(token, account ?? undefined, spender);
     const pendingApproval = useHasPendingApproval(token?.address, spender);
 
     // check the current approval status
     const approvalState: ApprovalState = useMemo(() => {
         if (!amountToApprove || !spender) return ApprovalState.UNKNOWN;
-        if (amountToApprove.currency === ETHER) return ApprovalState.APPROVED;
+        if (amountToApprove.currency === DOGECHAIN) return ApprovalState.APPROVED;
         // we might not have enough data to know whether or not we need to approve
         if (!currentAllowance) return ApprovalState.UNKNOWN;
 

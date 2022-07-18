@@ -9,12 +9,12 @@ import { ThemeContext } from "styled-components";
 import { ButtonError, ButtonLight, ButtonPrimary } from "../../components/Button";
 import { BlueCard, GreyCard, LightCard } from "../../components/Card";
 import { AutoColumn, ColumnCenter } from "../../components/Column";
-import TransactionConfirmationModal, { ConfirmationModalContent } from "../../components/TransactionConfirmationModal";
 import CurrencyInputPanel from "../../components/CurrencyInputPanel";
 import DoubleCurrencyLogo from "../../components/DoubleLogo";
 import { AddRemoveTabs } from "../../components/NavigationTabs";
 import { MinimalPositionCard } from "../../components/PositionCard";
 import Row, { RowBetween, RowFlat } from "../../components/Row";
+import TransactionConfirmationModal, { ConfirmationModalContent } from "../../components/TransactionConfirmationModal";
 
 import { ROUTER_ADDRESS } from "../../constants";
 import { PairState } from "../../data/Reserves";
@@ -25,22 +25,22 @@ import { useWalletModalToggle } from "../../state/application/hooks";
 import { Field } from "../../state/mint/actions";
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from "../../state/mint/hooks";
 
+import { Currency } from "../../../../sdk-core/src/entities/currency";
+import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
+import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
+import { currencyEquals } from "../../../../sdk-core/src/utils/currencyEquals";
+import { WDC } from "../../constants/currencies";
 import { useTransactionAdder } from "../../state/transactions/hooks";
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from "../../state/user/hooks";
 import { TYPE } from "../../theme";
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from "../../utils";
+import { currencyId } from "../../utils/currencyId";
 import { maxAmountSpend } from "../../utils/maxAmountSpend";
 import { wrappedCurrency } from "../../utils/wrappedCurrency";
 import AppBody from "../AppBody";
 import { Dots, Wrapper } from "../Pool/styleds";
 import { ConfirmAddModalBottom } from "./ConfirmAddModalBottom";
-import { currencyId } from "../../utils/currencyId";
 import { PoolPriceBar } from "./PoolPriceBar";
-import { currencyEquals } from "../../../../sdk-core/src/utils/currencyEquals";
-import { WETH } from "../../../../sdk-core/src/entities/token";
-import TokenAmount from "../../../../sdk-core/src/entities/fractions/token-amount";
-import { ETHER } from "../../../../sdk-core/src/entities/ether";
-import { Currency } from "../../../../sdk-core/src/entities/currency";
 
 export default function AddLiquidity({
     match: {
@@ -54,10 +54,10 @@ export default function AddLiquidity({
     const currencyA = useCurrency(currencyIdA);
     const currencyB = useCurrency(currencyIdB);
 
-    const oneCurrencyIsWETH = Boolean(
+    const oneCurrencyIsWDC = Boolean(
         chainId &&
-            ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
-                (currencyB && currencyEquals(currencyB, WETH[chainId]))),
+        ((currencyA && currencyEquals(currencyA, WDC[chainId])) ||
+            (currencyB && currencyEquals(currencyB, WDC[chainId]))),
     );
 
     const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
@@ -99,7 +99,7 @@ export default function AddLiquidity({
     };
 
     // get the max amounts user can add
-    const maxAmounts: { [field in Field]?: TokenAmount } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
+    const maxAmounts: { [field in Field]?: CurrencyAmount } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
         (accumulator, field) => {
             return {
                 ...accumulator,
@@ -109,7 +109,7 @@ export default function AddLiquidity({
         {},
     );
 
-    const atMaxAmounts: { [field in Field]?: TokenAmount } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
+    const atMaxAmounts: { [field in Field]?: CurrencyAmount } = [Field.CURRENCY_A, Field.CURRENCY_B].reduce(
         (accumulator, field) => {
             return {
                 ...accumulator,
@@ -145,8 +145,8 @@ export default function AddLiquidity({
             method: (...args: any) => Promise<TransactionResponse>,
             args: Array<string | string[] | number>,
             value: BigNumber | null;
-        if (currencyA === ETHER || currencyB === ETHER) {
-            const tokenBIsETH = currencyB === ETHER;
+        if (currencyA === DOGECHAIN || currencyB === DOGECHAIN) {
+            const tokenBIsETH = currencyB === DOGECHAIN;
             estimate = router.estimateGas.addLiquidityETH;
             method = router.addLiquidityETH;
             args = [
@@ -270,9 +270,8 @@ export default function AddLiquidity({
         );
     };
 
-    const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
-        currencies[Field.CURRENCY_A]?.symbol
-    } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
+    const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencies[Field.CURRENCY_A]?.symbol
+        } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
 
     const handleCurrencyASelect = useCallback(
         (currencyA: Currency) => {
@@ -462,7 +461,7 @@ export default function AddLiquidity({
 
             {pair && !noLiquidity && pairState !== PairState.INVALID ? (
                 <AutoColumn style={{ minWidth: "20rem", marginTop: "1rem" }}>
-                    <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+                    <MinimalPositionCard showUnwrapped={oneCurrencyIsWDC} pair={pair} />
                 </AutoColumn>
             ) : null}
         </>

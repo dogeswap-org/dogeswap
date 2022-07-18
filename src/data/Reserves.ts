@@ -1,13 +1,13 @@
+import { Interface } from "@ethersproject/abi";
 import { useMemo } from "react";
 import { abi as IUniswapV2PairABI } from "../../../contracts-core/artifacts/contracts/interfaces/IUniswapV2Pair.sol/IUniswapV2Pair.json";
-import { Interface } from "@ethersproject/abi";
 import { useActiveWeb3React } from "../hooks";
 
+import { Currency } from "../../../sdk-core/src/entities/currency";
+import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
+import { Pair } from "../../../v2-sdk/src/entities/pair";
 import { useMultipleContractSingleData } from "../state/multicall/hooks";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
-import { Currency } from "../../../sdk-core/src/entities/currency";
-import { Pair } from "../../../v2-sdk/src/entities/pair";
-import TokenAmount from "../../../sdk-core/src/entities/fractions/token-amount";
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI);
 
@@ -53,7 +53,10 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
             const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA];
             return [
                 PairState.EXISTS,
-                new Pair(new TokenAmount(token0, reserve0.toString()), new TokenAmount(token1, reserve1.toString())),
+                new Pair(
+                    new CurrencyAmount(token0, reserve0.toString()),
+                    new CurrencyAmount(token1, reserve1.toString()),
+                ),
             ];
         });
     }, [results, tokens]);

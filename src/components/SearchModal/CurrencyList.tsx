@@ -2,22 +2,27 @@ import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from "re
 import { FixedSizeList } from "react-window";
 import { Text } from "rebass";
 import styled from "styled-components";
+import { Currency } from "../../../../sdk-core/src/entities/currency";
+import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
+import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
+import { Token } from "../../../../sdk-core/src/entities/token";
+import { currencyEquals } from "../../../../sdk-core/src/utils";
 import { useActiveWeb3React } from "../../hooks";
+import { useIsUserAddedToken } from "../../hooks/Tokens";
 import { useSelectedTokenList, WrappedTokenInfo } from "../../state/lists/hooks";
 import { useAddUserToken, useRemoveUserAddedToken } from "../../state/user/hooks";
 import { useCurrencyBalance } from "../../state/wallet/hooks";
 import { LinkStyledButton, TYPE } from "../../theme";
-import { useIsUserAddedToken } from "../../hooks/Tokens";
+import { isTokenOnList } from "../../utils";
 import Column from "../Column";
-import { RowFixed } from "../Row";
 import CurrencyLogo from "../CurrencyLogo";
+import Loader from "../Loader";
+import { RowFixed } from "../Row";
 import { MouseoverTooltip } from "../Tooltip";
 import { FadedSpan, MenuItem } from "./styleds";
-import Loader from "../Loader";
-import { isTokenOnList } from "../../utils";
 
 function currencyKey(currency: Currency): string {
-    return currency instanceof Token ? currency.address : currency === ETHER ? "ETHER" : "";
+    return currency instanceof Token ? currency.address : currency === DOGECHAIN ? "DOGECHAIN" : "";
 }
 
 const StyledBalanceText = styled(Text)`
@@ -160,7 +165,7 @@ export default function CurrencyList({
     onCurrencySelect,
     otherCurrency,
     fixedListRef,
-    showETH,
+    showDC,
 }: {
     height: number;
     currencies: Currency[];
@@ -168,9 +173,9 @@ export default function CurrencyList({
     onCurrencySelect: (currency: Currency) => void;
     otherCurrency?: Currency | null;
     fixedListRef?: MutableRefObject<FixedSizeList | undefined>;
-    showETH: boolean;
+    showDC: boolean;
 }) {
-    const itemData = useMemo(() => (showETH ? [Currency.ETHER, ...currencies] : currencies), [currencies, showETH]);
+    const itemData = useMemo(() => (showDC ? [DOGECHAIN, ...currencies] : currencies), [currencies, showDC]);
 
     const Row = useCallback(
         ({ data, index, style }) => {

@@ -7,7 +7,7 @@ import { abi as IUniswapV2Router02ABI } from "@uniswap/v2-periphery/build/IUnisw
 import JSBI from "jsbi";
 import { ChainId } from "../../../sdk-core/src/constants";
 import { Currency } from "../../../sdk-core/src/entities/currency";
-import { ETHER } from "../../../sdk-core/src/entities/ether";
+import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
 import Percent from "../../../sdk-core/src/entities/fractions/percent";
 import { Token } from "../../../sdk-core/src/entities/token";
@@ -85,6 +85,6 @@ export function escapeRegExp(string: string): string {
 }
 
 export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
-    if (currency === ETHER) return true;
+    if (currency === DOGECHAIN) return true;
     return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address]);
 }

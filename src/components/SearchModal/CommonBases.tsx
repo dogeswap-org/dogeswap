@@ -3,11 +3,11 @@ import { Text } from "rebass";
 import styled from "styled-components";
 
 import { SUGGESTED_BASES } from "../../constants";
+import { ChainId } from "../../sdk-overrides/chain-id";
 import { AutoColumn } from "../Column";
+import CurrencyLogo from "../CurrencyLogo";
 import QuestionHelper from "../QuestionHelper";
 import { AutoRow } from "../Row";
-import CurrencyLogo from "../CurrencyLogo";
-import { ChainId } from "../../sdk-overrides/chain-id";
 
 const BaseWrapper = styled.div<{ disable?: boolean }>`
     border: 1px solid ${({ theme, disable }) => (disable ? "transparent" : theme.bg3)};
@@ -45,13 +45,13 @@ export default function CommonBases({
             <AutoRow gap="4px">
                 <BaseWrapper
                     onClick={() => {
-                        if (!selectedCurrency || !currencyEquals(selectedCurrency, ETHER)) {
-                            onSelect(ETHER);
+                        if (!selectedCurrency || !currencyEquals(selectedCurrency, DOGECHAIN)) {
+                            onSelect(DOGECHAIN);
                         }
                     }}
-                    disable={selectedCurrency === ETHER}
+                    disable={selectedCurrency === DOGECHAIN}
                 >
-                    <CurrencyLogo currency={ETHER} style={{ marginRight: 8 }} />
+                    <CurrencyLogo currency={DOGECHAIN} style={{ marginRight: 8 }} />
                     <Text fontWeight={500} fontSize={16}>
                         ETH
                     </Text>
