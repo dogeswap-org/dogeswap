@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Currency } from "../../../../sdk-core/src";
 import CurrencyLogo from "../CurrencyLogo";
 
 const Wrapper = styled.div<{ margin: boolean; sizeraw: number }>`
@@ -19,7 +20,7 @@ interface DoubleCurrencyLogoProps {
 const HigherLogo = styled(CurrencyLogo)`
     z-index: 2;
 `;
-const CoveredLogo = styled(CurrencyLogo)<{ sizeraw: number }>`
+const CoveredLogo = styled(CurrencyLogo) <{ sizeraw: number }>`
     position: absolute;
     left: ${({ sizeraw }) => (sizeraw / 2).toString() + "px"};
 `;

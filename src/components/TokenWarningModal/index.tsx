@@ -1,16 +1,17 @@
 import { transparentize } from "polished";
 import React, { useCallback, useMemo, useState } from "react";
+import { AlertTriangle } from "react-feather";
 import styled from "styled-components";
+import { Token } from "../../../../sdk-core/src";
 import { useActiveWeb3React } from "../../hooks";
 import { useAllTokens } from "../../hooks/Tokens";
 import { ExternalLink, TYPE } from "../../theme";
 import { getEtherscanLink, shortenAddress } from "../../utils";
+import { ButtonError } from "../Button";
+import { AutoColumn } from "../Column";
 import CurrencyLogo from "../CurrencyLogo";
 import Modal from "../Modal";
 import { AutoRow, RowBetween } from "../Row";
-import { AutoColumn } from "../Column";
-import { AlertTriangle } from "react-feather";
-import { ButtonError } from "../Button";
 
 const Wrapper = styled.div<{ error: boolean }>`
     background: ${({ theme }) => transparentize(0.6, theme.bg3)};

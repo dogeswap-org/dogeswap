@@ -23,7 +23,8 @@ type RewardAddressConfig = { [key in keyof typeof localTokens as `${Lowercase<ke
 
 type LocalnetConfig = LocalnetConfigBase & TokenAddressConfig & RewardAddressConfig;
 
-const getTokenAddress = (token: string) => localnet[`${token.toLowerCase()}Address`];
+const getTokenAddress = (token: string) =>
+    (localnet as Record<string, string | undefined>)[`${token.toLowerCase()}Address`];
 
 const createLocalnetTokenListItem = (symbol: string) => ({
     chainId: ChainId.LOCALNET,

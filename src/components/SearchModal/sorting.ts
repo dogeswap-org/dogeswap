@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { CurrencyAmount, Token } from "../../../../sdk-core/src";
 import { useAllTokenBalances } from "../../state/wallet/hooks";
 
 // compare two token amounts with highest one coming first

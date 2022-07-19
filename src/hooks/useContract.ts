@@ -1,8 +1,7 @@
 import { Contract } from "@ethersproject/contracts";
-import { abi as IUniswapV2PairABI } from "@uniswap/v2-core/build/IUniswapV2Pair.json";
 import { useMemo } from "react";
 import { ChainId } from "../../../sdk-core/src/constants";
-import { erc20Abi, multicallAbi, wdcAbi } from "../constants/abis";
+import { erc20Abi, iUniswapV2PairAbi, multicallAbi, wdcAbi } from "../constants/abis";
 import { Multicall, WDC } from "../constants/addresses";
 import { getContract } from "../utils";
 import { useActiveWeb3React } from "./index";
@@ -52,7 +51,7 @@ export function useENSResolverContract(address: string | undefined, withSignerIf
 }
 
 export function usePairContract(pairAddress?: string, withSignerIfPossible?: boolean): Contract | null {
-    return useContract(pairAddress, IUniswapV2PairABI, withSignerIfPossible);
+    return useContract(pairAddress, iUniswapV2PairAbi, withSignerIfPossible);
 }
 
 export function useMulticallContract(): Contract | null {

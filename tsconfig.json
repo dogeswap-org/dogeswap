@@ -1,5 +1,5 @@
 {
-    "include": ["../sdk-core/src", "../v2-sdk/src"],
+    "include": ["../sdk-core/src", "../v2-sdk/src", "./src"],
     "exclude": ["dist", "node_modules"],
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,

@@ -4,8 +4,7 @@ import { ChainId } from "../../../sdk-core/src/constants";
 import { Currency } from "../../../sdk-core/src/entities/currency";
 import Price from "../../../sdk-core/src/entities/fractions/price";
 import { currencyEquals } from "../../../sdk-core/src/utils";
-import { USDC } from "../constants";
-import { WDC } from "../constants/currencies";
+import { USDC, WDC } from "../constants/addresses";
 import { PairState, usePairs } from "../data/Reserves";
 import { useActiveWeb3React } from "../hooks";
 import { wrappedCurrency } from "./wrappedCurrency";
@@ -16,15 +15,19 @@ import { wrappedCurrency } from "./wrappedCurrency";
  */
 export default function useUSDCPrice(currency?: Currency): Price | undefined {
     const { chainId } = useActiveWeb3React();
+    if (chainId == undefined) {
+        return undefined;
+    }
+
     const wrapped = wrappedCurrency(currency, chainId);
     const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
         () => [
+            [wrapped && currencyEquals(WDC[chainId], wrapped) ? undefined : currency, WDC[chainId]],
             [
-                chainId && wrapped && currencyEquals(WDC[chainId], wrapped) ? undefined : currency,
-                chainId ? WDC[chainId] : undefined,
+                wrapped?.equals(USDC[chainId]) ? undefined : wrapped,
+                chainId === ChainId.MAINNET ? USDC[chainId] : undefined,
             ],
-            [wrapped?.equals(USDC) ? undefined : wrapped, chainId === ChainId.MAINNET ? USDC : undefined],
-            [chainId ? WDC[chainId] : undefined, chainId === ChainId.MAINNET ? USDC : undefined],
+            [chainId ? WDC[chainId] : undefined, chainId === ChainId.MAINNET ? USDC[chainId] : undefined],
         ],
         [chainId, currency, wrapped],
     );
@@ -38,14 +41,14 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
         if (wrapped.equals(WDC[chainId])) {
             if (usdcPair) {
                 const price = usdcPair.priceOf(WDC[chainId]);
-                return new Price(currency, USDC, price.denominator, price.numerator);
+                return new Price(currency, USDC[chainId], price.denominator, price.numerator);
             } else {
                 return undefined;
             }
         }
         // handle usdc
-        if (wrapped.equals(USDC)) {
-            return new Price(USDC, USDC, "1", "1");
+        if (wrapped.equals(USDC[chainId])) {
+            return new Price(USDC[chainId], USDC[chainId], "1", "1");
         }
 
         const ethPairETHAmount = ethPair?.reserveOf(WDC[chainId]);
@@ -59,17 +62,20 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
         if (
             usdcPairState === PairState.EXISTS &&
             usdcPair &&
-            usdcPair.reserveOf(USDC).greaterThan(ethPairETHUSDCValue)
+            usdcPair.reserveOf(USDC[chainId]).greaterThan(ethPairETHUSDCValue)
         ) {
             const price = usdcPair.priceOf(wrapped);
-            return new Price(currency, USDC, price.denominator, price.numerator);
+            return new Price(currency, USDC[chainId], price.denominator, price.numerator);
         }
         if (ethPairState === PairState.EXISTS && ethPair && usdcEthPairState === PairState.EXISTS && usdcEthPair) {
-            if (usdcEthPair.reserveOf(USDC).greaterThan("0") && ethPair.reserveOf(WDC[chainId]).greaterThan("0")) {
-                const ethUsdcPrice = usdcEthPair.priceOf(USDC);
+            if (
+                usdcEthPair.reserveOf(USDC[chainId]).greaterThan("0") &&
+                ethPair.reserveOf(WDC[chainId]).greaterThan("0")
+            ) {
+                const ethUsdcPrice = usdcEthPair.priceOf(USDC[chainId]);
                 const currencyEthPrice = ethPair.priceOf(WDC[chainId]);
                 const usdcPrice = ethUsdcPrice.multiply(currencyEthPrice).invert();
-                return new Price(currency, USDC, usdcPrice.denominator, usdcPrice.numerator);
+                return new Price(currency, USDC[chainId], usdcPrice.denominator, usdcPrice.numerator);
             }
         }
         return undefined;

@@ -1,6 +1,8 @@
+import JSBI from "jsbi";
 import React, { useCallback, useEffect, useState } from "react";
 import { Plus } from "react-feather";
 import { Text } from "rebass";
+import { Currency, CurrencyAmount, DOGECHAIN } from "../../../../sdk-core/src";
 import { ButtonDropdownLight } from "../../components/Button";
 import { LightCard } from "../../components/Card";
 import { AutoColumn, ColumnCenter } from "../../components/Column";
@@ -44,9 +46,9 @@ export default function PoolFinder() {
         pairState === PairState.NOT_EXISTS ||
         Boolean(
             pairState === PairState.EXISTS &&
-                pair &&
-                JSBI.equal(pair.reserve0.raw, JSBI.BigInt(0)) &&
-                JSBI.equal(pair.reserve1.raw, JSBI.BigInt(0)),
+            pair &&
+            JSBI.equal(pair.reserve0.raw, JSBI.BigInt(0)) &&
+            JSBI.equal(pair.reserve1.raw, JSBI.BigInt(0)),
         );
 
     const position: CurrencyAmount | undefined = useTokenBalance(account ?? undefined, pair?.liquidityToken);

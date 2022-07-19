@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { Currency } from "../../../sdk-core/src/entities/currency";
 import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
-import { WDC } from "../../../sdk-core/src/entities/token";
 import { currencyEquals } from "../../../sdk-core/src/utils/currencyEquals";
+import { WDC } from "../constants/addresses";
 import { tryParseAmount } from "../state/swap/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import { useCurrencyBalance } from "../state/wallet/hooks";

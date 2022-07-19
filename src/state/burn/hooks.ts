@@ -1,5 +1,8 @@
+import JSBI from "jsbi";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Currency, CurrencyAmount, Percent } from "../../../../sdk-core/src";
+import { Pair } from "../../../../v2-sdk/src";
 import { usePair } from "../../data/Reserves";
 import { useTotalSupply } from "../../data/TotalSupply";
 
@@ -104,7 +107,7 @@ export function useDerivedBurnInfo(
         [Field.LIQUIDITY_PERCENT]: percentToRemove,
         [Field.LIQUIDITY]:
             userLiquidity && percentToRemove && percentToRemove.greaterThan("0")
-                ? new CurrencyAmount(userLiquidity.token, percentToRemove.multiply(userLiquidity.raw).quotient)
+                ? new CurrencyAmount(userLiquidity.currency, percentToRemove.multiply(userLiquidity.raw).quotient)
                 : undefined,
         [Field.CURRENCY_A]:
             tokenA && percentToRemove && percentToRemove.greaterThan("0") && liquidityValueA

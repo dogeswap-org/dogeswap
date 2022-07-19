@@ -1,9 +1,9 @@
 import React from "react";
 import { Text } from "rebass";
 import styled from "styled-components";
+import { ChainId, Currency, currencyEquals, DOGECHAIN, Token } from "../../../../sdk-core/src";
 
 import { SUGGESTED_BASES } from "../../constants";
-import { ChainId } from "../../sdk-overrides/chain-id";
 import { AutoColumn } from "../Column";
 import CurrencyLogo from "../CurrencyLogo";
 import QuestionHelper from "../QuestionHelper";

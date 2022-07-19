@@ -1,13 +1,12 @@
 import { transparentize } from "polished";
 import React, { useMemo } from "react";
+import { Text, TextProps } from "rebass";
 import styled, {
-    ThemeProvider as StyledComponentsThemeProvider,
     createGlobalStyle,
     css,
-    DefaultTheme,
+    DefaultTheme, ThemeProvider as StyledComponentsThemeProvider
 } from "styled-components";
 import { useIsDarkMode } from "../state/user/hooks";
-import { Text, TextProps } from "rebass";
 import { Colors } from "./styled";
 
 export * from "./components";
@@ -119,10 +118,10 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
 
     const themeObject = useMemo(() => theme(darkMode), [darkMode]);
 
-    return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider>;
+    return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider> as JSX.Element;
 }
 
-const TextWrapper = styled(Text)<{ color: keyof Colors }>`
+const TextWrapper = styled(Text) <{ color: keyof Colors }>`
     color: ${({ color, theme }) => (theme as any)[color]};
 `;
 
@@ -214,9 +213,9 @@ body {
   background-position: 0 -30vh;
   background-repeat: no-repeat;
   background-image: ${({ theme }) =>
-      `radial-gradient(50% 50% at 50% 50%, ${transparentize(0.9, theme.primary1)} 0%, ${transparentize(
-          1,
-          theme.bg1,
-      )} 100%)`};
+        `radial-gradient(50% 50% at 50% 50%, ${transparentize(0.9, theme.primary1)} 0%, ${transparentize(
+            1,
+            theme.bg1,
+        )} 100%)`};
 }
 `;

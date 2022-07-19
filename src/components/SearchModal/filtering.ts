@@ -1,3 +1,4 @@
+import { Token } from "../../../../sdk-core/src";
 import { isAddress } from "../../utils";
 
 export function filterTokens(tokens: Token[], search: string): Token[] {

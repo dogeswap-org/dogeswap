@@ -1,4 +1,4 @@
-import { Interface, FunctionFragment } from "@ethersproject/abi";
+import { FunctionFragment, Interface } from "@ethersproject/abi";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
 import { useEffect, useMemo } from "react";
@@ -9,10 +9,10 @@ import { AppDispatch, AppState } from "../index";
 import {
     addMulticallListeners,
     Call,
-    removeMulticallListeners,
-    parseCallKey,
-    toCallKey,
     ListenerOptions,
+    parseCallKey,
+    removeMulticallListeners,
+    toCallKey,
 } from "./actions";
 
 export interface Result extends ReadonlyArray<any> {

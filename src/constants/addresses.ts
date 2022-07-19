@@ -2,14 +2,14 @@ import { ChainId } from "../../../sdk-core/src/constants";
 import { Token } from "../../../sdk-core/src/entities/token";
 import { localnetConfig } from "../utils/localnet-config";
 
-export type ChainTokens = { [chainId in ChainId]: Token };
+export type ChainTokens<T extends string = string> = { [chainId in ChainId]: Token<T> };
 export type ChainContracts = { [chainId in ChainId]: string };
 
-const createChainTokens = (addresses: ChainContracts, decimals: number, symbol: string, name: string) =>
+const createChainTokens = <T extends string>(addresses: ChainContracts, decimals: number, symbol: T, name: string) =>
     Object.entries(addresses).reduce((r, [chainId, address]) => {
-        r[chainId] = new Token(parseInt(chainId) as ChainId, address, decimals, symbol, name);
+        r[parseInt(chainId) as ChainId] = new Token(parseInt(chainId) as ChainId, address, decimals, symbol, name);
         return r;
-    }, {}) as ChainTokens;
+    }, {} as Partial<ChainTokens<T>>) as ChainTokens<T>;
 
 export const WDC = createChainTokens(
     {

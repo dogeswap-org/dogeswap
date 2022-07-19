@@ -1,4 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
+import { CurrencyAmount, Token } from "../../../sdk-core/src";
 import { useTokenContract } from "../hooks/useContract";
 import { useSingleCallResult } from "../state/multicall/hooks";
 

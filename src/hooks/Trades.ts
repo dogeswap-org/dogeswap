@@ -7,6 +7,7 @@ import { Pair } from "../../../v2-sdk/src/entities/pair";
 import { Trade } from "../../../v2-sdk/src/entities/trade";
 
 import { BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES } from "../constants";
+import { WDC } from "../constants/addresses";
 import { PairState, usePairs } from "../data/Reserves";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 
@@ -88,11 +89,17 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
  * Returns the best trade for the exact amount of tokens in to the given token out
  */
 export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?: Currency): Trade | null {
+    const { chainId } = useActiveWeb3React();
+    if (chainId == undefined) {
+        console.error("chainId is undefined");
+        return null;
+    }
+
     const allowedPairs = useAllCommonPairs(currencyAmountIn?.currency, currencyOut);
     return useMemo(() => {
         if (currencyAmountIn && currencyOut && allowedPairs.length > 0) {
             return (
-                Trade.bestTradeExactIn(allowedPairs, currencyAmountIn, currencyOut, {
+                Trade.bestTradeExactIn(allowedPairs, currencyAmountIn, currencyOut, WDC[chainId], {
                     maxHops: 3,
                     maxNumResults: 1,
                 })[0] ?? null
@@ -106,12 +113,18 @@ export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?:
  * Returns the best trade for the token in to the exact amount of token out
  */
 export function useTradeExactOut(currencyIn?: Currency, currencyAmountOut?: CurrencyAmount): Trade | null {
+    const { chainId } = useActiveWeb3React();
+    if (chainId == undefined) {
+        console.error("chainId is undefined");
+        return null;
+    }
+
     const allowedPairs = useAllCommonPairs(currencyIn, currencyAmountOut?.currency);
 
     return useMemo(() => {
         if (currencyIn && currencyAmountOut && allowedPairs.length > 0) {
             return (
-                Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, {
+                Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, WDC[chainId], {
                     maxHops: 3,
                     maxNumResults: 1,
                 })[0] ?? null

@@ -3,7 +3,6 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
-import { abi as IUniswapV2Router02ABI } from "@uniswap/v2-periphery/build/IUniswapV2Router02.json";
 import JSBI from "jsbi";
 import { ChainId } from "../../../sdk-core/src/constants";
 import { Currency } from "../../../sdk-core/src/entities/currency";
@@ -12,6 +11,7 @@ import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmo
 import Percent from "../../../sdk-core/src/entities/fractions/percent";
 import { Token } from "../../../sdk-core/src/entities/token";
 import { ROUTER_ADDRESS } from "../constants";
+import { iUniswapV2Router02Abi } from "../constants/abis";
 import { TokenAddressMap } from "../state/lists/hooks";
 
 // returns the checksummed address if the address is valid, otherwise returns false
@@ -77,7 +77,7 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
 
 // account is optional
 export function getRouterContract(_: number, library: Web3Provider, account?: string): Contract {
-    return getContract(ROUTER_ADDRESS, IUniswapV2Router02ABI, library, account);
+    return getContract(ROUTER_ADDRESS, iUniswapV2Router02Abi, library, account);
 }
 
 export function escapeRegExp(string: string): string {

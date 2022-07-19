@@ -1,7 +1,9 @@
 import React, { useCallback, useMemo } from "react";
+import { currencyEquals } from "../../../../sdk-core/src";
+import { Trade } from "../../../../v2-sdk/src";
 import TransactionConfirmationModal, {
     ConfirmationModalContent,
-    TransactionErrorContent,
+    TransactionErrorContent
 } from "../TransactionConfirmationModal";
 import SwapModalFooter from "./SwapModalFooter";
 import SwapModalHeader from "./SwapModalHeader";
@@ -76,9 +78,8 @@ export default function ConfirmSwapModal({
     }, [allowedSlippage, onConfirm, showAcceptChanges, swapErrorMessage, trade]);
 
     // text to show while loading
-    const pendingText = `Swapping ${trade?.inputAmount?.toSignificant(6)} ${
-        trade?.inputAmount?.currency?.symbol
-    } for ${trade?.outputAmount?.toSignificant(6)} ${trade?.outputAmount?.currency?.symbol}`;
+    const pendingText = `Swapping ${trade?.inputAmount?.toSignificant(6)} ${trade?.inputAmount?.currency?.symbol
+        } for ${trade?.outputAmount?.toSignificant(6)} ${trade?.outputAmount?.currency?.symbol}`;
 
     const confirmationContent = useCallback(
         () =>

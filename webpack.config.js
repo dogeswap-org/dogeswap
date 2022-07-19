@@ -7,8 +7,6 @@ const devtool = "inline-source-map";
 
 const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT ?? "10000");
 
-console.log(JSON.stringify(config));
-
 module.exports = {
     mode: process.env.NODE_ENV ?? "development",
     devtool,

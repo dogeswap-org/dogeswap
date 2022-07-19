@@ -19,7 +19,7 @@ const StyledEthereumLogo = styled.img<{ size: string }>`
     border-radius: 24px;
 `;
 
-const StyledLogo = styled(Logo)<{ size: string }>`
+const StyledLogo = styled(Logo) <{ size: string }>`
     width: ${({ size }) => size};
     height: ${({ size }) => size};
 `;
@@ -52,5 +52,6 @@ export default function CurrencyLogo({
         return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />;
     }
 
-    return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? "token"} logo`} style={style} />;
+    // TODO DOGESWAP: Fix style property discrepancies in @react/types
+    return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? "token"} logo`} style={style as any} />;
 }

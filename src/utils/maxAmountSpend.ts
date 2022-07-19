@@ -1,3 +1,5 @@
+import JSBI from "jsbi";
+import { CurrencyAmount, DOGECHAIN } from "../../../sdk-core/src";
 import { MIN_ETH } from "../constants";
 
 /**

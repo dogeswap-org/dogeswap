@@ -1,9 +1,12 @@
+import JSBI from "jsbi";
 import { darken } from "polished";
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { Link } from "react-router-dom";
 import { Text } from "rebass";
 import styled from "styled-components";
+import { Percent } from "../../../../sdk-core/src";
+import { Pair } from "../../../../v2-sdk/src";
 import { useTotalSupply } from "../../data/TotalSupply";
 
 import { useActiveWeb3React } from "../../hooks";
@@ -50,14 +53,14 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
 
     const [token0Deposited, token1Deposited] =
         !!pair &&
-        !!totalPoolTokens &&
-        !!userPoolBalance &&
-        // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-        JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+            !!totalPoolTokens &&
+            !!userPoolBalance &&
+            // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+            JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
             ? [
-                  pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
-                  pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
-              ]
+                pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
+                pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
+            ]
             : [undefined, undefined];
 
     return (
@@ -145,14 +148,14 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
 
     const [token0Deposited, token1Deposited] =
         !!pair &&
-        !!totalPoolTokens &&
-        !!userPoolBalance &&
-        // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-        JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+            !!totalPoolTokens &&
+            !!userPoolBalance &&
+            // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+            JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
             ? [
-                  pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
-                  pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
-              ]
+                pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
+                pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
+            ]
             : [undefined, undefined];
 
     return (
