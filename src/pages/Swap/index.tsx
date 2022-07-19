@@ -35,7 +35,7 @@ import {
     useDefaultsFromURLSearch,
     useDerivedSwapInfo,
     useSwapActionHandlers,
-    useSwapState,
+    useSwapState
 } from "../../state/swap/hooks";
 import { useExpertModeManager, useUserDeadline, useUserSlippageTolerance } from "../../state/user/hooks";
 import { LinkStyledButton, TYPE } from "../../theme";
@@ -88,13 +88,13 @@ export default function Swap() {
 
     const parsedAmounts = showWrap
         ? {
-              [Field.INPUT]: parsedAmount,
-              [Field.OUTPUT]: parsedAmount,
-          }
+            [Field.INPUT]: parsedAmount,
+            [Field.OUTPUT]: parsedAmount,
+        }
         : {
-              [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-              [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-          };
+            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+        };
 
     const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers();
     const isValid = !swapInputError;
@@ -138,8 +138,8 @@ export default function Swap() {
     const route = trade?.route;
     const userHasSpecifiedInputOutput = Boolean(
         currencies[Field.INPUT] &&
-            currencies[Field.OUTPUT] &&
-            parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0)),
+        currencies[Field.OUTPUT] &&
+        parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0)),
     );
     const noRoute = !route;
 
@@ -199,8 +199,8 @@ export default function Swap() {
                         recipient === null
                             ? "Swap w/o Send"
                             : recipient === account
-                            ? "Swap w/o Send + recipient"
-                            : "Swap w/ Send",
+                                ? "Swap w/o Send + recipient"
+                                : "Swap w/ Send",
                     label: [trade?.inputAmount?.currency?.symbol, trade?.outputAmount?.currency?.symbol].join("/"),
                 });
             })
@@ -396,8 +396,8 @@ export default function Swap() {
                                     (wrapType === WrapType.WRAP
                                         ? "Wrap"
                                         : wrapType === WrapType.UNWRAP
-                                        ? "Unwrap"
-                                        : null)}
+                                            ? "Unwrap"
+                                            : null)}
                             </ButtonPrimary>
                         ) : noRoute && userHasSpecifiedInputOutput ? (
                             <GreyCard style={{ textAlign: "center" }}>
@@ -475,8 +475,8 @@ export default function Swap() {
                                     {swapInputError
                                         ? swapInputError
                                         : priceImpactSeverity > 3 && !isExpertMode
-                                        ? `Price Impact Too High`
-                                        : `Swap${priceImpactSeverity > 2 ? " Anyway" : ""}`}
+                                            ? `Price Impact Too High`
+                                            : `Swap${priceImpactSeverity > 2 ? " Anyway" : ""}`}
                                 </Text>
                             </ButtonError>
                         )}

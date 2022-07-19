@@ -19,7 +19,6 @@ import TransactionConfirmationModal, { ConfirmationModalContent } from "../../co
 
 import CurrencyLogo from "../../components/CurrencyLogo";
 import Slider from "../../components/Slider";
-import { ROUTER_ADDRESS } from "../../constants";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { usePairContract } from "../../hooks/useContract";
@@ -30,6 +29,7 @@ import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
 import Percent from "../../../../sdk-core/src/entities/fractions/percent";
 import { currencyEquals } from "../../../../sdk-core/src/utils/currencyEquals";
 import { Dots } from "../../components/swap/styleds";
+import { routerAddress } from "../../constants";
 import { WDC } from "../../constants/addresses";
 import { ApprovalState, useApproveCallback } from "../../hooks/useApproveCallback";
 import { useWalletModalToggle } from "../../state/application/hooks";
@@ -106,7 +106,7 @@ export default function RemoveLiquidity({
     const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(
         null,
     );
-    const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.LIQUIDITY], ROUTER_ADDRESS);
+    const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.LIQUIDITY], routerAddress[chainId!]);
     async function onAttemptToApprove() {
         if (!pairContract || !pair || !library) throw new Error("missing dependencies");
         const liquidityAmount = parsedAmounts[Field.LIQUIDITY];
@@ -137,7 +137,7 @@ export default function RemoveLiquidity({
         ];
         const message = {
             owner: account,
-            spender: ROUTER_ADDRESS,
+            spender: routerAddress[chainId!],
             value: liquidityAmount.raw.toString(),
             nonce: nonce.toHexString(),
             deadline: deadlineForSignature,
@@ -607,8 +607,8 @@ export default function RemoveLiquidity({
                                                 ) : oneCurrencyIsWDC ? (
                                                     <StyledInternalLink
                                                         to={`/remove/${currencyA && currencyEquals(currencyA, WDC[chainId])
-                                                                ? "ETH"
-                                                                : currencyIdA
+                                                            ? "ETH"
+                                                            : currencyIdA
                                                             }/${currencyB && currencyEquals(currencyB, WDC[chainId])
                                                                 ? "ETH"
                                                                 : currencyIdB

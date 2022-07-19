@@ -55,6 +55,8 @@ const createLocalnetTokenList = () =>
         tokens: Object.keys(localTokens).map((x) => createLocalnetTokenListItem(x)),
     } as TokenList);
 
+console.log(createLocalnetTokenList());
+
 export const localnetConfig = {
     factoryAddress: localnet.factoryAddress,
     routerAddress: localnet.router02Address,
