@@ -54,7 +54,7 @@ const Web3StatusError = styled(Web3StatusGeneric)`
     }
 `;
 
-const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
+const Web3StatusConnect = styled(Web3StatusGeneric) <{ faded?: boolean }>`
     background-color: ${({ theme }) => theme.primary4};
     border: none;
     color: ${({ theme }) => theme.primaryText1};
@@ -81,7 +81,7 @@ const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
         `}
 `;
 
-const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
+const Web3StatusConnected = styled(Web3StatusGeneric) <{ pending?: boolean }>`
     background-color: ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg2)};
     border: 1px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
     color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
@@ -89,7 +89,7 @@ const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
     :hover,
     :focus {
         background-color: ${({ pending, theme }) =>
-            pending ? darken(0.05, theme.primary1) : lighten(0.05, theme.bg2)};
+        pending ? darken(0.05, theme.primary1) : lighten(0.05, theme.bg2)};
 
         :focus {
             border: 1px solid
@@ -120,12 +120,6 @@ const NetworkIcon = styled(Activity)`
 function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
     return b.addedTime - a.addedTime;
 }
-
-const SOCK = (
-    <span role="img" aria-label="has socks emoji" style={{ marginTop: -4, marginBottom: -4 }}>
-        🧦
-    </span>
-);
 
 // eslint-disable-next-line react/prop-types
 function StatusIcon({ connector }: { connector: AbstractConnector }) {
