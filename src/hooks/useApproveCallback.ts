@@ -22,21 +22,22 @@ export enum ApprovalState {
 }
 
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
-export function useApproveCallback(amount?: CurrencyAmount, spender?: string): [ApprovalState, () => Promise<void>] {
-    if (amount?.currency === DOGECHAIN) {
-        return [ApprovalState.APPROVED, async () => void console.error("approve was called unnecessarily")];
-    }
-
-    // If we haven't (unnecessarily) tried to approve Dogechain, then we're dealing with an ERC-20 token.
-    const amountToApprove = amount as CurrencyAmount<Token>;
+export function useApproveCallback(
+    amountToApprove?: CurrencyAmount,
+    spender?: string,
+): [ApprovalState, () => Promise<void>] {
     const { account } = useActiveWeb3React();
-    const token = amountToApprove instanceof CurrencyAmount ? amountToApprove.currency : undefined;
+    const token =
+        amountToApprove == undefined || amountToApprove.currency === DOGECHAIN
+            ? undefined
+            : (amountToApprove as CurrencyAmount<Token>).currency;
     const currentAllowance = useTokenAllowance(token, account ?? undefined, spender);
     const pendingApproval = useHasPendingApproval(token?.address, spender);
 
     // check the current approval status
     const approvalState: ApprovalState = useMemo(() => {
         if (!amountToApprove || !spender) return ApprovalState.UNKNOWN;
+        if (amountToApprove.currency === DOGECHAIN) return ApprovalState.APPROVED;
         // we might not have enough data to know whether or not we need to approve
         if (!currentAllowance) return ApprovalState.UNKNOWN;
 

@@ -6,21 +6,17 @@ import ReactGA from "react-ga";
 import { RouteComponentProps } from "react-router-dom";
 import { Text } from "rebass";
 import { ThemeContext } from "styled-components";
-import { ButtonError, ButtonLight, ButtonPrimary } from "../../components/Button";
 import { BlueCard, GreyCard, LightCard } from "../../components/Card";
 import { AutoColumn, ColumnCenter } from "../../components/Column";
 import CurrencyInputPanel from "../../components/CurrencyInputPanel";
-import DoubleCurrencyLogo from "../../components/DoubleLogo";
 import { AddRemoveTabs } from "../../components/NavigationTabs";
 import { MinimalPositionCard } from "../../components/PositionCard";
-import Row, { RowBetween, RowFlat } from "../../components/Row";
+import { RowBetween } from "../../components/Row";
 import TransactionConfirmationModal, { ConfirmationModalContent } from "../../components/TransactionConfirmationModal";
 
-import { ROUTER_ADDRESS } from "../../constants";
 import { PairState } from "../../data/Reserves";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
-import { ApprovalState, useApproveCallback } from "../../hooks/useApproveCallback";
 import { useWalletModalToggle } from "../../state/application/hooks";
 import { Field } from "../../state/mint/actions";
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from "../../state/mint/hooks";
@@ -29,7 +25,10 @@ import { Currency } from "../../../../sdk-core/src/entities/currency";
 import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
 import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
 import { currencyEquals } from "../../../../sdk-core/src/utils/currencyEquals";
+import { ButtonError, ButtonLight, ButtonPrimary } from "../../components/Button";
+import { ROUTER_ADDRESS } from "../../constants";
 import { WDC } from "../../constants/addresses";
+import { ApprovalState, useApproveCallback } from "../../hooks/useApproveCallback";
 import { useTransactionAdder } from "../../state/transactions/hooks";
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from "../../state/user/hooks";
 import { TYPE } from "../../theme";
@@ -40,6 +39,7 @@ import { wrappedCurrency } from "../../utils/wrappedCurrency";
 import AppBody from "../AppBody";
 import { Dots, Wrapper } from "../Pool/styleds";
 import { ConfirmAddModalBottom } from "./ConfirmAddModalBottom";
+import { ModalHeader } from "./ModalHeader";
 import { PoolPriceBar } from "./PoolPriceBar";
 
 export default function AddLiquidity({
@@ -56,8 +56,8 @@ export default function AddLiquidity({
 
     const oneCurrencyIsWDC = Boolean(
         chainId &&
-            ((currencyA && currencyEquals(currencyA, WDC[chainId])) ||
-                (currencyB && currencyEquals(currencyB, WDC[chainId]))),
+        ((currencyA && currencyEquals(currencyA, WDC[chainId])) ||
+            (currencyB && currencyEquals(currencyB, WDC[chainId]))),
     );
 
     const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
@@ -213,50 +213,12 @@ export default function AddLiquidity({
             });
     }
 
-    const modalHeader = () => {
-        return noLiquidity ? (
-            <AutoColumn gap="20px">
-                <LightCard mt="20px" borderRadius="20px">
-                    <RowFlat>
-                        <Text fontSize="48px" fontWeight={500} lineHeight="42px" marginRight={10}>
-                            {currencies[Field.CURRENCY_A]?.symbol + "/" + currencies[Field.CURRENCY_B]?.symbol}
-                        </Text>
-                        <DoubleCurrencyLogo
-                            currency0={currencies[Field.CURRENCY_A]}
-                            currency1={currencies[Field.CURRENCY_B]}
-                            size={30}
-                        />
-                    </RowFlat>
-                </LightCard>
-            </AutoColumn>
-        ) : (
-            <AutoColumn gap="20px">
-                <RowFlat style={{ marginTop: "20px" }}>
-                    <Text fontSize="48px" fontWeight={500} lineHeight="42px" marginRight={10}>
-                        {liquidityMinted?.toSignificant(6)}
-                    </Text>
-                    <DoubleCurrencyLogo
-                        currency0={currencies[Field.CURRENCY_A]}
-                        currency1={currencies[Field.CURRENCY_B]}
-                        size={30}
-                    />
-                </RowFlat>
-                <Row>
-                    <Text fontSize="24px">
-                        {currencies[Field.CURRENCY_A]?.symbol +
-                            "/" +
-                            currencies[Field.CURRENCY_B]?.symbol +
-                            " Pool Tokens"}
-                    </Text>
-                </Row>
-                <TYPE.italic fontSize={12} textAlign="left" padding={"8px 0 0 0 "}>
-                    {`Output is estimated. If the price changes by more than ${
-                        allowedSlippage / 100
-                    }% your transaction will revert.`}
-                </TYPE.italic>
-            </AutoColumn>
-        );
-    };
+    const modalHeader = () => <ModalHeader
+        allowedSlippage={allowedSlippage}
+        currencies={currencies}
+        noLiquidity={noLiquidity}
+        liquidityMinted={liquidityMinted}
+    />;
 
     const modalBottom = () => {
         return (
@@ -271,9 +233,8 @@ export default function AddLiquidity({
         );
     };
 
-    const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
-        currencies[Field.CURRENCY_A]?.symbol
-    } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
+    const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencies[Field.CURRENCY_A]?.symbol
+        } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
 
     const handleCurrencyASelect = useCallback(
         (currencyA: Currency) => {
