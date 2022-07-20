@@ -1,12 +1,11 @@
 import { MaxUint256 } from "@ethersproject/constants";
 import { TransactionResponse } from "@ethersproject/providers";
 import { useCallback, useMemo } from "react";
-import { ChainId, Token } from "../../../sdk-core/src";
+import { Token } from "../../../sdk-core/src";
 import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
 import { Trade } from "../../../v2-sdk/src/entities/trade";
-import { useDogeswapWeb3React } from "../components/Web3ReactManager/useDogechainWeb3React";
-import { routerAddress } from "../constants";
+import { ROUTER_ADDRESS } from "../constants";
 import { useTokenAllowance } from "../data/Allowances";
 import { Field } from "../state/swap/actions";
 import { useHasPendingApproval, useTransactionAdder } from "../state/transactions/hooks";
@@ -106,10 +105,9 @@ export function useApproveCallback(
 
 // wraps useApproveCallback in the context of a swap
 export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) {
-    const { chainId } = useDogeswapWeb3React();
     const amountToApprove = useMemo(
         () => (trade ? computeSlippageAdjustedAmounts(trade, allowedSlippage)[Field.INPUT] : undefined),
         [trade, allowedSlippage],
     );
-    return useApproveCallback(amountToApprove, routerAddress[chainId as ChainId]);
+    return useApproveCallback(amountToApprove, ROUTER_ADDRESS);
 }

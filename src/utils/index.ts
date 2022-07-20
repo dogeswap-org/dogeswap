@@ -10,7 +10,7 @@ import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
 import Percent from "../../../sdk-core/src/entities/fractions/percent";
 import { Token } from "../../../sdk-core/src/entities/token";
-import { routerAddress } from "../constants";
+import { ROUTER_ADDRESS } from "../constants";
 import { iUniswapV2Router02Abi } from "../constants/abis";
 import { TokenAddressMap } from "../state/lists/hooks";
 
@@ -77,7 +77,7 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
 
 // account is optional
 export function getRouterContract(_: number, library: Web3Provider, account?: string): Contract {
-    return getContract(routerAddress[library.network.chainId as ChainId], iUniswapV2Router02Abi, library, account);
+    return getContract(ROUTER_ADDRESS, iUniswapV2Router02Abi, library, account);
 }
 
 export function escapeRegExp(string: string): string {

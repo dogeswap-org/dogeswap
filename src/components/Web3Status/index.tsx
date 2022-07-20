@@ -1,5 +1,5 @@
 import { AbstractConnector } from "@web3-react/abstract-connector";
-import { UnsupportedChainIdError } from "@web3-react/core";
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { darken, lighten } from "polished";
 import React, { useMemo } from "react";
 import { Activity } from "react-feather";
@@ -20,7 +20,6 @@ import Loader from "../Loader";
 
 import { RowBetween } from "../Row";
 import WalletModal from "../WalletModal";
-import { useDogeswapWeb3React, useDogeswapWeb3ReactConnector } from "../Web3ReactManager/useDogechainWeb3React";
 
 const IconWrapper = styled.div<{ size?: number }>`
     ${({ theme }) => theme.flexColumnNoWrap};
@@ -144,8 +143,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
 
 function Web3StatusInner() {
     const { t } = useTranslation();
-    const { account, error } = useDogeswapWeb3React();
-    const connector = useDogeswapWeb3ReactConnector();
+    const { account, connector, error } = useWeb3React();
 
     const allTransactions = useAllTransactions();
 
@@ -195,8 +193,8 @@ function Web3StatusInner() {
 }
 
 export default function Web3Status() {
-    const { active, account } = useDogeswapWeb3React();
-    const contextNetwork = useDogeswapWeb3React(NetworkContextName);
+    const { active, account } = useWeb3React();
+    const contextNetwork = useWeb3React(NetworkContextName);
 
     const allTransactions = useAllTransactions();
 

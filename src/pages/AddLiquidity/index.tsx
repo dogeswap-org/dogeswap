@@ -26,7 +26,7 @@ import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
 import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
 import { currencyEquals } from "../../../../sdk-core/src/utils/currencyEquals";
 import { ButtonError, ButtonLight, ButtonPrimary } from "../../components/Button";
-import { routerAddress } from "../../constants";
+import { ROUTER_ADDRESS } from "../../constants";
 import { WDC } from "../../constants/addresses";
 import { ApprovalState, useApproveCallback } from "../../hooks/useApproveCallback";
 import { useTransactionAdder } from "../../state/transactions/hooks";
@@ -120,8 +120,8 @@ export default function AddLiquidity({
     );
 
     // check whether the user has approved the router on the tokens
-    const [approvalA, approveACallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_A], routerAddress[chainId!]);
-    const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_B], routerAddress[chainId!]);
+    const [approvalA, approveACallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_A], ROUTER_ADDRESS);
+    const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_B], ROUTER_ADDRESS);
 
     const addTransaction = useTransactionAdder();
 

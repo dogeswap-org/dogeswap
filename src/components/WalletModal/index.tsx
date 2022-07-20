@@ -1,4 +1,4 @@
-import { UnsupportedChainIdError } from "@web3-react/core";
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import ReactGA from "react-ga";
@@ -15,7 +15,6 @@ import { SUPPORTED_WALLETS } from "../../constants";
 import { ExternalLink } from "../../theme";
 import AccountDetails from "../AccountDetails";
 import Modal from "../Modal";
-import { useDogeswapWeb3React, useDogeswapWeb3ReactConnector } from "../Web3ReactManager/useDogechainWeb3React";
 import Option from "./Option";
 import PendingView from "./PendingView";
 
@@ -125,8 +124,7 @@ export default function WalletModal({
     ENSName?: string;
 }) {
     // important that these are destructed from the account-specific web3-react context
-    const { active, account, activate, error } = useDogeswapWeb3React();
-    const connector = useDogeswapWeb3ReactConnector();
+    const { active, account, connector, activate, error } = useWeb3React();
 
     const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT);
 
