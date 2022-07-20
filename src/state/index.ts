@@ -11,8 +11,8 @@ import swap from "./swap/reducer";
 import transactions from "./transactions/reducer";
 import user from "./user/reducer";
 
-// TODO DOGESWAP: verify that we want to persist these
-const PERSISTED_KEYS: string[] = ["user", "transactions", "lists"];
+// TODO DOGESWAP: verify that we want to persist these, e.g. persisting "lists" can cause problems with localnet
+const PERSISTED_KEYS: string[] = ["user", "transactions"];
 
 const store = configureStore({
     reducer: {

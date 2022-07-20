@@ -4,16 +4,25 @@ import { ChainId } from "../../../sdk-core/src/constants";
 import Percent from "../../../sdk-core/src/entities/fractions/percent";
 import { Token } from "../../../sdk-core/src/entities/token";
 import { injected, walletconnect, walletlink } from "../connectors";
+import { localnetConfig } from "../utils/localnet-config";
 import { ChainTokens, DAI, USDC, USDT, WDC } from "./addresses";
 
-export const ROUTER_ADDRESS = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
+export const routerAddress = {
+    [ChainId.MAINNET]: localnetConfig.routerAddress,
+    [ChainId.TESTNET]: localnetConfig.routerAddress,
+    [ChainId.LOCALNET]: localnetConfig.routerAddress,
+};
+
+export const getRouterAddress = (chainId: number | undefined) => {
+    return routerAddress[chainId as ChainId];
+};
 
 // a list of tokens by chain
 type ChainTokenList = {
     readonly [chainId in ChainId]: Token[];
 };
 
-const createListElement = (chain: ChainId, ...tokens: ChainTokens[]) => tokens.map(x => x[chain]);
+const createListElement = (chain: ChainId, ...tokens: ChainTokens[]) => tokens.map((x) => x[chain]);
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
