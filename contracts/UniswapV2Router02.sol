@@ -1,4 +1,4 @@
-pragma solidity =0.6.6;
+pragma solidity =0.7.6;
 
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol';
 import '@uniswap/lib/contracts/libraries/TransferHelper.sol';
@@ -20,7 +20,7 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         _;
     }
 
-    constructor(address _factory, address _WDC) public {
+    constructor(address _factory, address _WDC) {
         factory = _factory;
         WDC = _WDC;
     }

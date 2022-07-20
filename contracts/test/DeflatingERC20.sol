@@ -1,4 +1,4 @@
-pragma solidity =0.6.6;
+pragma solidity =0.7.6;
 
 import '../libraries/SafeMath.sol';
 
@@ -20,7 +20,7 @@ contract DeflatingERC20 {
     event Approval(address indexed owner, address indexed spender, uint value);
     event Transfer(address indexed from, address indexed to, uint value);
 
-    constructor(uint _totalSupply) public {
+    constructor(uint _totalSupply) {
         uint chainId;
         assembly {
             chainId := chainid()

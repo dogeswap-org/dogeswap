@@ -11,8 +11,6 @@ import ERC20 from '../../build/ERC20.json'
 import WDC from '../../build/WDC.json'
 import UniswapV1Exchange from '../../build/UniswapV1Exchange.json'
 import UniswapV1Factory from '../../build/UniswapV1Factory.json'
-import UniswapV2Router01 from '../../build/UniswapV2Router01.json'
-import UniswapV2Migrator from '../../build/UniswapV2Migrator.json'
 import UniswapV2Router02 from '../../build/UniswapV2Router02.json'
 import RouterEventEmitter from '../../build/RouterEventEmitter.json'
 
@@ -27,11 +25,9 @@ interface V2Fixture {
   WDCPartner: Contract
   factoryV1: Contract
   factoryV2: Contract
-  router01: Contract
   router02: Contract
   routerEventEmitter: Contract
   router: Contract
-  migrator: Contract
   WDCExchangeV1: Contract
   pair: Contract
   WDCPair: Contract
@@ -52,14 +48,10 @@ export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Pro
   const factoryV2 = await deployContract(wallet, UniswapV2Factory, [wallet.address])
 
   // deploy routers
-  const router01 = await deployContract(wallet, UniswapV2Router01, [factoryV2.address, WDC.address], overrides)
   const router02 = await deployContract(wallet, UniswapV2Router02, [factoryV2.address, WDC.address], overrides)
 
   // event emitter for testing
   const routerEventEmitter = await deployContract(wallet, RouterEventEmitter, [])
-
-  // deploy migrator
-  const migrator = await deployContract(wallet, UniswapV2Migrator, [factoryV1.address, router01.address], overrides)
 
   // initialize V1
   await factoryV1.createExchange(WDCPartner.address, overrides)
@@ -88,7 +80,6 @@ export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Pro
     WDCPartner,
     factoryV1,
     factoryV2,
-    router01,
     router02,
     router: router02, // the default router, 01 had a minor bug
     routerEventEmitter,

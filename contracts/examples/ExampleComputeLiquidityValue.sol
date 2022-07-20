@@ -1,4 +1,4 @@
-pragma solidity =0.6.6;
+pragma solidity =0.7.6;
 
 import '../libraries/UniswapV2LiquidityMathLibrary.sol';
 
@@ -7,7 +7,7 @@ contract ExampleComputeLiquidityValue {
 
     address public immutable factory;
 
-    constructor(address factory_) public {
+    constructor(address factory_) {
         factory = factory_;
     }
 

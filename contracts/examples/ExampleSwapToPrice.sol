@@ -1,4 +1,4 @@
-pragma solidity =0.6.6;
+pragma solidity =0.7.6;
 
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
 import '@uniswap/lib/contracts/libraries/Babylonian.sol';
@@ -16,7 +16,7 @@ contract ExampleSwapToPrice {
     IUniswapV2Router01 public immutable router;
     address public immutable factory;
 
-    constructor(address factory_, IUniswapV2Router01 router_) public {
+    constructor(address factory_, IUniswapV2Router01 router_) {
         factory = factory_;
         router = router_;
     }

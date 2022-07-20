@@ -1,4 +1,4 @@
-pragma solidity =0.6.6;
+pragma solidity =0.7.6;
 
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Callee.sol';
 
@@ -14,7 +14,7 @@ contract ExampleFlashSwap is IUniswapV2Callee {
     address immutable factory;
     IWDC immutable WDC;
 
-    constructor(address _factory, address _factoryV1, address router) public {
+    constructor(address _factory, address _factoryV1, address router) {
         factoryV1 = IUniswapV1Factory(_factoryV1);
         factory = _factory;
         WDC = IWDC(IUniswapV2Router01(router).WDC());
