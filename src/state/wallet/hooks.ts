@@ -6,7 +6,7 @@ import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currency
 import { Token } from "../../../../sdk-core/src/entities/token";
 import { erc20Interface } from "../../constants/abis";
 import { useActiveWeb3React } from "../../hooks";
-import { useMultipleContractSingleData, useSingleContractMultipleData } from "../../hooks/multicall";
+import { useMultipleContractSingleData, useSingleContractMultipleData } from "../../hooks/Multicall";
 import { useAllTokens } from "../../hooks/Tokens";
 import { useMulticallContract } from "../../hooks/useContract";
 import { isAddress } from "../../utils";

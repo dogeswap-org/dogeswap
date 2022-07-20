@@ -2,17 +2,17 @@ import { ChainId, DOGECHAIN } from "../../../sdk-core/src";
 
 export const chains = {
     [ChainId.MAINNET]: {
-        urls: ["localhost:8545"],
+        urls: ["http://localhost:8545"],
         name: "Dogechain Mainnet",
         nativeCurrency: DOGECHAIN,
     },
     [ChainId.TESTNET]: {
-        urls: ["localhost:8545"],
+        urls: ["http://localhost:8545"],
         name: "Dogechain Testnet",
         nativeCurrency: DOGECHAIN,
     },
     [ChainId.LOCALNET]: {
-        urls: ["localhost:8545"],
+        urls: ["http://localhost:8545"],
         name: "Dogechain Localnet",
         nativeCurrency: DOGECHAIN,
     },

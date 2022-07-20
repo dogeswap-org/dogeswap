@@ -9,7 +9,7 @@ import { useUserAddedTokens } from "../state/user/hooks";
 import { isAddress } from "../utils";
 
 import { useActiveWeb3React } from "./index";
-import { useSingleCallResult } from "./multicall";
+import { useSingleCallResult } from "./Multicall";
 import { useTokenContract } from "./useContract";
 
 export function useAllTokens(): { [address: string]: Token } {

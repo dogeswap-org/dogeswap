@@ -1,6 +1,6 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { CurrencyAmount, Token } from "../../../sdk-core/src";
-import { useSingleCallResult } from "../hooks/multicall";
+import { useSingleCallResult } from "../hooks/Multicall";
 import { useTokenContract } from "../hooks/useContract";
 
 // returns undefined if input token is undefined, or fails to get token contract,

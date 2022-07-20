@@ -6,7 +6,7 @@ import { useActiveWeb3React } from "../hooks";
 import { Currency } from "../../../sdk-core/src/entities/currency";
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
 import { Pair } from "../../../v2-sdk/src/entities/pair";
-import { useMultipleContractSingleData } from "../hooks/multicall";
+import { useMultipleContractSingleData } from "../hooks/Multicall";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI);

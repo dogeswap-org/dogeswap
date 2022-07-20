@@ -2,7 +2,7 @@ import { namehash } from "ethers/lib/utils";
 import { useMemo } from "react";
 import { isAddress } from "../utils";
 import isZero from "../utils/isZero";
-import { useSingleCallResult } from "./multicall";
+import { useSingleCallResult } from "./Multicall";
 import { useENSRegistrarContract, useENSResolverContract } from "./useContract";
 import useDebounce from "./useDebounce";
 

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { CurrencyAmount, Token } from "../../../sdk-core/src";
-import { useSingleCallResult } from "../hooks/multicall";
+import { useSingleCallResult } from "../hooks/Multicall";
 
 import { useTokenContract } from "../hooks/useContract";
 
