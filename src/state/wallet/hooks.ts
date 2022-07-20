@@ -6,10 +6,10 @@ import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currency
 import { Token } from "../../../../sdk-core/src/entities/token";
 import { erc20Interface } from "../../constants/abis";
 import { useActiveWeb3React } from "../../hooks";
+import { useMultipleContractSingleData, useSingleContractMultipleData } from "../../hooks/multicall";
 import { useAllTokens } from "../../hooks/Tokens";
 import { useMulticallContract } from "../../hooks/useContract";
 import { isAddress } from "../../utils";
-import { useMultipleContractSingleData, useSingleContractMultipleData } from "../multicall/hooks";
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.

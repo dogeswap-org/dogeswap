@@ -1,12 +1,12 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { load, save } from "redux-localstorage-simple";
+import { multicall } from "../utils/multicall";
 
 import application from "./application/reducer";
 import burn from "./burn/reducer";
 import { updateVersion } from "./global/actions";
 import lists from "./lists/reducer";
 import mint from "./mint/reducer";
-import multicall from "./multicall/reducer";
 import swap from "./swap/reducer";
 import transactions from "./transactions/reducer";
 import user from "./user/reducer";
@@ -22,7 +22,7 @@ const store = configureStore({
         swap,
         mint,
         burn,
-        multicall,
+        [multicall.reducerPath as any]: multicall.reducer, // Don't know why we need the any here
         lists,
     },
     middleware: [...getDefaultMiddleware({ thunk: false }), save({ states: PERSISTED_KEYS })],

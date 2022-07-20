@@ -11,7 +11,7 @@ import App from "./pages/App";
 import store from "./state";
 import ApplicationUpdater from "./state/application/updater";
 import ListsUpdater from "./state/lists/updater";
-import MulticallUpdater from "./state/multicall/updater";
+import { MulticallUpdater } from "./state/multicall/updater";
 import TransactionUpdater from "./state/transactions/updater";
 import UserUpdater from "./state/user/updater";
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from "./theme";
@@ -30,8 +30,8 @@ if (typeof GOOGLE_ANALYTICS_ID === "string") {
         customBrowserType: !isMobile
             ? "desktop"
             : "web3" in window || "ethereum" in window
-            ? "mobileWeb3"
-            : "mobileRegular",
+                ? "mobileWeb3"
+                : "mobileRegular",
     });
 } else {
     ReactGA.initialize("test", { testMode: true, debug: true });

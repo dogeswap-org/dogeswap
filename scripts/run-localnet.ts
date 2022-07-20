@@ -11,7 +11,7 @@ const erc20Tokens = ["DST", "USDT", "USDC", "DAI"];
 
 const exec = (command: string, cwd: string) => {
     return new Promise<void>((res, rej) => {
-        const proc = childPromise.exec(command, { cwd }, err => {
+        const proc = childPromise.exec(command, { cwd }, (err) => {
             if (err) {
                 rej(err);
             } else {
@@ -19,8 +19,8 @@ const exec = (command: string, cwd: string) => {
             }
         });
 
-        proc.stderr?.on("data", x => console.error(x));
-        proc.stdout?.on("data", x => console.log(x));
+        proc.stderr?.on("data", (x) => console.error(x));
+        proc.stdout?.on("data", (x) => console.log(x));
     });
 };
 
@@ -67,13 +67,13 @@ const getProjectContractArtifacts = async (project: string) => {
     const matches = await getGlob("**/*.json", artifactsDir);
     return matches
         .filter(
-            x =>
+            (x) =>
                 !x.endsWith(".dbg.json") &&
                 !x.startsWith("interfaces") &&
                 !x.startsWith("test") &&
                 !x.startsWith("examples"),
         )
-        .map(async x => {
+        .map(async (x) => {
             const fullPath = path.join(artifactsDir, x);
             return await parseArtifact(fullPath);
         });
@@ -101,7 +101,7 @@ const writeConfigFile = async (contractAddresses: Record<string, string>) => {
         localnet: {
             factoryAddress: contractAddresses["UniswapV2Factory"],
             router02Address: contractAddresses["UniswapV2Router02"],
-            multicallAddress: contractAddresses["Multicall"],
+            multicallAddress: contractAddresses["UniswapInterfaceMulticall"],
             ...erc20EnvVariables,
             wdcAddress: contractAddresses["WDC"],
         },
@@ -159,10 +159,6 @@ const deployExternalContracts = async () => {
                 await deployContract();
                 didDeploySafeMath = true;
                 break;
-            case "UniswapV2Router01":
-            case "UniswapV2Migrator":
-            case "IUniswapV2Migrator":
-                continue;
             default:
                 await deployContract();
         }
