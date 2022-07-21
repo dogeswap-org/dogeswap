@@ -140,8 +140,8 @@ export class Trade {
    * @param route route of the exact in trade
    * @param amountIn the amount being passed in
    */
-  public static exactIn(route: Route, amountIn: CurrencyAmount, wdc: WDC): Trade {
-    return new Trade(route, amountIn, TradeType.EXACT_INPUT, wdc)
+  public static exactIn(route: Route, amountIn: CurrencyAmount, wdc: WDC, factoryAddress: string): Trade {
+    return new Trade(route, amountIn, TradeType.EXACT_INPUT, wdc, factoryAddress)
   }
 
   /**
@@ -149,11 +149,11 @@ export class Trade {
    * @param route route of the exact out trade
    * @param amountOut the amount returned by the trade
    */
-  public static exactOut(route: Route, amountOut: CurrencyAmount, wdc: WDC): Trade {
-    return new Trade(route, amountOut, TradeType.EXACT_OUTPUT, wdc)
+  public static exactOut(route: Route, amountOut: CurrencyAmount, wdc: WDC, factoryAddress: string): Trade {
+    return new Trade(route, amountOut, TradeType.EXACT_OUTPUT, wdc, factoryAddress)
   }
 
-  public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType, wdc: WDC) {
+  public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType, wdc: WDC, factoryAddress: string) {
     const amounts: CurrencyAmount[] = new Array(route.path.length)
     const nextPairs: Pair[] = new Array(route.pairs.length)
     if (tradeType === TradeType.EXACT_INPUT) {
@@ -161,7 +161,7 @@ export class Trade {
       amounts[0] = wrappedAmount(amount, wdc)
       for (let i = 0; i < route.path.length - 1; i++) {
         const pair = route.pairs[i]
-        const [outputAmount, nextPair] = pair.getOutputAmount(amounts[i])
+        const [outputAmount, nextPair] = pair.getOutputAmount(amounts[i], factoryAddress)
         amounts[i + 1] = outputAmount
         nextPairs[i] = nextPair
       }
@@ -170,7 +170,7 @@ export class Trade {
       amounts[amounts.length - 1] = wrappedAmount(amount, wdc)
       for (let i = route.path.length - 1; i > 0; i--) {
         const pair = route.pairs[i - 1]
-        const [inputAmount, nextPair] = pair.getInputAmount(amounts[i])
+        const [inputAmount, nextPair] = pair.getInputAmount(amounts[i], factoryAddress)
         amounts[i - 1] = inputAmount
         nextPairs[i - 1] = nextPair
       }
@@ -250,6 +250,7 @@ export class Trade {
     currencyAmountIn: CurrencyAmount,
     currencyOut: Currency,
     wdc: WDC,
+    factoryAddress: string,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
     // used in recursion.
     currentPairs: Pair[] = [],
@@ -276,7 +277,7 @@ export class Trade {
 
       let amountOut: CurrencyAmount
       try {
-        ;[amountOut] = pair.getOutputAmount(amountIn)
+        ;[amountOut] = pair.getOutputAmount(amountIn, factoryAddress)
       } catch (error) {
         // input too low
         if ((error as any).isInsufficientInputAmountError) {
@@ -292,7 +293,8 @@ export class Trade {
             new Route([...currentPairs, pair], wdc, originalAmountIn.currency, currencyOut),
             originalAmountIn,
             TradeType.EXACT_INPUT,
-            wdc
+            wdc,
+            factoryAddress
           ),
           maxNumResults,
           tradeComparator
@@ -306,6 +308,7 @@ export class Trade {
           amountOut,
           currencyOut,
           wdc,
+          factoryAddress,
           {
             maxNumResults,
             maxHops: maxHops - 1
@@ -353,6 +356,7 @@ export class Trade {
     currencyIn: Currency,
     currencyAmountOut: CurrencyAmount,
     wdc: WDC,
+    factoryAddress: string,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
     // used in recursion.
     currentPairs: Pair[] = [],
@@ -379,7 +383,7 @@ export class Trade {
 
       let amountIn: CurrencyAmount
       try {
-        ;[amountIn] = pair.getInputAmount(amountOut)
+        ;[amountIn] = pair.getInputAmount(amountOut, factoryAddress)
       } catch (error) {
         // not enough liquidity in this pair
         if ((error as any).isInsufficientReservesError) {
@@ -395,7 +399,8 @@ export class Trade {
             new Route([pair, ...currentPairs], wdc, currencyIn, originalAmountOut.currency),
             originalAmountOut,
             TradeType.EXACT_OUTPUT,
-            wdc
+            wdc,
+            factoryAddress,
           ),
           maxNumResults,
           tradeComparator
@@ -409,6 +414,7 @@ export class Trade {
           currencyIn,
           amountIn,
           wdc,
+          factoryAddress,
           {
             maxNumResults,
             maxHops: maxHops - 1

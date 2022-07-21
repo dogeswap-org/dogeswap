@@ -3,7 +3,7 @@ import JSBI from 'jsbi'
 import { pack, keccak256 } from '@ethersproject/solidity'
 import { getCreate2Address } from '@ethersproject/address'
 
-import { FACTORY_ADDRESS, INIT_CODE_HASH, MINIMUM_LIQUIDITY, FIVE, _997, _1000, ONE, ZERO } from '../constants'
+import { INIT_CODE_HASH, MINIMUM_LIQUIDITY, FIVE, _997, _1000, ONE, ZERO } from '../constants'
 import { InsufficientReservesError, InsufficientInputAmountError } from '../errors'
 import { Token } from "../../../sdk-core/src/entities/token"
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount"
@@ -31,11 +31,11 @@ export class Pair {
   public readonly liquidityToken: Token
   private readonly currencyAmounts: [CurrencyAmount, CurrencyAmount]
 
-  public static getAddress(tokenA: Token, tokenB: Token): string {
-    return computePairAddress({ factoryAddress: FACTORY_ADDRESS, tokenA, tokenB })
+  public static getAddress(tokenA: Token, tokenB: Token, factoryAddress: string): string {
+    return computePairAddress({ factoryAddress, tokenA, tokenB })
   }
 
-  public constructor(currencyAmountA: CurrencyAmount, currencyAmountB: CurrencyAmount) {
+  public constructor(currencyAmountA: CurrencyAmount, currencyAmountB: CurrencyAmount, factoryAddress: string) {
     invariant(currencyAmountA.currency.isToken && currencyAmountB.currency.isToken, 'TOKEN')
     const currencyAmounts = currencyAmountA.currency.sortsBefore(currencyAmountB.currency) // does safety checks
       ? [currencyAmountA, currencyAmountB]
@@ -43,7 +43,7 @@ export class Pair {
     invariant(currencyAmounts[0].currency.isToken && currencyAmounts[1].currency.isToken, 'TOKEN')
     this.liquidityToken = new Token(
       currencyAmounts[0].currency.chainId,
-      Pair.getAddress(currencyAmounts[0].currency, currencyAmounts[1].currency),
+      Pair.getAddress(currencyAmounts[0].currency, currencyAmounts[1].currency, factoryAddress),
       18,
       'UNI-V2',
       'Uniswap V2'
@@ -112,7 +112,7 @@ export class Pair {
     return token.equals(this.token0) ? this.reserve0 : this.reserve1
   }
 
-  public getOutputAmount(inputAmount: CurrencyAmount): [CurrencyAmount, Pair] {
+  public getOutputAmount(inputAmount: CurrencyAmount, factoryAddress: string): [CurrencyAmount, Pair] {
     invariant(inputAmount.currency.isToken && this.involvesToken(inputAmount.currency), 'TOKEN')
     if (JSBI.equal(this.reserve0.raw, ZERO) || JSBI.equal(this.reserve1.raw, ZERO)) {
       throw new InsufficientReservesError()
@@ -130,10 +130,10 @@ export class Pair {
       throw new InsufficientInputAmountError()
     }
 
-    return [outputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
+    return [outputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount), factoryAddress)]
   }
 
-  public getInputAmount(outputAmount: CurrencyAmount): [CurrencyAmount, Pair] {
+  public getInputAmount(outputAmount: CurrencyAmount, factoryAddress: string): [CurrencyAmount, Pair] {
     invariant(outputAmount.currency.isToken && this.involvesToken(outputAmount.currency), 'TOKEN')
     if (
       JSBI.equal(this.reserve0.raw, ZERO) ||
@@ -151,7 +151,7 @@ export class Pair {
       outputAmount.currency.equals(this.token0) ? this.token1 : this.token0,
       JSBI.add(JSBI.divide(numerator, denominator), ONE)
     )
-    return [inputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
+    return [inputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount), factoryAddress)]
   }
 
   public getLiquidityMinted(
