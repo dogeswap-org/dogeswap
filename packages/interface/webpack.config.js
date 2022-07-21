@@ -60,6 +60,6 @@ module.exports = {
         open: true,
         port: 9000,
         static: [path.resolve(__dirname, "src"), path.resolve(__dirname, "dist"), path.resolve(__dirname)],
-        watchFiles: ["src/**/*.ts*"]
+        watchFiles: ["src/**/*.ts*"],
     },
 };

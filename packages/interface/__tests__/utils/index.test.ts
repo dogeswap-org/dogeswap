@@ -42,10 +42,19 @@ describe("utils", () => {
         it("bounds are correct", () => {
             const currencyAmount = new CurrencyAmount(new Token(ChainId.MAINNET, AddressZero, 0, ""), "100");
             expect(() => calculateSlippageAmount(currencyAmount, -1)).toThrow();
-            expect(calculateSlippageAmount(currencyAmount, 0).map(bound => bound.toString())).toEqual(["100", "100"]);
-            expect(calculateSlippageAmount(currencyAmount, 100).map(bound => bound.toString())).toEqual(["99", "101"]);
-            expect(calculateSlippageAmount(currencyAmount, 200).map(bound => bound.toString())).toEqual(["98", "102"]);
-            expect(calculateSlippageAmount(currencyAmount, 10000).map(bound => bound.toString())).toEqual(["0", "200"]);
+            expect(calculateSlippageAmount(currencyAmount, 0).map((bound) => bound.toString())).toEqual(["100", "100"]);
+            expect(calculateSlippageAmount(currencyAmount, 100).map((bound) => bound.toString())).toEqual([
+                "99",
+                "101",
+            ]);
+            expect(calculateSlippageAmount(currencyAmount, 200).map((bound) => bound.toString())).toEqual([
+                "98",
+                "102",
+            ]);
+            expect(calculateSlippageAmount(currencyAmount, 10000).map((bound) => bound.toString())).toEqual([
+                "0",
+                "200",
+            ]);
             expect(() => calculateSlippageAmount(currencyAmount, 10001)).toThrow();
         });
     });

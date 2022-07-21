@@ -56,8 +56,8 @@ export default function AddLiquidity({
 
     const oneCurrencyIsWDC = Boolean(
         chainId &&
-        ((currencyA && currencyEquals(currencyA, WDC[chainId])) ||
-            (currencyB && currencyEquals(currencyB, WDC[chainId]))),
+            ((currencyA && currencyEquals(currencyA, WDC[chainId])) ||
+                (currencyB && currencyEquals(currencyB, WDC[chainId]))),
     );
 
     const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
@@ -120,8 +120,14 @@ export default function AddLiquidity({
     );
 
     // check whether the user has approved the router on the tokens
-    const [approvalA, approveACallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_A], getRouterAddress(chainId));
-    const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_B], getRouterAddress(chainId));
+    const [approvalA, approveACallback] = useApproveCallback(
+        parsedAmounts[Field.CURRENCY_A],
+        getRouterAddress(chainId),
+    );
+    const [approvalB, approveBCallback] = useApproveCallback(
+        parsedAmounts[Field.CURRENCY_B],
+        getRouterAddress(chainId),
+    );
 
     const addTransaction = useTransactionAdder();
 
@@ -222,12 +228,14 @@ export default function AddLiquidity({
         }
     }
 
-    const modalHeader = () => <ModalHeader
-        allowedSlippage={allowedSlippage}
-        currencies={currencies}
-        noLiquidity={noLiquidity}
-        liquidityMinted={liquidityMinted}
-    />;
+    const modalHeader = () => (
+        <ModalHeader
+            allowedSlippage={allowedSlippage}
+            currencies={currencies}
+            noLiquidity={noLiquidity}
+            liquidityMinted={liquidityMinted}
+        />
+    );
 
     const modalBottom = () => {
         return (
@@ -242,8 +250,9 @@ export default function AddLiquidity({
         );
     };
 
-    const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencies[Field.CURRENCY_A]?.symbol
-        } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
+    const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
+        currencies[Field.CURRENCY_A]?.symbol
+    } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
 
     const handleCurrencyASelect = useCallback(
         (currencyA: Currency) => {

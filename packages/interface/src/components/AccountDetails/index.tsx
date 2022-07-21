@@ -129,7 +129,7 @@ const AccountControl = styled.div`
     }
 `;
 
-const AddressLink = styled(ExternalLink) <{ hasENS: boolean; isENS: boolean }>`
+const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolean }>`
     font-size: 0.825rem;
     color: ${({ theme }) => theme.text3};
     margin-left: 1rem;

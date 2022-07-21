@@ -72,8 +72,8 @@ export default function SwapModalHeader({
                             priceImpactSeverity > 2
                                 ? theme.red1
                                 : showAcceptChanges && trade.tradeType === TradeType.EXACT_INPUT
-                                    ? theme.primary1
-                                    : ""
+                                ? theme.primary1
+                                : ""
                         }
                     >
                         {trade.outputAmount.toSignificant(6)}

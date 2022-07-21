@@ -1,4 +1,3 @@
-
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { Contract } from "ethers";
 import React, { PropsWithChildren, useEffect, useState } from "react";
@@ -27,16 +26,16 @@ export const UpdaterProvider = (props: PropsWithChildren<{}>) => {
         })();
     }, []);
 
-    return blockNumber == undefined || contract == undefined
-        ? <></>
-        : (
-            <>
-                <ListsUpdater />
-                <UserUpdater />
-                <ApplicationUpdater />
-                <TransactionUpdater />
-                <MulticallUpdater blockNumber={blockNumber} chainId={chainId} contract={contract} />
-                {props.children}
-            </>
-        );
-}
+    return blockNumber == undefined || contract == undefined ? (
+        <></>
+    ) : (
+        <>
+            <ListsUpdater />
+            <UserUpdater />
+            <ApplicationUpdater />
+            <TransactionUpdater />
+            <MulticallUpdater blockNumber={blockNumber} chainId={chainId} contract={contract} />
+            {props.children}
+        </>
+    );
+};

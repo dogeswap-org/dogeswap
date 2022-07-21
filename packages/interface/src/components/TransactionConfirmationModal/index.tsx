@@ -31,7 +31,7 @@ const ConfirmedIcon = styled(ColumnCenter)`
     padding: 60px 0;
 `;
 
-const CustomLightSpinner = styled(Spinner) <{ size: string }>`
+const CustomLightSpinner = styled(Spinner)<{ size: string }>`
     height: ${({ size }) => size};
     width: ${({ size }) => size};
 `;

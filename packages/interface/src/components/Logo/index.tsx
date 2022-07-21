@@ -21,7 +21,7 @@ export default function Logo({ srcs, alt, ...rest }: LogoProps) {
     if (src) {
         return (
             <img
-                {...rest as any}
+                {...(rest as any)}
                 alt={alt}
                 src={src}
                 onError={() => {
@@ -32,5 +32,5 @@ export default function Logo({ srcs, alt, ...rest }: LogoProps) {
         );
     }
 
-    return <HelpCircle {...rest as any} />;
+    return <HelpCircle {...(rest as any)} />;
 }
