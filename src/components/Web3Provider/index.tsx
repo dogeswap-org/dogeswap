@@ -4,7 +4,7 @@ import { Contract } from "ethers";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { ChainId } from "../../../../sdk-core/src";
 import { multicallAbi } from "../../constants/abis";
-import { Multicall } from "../../constants/addresses";
+import { multicall } from "../../constants/addresses";
 import { chains } from "../../constants/chains";
 import ApplicationUpdater from "../../state/application/updater";
 import ListsUpdater from "../../state/lists/updater";
@@ -23,7 +23,7 @@ export const UpdaterProvider = (props: PropsWithChildren<{}>) => {
             const chain = chains[chainId as ChainId];
             const provider = new JsonRpcProvider(chain.urls[0], { chainId: defaultChainId, name: chain.name });
             setBlockNumber(await provider.getBlockNumber());
-            setContract(new Contract(Multicall[chainId as ChainId], multicallAbi, provider));
+            setContract(new Contract(multicall[chainId as ChainId], multicallAbi, provider));
         })();
     }, []);
 

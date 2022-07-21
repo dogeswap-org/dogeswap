@@ -2,7 +2,7 @@ import { Contract } from "@ethersproject/contracts";
 import { useMemo } from "react";
 import { ChainId } from "../../../sdk-core/src/constants";
 import { erc20Abi, iUniswapV2PairAbi, multicallAbi, wdcAbi } from "../constants/abis";
-import { Multicall, WDC } from "../constants/addresses";
+import { multicall, WDC } from "../constants/addresses";
 import { getContract } from "../utils";
 import { useActiveWeb3React } from "./index";
 
@@ -56,5 +56,5 @@ export function usePairContract(pairAddress?: string, withSignerIfPossible?: boo
 
 export function useMulticallContract(): Contract | null {
     const { chainId } = useActiveWeb3React();
-    return useContract(chainId && Multicall[chainId], multicallAbi, false);
+    return useContract(chainId && multicall[chainId], multicallAbi, false);
 }

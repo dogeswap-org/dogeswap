@@ -6,6 +6,7 @@ import { useActiveWeb3React } from "../hooks";
 import { Currency } from "../../../sdk-core/src/entities/currency";
 import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
 import { Pair } from "../../../v2-sdk/src/entities/pair";
+import { factory } from "../constants/addresses";
 import { useMultipleContractSingleData } from "../hooks/Multicall";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 
@@ -33,9 +34,11 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
     const pairAddresses = useMemo(
         () =>
             tokens.map(([tokenA, tokenB]) => {
-                return tokenA && tokenB && !tokenA.equals(tokenB) ? Pair.getAddress(tokenA, tokenB) : undefined;
+                return tokenA && tokenB && !tokenA.equals(tokenB)
+                    ? Pair.getAddress(tokenA, tokenB, factory[chainId!])
+                    : undefined;
             }),
-        [tokens],
+        [tokens, chainId],
     );
 
     const results = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, "getReserves");
@@ -56,10 +59,11 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
                 new Pair(
                     new CurrencyAmount(token0, reserve0.toString()),
                     new CurrencyAmount(token1, reserve1.toString()),
+                    factory[chainId!],
                 ),
             ];
         });
-    }, [results, tokens]);
+    }, [results, tokens, chainId]);
 }
 
 export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair | null] {

@@ -7,7 +7,7 @@ import { Pair } from "../../../v2-sdk/src/entities/pair";
 import { Trade } from "../../../v2-sdk/src/entities/trade";
 
 import { BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES } from "../constants";
-import { WDC } from "../constants/addresses";
+import { factory, WDC } from "../constants/addresses";
 import { PairState, usePairs } from "../data/Reserves";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 
@@ -99,7 +99,7 @@ export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?:
     return useMemo(() => {
         if (currencyAmountIn && currencyOut && allowedPairs.length > 0) {
             return (
-                Trade.bestTradeExactIn(allowedPairs, currencyAmountIn, currencyOut, WDC[chainId], {
+                Trade.bestTradeExactIn(allowedPairs, currencyAmountIn, currencyOut, WDC[chainId], factory[chainId], {
                     maxHops: 3,
                     maxNumResults: 1,
                 })[0] ?? null
@@ -124,7 +124,7 @@ export function useTradeExactOut(currencyIn?: Currency, currencyAmountOut?: Curr
     return useMemo(() => {
         if (currencyIn && currencyAmountOut && allowedPairs.length > 0) {
             return (
-                Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, WDC[chainId], {
+                Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, WDC[chainId], factory[chainId], {
                     maxHops: 3,
                     maxNumResults: 1,
                 })[0] ?? null

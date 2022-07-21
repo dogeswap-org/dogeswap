@@ -22,10 +22,16 @@ export const WDC = createChainTokens(
     "Wrapped Dogechain",
 );
 
-export const Multicall: ChainContracts = {
+export const multicall: ChainContracts = {
     [ChainId.MAINNET]: localnetConfig.multicallAddress,
     [ChainId.TESTNET]: localnetConfig.multicallAddress,
     [ChainId.LOCALNET]: localnetConfig.multicallAddress,
+};
+
+export const factory: ChainContracts = {
+    [ChainId.MAINNET]: localnetConfig.factoryAddress,
+    [ChainId.TESTNET]: localnetConfig.factoryAddress,
+    [ChainId.LOCALNET]: localnetConfig.factoryAddress,
 };
 
 export const DAI = createChainTokens(

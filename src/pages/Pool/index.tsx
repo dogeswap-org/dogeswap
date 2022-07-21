@@ -22,12 +22,12 @@ import AppBody from "../AppBody";
 
 export default function Pool() {
     const theme = useContext(ThemeContext);
-    const { account } = useActiveWeb3React();
+    const { account, chainId } = useActiveWeb3React();
 
     // fetch the user's balances of all tracked V2 LP tokens
     const trackedTokenPairs = useTrackedTokenPairs();
     const tokenPairsWithLiquidityTokens = useMemo(
-        () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
+        () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens, chainId!), tokens })),
         [trackedTokenPairs],
     );
     const liquidityTokens = useMemo(

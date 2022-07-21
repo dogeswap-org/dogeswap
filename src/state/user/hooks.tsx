@@ -5,6 +5,7 @@ import { ChainId } from "../../../../sdk-core/src/constants";
 import { Token } from "../../../../sdk-core/src/entities/token";
 import { Pair } from "../../../../v2-sdk/src/entities/pair";
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from "../../constants";
+import { factory } from "../../constants/addresses";
 
 import { useActiveWeb3React } from "../../hooks";
 import { useAllTokens } from "../../hooks/Tokens";
@@ -167,8 +168,9 @@ export function usePairAdder(): (pair: Pair) => void {
  * @param tokenA one of the two tokens
  * @param tokenB the other token
  */
-export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
-    return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB), 18, "UNI-V2", "Uniswap V2");
+export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token], chainId: ChainId): Token {
+    const factoryAddress = factory[chainId];
+    return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB, factoryAddress), 18, "DST-V2", "Dogeswap V2");
 }
 
 /**
