@@ -14,14 +14,6 @@ export interface MulticallUpdaterProps {
 }
 
 export function MulticallUpdater({ chainId, blockNumber, contract }: MulticallUpdaterProps) {
-  // TODO DOGECHAIN: We'll need a way to update this chain ID. Probably want to replace web3 react at some point.
-  // const chainId = defaultChainId
-  // const chain = chains[chainId as ChainId];
-  // const provider = new JsonRpcProvider(chain.urls[0], { chainId, name: chain.name });
-  // provider.getBlockNumber();
-
-
-
   return (
     <multicall.Updater
       chainId={chainId}
