@@ -1,7 +1,7 @@
+import _Big from "big.js";
+import _Decimal from "decimal.js-light";
 import JSBI from "jsbi";
 import invariant from "tiny-invariant";
-import _Decimal from "decimal.js-light";
-import _Big from "big.js";
 import toFormat from "toformat";
 
 import { BigintIsh, Rounding } from "../../constants";
@@ -124,7 +124,7 @@ export default class Fraction {
         const quotient = new Decimal(this.numerator.toString())
             .div(this.denominator.toString())
             .toSignificantDigits(significantDigits);
-        return quotient.toFormat(quotient.decimalPlaces(), format);
+        return (quotient as unknown as ToFormattable).toFormat(quotient.decimalPlaces(), format);
     }
 
     public toFixed(
@@ -137,6 +137,6 @@ export default class Fraction {
 
         Big.DP = decimalPlaces;
         Big.RM = toFixedRounding[rounding];
-        return new Big(this.numerator.toString()).div(this.denominator.toString()).toFormat(decimalPlaces, format);
+        return (new Big(this.numerator.toString()).div(this.denominator.toString()) as unknown as ToFormattable).toFormat(decimalPlaces, format);
     }
 }

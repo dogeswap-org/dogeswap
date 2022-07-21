@@ -1,12 +1,12 @@
+import _Big from "big.js";
 import JSBI from "jsbi";
+import invariant from "tiny-invariant";
+import toFormat from "toformat";
 import { currencyEquals } from "../../utils";
 import { Currency } from "../currency";
 import { DOGECHAIN } from "../ether";
-import invariant from "tiny-invariant";
-import _Big from "big.js";
-import toFormat from "toformat";
 
-import { BigintIsh, Rounding, MaxUint256 } from "../../constants";
+import { BigintIsh, MaxUint256, Rounding } from "../../constants";
 import Fraction from "./fraction";
 
 const Big = toFormat(_Big);
@@ -64,6 +64,6 @@ export default class CurrencyAmount<T extends Currency = Currency> extends Fract
 
     public toExact(format: object = { groupSeparator: "" }): string {
         Big.DP = this.currency.decimals;
-        return new Big(this.numerator.toString()).div(this.denominator.toString()).toFormat(format);
+        return (new Big(this.numerator.toString()).div(this.denominator.toString()) as unknown as ToFormattable).toFormat(format);
     }
 }
