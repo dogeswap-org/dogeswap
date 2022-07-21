@@ -1,0 +1,13 @@
+{
+    "name": "dogeswap",
+    "description": "The Dogeswap DEX monorepo",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "repository": "git@github.com:dogeswap-org/dogeswap.git",
+    "keywords": [
+        "dogeswap",
+        "ethereum"
+    ]
+}

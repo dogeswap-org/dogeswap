@@ -1,25 +1,28 @@
 {
-  "name": "@uniswap/v2-core",
-  "description": "🎛 Core contracts for the UniswapV2 protocol",
-  "version": "1.0.1",
-  "homepage": "https://uniswap.org",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Uniswap/uniswap-v2-core"
-  },
-  "keywords": [
-    "uniswap",
-    "ethereum",
-    "v2",
-    "core",
-    "uniswap-v2"
-  ],
+  "name": "@dogeswap/contracts-core",
+  "version": "1.0.0",
+  "description": "🎛 Core contracts for the Dogeswap V2 protocol",
+  "homepage": "https://www.dogeswap.org",
+  "license": "GPL-3.0-or-later",
   "files": [
     "contracts",
     "build"
   ],
-  "engines": {
-    "node": ">=10"
+  "keywords": [
+    "dogeswap",
+    "ethereum",
+    "v2",
+    "core",
+    "dogeswap-v2"
+  ],
+  "scripts": {
+    "lint": "yarn prettier ./test/*.ts --check",
+    "lint:fix": "yarn prettier ./test/*.ts --write",
+    "clean": "rimraf ./cache && rimraf ./artifacts && rimraf ./typechain-types",
+    "compile": "hardhat compile",
+    "pretest": "yarn compile",
+    "test": "mocha",
+    "prepublishOnly": "yarn test"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.6.4",
@@ -43,15 +46,5 @@
     "ts-node": "^10.8.2",
     "typechain": "^8.1.0",
     "typescript": "^4.7.4"
-  },
-  "scripts": {
-    "lint": "yarn prettier ./test/*.ts --check",
-    "lint:fix": "yarn prettier ./test/*.ts --write",
-    "clean": "rimraf ./cache && rimraf ./artifacts && rimraf ./typechain-types",
-    "compile": "hardhat compile",
-    "pretest": "yarn compile",
-    "test": "mocha",
-    "prepublishOnly": "yarn test"
-  },
-  "license": "GPL-3.0-or-later"
+  }
 }

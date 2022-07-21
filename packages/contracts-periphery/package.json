@@ -1,19 +1,29 @@
 {
-  "name": "@uniswap/v2-periphery",
-  "version": "1.1.0-beta.0",
-  "description": "🎚 Peripheral smart contracts for interacting with Uniswap V2",
-  "engines": {
-    "node": ">=10"
-  },
-  "homepage": "https://uniswap.org",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Uniswap/uniswap-v2-periphery"
-  },
+  "name": "@dogeswap/contracts-periphery",
+  "version": "1.0.0",
+  "description": "🎚 Peripheral smart contracts for interacting with Dogeswap V2",
+  "homepage": "https://www.dogeswap.org",
+  "license": "GPL-3.0-or-later",
   "files": [
     "build",
     "contracts"
   ],
+  "keywords": [
+    "dogeswap",
+    "ethereum",
+    "v2",
+    "core",
+    "dogeswap-v2"
+  ],
+  "scripts": {
+    "lint": "yarn prettier ./test/*.ts --check",
+    "lint:fix": "yarn prettier ./test/*.ts --write",
+    "clean": "rimraf ./cache && rimraf ./artifacts && rimraf ./typechain-types",
+    "compile": "hardhat compile",
+    "pretest": "yarn compile",
+    "test": "mocha",
+    "prepublishOnly": "yarn test"
+  },
   "dependencies": {
     "@uniswap/lib": "4.0.1-alpha",
     "@uniswap/v2-core": "1.0.0"
@@ -41,15 +51,5 @@
     "ts-node": "^10.8.2",
     "typechain": "^8.1.0",
     "typescript": "^4.7.4"
-  },
-  "scripts": {
-    "lint": "yarn prettier ./test/*.ts --check",
-    "lint:fix": "yarn prettier ./test/*.ts --write",
-    "clean": "rimraf ./cache && rimraf ./artifacts && rimraf ./typechain-types",
-    "compile": "hardhat compile",
-    "pretest": "yarn compile",
-    "test": "mocha",
-    "prepublishOnly": "yarn test"
-  },
-  "license": "GPL-3.0-or-later"
+  }
 }

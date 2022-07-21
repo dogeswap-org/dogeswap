@@ -1,9 +1,23 @@
 {
     "name": "@dogeswap/interface",
+    "version": "1.0.0",
     "description": "Dogeswap Interface",
-    "homepage": ".",
+    "homepage": "https://www.dogeswap.org",
     "private": true,
     "license": "GPL-3.0-or-later",
+    "keywords": [
+        "dogeswap",
+        "ethereum",
+        "v2",
+        "core",
+        "dogeswap-v2"
+    ],
+    "scripts": {
+        "dev": "webpack serve",
+        "localnet:start": "yarn hardhat node",
+        "localnet:deploy": "yarn hardhat run --network localhost scripts/run-localnet.ts",
+        "test": "jest"
+    },
     "dependencies": {},
     "devDependencies": {
         "@ethersproject/abi": "^5.6.3",
@@ -130,12 +144,6 @@
         "@ethersproject/contracts": "5.6.2",
         "@ethersproject/abi": "5.6.3",
         "@walletconnect/web3-provider": "1.1.1-alpha.0"
-    },
-    "scripts": {
-        "dev": "webpack serve",
-        "localnet:start": "yarn hardhat node",
-        "localnet:deploy": "yarn hardhat run --network localhost scripts/run-localnet.ts",
-        "test": "jest"
     },
     "browserslist": {
         "production": [

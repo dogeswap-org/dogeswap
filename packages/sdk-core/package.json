@@ -1,17 +1,19 @@
 {
   "name": "@dogeswap/sdk-core",
-  "license": "MIT",
-  "version": "2.0.2",
+  "version": "1.0.0",
   "description": "🛠 An SDK for building applications on top of Dogeswap",
+  "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/Uniswap/uniswap-sdk-core.git",
   "keywords": [
-    "uniswap",
-    "ethereum"
+    "dogeswap",
+    "ethereum",
+    "v2",
+    "core",
+    "dogeswap-v2"
   ],
   "scripts": {
     "build": "tsc",
@@ -33,8 +35,5 @@
     "process": "^0.11.10",
     "ts-jest": "^28.0.7",
     "typescript": "^4.7.4"
-  },
-  "engines": {
-    "node": ">=10"
   }
 }
