@@ -1,8 +1,15 @@
 {
     "extends": "../../tsconfig.json",
-    "include": ["../sdk-core/src", "../v2-sdk/src", "./src"],
-    "exclude": ["dist", "node_modules"],
+    "include": [
+        "../sdk-core/src",
+        "../v2-sdk/src",
+        "./src"
+    ],
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
     "compilerOptions": {
-        "outDir": "/dist"
+        "outDir": "dist"
     }
 }

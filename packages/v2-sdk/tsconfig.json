@@ -1,8 +1,17 @@
 {
     "extends": "../../tsconfig.json",
-    "include": ["src", "../sdk-core/src/declarations.d.ts"],
+    "include": [
+        "src",
+        "../sdk-core/src/declarations.d.ts"
+    ],
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
     "compilerOptions": {
         "outDir": "dist",
-        "typeRoots": ["./node_modules/@types"]
+        "typeRoots": [
+            "./node_modules/@types"
+        ]
     }
 }
