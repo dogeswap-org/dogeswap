@@ -3,7 +3,6 @@ declare module "toformat" {
 }
 
 interface ToFormattable {
-    toFormat(format: object): string
-    toFormat(decimalPlaces: number, format: object): string
+    toFormat(format: object): string;
+    toFormat(decimalPlaces: number, format: object): string;
 }
-

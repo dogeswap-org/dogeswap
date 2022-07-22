@@ -20,9 +20,9 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
         () =>
             uncheckedAddresses
                 ? uncheckedAddresses
-                    .map(isAddress)
-                    .filter((a): a is string => a !== false)
-                    .sort()
+                      .map(isAddress)
+                      .filter((a): a is string => a !== false)
+                      .sort()
                 : [],
         [uncheckedAddresses],
     );
@@ -67,16 +67,16 @@ export function useTokenBalancesWithLoadingIndicator(
             () =>
                 address && validatedTokens.length > 0
                     ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount | undefined }>(
-                        (memo, token, i) => {
-                            const value = balances?.[i]?.result?.[0];
-                            const amount = value ? JSBI.BigInt(value.toString()) : undefined;
-                            if (amount) {
-                                memo[token.address] = new CurrencyAmount(token, amount);
-                            }
-                            return memo;
-                        },
-                        {},
-                    )
+                          (memo, token, i) => {
+                              const value = balances?.[i]?.result?.[0];
+                              const amount = value ? JSBI.BigInt(value.toString()) : undefined;
+                              if (amount) {
+                                  memo[token.address] = new CurrencyAmount(token, amount);
+                              }
+                              return memo;
+                          },
+                          {},
+                      )
                     : {},
             [address, validatedTokens, balances],
         ),

@@ -64,6 +64,8 @@ export default class CurrencyAmount<T extends Currency = Currency> extends Fract
 
     public toExact(format: object = { groupSeparator: "" }): string {
         Big.DP = this.currency.decimals;
-        return (new Big(this.numerator.toString()).div(this.denominator.toString()) as unknown as ToFormattable).toFormat(format);
+        return (
+            new Big(this.numerator.toString()).div(this.denominator.toString()) as unknown as ToFormattable
+        ).toFormat(format);
     }
 }

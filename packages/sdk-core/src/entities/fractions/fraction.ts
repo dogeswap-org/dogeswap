@@ -137,6 +137,8 @@ export default class Fraction {
 
         Big.DP = decimalPlaces;
         Big.RM = toFixedRounding[rounding];
-        return (new Big(this.numerator.toString()).div(this.denominator.toString()) as unknown as ToFormattable).toFormat(decimalPlaces, format);
+        return (
+            new Big(this.numerator.toString()).div(this.denominator.toString()) as unknown as ToFormattable
+        ).toFormat(decimalPlaces, format);
     }
 }

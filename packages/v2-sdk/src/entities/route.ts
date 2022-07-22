@@ -35,8 +35,8 @@ export class Route {
         );
         invariant(
             typeof output === "undefined" ||
-            (output.isToken && pairs[pairs.length - 1].involvesToken(output)) ||
-            (output === DOGECHAIN && wdc && pairs[pairs.length - 1].involvesToken(wdc)),
+                (output.isToken && pairs[pairs.length - 1].involvesToken(output)) ||
+                (output === DOGECHAIN && wdc && pairs[pairs.length - 1].involvesToken(wdc)),
             "OUTPUT",
         );
 

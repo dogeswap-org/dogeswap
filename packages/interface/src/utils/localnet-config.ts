@@ -41,19 +41,19 @@ const addressConfig = Object.keys(localTokens).reduce<Record<string, string>>((r
 }, {});
 
 const createLocalnetTokenList = () =>
-({
-    name: "Local",
-    timestamp: new Date().toISOString(),
-    version: {
-        major: 0,
-        minor: 0,
-        patch: 0,
-    },
-    tags: {},
-    logoURI: "ipfs://QmNa8mQkrNKp1WEEeGjFezDmDeodkWRevGFN8JCV7b4Xir",
-    keywords: [],
-    tokens: Object.keys(localTokens).map((x) => createLocalnetTokenListItem(x)),
-} as TokenList);
+    ({
+        name: "Local",
+        timestamp: new Date().toISOString(),
+        version: {
+            major: 0,
+            minor: 0,
+            patch: 0,
+        },
+        tags: {},
+        logoURI: "ipfs://QmNa8mQkrNKp1WEEeGjFezDmDeodkWRevGFN8JCV7b4Xir",
+        keywords: [],
+        tokens: Object.keys(localTokens).map((x) => createLocalnetTokenListItem(x)),
+    } as TokenList);
 
 export const localnetConfig = {
     factoryAddress: localnet.factoryAddress,

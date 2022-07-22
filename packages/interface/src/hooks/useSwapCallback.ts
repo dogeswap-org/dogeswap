@@ -199,10 +199,11 @@ export function useSwapCallback(
                         const withRecipient =
                             recipient === account
                                 ? base
-                                : `${base} to ${recipientAddressOrName && isAddress(recipientAddressOrName)
-                                    ? shortenAddress(recipientAddressOrName)
-                                    : recipientAddressOrName
-                                }`;
+                                : `${base} to ${
+                                      recipientAddressOrName && isAddress(recipientAddressOrName)
+                                          ? shortenAddress(recipientAddressOrName)
+                                          : recipientAddressOrName
+                                  }`;
 
                         const withVersion = withRecipient;
                         addTransaction(response, {

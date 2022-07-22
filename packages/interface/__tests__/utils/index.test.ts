@@ -8,7 +8,7 @@ import {
     calculateSlippageAmount,
     getEtherscanLink,
     isAddress,
-    shortenAddress
+    shortenAddress,
 } from "../../src/utils";
 
 describe("utils", () => {

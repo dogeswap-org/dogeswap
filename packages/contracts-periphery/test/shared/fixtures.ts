@@ -38,24 +38,24 @@ export async function v2Fixture([wallet]: Wallet[], provider: Web3Provider): Pro
     // deploy V2
     const factoryV2 = await deployContract(wallet, UniswapV2Factory, [wallet.address], overrides);
 
-    console.log("factoryV2")
+    console.log("factoryV2");
 
     // deploy routers
     const router02 = await deployContract(wallet, UniswapV2Router02, [factoryV2.address, WDC.address], overrides);
-    console.log("router02")
+    console.log("router02");
 
     // event emitter for testing
     const routerEventEmitter = await deployContract(wallet, RouterEventEmitter, [], overrides);
-    console.log("routerEventEmitter")
+    console.log("routerEventEmitter");
 
     // initialize V2
     await factoryV2.createPair(tokenA.address, tokenB.address);
-    console.log("factoryV2.createPair")
+    console.log("factoryV2.createPair");
     const pairAddress = await factoryV2.getPair(tokenA.address, tokenB.address);
-    console.log("pairAddress")
+    console.log("pairAddress");
     const pair = new Contract(pairAddress, JSON.stringify(IUniswapV2Pair.abi), provider).connect(wallet);
 
-    console.log("pair")
+    console.log("pair");
 
     const token0Address = await pair.token0();
     const token0 = tokenA.address === token0Address ? tokenA : tokenB;

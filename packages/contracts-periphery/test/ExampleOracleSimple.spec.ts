@@ -22,7 +22,7 @@ describe("ExampleOracleSimple", () => {
             hardfork: "istanbul",
             mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
             gasLimit: 30000000,
-        }
+        },
     });
     const [wallet] = provider.getWallets();
     const loadFixture = createFixtureLoader([wallet], provider);

@@ -23,7 +23,7 @@ describe("UniswapV2Router02", () => {
             hardfork: "istanbul",
             mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
             gasLimit: 30000000,
-        }
+        },
     });
     const [wallet] = provider.getWallets();
     const loadFixture = createFixtureLoader([wallet], provider);
@@ -39,8 +39,12 @@ describe("UniswapV2Router02", () => {
     });
 
     it("quote", async () => {
-        expect(await router.quote(BigNumber.from(1), BigNumber.from(100), BigNumber.from(200))).to.eq(BigNumber.from(2));
-        expect(await router.quote(BigNumber.from(2), BigNumber.from(200), BigNumber.from(100))).to.eq(BigNumber.from(1));
+        expect(await router.quote(BigNumber.from(1), BigNumber.from(100), BigNumber.from(200))).to.eq(
+            BigNumber.from(2),
+        );
+        expect(await router.quote(BigNumber.from(2), BigNumber.from(200), BigNumber.from(100))).to.eq(
+            BigNumber.from(1),
+        );
         await expect(router.quote(BigNumber.from(0), BigNumber.from(100), BigNumber.from(200))).to.be.revertedWith(
             "UniswapV2Library: INSUFFICIENT_AMOUNT",
         );
@@ -53,10 +57,12 @@ describe("UniswapV2Router02", () => {
     });
 
     it("getAmountOut", async () => {
-        expect(await router.getAmountOut(BigNumber.from(2), BigNumber.from(100), BigNumber.from(100))).to.eq(BigNumber.from(1));
-        await expect(router.getAmountOut(BigNumber.from(0), BigNumber.from(100), BigNumber.from(100))).to.be.revertedWith(
-            "UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT",
+        expect(await router.getAmountOut(BigNumber.from(2), BigNumber.from(100), BigNumber.from(100))).to.eq(
+            BigNumber.from(1),
         );
+        await expect(
+            router.getAmountOut(BigNumber.from(0), BigNumber.from(100), BigNumber.from(100)),
+        ).to.be.revertedWith("UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT");
         await expect(router.getAmountOut(BigNumber.from(2), BigNumber.from(0), BigNumber.from(100))).to.be.revertedWith(
             "UniswapV2Library: INSUFFICIENT_LIQUIDITY",
         );
@@ -66,10 +72,12 @@ describe("UniswapV2Router02", () => {
     });
 
     it("getAmountIn", async () => {
-        expect(await router.getAmountIn(BigNumber.from(1), BigNumber.from(100), BigNumber.from(100))).to.eq(BigNumber.from(2));
-        await expect(router.getAmountIn(BigNumber.from(0), BigNumber.from(100), BigNumber.from(100))).to.be.revertedWith(
-            "UniswapV2Library: INSUFFICIENT_OUTPUT_AMOUNT",
+        expect(await router.getAmountIn(BigNumber.from(1), BigNumber.from(100), BigNumber.from(100))).to.eq(
+            BigNumber.from(2),
         );
+        await expect(
+            router.getAmountIn(BigNumber.from(0), BigNumber.from(100), BigNumber.from(100)),
+        ).to.be.revertedWith("UniswapV2Library: INSUFFICIENT_OUTPUT_AMOUNT");
         await expect(router.getAmountIn(BigNumber.from(1), BigNumber.from(0), BigNumber.from(100))).to.be.revertedWith(
             "UniswapV2Library: INSUFFICIENT_LIQUIDITY",
         );
@@ -129,7 +137,7 @@ describe("fee-on-transfer tokens", () => {
             hardfork: "istanbul",
             mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
             gasLimit: 30000000,
-        }
+        },
     });
     const [wallet] = provider.getWallets();
     const loadFixture = createFixtureLoader([wallet], provider);
@@ -310,7 +318,7 @@ describe("fee-on-transfer tokens: reloaded", () => {
             hardfork: "istanbul",
             mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
             gasLimit: 30000000,
-        }
+        },
     });
     const [wallet] = provider.getWallets();
     const loadFixture = createFixtureLoader([wallet], provider);

@@ -10,7 +10,7 @@ import {
     computeSlippageAdjustedAmounts,
     computeTradePriceBreakdown,
     formatExecutionPrice,
-    warningSeverity
+    warningSeverity,
 } from "../../utils/prices";
 import { ButtonError } from "../Button";
 import { AutoColumn } from "../Column";

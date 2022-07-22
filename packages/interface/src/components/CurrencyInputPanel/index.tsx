@@ -61,7 +61,7 @@ const Aligner = styled.span`
     justify-content: space-between;
 `;
 
-const StyledDropDown = styled(() => <img src={DropDown} />) <{ selected: boolean }>`
+const StyledDropDown = styled(() => <img src={DropDown} />)<{ selected: boolean }>`
     margin: 0 0.25rem 0 0.5rem;
     height: 35%;
 
@@ -232,8 +232,8 @@ export default function CurrencyInputPanel({
                                 >
                                     {(currency && currency.symbol && currency.symbol.length > 20
                                         ? currency.symbol.slice(0, 4) +
-                                        "..." +
-                                        currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
+                                          "..." +
+                                          currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
                                         : currency?.symbol) || t("selectToken")}
                                 </StyledTokenName>
                             )}

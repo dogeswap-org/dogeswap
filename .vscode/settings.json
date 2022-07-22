@@ -1,16 +1,16 @@
 {
-  "npm.packageManager": "yarn",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "editor.formatOnSaveMode": "file",
-  "editor.tabCompletion": "on",
-  "editor.formatOnSave": true,
-  "editor.inlineSuggest.enabled": true,
-  "editor.tabSize": 4,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.organizeImports": true
-  },
-  "files.eol": "\n",
-  "eslint.enable": true,
+    "npm.packageManager": "yarn",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "editor.formatOnSaveMode": "file",
+    "editor.tabCompletion": "on",
+    "editor.formatOnSave": true,
+    "editor.inlineSuggest.enabled": true,
+    "editor.tabSize": 4,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.organizeImports": true
+    },
+    "files.eol": "\n",
+    "eslint.enable": true
 }

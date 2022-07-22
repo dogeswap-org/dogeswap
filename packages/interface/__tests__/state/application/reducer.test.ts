@@ -5,7 +5,7 @@ import {
     removePopup,
     toggleSettingsMenu,
     toggleWalletModal,
-    updateBlockNumber
+    updateBlockNumber,
 } from "../../../src/state/application/actions";
 import reducer, { ApplicationState } from "../../../src/state/application/reducer";
 
