@@ -1,27 +1,29 @@
-import { AddressZero, MaxUint256 } from "ethers/constants";
+import { AddressZero, MaxUint256 } from "@ethersproject/constants";
 import chai, { expect } from "chai";
+import { createFixtureLoader, deployContract, MockProvider, solidity } from "ethereum-waffle";
 import { Contract } from "ethers";
-import { solidity, MockProvider, createFixtureLoader, deployContract } from "ethereum-waffle";
 
-import { expandTo18Decimals } from "./shared/utilities";
 import { v2Fixture } from "./shared/fixtures";
+import { expandTo18Decimals } from "./shared/utilities";
 
-import ExampleComputeLiquidityValue from "../build/ExampleComputeLiquidityValue.json";
+import ExampleComputeLiquidityValue from "../artifacts/contracts/examples/ExampleComputeLiquidityValue.sol/ExampleComputeLiquidityValue.json";
 
 chai.use(solidity);
 
 const overrides = {
-    gasLimit: 9999999,
+    gasLimit: 30000000,
 };
 
 describe("ExampleComputeLiquidityValue", () => {
     const provider = new MockProvider({
-        hardfork: "istanbul",
-        mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
-        gasLimit: 9999999,
+        ganacheOptions: {
+            hardfork: "istanbul",
+            mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
+            gasLimit: 30000000,
+        }
     });
     const [wallet] = provider.getWallets();
-    const loadFixture = createFixtureLoader(provider, [wallet]);
+    const loadFixture = createFixtureLoader([wallet], provider);
 
     let token0: Contract;
     let token1: Contract;

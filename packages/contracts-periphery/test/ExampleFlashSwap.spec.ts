@@ -5,23 +5,25 @@ import { Contract } from "ethers";
 import { v2Fixture } from "./shared/fixtures";
 import { expandTo18Decimals } from "./shared/utilities";
 
-import ExampleFlashSwap from "../build/ExampleFlashSwap.json";
+import ExampleFlashSwap from "../artifacts/contracts/examples/ExampleFlashSwap.sol/ExampleFlashSwap.json";
 
 chai.use(solidity);
 
 const overrides = {
-    gasLimit: 9999999,
+    gasLimit: 30000000,
     gasPrice: 0,
 };
 
 describe("ExampleFlashSwap", () => {
     const provider = new MockProvider({
-        hardfork: "istanbul",
-        mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
-        gasLimit: 9999999,
+        ganacheOptions: {
+            hardfork: "istanbul",
+            mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
+            gasLimit: 30000000,
+        }
     });
     const [wallet] = provider.getWallets();
-    const loadFixture = createFixtureLoader(provider, [wallet]);
+    const loadFixture = createFixtureLoader([wallet], provider);
 
     let WDC: Contract;
     let WDCPartner: Contract;

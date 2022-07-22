@@ -32,6 +32,7 @@
     "devDependencies": {
         "@ethersproject/abi": "^5.6.4",
         "@ethersproject/bytes": "^5.6.1",
+        "@ethersproject/constants": "^5.6.1",
         "@ethersproject/providers": "^5.6.8",
         "@nomicfoundation/hardhat-chai-matchers": "^1.0.1",
         "@nomicfoundation/hardhat-network-helpers": "^1.0.2",

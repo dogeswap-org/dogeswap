@@ -10,7 +10,7 @@ import ExampleOracleSimple from "../artifacts/contracts/examples/ExampleOracleSi
 chai.use(solidity);
 
 const overrides = {
-    gasLimit: 9999999,
+    gasLimit: 30000000,
 };
 
 const token0Amount = expandTo18Decimals(5);
@@ -18,12 +18,14 @@ const token1Amount = expandTo18Decimals(10);
 
 describe("ExampleOracleSimple", () => {
     const provider = new MockProvider({
-        hardfork: "istanbul",
-        mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
-        gasLimit: 9999999,
+        ganacheOptions: {
+            hardfork: "istanbul",
+            mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
+            gasLimit: 30000000,
+        }
     });
     const [wallet] = provider.getWallets();
-    const loadFixture = createFixtureLoader(provider, [wallet]);
+    const loadFixture = createFixtureLoader([wallet], provider);
 
     let token0: Contract;
     let token1: Contract;

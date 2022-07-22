@@ -1,21 +1,19 @@
-import { Wallet, Contract } from "ethers";
-import { Web3Provider } from "ethers/providers";
 import { deployContract } from "ethereum-waffle";
+import { Contract, Wallet } from "ethers";
 
 import { expandTo18Decimals } from "./utilities";
 
-import UniswapV2Factory from "@uniswap/v2-core/build/UniswapV2Factory.json";
 import IUniswapV2Pair from "@uniswap/v2-core/build/IUniswapV2Pair.json";
+import UniswapV2Factory from "@uniswap/v2-core/build/UniswapV2Factory.json";
 
-import ERC20 from "../../build/ERC20.json";
-import WDC from "../../build/WDC.json";
-import UniswapV1Exchange from "../../build/UniswapV1Exchange.json";
-import UniswapV1Factory from "../../build/UniswapV1Factory.json";
-import UniswapV2Router02 from "../../build/UniswapV2Router02.json";
-import RouterEventEmitter from "../../build/RouterEventEmitter.json";
+import { Web3Provider } from "@ethersproject/providers";
+import RouterEventEmitter from "../../artifacts/contracts/test/RouterEventEmitter.sol/RouterEventEmitter.json";
+import ERC20 from "../../artifacts/contracts/tokens/ERC20.sol/ERC20.json";
+import WDC_ABI from "../../artifacts/contracts/tokens/WDC.sol/WDC.json";
+import UniswapV2Router02 from "../../artifacts/contracts/UniswapV2Router02.sol/UniswapV2Router02.json";
 
 const overrides = {
-    gasLimit: 9999999,
+    gasLimit: 30000000,
 };
 
 interface V2Fixture {
@@ -23,47 +21,41 @@ interface V2Fixture {
     token1: Contract;
     WDC: Contract;
     WDCPartner: Contract;
-    factoryV1: Contract;
     factoryV2: Contract;
-    router02: Contract;
     routerEventEmitter: Contract;
     router: Contract;
-    WDCExchangeV1: Contract;
     pair: Contract;
     WDCPair: Contract;
 }
 
-export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Promise<V2Fixture> {
+export async function v2Fixture([wallet]: Wallet[], provider: Web3Provider): Promise<V2Fixture> {
     // deploy tokens
-    const tokenA = await deployContract(wallet, ERC20, ["Test Token", "TT", expandTo18Decimals(10000)]);
-    const tokenB = await deployContract(wallet, ERC20, ["Test Token", "TT", expandTo18Decimals(10000)]);
-    const WDC = await deployContract(wallet, WDC);
-    const WDCPartner = await deployContract(wallet, ERC20, ["Test Token", "TT", expandTo18Decimals(10000)]);
-
-    // deploy V1
-    const factoryV1 = await deployContract(wallet, UniswapV1Factory, []);
-    await factoryV1.initializeFactory((await deployContract(wallet, UniswapV1Exchange, [])).address);
+    const tokenA = await deployContract(wallet, ERC20, ["Test Token", "TT", expandTo18Decimals(10000)], overrides);
+    const tokenB = await deployContract(wallet, ERC20, ["Test Token", "TT", expandTo18Decimals(10000)], overrides);
+    const WDC = await deployContract(wallet, WDC_ABI, undefined, overrides);
+    const WDCPartner = await deployContract(wallet, ERC20, ["Test Token", "TT", expandTo18Decimals(10000)], overrides);
 
     // deploy V2
-    const factoryV2 = await deployContract(wallet, UniswapV2Factory, [wallet.address]);
+    const factoryV2 = await deployContract(wallet, UniswapV2Factory, [wallet.address], overrides);
+
+    console.log("factoryV2")
 
     // deploy routers
     const router02 = await deployContract(wallet, UniswapV2Router02, [factoryV2.address, WDC.address], overrides);
+    console.log("router02")
 
     // event emitter for testing
-    const routerEventEmitter = await deployContract(wallet, RouterEventEmitter, []);
-
-    // initialize V1
-    await factoryV1.createExchange(WDCPartner.address, overrides);
-    const WDCExchangeV1Address = await factoryV1.getExchange(WDCPartner.address);
-    const WDCExchangeV1 = new Contract(WDCExchangeV1Address, JSON.stringify(UniswapV1Exchange.abi), provider).connect(
-        wallet,
-    );
+    const routerEventEmitter = await deployContract(wallet, RouterEventEmitter, [], overrides);
+    console.log("routerEventEmitter")
 
     // initialize V2
     await factoryV2.createPair(tokenA.address, tokenB.address);
+    console.log("factoryV2.createPair")
     const pairAddress = await factoryV2.getPair(tokenA.address, tokenB.address);
+    console.log("pairAddress")
     const pair = new Contract(pairAddress, JSON.stringify(IUniswapV2Pair.abi), provider).connect(wallet);
+
+    console.log("pair")
 
     const token0Address = await pair.token0();
     const token0 = tokenA.address === token0Address ? tokenA : tokenB;
@@ -78,13 +70,9 @@ export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Pro
         token1,
         WDC,
         WDCPartner,
-        factoryV1,
         factoryV2,
-        router02,
         router: router02, // the default router, 01 had a minor bug
         routerEventEmitter,
-        migrator,
-        WDCExchangeV1,
         pair,
         WDCPair,
     };

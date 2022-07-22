@@ -8,22 +8,25 @@ import { expandTo18Decimals, getApprovalDigest, MINIMUM_LIQUIDITY } from "./shar
 
 import { ecsign } from "ethereumjs-util";
 
+import { MaxUint256 } from "@ethersproject/constants";
 import DeflatingERC20 from "../artifacts/contracts/test/DeflatingERC20.sol/DeflatingERC20.json";
 
 chai.use(solidity);
 
 const overrides = {
-    gasLimit: 9999999,
+    gasLimit: 30000000,
 };
 
 describe("UniswapV2Router02", () => {
     const provider = new MockProvider({
-        hardfork: "istanbul",
-        mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
-        gasLimit: 9999999,
+        ganacheOptions: {
+            hardfork: "istanbul",
+            mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
+            gasLimit: 30000000,
+        }
     });
     const [wallet] = provider.getWallets();
-    const loadFixture = createFixtureLoader(provider, [wallet]);
+    const loadFixture = createFixtureLoader([wallet], provider);
 
     let token0: Contract;
     let token1: Contract;
@@ -122,12 +125,14 @@ describe("UniswapV2Router02", () => {
 
 describe("fee-on-transfer tokens", () => {
     const provider = new MockProvider({
-        hardfork: "istanbul",
-        mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
-        gasLimit: 9999999,
+        ganacheOptions: {
+            hardfork: "istanbul",
+            mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
+            gasLimit: 30000000,
+        }
     });
     const [wallet] = provider.getWallets();
-    const loadFixture = createFixtureLoader(provider, [wallet]);
+    const loadFixture = createFixtureLoader([wallet], provider);
 
     let DTT: Contract;
     let WDC: Contract;
@@ -301,12 +306,14 @@ describe("fee-on-transfer tokens", () => {
 
 describe("fee-on-transfer tokens: reloaded", () => {
     const provider = new MockProvider({
-        hardfork: "istanbul",
-        mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
-        gasLimit: 9999999,
+        ganacheOptions: {
+            hardfork: "istanbul",
+            mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
+            gasLimit: 30000000,
+        }
     });
     const [wallet] = provider.getWallets();
-    const loadFixture = createFixtureLoader(provider, [wallet]);
+    const loadFixture = createFixtureLoader([wallet], provider);
 
     let DTT: Contract;
     let DTT2: Contract;
