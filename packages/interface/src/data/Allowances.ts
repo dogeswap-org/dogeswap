@@ -1,5 +1,5 @@
+import { CurrencyAmount, Token } from "@dogeswap/sdk-core";
 import { useMemo } from "react";
-import { CurrencyAmount, Token } from "../../../sdk-core/src";
 import { useSingleCallResult } from "../hooks/Multicall";
 
 import { useTokenContract } from "../hooks/useContract";

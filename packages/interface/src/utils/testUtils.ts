@@ -1,5 +1,4 @@
-import { ChainId } from "../../../sdk-core/src/constants";
-import { Token } from "../../../sdk-core/src/entities/token";
+import { ChainId, Token } from "@dogeswap/sdk-core";
 
 export const testWDC = new Token(
     ChainId.LOCALNET,

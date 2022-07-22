@@ -1,16 +1,16 @@
+import { TradeType } from "@dogeswap/sdk-core";
+import { Trade } from "@dogeswap/v2-sdk";
 import React, { useContext, useMemo, useState } from "react";
 import { Repeat } from "react-feather";
 import { Text } from "rebass";
 import { ThemeContext } from "styled-components";
-import { TradeType } from "../../../../sdk-core/src";
-import { Trade } from "../../../../v2-sdk/src";
 import { Field } from "../../state/swap/actions";
 import { TYPE } from "../../theme";
 import {
     computeSlippageAdjustedAmounts,
     computeTradePriceBreakdown,
     formatExecutionPrice,
-    warningSeverity,
+    warningSeverity
 } from "../../utils/prices";
 import { ButtonError } from "../Button";
 import { AutoColumn } from "../Column";

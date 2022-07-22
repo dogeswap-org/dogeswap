@@ -3,9 +3,8 @@ import { useMemo } from "react";
 import { abi as IUniswapV2PairABI } from "../../../contracts-core/artifacts/contracts/interfaces/IUniswapV2Pair.sol/IUniswapV2Pair.json";
 import { useActiveWeb3React } from "../hooks";
 
-import { Currency } from "../../../sdk-core/src/entities/currency";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import { Pair } from "../../../v2-sdk/src/entities/pair";
+import CurrencyAmount, { Currency } from "@dogeswap/sdk-core";
+import { Pair } from "@dogeswap/v2-sdk";
 import { factory } from "../constants/addresses";
 import { useMultipleContractSingleData } from "../hooks/Multicall";
 import { wrappedCurrency } from "../utils/wrappedCurrency";

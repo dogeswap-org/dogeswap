@@ -1,7 +1,5 @@
+import { Currency, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
 import { useMemo } from "react";
-import { Currency } from "../../../sdk-core/src/entities/currency";
-import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
-import { currencyEquals } from "../../../sdk-core/src/utils/currencyEquals";
 import { WDC } from "../constants/addresses";
 import { tryParseAmount } from "../state/swap/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
@@ -45,17 +43,17 @@ export default function useWrapCallback(
                 execute:
                     sufficientBalance && inputAmount
                         ? async () => {
-                              try {
-                                  const txReceipt = await wdcContract.deposit({
-                                      value: `0x${inputAmount.raw.toString(16)}`,
-                                  });
-                                  addTransaction(txReceipt, {
-                                      summary: `Wrap ${inputAmount.toSignificant(6)} ETH to WDC`,
-                                  });
-                              } catch (error) {
-                                  console.error("Could not deposit", error);
-                              }
-                          }
+                            try {
+                                const txReceipt = await wdcContract.deposit({
+                                    value: `0x${inputAmount.raw.toString(16)}`,
+                                });
+                                addTransaction(txReceipt, {
+                                    summary: `Wrap ${inputAmount.toSignificant(6)} ETH to WDC`,
+                                });
+                            } catch (error) {
+                                console.error("Could not deposit", error);
+                            }
+                        }
                         : undefined,
                 inputError: sufficientBalance ? undefined : "Insufficient ETH balance",
             };
@@ -65,15 +63,15 @@ export default function useWrapCallback(
                 execute:
                     sufficientBalance && inputAmount
                         ? async () => {
-                              try {
-                                  const txReceipt = await wdcContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
-                                  addTransaction(txReceipt, {
-                                      summary: `Unwrap ${inputAmount.toSignificant(6)} WDC to ETH`,
-                                  });
-                              } catch (error) {
-                                  console.error("Could not withdraw", error);
-                              }
-                          }
+                            try {
+                                const txReceipt = await wdcContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
+                                addTransaction(txReceipt, {
+                                    summary: `Unwrap ${inputAmount.toSignificant(6)} WDC to ETH`,
+                                });
+                            } catch (error) {
+                                console.error("Could not withdraw", error);
+                            }
+                        }
                         : undefined,
                 inputError: sufficientBalance ? undefined : "Insufficient WDC balance",
             };

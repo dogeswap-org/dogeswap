@@ -1,6 +1,6 @@
+import { ChainId } from "@dogeswap/sdk-core";
 import { Contract } from "ethers";
 import React from "react";
-import { ChainId } from "../../../../sdk-core/src";
 import { multicall } from "../../utils/multicall";
 
 // 500 was used in the previous implementation as a reasonable value to keep from exceeding the gas limit.

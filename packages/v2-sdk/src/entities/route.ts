@@ -1,9 +1,5 @@
+import { ChainId, Currency, DOGECHAIN, Price, Token, WDC } from "@dogeswap/sdk-core";
 import invariant from "tiny-invariant";
-import { ChainId } from "../../../sdk-core/src/constants";
-import { Currency } from "../../../sdk-core/src/entities/currency";
-import { DOGECHAIN, WDC } from "../../../sdk-core/src/entities/ether";
-import Price from "../../../sdk-core/src/entities/fractions/price";
-import { Token } from "../../../sdk-core/src/entities/token";
 
 import { Pair } from "./pair";
 
@@ -39,8 +35,8 @@ export class Route {
         );
         invariant(
             typeof output === "undefined" ||
-                (output.isToken && pairs[pairs.length - 1].involvesToken(output)) ||
-                (output === DOGECHAIN && wdc && pairs[pairs.length - 1].involvesToken(wdc)),
+            (output.isToken && pairs[pairs.length - 1].involvesToken(output)) ||
+            (output === DOGECHAIN && wdc && pairs[pairs.length - 1].involvesToken(wdc)),
             "OUTPUT",
         );
 

@@ -1,4 +1,4 @@
-import { ChainId, DOGECHAIN } from "../../../sdk-core/src";
+import { ChainId, DOGECHAIN } from "@dogeswap/sdk-core";
 
 export const chains = {
     [ChainId.MAINNET]: {

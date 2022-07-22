@@ -1,13 +1,8 @@
+import { ChainId, default as CurrencyAmount, default as Percent, default as Price, DOGECHAIN, Token, TradeType } from "@dogeswap/sdk-core";
+import JSBI from "jsbi";
 import { Pair } from "../../src/entities/pair";
 import { Route } from "../../src/entities/route";
 import { Trade } from "../../src/entities/trade";
-import JSBI from "jsbi";
-import { Token } from "../../../sdk-core/src/entities/token";
-import { ChainId, TradeType } from "../../../sdk-core/src/constants";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import Percent from "../../../sdk-core/src/entities/fractions/percent";
-import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
-import Price from "../../../sdk-core/src/entities/fractions/price";
 import { testWDC } from "../testUtils";
 
 describe("Trade", () => {

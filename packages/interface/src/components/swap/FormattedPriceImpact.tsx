@@ -1,5 +1,5 @@
+import { Percent } from "@dogeswap/sdk-core";
 import React from "react";
-import { Percent } from "../../../../sdk-core/src";
 import { ONE_BIPS } from "../../constants";
 import { warningSeverity } from "../../utils/prices";
 import { ErrorText } from "./styleds";

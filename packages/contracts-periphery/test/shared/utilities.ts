@@ -1,15 +1,16 @@
-import { Contract } from "ethers";
-import { Web3Provider } from "ethers/providers";
-import { BigNumber, bigNumberify, keccak256, defaultAbiCoder, toUtf8Bytes, solidityPack } from "ethers/utils";
+import { defaultAbiCoder } from "@ethersproject/abi";
+import { Web3Provider } from "@ethersproject/providers";
+import { BigNumber, Contract } from "ethers";
+import { keccak256, solidityPack, toUtf8Bytes } from "ethers/lib/utils";
 
-export const MINIMUM_LIQUIDITY = bigNumberify(10).pow(3);
+export const MINIMUM_LIQUIDITY = BigNumber.from(10).pow(3);
 
 const PERMIT_TYPEHASH = keccak256(
     toUtf8Bytes("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"),
 );
 
 export function expandTo18Decimals(n: number): BigNumber {
-    return bigNumberify(n).mul(bigNumberify(10).pow(18));
+    return BigNumber.from(n).mul(BigNumber.from(10).pow(18));
 }
 
 function getDomainSeparator(name: string, tokenAddress: string) {
@@ -75,5 +76,5 @@ export async function mineBlock(provider: Web3Provider, timestamp: number): Prom
 }
 
 export function encodePrice(reserve0: BigNumber, reserve1: BigNumber) {
-    return [reserve1.mul(bigNumberify(2).pow(112)).div(reserve0), reserve0.mul(bigNumberify(2).pow(112)).div(reserve1)];
+    return [reserve1.mul(BigNumber.from(2).pow(112)).div(reserve0), reserve0.mul(BigNumber.from(2).pow(112)).div(reserve1)];
 }

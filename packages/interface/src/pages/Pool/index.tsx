@@ -13,7 +13,7 @@ import { RowBetween } from "../../components/Row";
 import { useTokenBalancesWithLoadingIndicator } from "../../state/wallet/hooks";
 import { StyledInternalLink, TYPE } from "../../theme";
 
-import { Pair } from "../../../../v2-sdk/src/entities/pair";
+import { Pair } from "@dogeswap/v2-sdk";
 import { Dots } from "../../components/swap/styleds";
 import { usePairs } from "../../data/Reserves";
 import { useActiveWeb3React } from "../../hooks";

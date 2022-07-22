@@ -1,6 +1,6 @@
+import { Currency } from "@dogeswap/sdk-core";
 import React, { useCallback, useEffect, useState } from "react";
 import ReactGA from "react-ga";
-import { Currency } from "../../../../sdk-core/src";
 import useLast from "../../hooks/useLast";
 import { useSelectedListUrl } from "../../state/lists/hooks";
 import Modal from "../Modal";

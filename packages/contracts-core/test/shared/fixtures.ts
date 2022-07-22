@@ -1,12 +1,12 @@
-import { Contract, Wallet } from "ethers";
-import { Web3Provider } from "ethers/providers";
 import { deployContract } from "ethereum-waffle";
+import { Contract, Wallet } from "ethers";
 
 import { expandTo18Decimals } from "./utilities";
 
-import ERC20 from "../../build/ERC20.json";
-import UniswapV2Factory from "../../build/UniswapV2Factory.json";
-import UniswapV2Pair from "../../build/UniswapV2Pair.json";
+import { Web3Provider } from "@ethersproject/providers";
+import ERC20 from "../../artifacts/contracts/test/ERC20.sol/ERC20.json";
+import UniswapV2Factory from "../../artifacts/contracts/UniswapV2Factory.sol/UniswapV2Factory.json";
+import UniswapV2Pair from "../../artifacts/contracts/UniswapV2Pair.sol/UniswapV2Pair.json";
 
 interface FactoryFixture {
     factory: Contract;
@@ -16,7 +16,7 @@ const overrides = {
     gasLimit: 9999999,
 };
 
-export async function factoryFixture(_: Web3Provider, [wallet]: Wallet[]): Promise<FactoryFixture> {
+export async function factoryFixture([wallet]: Wallet[], _: Web3Provider): Promise<FactoryFixture> {
     const factory = await deployContract(wallet, UniswapV2Factory, [wallet.address], overrides);
     return { factory };
 }
@@ -27,8 +27,8 @@ interface PairFixture extends FactoryFixture {
     pair: Contract;
 }
 
-export async function pairFixture(provider: Web3Provider, [wallet]: Wallet[]): Promise<PairFixture> {
-    const { factory } = await factoryFixture(provider, [wallet]);
+export async function pairFixture([wallet]: Wallet[], provider: Web3Provider): Promise<PairFixture> {
+    const { factory } = await factoryFixture([wallet], provider);
 
     const tokenA = await deployContract(wallet, ERC20, [expandTo18Decimals(10000)], overrides);
     const tokenB = await deployContract(wallet, ERC20, [expandTo18Decimals(10000)], overrides);

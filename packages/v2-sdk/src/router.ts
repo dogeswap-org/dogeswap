@@ -1,10 +1,6 @@
-import { Trade } from "./entities/trade";
+import { CurrencyAmount, DOGECHAIN, Percent, TradeType, validateAndParseAddress } from "@dogeswap/sdk-core";
 import invariant from "tiny-invariant";
-import { TradeType } from "../../sdk-core/src/constants";
-import { DOGECHAIN } from "../../sdk-core/src/entities/ether";
-import CurrencyAmount from "../../sdk-core/src/entities/fractions/currencyAmount";
-import Percent from "../../sdk-core/src/entities/fractions/percent";
-import validateAndParseAddress from "../../sdk-core/src/utils/validateAndParseAddress";
+import { Trade } from "./entities/trade";
 
 /**
  * Options for producing the arguments to send call to the router.
@@ -70,7 +66,7 @@ export abstract class Router {
     /**
      * Cannot be constructed.
      */
-    private constructor() {}
+    private constructor() { }
     /**
      * Produces the on-chain method name to call and the hex encoded parameters to pass as arguments for a given trade.
      * @param trade to produce call parameters for

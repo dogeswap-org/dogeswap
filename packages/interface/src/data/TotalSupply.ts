@@ -1,5 +1,5 @@
+import { CurrencyAmount, Token } from "@dogeswap/sdk-core";
 import { BigNumber } from "@ethersproject/bignumber";
-import { CurrencyAmount, Token } from "../../../sdk-core/src";
 import { useSingleCallResult } from "../hooks/Multicall";
 import { useTokenContract } from "../hooks/useContract";
 

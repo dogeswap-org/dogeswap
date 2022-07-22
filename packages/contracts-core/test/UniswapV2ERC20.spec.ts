@@ -1,13 +1,15 @@
 import chai, { expect } from "chai";
-import { Contract } from "ethers";
-import { MaxUint256 } from "ethers/constants";
-import { bigNumberify, hexlify, keccak256, defaultAbiCoder, toUtf8Bytes } from "ethers/utils";
-import { solidity, MockProvider, deployContract } from "ethereum-waffle";
+import { deployContract, MockProvider, solidity } from "ethereum-waffle";
 import { ecsign } from "ethereumjs-util";
+import { BigNumber, Contract } from "ethers";
 
 import { expandTo18Decimals, getApprovalDigest } from "./shared/utilities";
 
-import ERC20 from "../build/ERC20.json";
+import { defaultAbiCoder } from "@ethersproject/abi";
+import { hexlify } from "@ethersproject/bytes";
+import { MaxUint256 } from "@ethersproject/constants";
+import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
+import ERC20 from "../artifacts/contracts/test/ERC20.sol/ERC20.json";
 
 chai.use(solidity);
 
@@ -16,9 +18,11 @@ const TEST_AMOUNT = expandTo18Decimals(10);
 
 describe("UniswapV2ERC20", () => {
     const provider = new MockProvider({
-        hardfork: "istanbul",
-        mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
-        gasLimit: 9999999,
+        ganacheOptions: {
+            hardfork: "istanbul",
+            mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
+            gasLimit: 9999999,
+        }
     });
     const [wallet, other] = provider.getWallets();
 
@@ -115,6 +119,6 @@ describe("UniswapV2ERC20", () => {
             .to.emit(token, "Approval")
             .withArgs(wallet.address, other.address, TEST_AMOUNT);
         expect(await token.allowance(wallet.address, other.address)).to.eq(TEST_AMOUNT);
-        expect(await token.nonces(wallet.address)).to.eq(bigNumberify(1));
+        expect(await token.nonces(wallet.address)).to.eq(BigNumber.from(1));
     });
 });

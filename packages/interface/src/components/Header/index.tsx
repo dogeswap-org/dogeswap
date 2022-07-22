@@ -16,7 +16,7 @@ import { YellowCard } from "../Card";
 import Menu from "../Menu";
 import Settings from "../Settings";
 
-import { ChainId } from "../../../../sdk-core/src/constants";
+import { ChainId } from "@dogeswap/sdk-core";
 import Row, { RowBetween } from "../Row";
 import Web3Status from "../Web3Status";
 

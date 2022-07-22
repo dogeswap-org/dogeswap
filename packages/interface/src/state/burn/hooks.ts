@@ -1,8 +1,8 @@
+import { Currency, CurrencyAmount, Percent } from "@dogeswap/sdk-core";
+import { Pair } from "@dogeswap/v2-sdk";
 import JSBI from "jsbi";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Currency, CurrencyAmount, Percent } from "../../../../sdk-core/src";
-import { Pair } from "../../../../v2-sdk/src";
 import { usePair } from "../../data/Reserves";
 import { useTotalSupply } from "../../data/TotalSupply";
 
@@ -52,23 +52,23 @@ export function useDerivedBurnInfo(
     const totalSupply = useTotalSupply(pair?.liquidityToken);
     const liquidityValueA =
         pair &&
-        totalSupply &&
-        userLiquidity &&
-        tokenA &&
-        // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-        JSBI.greaterThanOrEqual(totalSupply.raw, userLiquidity.raw)
+            totalSupply &&
+            userLiquidity &&
+            tokenA &&
+            // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+            JSBI.greaterThanOrEqual(totalSupply.raw, userLiquidity.raw)
             ? new CurrencyAmount(tokenA, pair.getLiquidityValue(tokenA, totalSupply, userLiquidity, false).raw)
             : undefined;
     const liquidityValueB =
         pair &&
-        totalSupply &&
-        userLiquidity &&
-        tokenB &&
-        // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-        JSBI.greaterThanOrEqual(totalSupply.raw, userLiquidity.raw)
+            totalSupply &&
+            userLiquidity &&
+            tokenB &&
+            // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+            JSBI.greaterThanOrEqual(totalSupply.raw, userLiquidity.raw)
             ? new CurrencyAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).raw)
             : undefined;
-    const liquidityValues: { [Field.CURRENCY_A]?: CurrencyAmount; [Field.CURRENCY_B]?: CurrencyAmount } = {
+    const liquidityValues: { [Field.CURRENCY_A]?: CurrencyAmount;[Field.CURRENCY_B]?: CurrencyAmount } = {
         [Field.CURRENCY_A]: liquidityValueA,
         [Field.CURRENCY_B]: liquidityValueB,
     };

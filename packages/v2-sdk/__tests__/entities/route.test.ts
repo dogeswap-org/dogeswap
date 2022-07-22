@@ -1,7 +1,4 @@
-import { ChainId } from "../../../sdk-core/src/constants";
-import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import { Token } from "../../../sdk-core/src/entities/token";
+import CurrencyAmount, { ChainId, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import { Pair } from "../../src/entities/pair";
 import { Route } from "../../src/entities/route";
 import { testWDC } from "../testUtils";

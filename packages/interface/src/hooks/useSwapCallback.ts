@@ -1,11 +1,9 @@
+import Percent, { TradeType } from "@dogeswap/sdk-core";
+import { Router, SwapParameters, Trade } from "@dogeswap/v2-sdk";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
 import JSBI from "jsbi";
 import { useMemo } from "react";
-import { TradeType } from "../../../sdk-core/src/constants";
-import Percent from "../../../sdk-core/src/entities/fractions/percent";
-import { Trade } from "../../../v2-sdk/src/entities/trade";
-import { Router, SwapParameters } from "../../../v2-sdk/src/router";
 import { BIPS_BASE, DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from "../constants";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import { calculateGasMargin, getRouterContract, isAddress, shortenAddress } from "../utils";
@@ -201,11 +199,10 @@ export function useSwapCallback(
                         const withRecipient =
                             recipient === account
                                 ? base
-                                : `${base} to ${
-                                      recipientAddressOrName && isAddress(recipientAddressOrName)
-                                          ? shortenAddress(recipientAddressOrName)
-                                          : recipientAddressOrName
-                                  }`;
+                                : `${base} to ${recipientAddressOrName && isAddress(recipientAddressOrName)
+                                    ? shortenAddress(recipientAddressOrName)
+                                    : recipientAddressOrName
+                                }`;
 
                         const withVersion = withRecipient;
                         addTransaction(response, {

@@ -1,11 +1,9 @@
 import chai, { expect } from "chai";
+import { createFixtureLoader, deployContract, MockProvider, solidity } from "ethereum-waffle";
 import { Contract } from "ethers";
-import { MaxUint256 } from "ethers/constants";
-import { BigNumber, bigNumberify, defaultAbiCoder, formatEther } from "ethers/utils";
-import { solidity, MockProvider, createFixtureLoader, deployContract } from "ethereum-waffle";
 
-import { expandTo18Decimals } from "./shared/utilities";
 import { v2Fixture } from "./shared/fixtures";
+import { expandTo18Decimals } from "./shared/utilities";
 
 import ExampleFlashSwap from "../build/ExampleFlashSwap.json";
 
@@ -50,7 +48,7 @@ describe("ExampleFlashSwap", () => {
         const WDCPartnerAmountV1 = expandTo18Decimals(2000);
         const ETHAmountV1 = expandTo18Decimals(10);
         await WDCPartner.approve(WDCExchangeV1.address, WDCPartnerAmountV1);
-        await WDCExchangeV1.addLiquidity(bigNumberify(1), WDCPartnerAmountV1, MaxUint256, {
+        await WDCExchangeV1.addLiquidity(BigNumber.from(1), WDCPartnerAmountV1, MaxUint256, {
             ...overrides,
             value: ETHAmountV1,
         });
@@ -72,13 +70,13 @@ describe("ExampleFlashSwap", () => {
         // better, but it'd be better yet to calculate the amount at runtime, on-chain. unfortunately, this requires a
         // swap-to-price calculation, which is a little tricky, and out of scope for the moment
         const WDCPairToken0 = await WDCPair.token0();
-        const amount0 = WDCPairToken0 === WDCPartner.address ? bigNumberify(0) : arbitrageAmount;
-        const amount1 = WDCPairToken0 === WDCPartner.address ? arbitrageAmount : bigNumberify(0);
+        const amount0 = WDCPairToken0 === WDCPartner.address ? BigNumber.from(0) : arbitrageAmount;
+        const amount1 = WDCPairToken0 === WDCPartner.address ? arbitrageAmount : BigNumber.from(0);
         await WDCPair.swap(
             amount0,
             amount1,
             flashSwapExample.address,
-            defaultAbiCoder.encode(["uint"], [bigNumberify(1)]),
+            defaultAbiCoder.encode(["uint"], [BigNumber.from(1)]),
             overrides,
         );
 
@@ -103,7 +101,7 @@ describe("ExampleFlashSwap", () => {
         const WDCPartnerAmountV1 = expandTo18Decimals(1000);
         const ETHAmountV1 = expandTo18Decimals(10);
         await WDCPartner.approve(WDCExchangeV1.address, WDCPartnerAmountV1);
-        await WDCExchangeV1.addLiquidity(bigNumberify(1), WDCPartnerAmountV1, MaxUint256, {
+        await WDCExchangeV1.addLiquidity(BigNumber.from(1), WDCPartnerAmountV1, MaxUint256, {
             ...overrides,
             value: ETHAmountV1,
         });
@@ -125,13 +123,13 @@ describe("ExampleFlashSwap", () => {
         // better, but it'd be better yet to calculate the amount at runtime, on-chain. unfortunately, this requires a
         // swap-to-price calculation, which is a little tricky, and out of scope for the moment
         const WDCPairToken0 = await WDCPair.token0();
-        const amount0 = WDCPairToken0 === WDCPartner.address ? arbitrageAmount : bigNumberify(0);
-        const amount1 = WDCPairToken0 === WDCPartner.address ? bigNumberify(0) : arbitrageAmount;
+        const amount0 = WDCPairToken0 === WDCPartner.address ? arbitrageAmount : BigNumber.from(0);
+        const amount1 = WDCPairToken0 === WDCPartner.address ? BigNumber.from(0) : arbitrageAmount;
         await WDCPair.swap(
             amount0,
             amount1,
             flashSwapExample.address,
-            defaultAbiCoder.encode(["uint"], [bigNumberify(1)]),
+            defaultAbiCoder.encode(["uint"], [BigNumber.from(1)]),
             overrides,
         );
 

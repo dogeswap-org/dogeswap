@@ -21,10 +21,7 @@ import { useWalletModalToggle } from "../../state/application/hooks";
 import { Field } from "../../state/mint/actions";
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from "../../state/mint/hooks";
 
-import { Currency } from "../../../../sdk-core/src/entities/currency";
-import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
-import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
-import { currencyEquals } from "../../../../sdk-core/src/utils/currencyEquals";
+import CurrencyAmount, { Currency, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
 import { ButtonError, ButtonLight, ButtonPrimary } from "../../components/Button";
 import { getRouterAddress } from "../../constants";
 import { WDC } from "../../constants/addresses";
@@ -56,8 +53,8 @@ export default function AddLiquidity({
 
     const oneCurrencyIsWDC = Boolean(
         chainId &&
-            ((currencyA && currencyEquals(currencyA, WDC[chainId])) ||
-                (currencyB && currencyEquals(currencyB, WDC[chainId]))),
+        ((currencyA && currencyEquals(currencyA, WDC[chainId])) ||
+            (currencyB && currencyEquals(currencyB, WDC[chainId]))),
     );
 
     const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
@@ -250,9 +247,8 @@ export default function AddLiquidity({
         );
     };
 
-    const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${
-        currencies[Field.CURRENCY_A]?.symbol
-    } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
+    const pendingText = `Supplying ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)} ${currencies[Field.CURRENCY_A]?.symbol
+        } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)} ${currencies[Field.CURRENCY_B]?.symbol}`;
 
     const handleCurrencyASelect = useCallback(
         (currencyA: Currency) => {

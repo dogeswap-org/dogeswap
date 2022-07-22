@@ -1,13 +1,10 @@
+import CurrencyAmount, { Currency, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Trade } from "@dogeswap/v2-sdk";
 import { parseUnits } from "@ethersproject/units";
 import JSBI from "jsbi";
 import { ParsedQs } from "qs";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Currency } from "../../../../sdk-core/src/entities/currency";
-import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
-import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
-import { Token } from "../../../../sdk-core/src/entities/token";
-import { Trade } from "../../../../v2-sdk/src/entities/trade";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { useTradeExactIn, useTradeExactOut } from "../../hooks/Trades";

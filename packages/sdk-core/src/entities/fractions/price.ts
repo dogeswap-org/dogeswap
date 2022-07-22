@@ -1,10 +1,10 @@
 import JSBI from "jsbi";
-import { currencyEquals } from "../../utils";
 import invariant from "tiny-invariant";
 import { BigintIsh, Rounding } from "../../constants";
+import { currencyEquals } from "../../utils";
 import { Currency } from "../currency";
-import Fraction from "./fraction";
 import CurrencyAmount from "./currencyAmount";
+import Fraction from "./fraction";
 
 export default class Price extends Fraction {
     public readonly baseCurrency: Currency; // input i.e. denominator
@@ -31,11 +31,11 @@ export default class Price extends Fraction {
         return super.multiply(this.scalar);
     }
 
-    public invert(): Price {
+    public override invert(): Price {
         return new Price(this.quoteCurrency, this.baseCurrency, this.numerator, this.denominator);
     }
 
-    public multiply(other: Price): Price {
+    public override multiply(other: Price): Price {
         invariant(currencyEquals(this.quoteCurrency, other.baseCurrency), "TOKEN");
         const fraction = super.multiply(other);
         return new Price(this.baseCurrency, other.quoteCurrency, fraction.denominator, fraction.numerator);
@@ -47,11 +47,11 @@ export default class Price extends Fraction {
         return new CurrencyAmount(this.quoteCurrency, super.multiply(currencyAmount.raw).quotient);
     }
 
-    public toSignificant(significantDigits: number = 6, format?: object, rounding?: Rounding): string {
+    public override toSignificant(significantDigits: number = 6, format?: object, rounding?: Rounding): string {
         return this.adjusted.toSignificant(significantDigits, format, rounding);
     }
 
-    public toFixed(decimalPlaces: number = 4, format?: object, rounding?: Rounding): string {
+    public override toFixed(decimalPlaces: number = 4, format?: object, rounding?: Rounding): string {
         return this.adjusted.toFixed(decimalPlaces, format, rounding);
     }
 }

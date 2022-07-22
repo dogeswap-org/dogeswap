@@ -1,11 +1,11 @@
+import { ChainId } from "@dogeswap/sdk-core";
 import { createStore, Store } from "redux";
-import { ChainId } from "../../../../sdk-core/src/constants";
 import {
     addPopup,
     removePopup,
     toggleSettingsMenu,
     toggleWalletModal,
-    updateBlockNumber,
+    updateBlockNumber
 } from "../../../src/state/application/actions";
 import reducer, { ApplicationState } from "../../../src/state/application/reducer";
 

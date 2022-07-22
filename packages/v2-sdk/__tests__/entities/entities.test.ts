@@ -1,8 +1,6 @@
+import CurrencyAmount, { ChainId, Rounding, Token, TradeType } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import invariant from "tiny-invariant";
-import { ChainId, Rounding, TradeType } from "../../../sdk-core/src/constants";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import { Token } from "../../../sdk-core/src/entities/token";
 import { Pair } from "../../src/entities/pair";
 import { Route } from "../../src/entities/route";
 import { Trade } from "../../src/entities/trade";

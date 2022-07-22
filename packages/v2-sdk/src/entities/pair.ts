@@ -1,15 +1,11 @@
-import invariant from "tiny-invariant";
-import JSBI from "jsbi";
-import { pack, keccak256 } from "@ethersproject/solidity";
 import { getCreate2Address } from "@ethersproject/address";
+import { keccak256, pack } from "@ethersproject/solidity";
+import JSBI from "jsbi";
+import invariant from "tiny-invariant";
 
-import { INIT_CODE_HASH, MINIMUM_LIQUIDITY, FIVE, _997, _1000, ONE, ZERO } from "../constants";
-import { InsufficientReservesError, InsufficientInputAmountError } from "../errors";
-import { Token } from "../../../sdk-core/src/entities/token";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import Price from "../../../sdk-core/src/entities/fractions/price";
-import { BigintIsh, ChainId } from "../../../sdk-core/src/constants";
-import sqrt from "../../../sdk-core/src/utils/sqrt";
+import { BigintIsh, ChainId, CurrencyAmount, Price, sqrt, Token } from "@dogeswap/sdk-core";
+import { FIVE, INIT_CODE_HASH, MINIMUM_LIQUIDITY, ONE, ZERO, _1000, _997 } from "../constants";
+import { InsufficientInputAmountError, InsufficientReservesError } from "../errors";
 
 export const computePairAddress = ({
     factoryAddress,
@@ -168,8 +164,8 @@ export class Pair {
         invariant(totalSupply.currency.isToken && totalSupply.currency.equals(this.liquidityToken), "LIQUIDITY");
         const currencyAmounts =
             currencyAmountA.currency.isToken &&
-            currencyAmountB.currency.isToken &&
-            currencyAmountA.currency.sortsBefore(currencyAmountB.currency) // does safety checks
+                currencyAmountB.currency.isToken &&
+                currencyAmountA.currency.sortsBefore(currencyAmountB.currency) // does safety checks
                 ? [currencyAmountA, currencyAmountB]
                 : [currencyAmountB, currencyAmountA];
         invariant(currencyAmounts[0].currency.isToken && currencyAmounts[1].currency.isToken);
@@ -189,7 +185,7 @@ export class Pair {
             const amount1 = JSBI.divide(JSBI.multiply(currencyAmounts[1].raw, totalSupply.raw), this.reserve1.raw);
             liquidity = JSBI.lessThanOrEqual(amount0, amount1) ? amount0 : amount1;
         }
-        if (!JSBI.greaterThan(liquidity, ZERO)) {
+        if (JSBI.greaterThan(liquidity, ZERO)) {
             throw new InsufficientInputAmountError();
         }
         return new CurrencyAmount(this.liquidityToken, liquidity);
@@ -208,12 +204,12 @@ export class Pair {
         invariant(JSBI.lessThanOrEqual(liquidity.raw, totalSupply.raw), "LIQUIDITY");
 
         let totalSupplyAdjusted: CurrencyAmount;
-        if (!feeOn) {
+        if (feeOn) {
             totalSupplyAdjusted = totalSupply;
         } else {
-            invariant(!!kLast, "K_LAST");
+            invariant(kLast, "K_LAST");
             const kLastParsed = JSBI.BigInt(kLast);
-            if (!JSBI.equal(kLastParsed, ZERO)) {
+            if (JSBI.equal(kLastParsed, ZERO)) {
                 const rootK = sqrt(JSBI.multiply(this.reserve0.raw, this.reserve1.raw));
                 const rootKLast = sqrt(kLastParsed);
                 if (JSBI.greaterThan(rootK, rootKLast)) {

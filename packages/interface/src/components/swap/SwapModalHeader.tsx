@@ -1,9 +1,9 @@
+import { TradeType } from "@dogeswap/sdk-core";
+import { Trade } from "@dogeswap/v2-sdk";
 import React, { useContext, useMemo } from "react";
 import { AlertTriangle, ArrowDown } from "react-feather";
 import { Text } from "rebass";
 import { ThemeContext } from "styled-components";
-import { TradeType } from "../../../../sdk-core/src";
-import { Trade } from "../../../../v2-sdk/src";
 import { Field } from "../../state/swap/actions";
 import { TYPE } from "../../theme";
 import { isAddress, shortenAddress } from "../../utils";
@@ -72,8 +72,8 @@ export default function SwapModalHeader({
                             priceImpactSeverity > 2
                                 ? theme.red1
                                 : showAcceptChanges && trade.tradeType === TradeType.EXACT_INPUT
-                                ? theme.primary1
-                                : ""
+                                    ? theme.primary1
+                                    : ""
                         }
                     >
                         {trade.outputAmount.toSignificant(6)}

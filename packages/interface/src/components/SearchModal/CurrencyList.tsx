@@ -1,12 +1,8 @@
+import CurrencyAmount, { Currency, currencyEquals, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from "react";
 import { FixedSizeList } from "react-window";
 import { Text } from "rebass";
 import styled from "styled-components";
-import { Currency } from "../../../../sdk-core/src/entities/currency";
-import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
-import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
-import { Token } from "../../../../sdk-core/src/entities/token";
-import { currencyEquals } from "../../../../sdk-core/src/utils";
 import { useActiveWeb3React } from "../../hooks";
 import { useIsUserAddedToken } from "../../hooks/Tokens";
 import { useSelectedTokenList, WrappedTokenInfo } from "../../state/lists/hooks";

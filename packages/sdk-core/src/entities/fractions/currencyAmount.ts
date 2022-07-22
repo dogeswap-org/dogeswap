@@ -35,17 +35,17 @@ export default class CurrencyAmount<T extends Currency = Currency> extends Fract
         return this.numerator;
     }
 
-    public add(other: CurrencyAmount): CurrencyAmount {
+    public override add(other: CurrencyAmount): CurrencyAmount {
         invariant(currencyEquals(this.currency, other.currency), "TOKEN");
         return new CurrencyAmount(this.currency, JSBI.add(this.raw, other.raw));
     }
 
-    public subtract(other: CurrencyAmount): CurrencyAmount {
+    public override subtract(other: CurrencyAmount): CurrencyAmount {
         invariant(currencyEquals(this.currency, other.currency), "TOKEN");
         return new CurrencyAmount(this.currency, JSBI.subtract(this.raw, other.raw));
     }
 
-    public toSignificant(
+    public override toSignificant(
         significantDigits: number = 6,
         format?: object,
         rounding: Rounding = Rounding.ROUND_DOWN,
@@ -53,7 +53,7 @@ export default class CurrencyAmount<T extends Currency = Currency> extends Fract
         return super.toSignificant(significantDigits, format, rounding);
     }
 
-    public toFixed(
+    public override toFixed(
         decimalPlaces: number = this.currency.decimals,
         format?: object,
         rounding: Rounding = Rounding.ROUND_DOWN,

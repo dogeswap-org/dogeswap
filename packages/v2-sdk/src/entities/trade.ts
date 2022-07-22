@@ -1,18 +1,9 @@
-import { ONE, ZERO } from "../constants";
 import invariant from "tiny-invariant";
+import { ONE, ZERO } from "../constants";
 
+import { ChainId, Currency, CurrencyAmount, currencyEquals, DOGECHAIN, Fraction, Percent, Price, sortedInsert, Token, TradeType, WDC } from "@dogeswap/sdk-core";
 import { Pair } from "./pair";
 import { Route } from "./route";
-import Price from "../../../sdk-core/src/entities/fractions/price";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import { currencyEquals } from "../../../sdk-core/src/utils/currencyEquals";
-import { ChainId, TradeType } from "../../../sdk-core/src/constants";
-import { Currency } from "../../../sdk-core/src/entities/currency";
-import { Token } from "../../../sdk-core/src/entities/token";
-import Percent from "../../../sdk-core/src/entities/fractions/percent";
-import { DOGECHAIN, WDC } from "../../../sdk-core/src/entities/ether";
-import Fraction from "../../../sdk-core/src/entities/fractions/fraction";
-import sortedInsert from "../../../sdk-core/src/utils/sortedInsert";
 
 /**
  * Returns the percent difference between the mid price and the execution price, i.e. price impact.
@@ -182,14 +173,14 @@ export class Trade {
             tradeType === TradeType.EXACT_INPUT
                 ? amount
                 : route.input === DOGECHAIN
-                ? CurrencyAmount.ether(amounts[0].raw)
-                : amounts[0];
+                    ? CurrencyAmount.ether(amounts[0].raw)
+                    : amounts[0];
         this.outputAmount =
             tradeType === TradeType.EXACT_OUTPUT
                 ? amount
                 : route.output === DOGECHAIN
-                ? CurrencyAmount.ether(amounts[amounts.length - 1].raw)
-                : amounts[amounts.length - 1];
+                    ? CurrencyAmount.ether(amounts[amounts.length - 1].raw)
+                    : amounts[amounts.length - 1];
         this.executionPrice = new Price(
             this.inputAmount.currency,
             this.outputAmount.currency,
@@ -265,8 +256,8 @@ export class Trade {
         const chainId: ChainId | undefined = currencyAmountIn.currency.isToken
             ? currencyAmountIn.currency.chainId
             : currencyOut.isToken
-            ? currencyOut.chainId
-            : undefined;
+                ? currencyOut.chainId
+                : undefined;
         invariant(chainId !== undefined, "CHAIN_ID");
 
         const amountIn = wrappedAmount(currencyAmountIn, wdc);
@@ -372,8 +363,8 @@ export class Trade {
         const chainId: ChainId | undefined = currencyAmountOut.currency.isToken
             ? currencyAmountOut.currency.chainId
             : currencyIn.isToken
-            ? currencyIn.chainId
-            : undefined;
+                ? currencyIn.chainId
+                : undefined;
         invariant(chainId !== undefined, "CHAIN_ID");
 
         const amountOut = wrappedAmount(currencyAmountOut, wdc);

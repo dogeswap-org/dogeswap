@@ -1,8 +1,8 @@
+import { Token } from "@dogeswap/sdk-core";
 import { transparentize } from "polished";
 import React, { useCallback, useMemo, useState } from "react";
 import { AlertTriangle } from "react-feather";
 import styled from "styled-components";
-import { Token } from "../../../../sdk-core/src";
 import { useActiveWeb3React } from "../../hooks";
 import { useAllTokens } from "../../hooks/Tokens";
 import { ExternalLink, TYPE } from "../../theme";

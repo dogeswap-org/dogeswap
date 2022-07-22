@@ -1,11 +1,10 @@
 import chai, { expect } from "chai";
+import { createFixtureLoader, deployContract, MockProvider, solidity } from "ethereum-waffle";
 import { Contract } from "ethers";
 import { MaxUint256 } from "ethers/constants";
-import { BigNumber, bigNumberify, defaultAbiCoder, formatEther } from "ethers/utils";
-import { solidity, MockProvider, createFixtureLoader, deployContract } from "ethereum-waffle";
 
-import { expandTo18Decimals } from "./shared/utilities";
 import { v2Fixture } from "./shared/fixtures";
+import { expandTo18Decimals } from "./shared/utilities";
 
 import ExampleSwapToPrice from "../build/ExampleSwapToPrice.json";
 

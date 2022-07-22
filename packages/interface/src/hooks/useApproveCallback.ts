@@ -1,11 +1,9 @@
+import CurrencyAmount, { DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Trade } from "@dogeswap/v2-sdk";
 import { MaxUint256 } from "@ethersproject/constants";
 import { TransactionResponse } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import { useCallback, useMemo } from "react";
-import { Token } from "../../../sdk-core/src";
-import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import { Trade } from "../../../v2-sdk/src/entities/trade";
 import { getRouterAddress } from "../constants";
 import { useTokenAllowance } from "../data/Allowances";
 import { Field } from "../state/swap/actions";

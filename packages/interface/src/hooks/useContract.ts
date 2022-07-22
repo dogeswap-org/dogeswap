@@ -1,6 +1,6 @@
+import { ChainId } from "@dogeswap/sdk-core";
 import { Contract } from "@ethersproject/contracts";
 import { useMemo } from "react";
-import { ChainId } from "../../../sdk-core/src/constants";
 import { erc20Abi, iUniswapV2PairAbi, multicallAbi, wdcAbi } from "../constants/abis";
 import { multicall, WDC } from "../constants/addresses";
 import { getContract } from "../utils";

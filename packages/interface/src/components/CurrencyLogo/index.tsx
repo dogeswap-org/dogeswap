@@ -1,8 +1,6 @@
+import { Currency, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import { Currency } from "../../../../sdk-core/src/entities/currency";
-import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
-import { Token } from "../../../../sdk-core/src/entities/token";
 
 import EthereumLogo from "../../../assets/images/ethereum-logo.png";
 import useHttpLocations from "../../hooks/useHttpLocations";
@@ -19,7 +17,7 @@ const StyledEthereumLogo = styled.img<{ size: string }>`
     border-radius: 24px;
 `;
 
-const StyledLogo = styled(Logo)<{ size: string }>`
+const StyledLogo = styled(Logo) <{ size: string }>`
     width: ${({ size }) => size};
     height: ${({ size }) => size};
 `;

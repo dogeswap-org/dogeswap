@@ -1,8 +1,4 @@
-import { ChainId } from "../../../sdk-core/src/constants";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import Price from "../../../sdk-core/src/entities/fractions/price";
-import { Token } from "../../../sdk-core/src/entities/token";
-import { currencyEquals } from "../../../sdk-core/src/utils/currencyEquals";
+import { ChainId, currencyEquals, default as CurrencyAmount, default as Price, Token } from "@dogeswap/sdk-core";
 import { computePairAddress, Pair } from "../../src/entities/pair";
 import { InsufficientInputAmountError } from "../../src/errors";
 import { testWDC } from "../testUtils";

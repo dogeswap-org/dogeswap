@@ -1,12 +1,11 @@
 import chai, { expect } from "chai";
-import { Contract } from "ethers";
-import { BigNumber, bigNumberify } from "ethers/utils";
-import { solidity, MockProvider, createFixtureLoader, deployContract } from "ethereum-waffle";
+import { createFixtureLoader, deployContract, MockProvider, solidity } from "ethereum-waffle";
+import { BigNumber, Contract } from "ethers";
 
-import { expandTo18Decimals, mineBlock, encodePrice } from "./shared/utilities";
 import { v2Fixture } from "./shared/fixtures";
+import { encodePrice, expandTo18Decimals, mineBlock } from "./shared/utilities";
 
-import ExampleSlidingWindowOracle from "../build/ExampleSlidingWindowOracle.json";
+import ExampleSlidingWindowOracle from "../artifacts/contracts/examples/ExampleSlidingWindowOracle.sol/ExampleSlidingWindowOracle.json";
 
 chai.use(solidity);
 
@@ -147,7 +146,7 @@ describe("ExampleSlidingWindowOracle", () => {
             expect(
                 await slidingWindowOracle.pairObservations(pair.address, observationIndexOf(blockTimestamp)),
             ).to.deep.eq([
-                bigNumberify(blockTimestamp),
+                BigNumber.from(blockTimestamp),
                 await pair.price0CumulativeLast(),
                 await pair.price1CumulativeLast(),
             ]);
@@ -233,7 +232,7 @@ describe("ExampleSlidingWindowOracle", () => {
                         observationIndexOf(previousBlockTimestamp),
                     ),
                 ).to.deep.eq([
-                    bigNumberify(previousBlockTimestamp),
+                    BigNumber.from(previousBlockTimestamp),
                     previousCumulativePrices[0],
                     previousCumulativePrices[1],
                 ]);
@@ -244,7 +243,7 @@ describe("ExampleSlidingWindowOracle", () => {
                 const prices = encodePrice(defaultToken0Amount, defaultToken1Amount);
                 expect(
                     await slidingWindowOracle.pairObservations(pair.address, observationIndexOf(blockTimestamp)),
-                ).to.deep.eq([bigNumberify(blockTimestamp), prices[0].mul(timeElapsed), prices[1].mul(timeElapsed)]);
+                ).to.deep.eq([BigNumber.from(blockTimestamp), prices[0].mul(timeElapsed), prices[1].mul(timeElapsed)]);
             }).retries(5); // test flaky because timestamps aren't mocked
 
             it("provides the current ratio in consult token0", async () => {
@@ -263,7 +262,7 @@ describe("ExampleSlidingWindowOracle", () => {
                 await slidingWindowOracle.update(token0.address, token1.address, overrides); // hour 0, 1:2
                 // change the price at hour 3 to 1:1 and immediately update
                 await mineBlock(provider, startTime + 3 * hour);
-                await addLiquidity(defaultToken0Amount, bigNumberify(0));
+                await addLiquidity(defaultToken0Amount, BigNumber.from(0));
                 await slidingWindowOracle.update(token0.address, token1.address, overrides);
 
                 // change the ratios at hour 6:00 to 2:1, don't update right away

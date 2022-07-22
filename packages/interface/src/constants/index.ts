@@ -1,8 +1,6 @@
+import Percent, { ChainId, Token } from "@dogeswap/sdk-core";
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import JSBI from "jsbi";
-import { ChainId } from "../../../sdk-core/src/constants";
-import Percent from "../../../sdk-core/src/entities/fractions/percent";
-import { Token } from "../../../sdk-core/src/entities/token";
 import { injected, walletconnect, walletlink } from "../connectors";
 import { localnetConfig } from "../utils/localnet-config";
 import { ChainTokens, DAI, USDC, USDT, WDC } from "./addresses";

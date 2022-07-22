@@ -1,9 +1,6 @@
+import { Currency, currencyEquals, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import { NEVER_RELOAD } from "@uniswap/redux-multicall";
 import { useMemo } from "react";
-import { Currency } from "../../../sdk-core/src/entities/currency";
-import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
-import { Token } from "../../../sdk-core/src/entities/token";
-import { currencyEquals } from "../../../sdk-core/src/utils/currencyEquals";
 import { useSelectedTokenList } from "../state/lists/hooks";
 import { useUserAddedTokens } from "../state/user/hooks";
 import { isAddress } from "../utils";

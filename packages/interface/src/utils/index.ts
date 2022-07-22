@@ -1,15 +1,10 @@
+import { ChainId, Currency, default as CurrencyAmount, default as Percent, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import { getAddress } from "@ethersproject/address";
 import { BigNumber } from "@ethersproject/bignumber";
 import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
 import JSBI from "jsbi";
-import { ChainId } from "../../../sdk-core/src/constants";
-import { Currency } from "../../../sdk-core/src/entities/currency";
-import { DOGECHAIN } from "../../../sdk-core/src/entities/ether";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import Percent from "../../../sdk-core/src/entities/fractions/percent";
-import { Token } from "../../../sdk-core/src/entities/token";
 import { getRouterAddress } from "../constants";
 import { iUniswapV2Router02Abi } from "../constants/abis";
 import { TokenAddressMap } from "../state/lists/hooks";

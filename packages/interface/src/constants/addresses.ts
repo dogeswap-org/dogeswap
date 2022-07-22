@@ -1,5 +1,4 @@
-import { ChainId } from "../../../sdk-core/src/constants";
-import { Token } from "../../../sdk-core/src/entities/token";
+import { ChainId, Token } from "@dogeswap/sdk-core";
 import { localnetConfig } from "../utils/localnet-config";
 
 export type ChainTokens<T extends string = string> = { [chainId in ChainId]: Token<T> };

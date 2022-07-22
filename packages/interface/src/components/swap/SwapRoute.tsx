@@ -1,8 +1,8 @@
+import { Trade } from "@dogeswap/v2-sdk";
 import React, { Fragment, memo, useContext } from "react";
 import { ChevronRight } from "react-feather";
 import { Flex } from "rebass";
 import { ThemeContext } from "styled-components";
-import { Trade } from "../../../../v2-sdk/src";
 import { TYPE } from "../../theme";
 import CurrencyLogo from "../CurrencyLogo";
 

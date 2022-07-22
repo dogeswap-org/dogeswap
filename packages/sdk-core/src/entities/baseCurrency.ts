@@ -11,7 +11,7 @@ export abstract class BaseCurrency<T extends string = string> {
 
     public readonly decimals: number;
     public readonly symbol: T;
-    public readonly name?: string;
+    public readonly name: string | undefined;
 
     /**
      * Constructs an instance of the base class `Currency`. The only instance of the base class `Currency` is `Currency.DOGECHAIN`.

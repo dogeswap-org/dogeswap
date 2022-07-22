@@ -1,5 +1,5 @@
+import { ChainId } from "@dogeswap/sdk-core";
 import { createAction } from "@reduxjs/toolkit";
-import { ChainId } from "../../../../sdk-core/src/constants";
 
 export interface SerializableTransactionReceipt {
     to: string;

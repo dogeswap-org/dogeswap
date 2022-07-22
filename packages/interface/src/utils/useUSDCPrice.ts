@@ -1,9 +1,6 @@
+import Price, { ChainId, Currency, currencyEquals } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import { useMemo } from "react";
-import { ChainId } from "../../../sdk-core/src/constants";
-import { Currency } from "../../../sdk-core/src/entities/currency";
-import Price from "../../../sdk-core/src/entities/fractions/price";
-import { currencyEquals } from "../../../sdk-core/src/utils";
 import { USDC, WDC } from "../constants/addresses";
 import { PairState, usePairs } from "../data/Reserves";
 import { useActiveWeb3React } from "../hooks";

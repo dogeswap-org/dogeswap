@@ -1,3 +1,4 @@
+import { Currency, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactGA from "react-ga";
 import { useTranslation } from "react-i18next";
@@ -5,9 +6,6 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 import { Text } from "rebass";
 import { ThemeContext } from "styled-components";
-import { Currency } from "../../../../sdk-core/src/entities/currency";
-import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
-import { Token } from "../../../../sdk-core/src/entities/token";
 import { useActiveWeb3React } from "../../hooks";
 import { useAllTokens, useToken } from "../../hooks/Tokens";
 import { useSelectedListInfo } from "../../state/lists/hooks";

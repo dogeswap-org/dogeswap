@@ -1,7 +1,7 @@
+import { TradeType } from "@dogeswap/sdk-core";
+import { Trade } from "@dogeswap/v2-sdk";
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { TradeType } from "../../../../sdk-core/src";
-import { Trade } from "../../../../v2-sdk/src";
 import { Field } from "../../state/swap/actions";
 import { useUserSlippageTolerance } from "../../state/user/hooks";
 import { TYPE } from "../../theme";
@@ -32,12 +32,10 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
                     <RowFixed>
                         <TYPE.black color={theme.text1} fontSize={14}>
                             {isExactIn
-                                ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${
-                                      trade.outputAmount.currency.symbol
-                                  }` ?? "-"
-                                : `${slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)} ${
-                                      trade.inputAmount.currency.symbol
-                                  }` ?? "-"}
+                                ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol
+                                }` ?? "-"
+                                : `${slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)} ${trade.inputAmount.currency.symbol
+                                }` ?? "-"}
                         </TYPE.black>
                     </RowFixed>
                 </RowBetween>

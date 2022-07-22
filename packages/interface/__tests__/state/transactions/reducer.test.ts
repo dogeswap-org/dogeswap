@@ -1,10 +1,10 @@
+import { ChainId } from "@dogeswap/sdk-core";
 import { createStore, Store } from "redux";
-import { ChainId } from "../../../../sdk-core/src/constants";
 import {
     addTransaction,
     checkedTransaction,
     clearAllTransactions,
-    finalizeTransaction,
+    finalizeTransaction
 } from "../../../src/state/transactions/actions";
 import reducer, { initialState, TransactionState } from "../../../src/state/transactions/reducer";
 

@@ -1,15 +1,11 @@
+import { ChainId, default as CurrencyAmount, default as Percent, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import invariant from "tiny-invariant";
-import { ChainId } from "../../sdk-core/src/constants";
-import { Token } from "../../sdk-core/src/entities/token";
-import CurrencyAmount from "../../sdk-core/src/entities/fractions/currencyAmount";
-import { DOGECHAIN } from "../../sdk-core/src/entities/ether";
-import Percent from "../../sdk-core/src/entities/fractions/percent";
-import { testWDC } from "./testUtils";
 import { Pair } from "../src/entities/pair";
 import { Route } from "../src/entities/route";
 import { Trade } from "../src/entities/trade";
 import { Router } from "../src/router";
+import { testWDC } from "./testUtils";
 
 function checkDeadline(deadline: string[] | string): void {
     expect(typeof deadline).toBe("string");

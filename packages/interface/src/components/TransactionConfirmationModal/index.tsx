@@ -10,7 +10,7 @@ import { AutoColumn, ColumnCenter } from "../Column";
 import Modal from "../Modal";
 import { RowBetween } from "../Row";
 
-import { ChainId } from "../../../../sdk-core/src";
+import { ChainId } from "@dogeswap/sdk-core";
 import { useActiveWeb3React } from "../../hooks";
 import { getEtherscanLink } from "../../utils";
 
@@ -31,7 +31,7 @@ const ConfirmedIcon = styled(ColumnCenter)`
     padding: 60px 0;
 `;
 
-const CustomLightSpinner = styled(Spinner)<{ size: string }>`
+const CustomLightSpinner = styled(Spinner) <{ size: string }>`
     height: ${({ size }) => size};
     width: ${({ size }) => size};
 `;

@@ -28,6 +28,7 @@
         "tiny-warning": "^1.0.3"
     },
     "devDependencies": {
+        "@dogeswap/sdk-core": "workspace:^",
         "@types/big.js": "^4.0.5",
         "@types/jest": "^28.1.6",
         "jest": "^28.1.3",

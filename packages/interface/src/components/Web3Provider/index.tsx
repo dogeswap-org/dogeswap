@@ -1,7 +1,7 @@
+import { ChainId } from "@dogeswap/sdk-core";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { Contract } from "ethers";
 import React, { PropsWithChildren, useEffect, useState } from "react";
-import { ChainId } from "../../../../sdk-core/src";
 import { multicallAbi } from "../../constants/abis";
 import { multicall } from "../../constants/addresses";
 import { chains } from "../../constants/chains";

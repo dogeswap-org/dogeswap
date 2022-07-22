@@ -1,17 +1,14 @@
+import { ChainId, default as CurrencyAmount, default as Percent, Token } from "@dogeswap/sdk-core";
 import { BigNumber } from "@ethersproject/bignumber";
 import { AddressZero } from "@ethersproject/constants";
 import JSBI from "jsbi";
-import { ChainId } from "../../../sdk-core/src/constants";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import Percent from "../../../sdk-core/src/entities/fractions/percent";
-import { Token } from "../../../sdk-core/src/entities/token";
 import {
     basisPointsToPercent,
     calculateGasMargin,
     calculateSlippageAmount,
     getEtherscanLink,
     isAddress,
-    shortenAddress,
+    shortenAddress
 } from "../../src/utils";
 
 describe("utils", () => {

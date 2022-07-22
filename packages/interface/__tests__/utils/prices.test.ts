@@ -1,10 +1,6 @@
+import CurrencyAmount, { ChainId, Token, TradeType } from "@dogeswap/sdk-core";
+import { Pair, Route, Trade } from "@dogeswap/v2-sdk";
 import JSBI from "jsbi";
-import { ChainId, TradeType } from "../../../sdk-core/src/constants";
-import CurrencyAmount from "../../../sdk-core/src/entities/fractions/currencyAmount";
-import { Token } from "../../../sdk-core/src/entities/token";
-import { Pair } from "../../../v2-sdk/src/entities/pair";
-import { Route } from "../../../v2-sdk/src/entities/route";
-import { Trade } from "../../../v2-sdk/src/entities/trade";
 import { computeTradePriceBreakdown } from "../../src/utils/prices";
 import { testWDC } from "../../src/utils/testUtils";
 

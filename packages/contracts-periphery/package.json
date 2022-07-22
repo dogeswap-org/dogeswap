@@ -5,8 +5,9 @@
     "homepage": "https://www.dogeswap.org",
     "license": "GPL-3.0-or-later",
     "files": [
-        "build",
-        "contracts"
+        "artifacts",
+        "contracts",
+        "typechain-types"
     ],
     "keywords": [
         "dogeswap",
@@ -19,8 +20,8 @@
         "lint": "yarn prettier ./test/*.ts --check",
         "lint:fix": "yarn prettier ./test/*.ts --write",
         "clean": "rimraf ./cache && rimraf ./artifacts && rimraf ./typechain-types",
-        "compile": "hardhat compile",
-        "pretest": "yarn compile",
+        "build": "hardhat compile",
+        "pretest": "yarn build",
         "test": "mocha",
         "prepublishOnly": "yarn test"
     },
@@ -46,6 +47,7 @@
         "ethers": "^5.6.9",
         "hardhat": "^2.10.0",
         "hardhat-gas-reporter": "^1.0.8",
+        "mocha": "^10.0.0",
         "ncp": "^2.0.0",
         "rimraf": "^3.0.0",
         "solidity-coverage": "^0.7.21",

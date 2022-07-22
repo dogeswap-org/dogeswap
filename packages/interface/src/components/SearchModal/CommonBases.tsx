@@ -1,7 +1,7 @@
+import { ChainId, Currency, currencyEquals, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import React from "react";
 import { Text } from "rebass";
 import styled from "styled-components";
-import { ChainId, Currency, currencyEquals, DOGECHAIN, Token } from "../../../../sdk-core/src";
 
 import { SUGGESTED_BASES } from "../../constants";
 import { AutoColumn } from "../Column";

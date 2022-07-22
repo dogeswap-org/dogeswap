@@ -1,9 +1,6 @@
+import CurrencyAmount, { Currency, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import { useMemo } from "react";
-import { Currency } from "../../../../sdk-core/src/entities/currency";
-import { DOGECHAIN } from "../../../../sdk-core/src/entities/ether";
-import CurrencyAmount from "../../../../sdk-core/src/entities/fractions/currencyAmount";
-import { Token } from "../../../../sdk-core/src/entities/token";
 import { erc20Interface } from "../../constants/abis";
 import { useActiveWeb3React } from "../../hooks";
 import { useMultipleContractSingleData, useSingleContractMultipleData } from "../../hooks/Multicall";
@@ -23,9 +20,9 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
         () =>
             uncheckedAddresses
                 ? uncheckedAddresses
-                      .map(isAddress)
-                      .filter((a): a is string => a !== false)
-                      .sort()
+                    .map(isAddress)
+                    .filter((a): a is string => a !== false)
+                    .sort()
                 : [],
         [uncheckedAddresses],
     );
@@ -70,16 +67,16 @@ export function useTokenBalancesWithLoadingIndicator(
             () =>
                 address && validatedTokens.length > 0
                     ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount | undefined }>(
-                          (memo, token, i) => {
-                              const value = balances?.[i]?.result?.[0];
-                              const amount = value ? JSBI.BigInt(value.toString()) : undefined;
-                              if (amount) {
-                                  memo[token.address] = new CurrencyAmount(token, amount);
-                              }
-                              return memo;
-                          },
-                          {},
-                      )
+                        (memo, token, i) => {
+                            const value = balances?.[i]?.result?.[0];
+                            const amount = value ? JSBI.BigInt(value.toString()) : undefined;
+                            if (amount) {
+                                memo[token.address] = new CurrencyAmount(token, amount);
+                            }
+                            return memo;
+                        },
+                        {},
+                    )
                     : {},
             [address, validatedTokens, balances],
         ),

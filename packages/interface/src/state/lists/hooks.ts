@@ -1,8 +1,7 @@
+import { ChainId, Token } from "@dogeswap/sdk-core";
 import { Tags, TokenInfo, TokenList } from "@uniswap/token-lists";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { ChainId } from "../../../../sdk-core/src/constants";
-import { Token } from "../../../../sdk-core/src/entities/token";
 import { localListUrl } from "../../constants/lists";
 import { AppState } from "../index";
 

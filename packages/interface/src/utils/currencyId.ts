@@ -1,4 +1,4 @@
-import { Currency, DOGECHAIN, Token } from "../../../sdk-core/src";
+import { Currency, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 
 export function currencyId(currency: Currency): string {
     if (currency === DOGECHAIN) return "ETH";

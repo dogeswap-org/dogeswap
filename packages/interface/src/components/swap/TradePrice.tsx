@@ -1,8 +1,8 @@
+import { Price } from "@dogeswap/sdk-core";
 import React, { useContext } from "react";
 import { Repeat } from "react-feather";
 import { Text } from "rebass";
 import { ThemeContext } from "styled-components";
-import { Price } from "../../../../sdk-core/src";
 import { StyledBalanceMaxMini } from "./styleds";
 
 interface TradePriceProps {
