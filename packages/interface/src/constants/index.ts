@@ -1,4 +1,4 @@
-import Percent, { ChainId, Token } from "@dogeswap/sdk-core";
+import { ChainId, Percent, Token } from "@dogeswap/sdk-core";
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import JSBI from "jsbi";
 import { injected, walletconnect, walletlink } from "../connectors";

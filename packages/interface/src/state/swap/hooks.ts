@@ -1,4 +1,4 @@
-import CurrencyAmount, { Currency, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import { Trade } from "@dogeswap/v2-sdk";
 import { parseUnits } from "@ethersproject/units";
 import JSBI from "jsbi";

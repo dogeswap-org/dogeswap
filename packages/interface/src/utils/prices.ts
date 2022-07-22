@@ -1,4 +1,4 @@
-import { default as CurrencyAmount, default as Fraction, default as Percent } from "@dogeswap/sdk-core";
+import { CurrencyAmount, Fraction, Percent } from "@dogeswap/sdk-core";
 import { Trade } from "@dogeswap/v2-sdk";
 import JSBI from "jsbi";
 import {

@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { abi as IUniswapV2PairABI } from "../../../contracts-core/artifacts/contracts/interfaces/IUniswapV2Pair.sol/IUniswapV2Pair.json";
 import { useActiveWeb3React } from "../hooks";
 
-import CurrencyAmount, { Currency } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount } from "@dogeswap/sdk-core";
 import { Pair } from "@dogeswap/v2-sdk";
 import { factory } from "../constants/addresses";
 import { useMultipleContractSingleData } from "../hooks/Multicall";

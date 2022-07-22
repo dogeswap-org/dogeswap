@@ -1,4 +1,4 @@
-import { ChainId, default as CurrencyAmount, default as Percent, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { ChainId, CurrencyAmount, DOGECHAIN, Percent, Token } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import invariant from "tiny-invariant";
 import { Pair } from "../src/entities/pair";

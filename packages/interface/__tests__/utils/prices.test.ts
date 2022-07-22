@@ -1,4 +1,4 @@
-import CurrencyAmount, { ChainId, Token, TradeType } from "@dogeswap/sdk-core";
+import { ChainId, CurrencyAmount, Token, TradeType } from "@dogeswap/sdk-core";
 import { Pair, Route, Trade } from "@dogeswap/v2-sdk";
 import JSBI from "jsbi";
 import { computeTradePriceBreakdown } from "../../src/utils/prices";

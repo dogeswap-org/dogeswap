@@ -1,4 +1,4 @@
-import { ChainId, default as CurrencyAmount, default as Percent, Token } from "@dogeswap/sdk-core";
+import { ChainId, CurrencyAmount, Percent, Token } from "@dogeswap/sdk-core";
 import { BigNumber } from "@ethersproject/bignumber";
 import { AddressZero } from "@ethersproject/constants";
 import JSBI from "jsbi";

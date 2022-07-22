@@ -3,13 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { PairState, usePair } from "../../data/Reserves";
 import { useTotalSupply } from "../../data/TotalSupply";
 
-import {
-    Currency,
-    default as CurrencyAmount,
-    default as Percent,
-    default as Price,
-    DOGECHAIN,
-} from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, DOGECHAIN, Percent, Price } from "@dogeswap/sdk-core";
 import { Pair } from "@dogeswap/v2-sdk";
 import JSBI from "jsbi";
 import { useActiveWeb3React } from "../../hooks";

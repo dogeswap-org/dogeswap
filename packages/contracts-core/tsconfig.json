@@ -2,7 +2,6 @@
     "extends": "../../tsconfig.json",
     "exclude": ["dist", "node_modules"],
     "compilerOptions": {
-        "noPropertyAccessFromIndexSignature": false,
         "outDir": "dist"
     }
 }

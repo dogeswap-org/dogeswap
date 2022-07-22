@@ -24,7 +24,7 @@ import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { usePairContract } from "../../hooks/useContract";
 
-import Percent, { Currency, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
+import { Currency, currencyEquals, DOGECHAIN, Percent } from "@dogeswap/sdk-core";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Dots } from "../../components/swap/styleds";
 import { WDC } from "../../constants/addresses";

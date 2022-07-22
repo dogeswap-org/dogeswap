@@ -21,7 +21,7 @@ import { useWalletModalToggle } from "../../state/application/hooks";
 import { Field } from "../../state/mint/actions";
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from "../../state/mint/hooks";
 
-import CurrencyAmount, { Currency, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
 import { ButtonError, ButtonLight, ButtonPrimary } from "../../components/Button";
 import { getRouterAddress } from "../../constants";
 import { WDC } from "../../constants/addresses";

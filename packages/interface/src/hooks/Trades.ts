@@ -1,4 +1,4 @@
-import CurrencyAmount, { Currency, Token } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, Token } from "@dogeswap/sdk-core";
 import { Pair, Trade } from "@dogeswap/v2-sdk";
 import flatMap from "lodash.flatmap";
 import { useMemo } from "react";

@@ -1,4 +1,4 @@
-import CurrencyAmount, { DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { CurrencyAmount, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import { Trade } from "@dogeswap/v2-sdk";
 import { MaxUint256 } from "@ethersproject/constants";
 import { TransactionResponse } from "@ethersproject/providers";

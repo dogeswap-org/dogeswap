@@ -1,4 +1,4 @@
-import CurrencyAmount, { Currency, currencyEquals, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, currencyEquals, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from "react";
 import { FixedSizeList } from "react-window";
 import { Text } from "rebass";

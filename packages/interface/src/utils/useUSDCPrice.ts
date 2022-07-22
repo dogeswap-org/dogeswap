@@ -1,4 +1,4 @@
-import Price, { ChainId, Currency, currencyEquals } from "@dogeswap/sdk-core";
+import { ChainId, Currency, currencyEquals, Price } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import { useMemo } from "react";
 import { USDC, WDC } from "../constants/addresses";

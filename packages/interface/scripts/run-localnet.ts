@@ -25,8 +25,8 @@ const exec = (command: string, cwd: string) => {
 };
 
 const buildExternalContracts = async () => {
-    await exec("yarn compile", path.join(__dirname, "..", "..", "contracts-core"));
-    await exec("yarn compile", path.join(__dirname, "..", "..", "contracts-periphery"));
+    await exec("yarn build", path.join(__dirname, "..", "..", "contracts-core"));
+    await exec("yarn build", path.join(__dirname, "..", "..", "contracts-periphery"));
 };
 
 const parseArtifact = async (path: string) => {
@@ -36,20 +36,6 @@ const parseArtifact = async (path: string) => {
 
 const getContractArtifactsDir = (project: string) =>
     path.join(__dirname, "..", "..", project, "artifacts", "contracts");
-
-const getContractArtifact = async (project: string, globPattern: string) => {
-    const dir = getContractArtifactsDir(project);
-    const result = await getGlob(globPattern, dir);
-    if (result.length !== 1) {
-        throw new Error(
-            `Could not retrieve single contract artifact. Project: ${project}. Pattern: ${globPattern}. Results: ${JSON.stringify(
-                result,
-            )}`,
-        );
-    }
-
-    return parseArtifact(path.join(dir, result[0]));
-};
 
 const getGlob = (pattern: string, cwd: string) =>
     new Promise<string[]>((res, rej) => {
@@ -94,7 +80,7 @@ const writeConfigFile = async (contractAddresses: Record<string, string>) => {
     const erc20EnvVariables = erc20Tokens.reduce((r, x) => {
         r[`${x.toLowerCase()}Address`] = contractAddresses[x];
         return r;
-    }, {});
+    }, {} as Record<string, string>);
 
     const data = {
         ...existingConfig,

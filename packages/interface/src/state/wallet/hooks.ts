@@ -1,4 +1,4 @@
-import CurrencyAmount, { Currency, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import { useMemo } from "react";
 import { erc20Interface } from "../../constants/abis";

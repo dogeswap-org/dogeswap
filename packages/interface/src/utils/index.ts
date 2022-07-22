@@ -1,4 +1,4 @@
-import { ChainId, Currency, default as CurrencyAmount, default as Percent, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { ChainId, Currency, CurrencyAmount, DOGECHAIN, Percent, Token } from "@dogeswap/sdk-core";
 import { getAddress } from "@ethersproject/address";
 import { BigNumber } from "@ethersproject/bignumber";
 import { AddressZero } from "@ethersproject/constants";

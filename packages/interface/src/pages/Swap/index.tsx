@@ -18,7 +18,7 @@ import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from "../../
 import TradePrice from "../../components/swap/TradePrice";
 import TokenWarningModal from "../../components/TokenWarningModal";
 
-import CurrencyAmount, { Token } from "@dogeswap/sdk-core";
+import { CurrencyAmount, Token } from "@dogeswap/sdk-core";
 import { Trade } from "@dogeswap/v2-sdk";
 import JSBI from "jsbi";
 import Loader from "../../components/Loader";

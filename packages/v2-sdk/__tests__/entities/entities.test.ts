@@ -1,4 +1,4 @@
-import CurrencyAmount, { ChainId, Rounding, Token, TradeType } from "@dogeswap/sdk-core";
+import { ChainId, CurrencyAmount, Rounding, Token, TradeType } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import invariant from "tiny-invariant";
 import { Pair } from "../../src/entities/pair";
