@@ -164,8 +164,8 @@ export class Pair {
         invariant(totalSupply.currency.isToken && totalSupply.currency.equals(this.liquidityToken), "LIQUIDITY");
         const currencyAmounts =
             currencyAmountA.currency.isToken &&
-                currencyAmountB.currency.isToken &&
-                currencyAmountA.currency.sortsBefore(currencyAmountB.currency) // does safety checks
+            currencyAmountB.currency.isToken &&
+            currencyAmountA.currency.sortsBefore(currencyAmountB.currency) // does safety checks
                 ? [currencyAmountA, currencyAmountB]
                 : [currencyAmountB, currencyAmountA];
         invariant(currencyAmounts[0].currency.isToken && currencyAmounts[1].currency.isToken);
