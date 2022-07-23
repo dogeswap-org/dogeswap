@@ -57,7 +57,7 @@ module.exports = {
         compress: true,
         hot: false,
         liveReload: false,
-        open: true,
+        open: false,
         port: 9000,
         static: [path.resolve(__dirname, "src"), path.resolve(__dirname, "dist"), path.resolve(__dirname)],
         watchFiles: ["src/**/*.ts*"],

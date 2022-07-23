@@ -164,8 +164,8 @@ export class Pair {
         invariant(totalSupply.currency.isToken && totalSupply.currency.equals(this.liquidityToken), "LIQUIDITY");
         const currencyAmounts =
             currencyAmountA.currency.isToken &&
-            currencyAmountB.currency.isToken &&
-            currencyAmountA.currency.sortsBefore(currencyAmountB.currency) // does safety checks
+                currencyAmountB.currency.isToken &&
+                currencyAmountA.currency.sortsBefore(currencyAmountB.currency) // does safety checks
                 ? [currencyAmountA, currencyAmountB]
                 : [currencyAmountB, currencyAmountA];
         invariant(currencyAmounts[0].currency.isToken && currencyAmounts[1].currency.isToken);
@@ -185,7 +185,7 @@ export class Pair {
             const amount1 = JSBI.divide(JSBI.multiply(currencyAmounts[1].raw, totalSupply.raw), this.reserve1.raw);
             liquidity = JSBI.lessThanOrEqual(amount0, amount1) ? amount0 : amount1;
         }
-        if (JSBI.greaterThan(liquidity, ZERO)) {
+        if (!JSBI.greaterThan(liquidity, ZERO)) {
             throw new InsufficientInputAmountError();
         }
         return new CurrencyAmount(this.liquidityToken, liquidity);
@@ -204,12 +204,12 @@ export class Pair {
         invariant(JSBI.lessThanOrEqual(liquidity.raw, totalSupply.raw), "LIQUIDITY");
 
         let totalSupplyAdjusted: CurrencyAmount;
-        if (feeOn) {
+        if (!feeOn) {
             totalSupplyAdjusted = totalSupply;
         } else {
-            invariant(kLast, "K_LAST");
+            invariant(!!kLast, "K_LAST");
             const kLastParsed = JSBI.BigInt(kLast);
-            if (JSBI.equal(kLastParsed, ZERO)) {
+            if (!JSBI.equal(kLastParsed, ZERO)) {
                 const rootK = sqrt(JSBI.multiply(this.reserve0.raw, this.reserve1.raw));
                 const rootKLast = sqrt(kLastParsed);
                 if (JSBI.greaterThan(rootK, rootKLast)) {
