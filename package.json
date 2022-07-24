@@ -11,9 +11,13 @@
         "ethereum"
     ],
     "packageManager": "yarn@3.2.2",
+    "scripts": {
+        "dev": "concurrently \"yarn workspace @dogeswap/interface localnet:start\" \"yarn workspace @dogeswap/interface localnet:deploy\" \"yarn workspace @dogeswap/interface dev\""
+    },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.25.0",
         "@typescript-eslint/parser": "^5.25.0",
+        "concurrently": "^7.3.0",
         "eslint": "^8.16.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-react": "^7.30.0",

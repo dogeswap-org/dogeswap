@@ -1,7 +1,8 @@
 const webpack = require("webpack");
 const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const config = require("./config.json");
+
+require('dotenv').config()
 
 const devtool = "inline-source-map";
 
@@ -29,7 +30,9 @@ module.exports = {
             // Thanks to https://stackoverflow.com/a/65018686/14239942
             process: "process/browser",
         }),
-        new webpack.DefinePlugin({ __CONFIG__: JSON.stringify(config) }),
+        new webpack.DefinePlugin({
+            CHAIN_ID: JSON.stringify(process.env.CHAIN_ID),
+        }),
         new ForkTsCheckerWebpackPlugin(),
     ],
     module: {

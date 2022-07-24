@@ -6,6 +6,7 @@ import glob from "glob";
 import { ethers } from "hardhat";
 import { Artifact } from "hardhat/types";
 import path from "path";
+import process from "process";
 
 const erc20Tokens = ["DST", "USDT", "USDC", "DAI"];
 
@@ -153,8 +154,32 @@ const deployExternalContracts = async () => {
     return addresses;
 };
 
+const waitMs = (ms: number) => {
+    return new Promise<void>(res => {
+        setTimeout(() => res(), ms);
+    });
+}
+
+const isNetworkReady = async () => {
+    const provider = ethers.getDefaultProvider("http://localhost:8545");
+    for (let i = 0; i < 10; i++) {
+        try {
+            await provider.getBlockNumber();
+            return;
+        } catch (e) {
+            console.error(e)
+        }
+
+        await waitMs(1000);
+    }
+
+    console.error("Could not connect to localnet");
+    process.exit(1);
+}
+
 const run = async () => {
     await buildExternalContracts();
+    await isNetworkReady();
     const contractAddresses = await deployExternalContracts();
     await writeConfigFile(contractAddresses);
 };

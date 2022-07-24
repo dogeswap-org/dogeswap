@@ -4,7 +4,7 @@ import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 
 import { ChainId } from "@dogeswap/sdk-core";
-import config from "../utils/config";
+import { chainId } from "../env";
 import { NetworkConnector } from "./NetworkConnector";
 
 const networkUrls = {
@@ -15,7 +15,7 @@ const networkUrls = {
 
 export const network = new NetworkConnector({
     urls: networkUrls,
-    defaultChainId: config.defaultChainId,
+    defaultChainId: chainId,
 });
 
 let networkLibrary: Web3Provider | undefined;

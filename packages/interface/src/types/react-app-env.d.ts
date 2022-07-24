@@ -77,4 +77,4 @@ declare module "content-hash" {
     function getCodec(x: string): string;
 }
 
-declare const __CONFIG__: unknown;
+declare const CHAIN_ID: string;
