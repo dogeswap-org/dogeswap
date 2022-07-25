@@ -1,340 +1,343 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>🐕 DogeSwap 🦄</title>
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Google fonts-->
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
-            rel="stylesheet"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
-            rel="stylesheet"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
-            rel="stylesheet"
-        />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-        <!-- DogeSwap overrides -->
-        <link href="css/style-overrides.css" rel="stylesheet" />
-    </head>
 
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
-            <div class="container px-5">
-                <a class="navbar-brand fw-bold" href="#page-top">
-                    <img class="mb-1 me-2" src="assets/logo.svg" width="40px" height="40px" />
-                    DogeSwap.org
-                </a>
-                <div class="align-items-center">
-                    <button id="header-telegram-button-big" class="btn btn-primary rounded-pill px-3 d-none d-sm-block">
-                        <span class="d-flex align-items-center">
-                            <i class="bi-telegram me-2"></i>
-                            <span class="small">Join us on Telegram!</span>
-                        </span>
-                    </button>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>DogeSwap</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <!-- DogeSwap overrides -->
+    <link href="css/style-overrides.css" rel="stylesheet" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6EY7L42VL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-                    <button id="header-telegram-button-small" class="btn btn-primary rounded-pill px-3 d-sm-none">
-                        <span class="d-flex align-items-center">
-                            <i class="bi-telegram me-2"></i>
-                            <span class="small">Join us!</span>
-                        </span>
-                    </button>
-                </div>
-            </div>
-        </nav>
-        <!-- Mashead header-->
-        <header class="masthead">
-            <div class="container px-5">
-                <div class="row gx-5 align-items-center">
-                    <div class="col-lg-6">
-                        <!-- Mashead text and app badges-->
-                        <div class="mb-5 mb-lg-0 text-center text-lg-start">
-                            <h1 class="display-1 lh-1 mb-3">Such DEX on Dogechain, wow!</h1>
-                            <p class="lead fw-normal text-muted mb-5 fs-4">DogeSwap.org — much tokens, very AMM</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 text-center">
-                        <img src="assets/logo.svg" class="logo" />
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- Quote/testimonial aside-->
-        <aside class="text-center bg-gradient-primary-to-secondary">
-            <div class="container px-5">
-                <div class="row gx-5 justify-content-center">
-                    <div class="col">
-                        <div class="h2 fs-1 text-white mt-3">The first decentralized exchange on Dogechain.</div>
-                    </div>
-                </div>
-            </div>
-        </aside>
-        <!-- App features section-->
-        <section id="features" class="doge-features">
-            <div class="container px-5">
-                <div class="row gx-5 align-items-center justify-content-center">
-                    <div class="col-lg-10 order-lg-1 mb-5 mb-lg-0">
-                        <!-- Mobile -->
-                        <div class="container-fluid px-5 doge-features d-block d-md-none">
-                            <div class="row gx-5 mb-5">
-                                <div class="col-md-6 mb-5 feature-item">
-                                    <!-- Feature item-->
-                                    <img src="assets/doge-familiar.jpeg" />
-                                    <div class="text-center mt-4">
-                                        <h3 class="font-alt">Familiar</h3>
-                                        <p class="text-muted mb-0">
-                                            Our first public launch will be as a Uniswap v2 clone
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 feature-item">
-                                    <!-- Feature item-->
-                                    <img src="assets/doge-futuristic.jpeg" />
-                                    <div class="text-center mt-4">
-                                        <h3 class="font-alt">Futuristic</h3>
-                                        <p class="text-muted mb-0">
-                                            The next iteration of DogeSwap will use an off-chain oracle to eliminate
-                                            impermanent loss
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col-md-6 mb-5 feature-item">
-                                    <!-- Feature item-->
-                                    <img src="assets/doge-fair.jpeg" />
-                                    <div class="text-center mt-4">
-                                        <h3 class="font-alt">Fair</h3>
-                                        <p class="text-muted mb-0">
-                                            There is no private round, no seed-round, no pre-sale, and no public sale
-                                            for DogeSwap Token
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 feature-item">
-                                    <!-- Feature item-->
-                                    <img src="assets/doge-fun.jpeg" />
-                                    <div class="text-center mt-4">
-                                        <h3 class="font-alt">Fun</h3>
-                                        <p class="text-muted mb-0">This is a meme-based Dex after all ;)</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        gtag('config', 'G-Q6EY7L42VL');
+    </script>
+</head>
 
-                        <!-- Desktop -->
-                        <div class="container-fluid px-5 doge-features d-none d-md-block">
-                            <div class="row gx-5 mb-5 d-flex align-items-center">
-                                <div class="col-md-6 feature-item">
-                                    <img src="assets/doge-familiar.jpeg" />
-                                </div>
-                                <div class="col-md-6 feature-item">
-                                    <img src="assets/doge-futuristic.jpeg" />
+<body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
+        <div class="container px-5">
+            <a class="navbar-brand fw-bold" href="#page-top">
+                <img class="mb-1 me-2" src="assets/logo.svg" width="40px" height="40px" />
+                DogeSwap.org
+            </a>
+            <div class="align-items-center">
+                <button id="header-telegram-button-big" class="btn btn-primary rounded-pill px-3 d-none d-sm-block">
+                    <span class="d-flex align-items-center">
+                        <i class="bi-telegram me-2"></i>
+                        <span class="small">Join us on Telegram!</span>
+                    </span>
+                </button>
+
+                <button id="header-telegram-button-small" class="btn btn-primary rounded-pill px-3 d-sm-none">
+                    <span class="d-flex align-items-center">
+                        <i class="bi-telegram me-2"></i>
+                        <span class="small">Join us!</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- Mashead header-->
+    <header class="masthead">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-6">
+                    <!-- Mashead text and app badges-->
+                    <div class="mb-5 mb-lg-0 text-center text-lg-start">
+                        <h1 class="display-1 lh-1 mb-3">Such DEX on Dogechain, wow!</h1>
+                        <p class="lead fw-normal text-muted mb-5 fs-4">DogeSwap.org — much tokens, very AMM</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="assets/logo.svg" class="logo" />
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Quote/testimonial aside-->
+    <aside class="text-center bg-gradient-primary-to-secondary">
+        <div class="container px-5">
+            <div class="row gx-5 justify-content-center">
+                <div class="col">
+                    <div class="h2 fs-1 text-white mt-3">The first decentralized exchange on Dogechain.</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <!-- App features section-->
+    <section id="features" class="doge-features">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center justify-content-center">
+                <div class="col-lg-10 order-lg-1 mb-5 mb-lg-0">
+                    <!-- Mobile -->
+                    <div class="container-fluid px-5 doge-features d-block d-md-none">
+                        <div class="row gx-5 mb-5">
+                            <div class="col-md-6 mb-5 feature-item">
+                                <!-- Feature item-->
+                                <img src="assets/doge-familiar.jpeg" />
+                                <div class="text-center mt-4">
+                                    <h3 class="font-alt">Familiar</h3>
+                                    <p class="text-muted mb-0">
+                                        Our first public launch will be as a Uniswap v2 clone
+                                    </p>
                                 </div>
                             </div>
-                            <div class="row gx-5 mb-5 d-flex">
-                                <div class="col-md-6 feature-item">
-                                    <div class="text-center">
-                                        <h3 class="font-alt">Familiar</h3>
-                                        <p class="text-muted mb-0">
-                                            Our first public launch will be as a Uniswap v2 clone
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 feature-item">
-                                    <div class="text-center">
-                                        <h3 class="font-alt">Futuristic</h3>
-                                        <p class="text-muted mb-0">
-                                            The next iteration of DogeSwap will use an off-chain oracle to eliminate
-                                            impermanent loss
-                                        </p>
-                                    </div>
+                            <div class="col-md-6 feature-item">
+                                <!-- Feature item-->
+                                <img src="assets/doge-futuristic.jpeg" />
+                                <div class="text-center mt-4">
+                                    <h3 class="font-alt">Futuristic</h3>
+                                    <p class="text-muted mb-0">
+                                        The next iteration of DogeSwap will use an off-chain oracle to eliminate
+                                        impermanent loss
+                                    </p>
                                 </div>
                             </div>
-                            <div class="row gx-5 mb-5 d-flex align-items-center">
-                                <div class="col-md-6 feature-item">
-                                    <img src="assets/doge-fair.jpeg" />
-                                </div>
-                                <div class="col-md-6 feature-item">
-                                    <img src="assets/doge-fun.jpeg" />
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-6 mb-5 feature-item">
+                                <!-- Feature item-->
+                                <img src="assets/doge-fair.jpeg" />
+                                <div class="text-center mt-4">
+                                    <h3 class="font-alt">Fair</h3>
+                                    <p class="text-muted mb-0">
+                                        There is no private round, no seed-round, no pre-sale, and no public sale
+                                        for DogeSwap Token
+                                    </p>
                                 </div>
                             </div>
-                            <div class="row gx-5 mb-5 d-flex">
-                                <div class="col-md-6 feature-item">
-                                    <div class="text-center">
-                                        <h3 class="font-alt">Fair</h3>
-                                        <p class="text-muted mb-0">
-                                            There is no private round, no seed-round, no pre-sale, and no public sale
-                                            for DogeSwap Token
-                                        </p>
-                                    </div>
+                            <div class="col-md-6 feature-item">
+                                <!-- Feature item-->
+                                <img src="assets/doge-fun.jpeg" />
+                                <div class="text-center mt-4">
+                                    <h3 class="font-alt">Fun</h3>
+                                    <p class="text-muted mb-0">This is a meme-based Dex after all ;)</p>
                                 </div>
-                                <div class="col-md-6 feature-item">
-                                    <div class="text-center">
-                                        <h3 class="font-alt">Fun</h3>
-                                        <p class="text-muted mb-0">This is a meme-based Dex after all ;)</p>
-                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop -->
+                    <div class="container-fluid px-5 doge-features d-none d-md-block">
+                        <div class="row gx-5 mb-5 d-flex align-items-center">
+                            <div class="col-md-6 feature-item">
+                                <img src="assets/doge-familiar.jpeg" />
+                            </div>
+                            <div class="col-md-6 feature-item">
+                                <img src="assets/doge-futuristic.jpeg" />
+                            </div>
+                        </div>
+                        <div class="row gx-5 mb-5 d-flex">
+                            <div class="col-md-6 feature-item">
+                                <div class="text-center">
+                                    <h3 class="font-alt">Familiar</h3>
+                                    <p class="text-muted mb-0">
+                                        Our first public launch will be as a Uniswap v2 clone
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 feature-item">
+                                <div class="text-center">
+                                    <h3 class="font-alt">Futuristic</h3>
+                                    <p class="text-muted mb-0">
+                                        The next iteration of DogeSwap will use an off-chain oracle to eliminate
+                                        impermanent loss
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gx-5 mb-5 d-flex align-items-center">
+                            <div class="col-md-6 feature-item">
+                                <img src="assets/doge-fair.jpeg" />
+                            </div>
+                            <div class="col-md-6 feature-item">
+                                <img src="assets/doge-fun.jpeg" />
+                            </div>
+                        </div>
+                        <div class="row gx-5 mb-5 d-flex">
+                            <div class="col-md-6 feature-item">
+                                <div class="text-center">
+                                    <h3 class="font-alt">Fair</h3>
+                                    <p class="text-muted mb-0">
+                                        There is no private round, no seed-round, no pre-sale, and no public sale
+                                        for DogeSwap Token
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 feature-item">
+                                <div class="text-center">
+                                    <h3 class="font-alt">Fun</h3>
+                                    <p class="text-muted mb-0">This is a meme-based Dex after all ;)</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- Beyond Uniswap section -->
-        <section class="beyond-uniswap">
-            <div class="container px-5">
-                <div class="row gx-5 align-items-center justify-content-center">
-                    <div class="col-12 col-lg-7 beyond-uniswap-text">
-                        <h2 class="display-4 lh-1 mb-4">Beyond Uniswap V2...</h2>
-                        <p class="lead fw-normal mb-5 mb-lg-0">
-                            DogeSwap V2 is going to be our first public launch and will exist on Dogechain as a Uniswap
-                            V2 clone. Token mining will be live immediately, and we welcome the whole doge community to
-                            be a part of it.
-                        </p>
-                        <br />
-                        <p class="lead fw-normal mb-5 mb-lg-0">
-                            However, we think we can do something that’s a little more innovative than a Uniswap V2
-                            clone. For the past couple of years, the team behind DogeSwap has been extracting profit
-                            from the liquidity providers on Uniswap V2 (and Uniswap V2 clones). Instead of putting our
-                            paws up on a beach somewhere, we thought it was time we solved the problem plaguing AMMs…
-                            impermanent loss!
-                        </p>
-                        <br />
-                        <p class="lead fw-normal">
-                            DogeSwap V69 will look and feel like any other AMM dex, but will feature an off-chain oracle
-                            to eliminate impermanent loss. We believe this is the future of decentralized exchanges… not
-                            just on Dogechain, but across all of DeFi. Smol fee, big profit, wow!
-                        </p>
-                    </div>
+        </div>
+    </section>
+    <!-- Beyond Uniswap section -->
+    <section class="beyond-uniswap">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center justify-content-center">
+                <div class="col-12 col-lg-7 beyond-uniswap-text">
+                    <h2 class="display-4 lh-1 mb-4">Beyond Uniswap V2...</h2>
+                    <p class="lead fw-normal mb-5 mb-lg-0">
+                        DogeSwap V2 is going to be our first public launch and will exist on Dogechain as a Uniswap
+                        V2 clone. Token mining will be live immediately, and we welcome the whole doge community to
+                        be a part of it.
+                    </p>
+                    <br />
+                    <p class="lead fw-normal mb-5 mb-lg-0">
+                        However, we think we can do something that’s a little more innovative than a Uniswap V2
+                        clone. For the past couple of years, the team behind DogeSwap has been extracting profit
+                        from the liquidity providers on Uniswap V2 (and Uniswap V2 clones). Instead of putting our
+                        paws up on a beach somewhere, we thought it was time we solved the problem plaguing AMMs…
+                        impermanent loss!
+                    </p>
+                    <br />
+                    <p class="lead fw-normal">
+                        DogeSwap V69 will look and feel like any other AMM dex, but will feature an off-chain oracle
+                        to eliminate impermanent loss. We believe this is the future of decentralized exchanges… not
+                        just on Dogechain, but across all of DeFi. Smol fee, big profit, wow!
+                    </p>
                 </div>
             </div>
-        </section>
-        <!-- Tokenomics section-->
-        <section class="bg-light pb-3">
-            <div class="container px-5">
-                <div class="row gx-5 align-items-center justify-content-center">
-                    <div class="col-12 col-lg-7">
-                        <h2 class="display-4 lh-1 mb-4">Tokenomics</h2>
-                        <p class="lead fw-normal text-muted mb-5 mb-lg-3">
-                            Total supply: 420 billion DogeSwap Token (DST):
-                        </p>
-                        <div class="lead fw-normal text-muted mb-5 mb-lg-3">
-                            <ul class="text-muted fs-5">
-                                <li>80% for liquidity/trade mining</li>
-                                <li>10% for development & audits</li>
-                                <li>10% to initial contributors</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col col-lg-5">
-                        <img class="img-distribution my-5" src="assets/distribution.jpeg" />
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Roadmap section-->
-        <section class="bg-light pt-0">
-            <div class="container px-5">
-                <div class="row gx-5 align-items-center justify-content-center">
-                    <div class="col col-lg-5">
-                        <img class="img-roadmap my-5" src="assets/roadmap.jpg" />
-                    </div>
-                    <div class="col-12 col-lg-7">
-                        <h2 class="display-4 lh-1 mb-4">Roadmap</h2>
-                        <ul class="text-muted fs-5 roadmap-list">
-                            <li>
-                                Q3 2022
-                                <ul>
-                                    <li>Launch of DogeSwap V2 on Dogechain mainnet</li>
-                                    <li>Launch of DogeSwap Token (DST) and liquidity/trade mining program</li>
-                                    <li>
-                                        IDO Platform to support token launches on Dogechain. If you’re launching a
-                                        project on Dogechain, contact us!
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                Q4 2022
-                                <ul>
-                                    <li>Special GameFi project, only on DogeSwap</li>
-                                    <li>DST listing</li>
-                                </ul>
-                            </li>
-                            <li>
-                                2023
-                                <ul>
-                                    <li>Launch of DogeSwap V69</li>
-                                </ul>
-                            </li>
+        </div>
+    </section>
+    <!-- Tokenomics section-->
+    <section class="bg-light pb-3">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center justify-content-center">
+                <div class="col-12 col-lg-7">
+                    <h2 class="display-4 lh-1 mb-4">Tokenomics</h2>
+                    <p class="lead fw-normal text-muted mb-5 mb-lg-3">
+                        Total supply: 420 billion DogeSwap Token (DST):
+                    </p>
+                    <div class="lead fw-normal text-muted mb-5 mb-lg-3">
+                        <ul class="text-muted fs-5">
+                            <li>80% for liquidity/trade mining</li>
+                            <li>10% for development & audits</li>
+                            <li>10% to initial contributors</li>
                         </ul>
                     </div>
                 </div>
-            </div>
-        </section>
-        <!-- App badge section-->
-        <section class="bg-gradient-primary-to-secondary" id="download">
-            <div class="container px-5">
-                <h2 class="text-center text-white font-alt mb-4">Be first to hear about the token mining</h2>
-                <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
-                    <button
-                        id="footer-telegram-button"
-                        type="button"
-                        class="btn btn-primary mt-4 me-4 px-3 py-2 fs-5 d-flex align-items-center footer-telegram-button"
-                    >
-                        <i class="bi-telegram me-3 fs-3"></i>
-                        Join pre-launch
-                    </button>
+                <div class="col col-lg-5">
+                    <img class="img-distribution my-5" src="assets/distribution.jpeg" />
                 </div>
             </div>
-        </section>
-        <!-- Footer-->
-        <footer class="bg-black text-center pt-5 py-1">
-            <div class="container px-5">
-                <div class="row">
-                    <div class="col col-md-3 footer-links d-flex flex-column align-items-start">
-                        <a class="fs-5" href="https://medium.com/@DogeSwapOrg">
-                            <i class="bi-file-earmark-richtext me-3 fs-3"></i>Blog
-                        </a>
-                        <a class="fs-5" href="https://twitter.com/DogeSwapOrg">
-                            <i class="bi-twitter me-3 fs-3"></i>Twitter
-                        </a>
-                        <a class="fs-5" href="https://github.com/Dogeswap-org">
-                            <i class="bi-github me-3 fs-3"></i>GitHub
-                        </a>
-                    </div>
-                    <div class="col col-md-6 align-items-center justify-content-center d-flex">
-                        <div class="text-white-50 small comic-sans">
-                            <div class="mb-2">&copy; DogeSwap.org 2022. All Rights Reserved.</div>
-                        </div>
+        </div>
+    </section>
+    <!-- Roadmap section-->
+    <section class="bg-light pt-0">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center justify-content-center">
+                <div class="col col-lg-5">
+                    <img class="img-roadmap my-5" src="assets/roadmap.jpg" />
+                </div>
+                <div class="col-12 col-lg-7">
+                    <h2 class="display-4 lh-1 mb-4">Roadmap</h2>
+                    <ul class="text-muted fs-5 roadmap-list">
+                        <li>
+                            Q3 2022
+                            <ul>
+                                <li>Launch of DogeSwap V2 on Dogechain mainnet</li>
+                                <li>Launch of DogeSwap Token (DST) and liquidity/trade mining program</li>
+                                <li>
+                                    IDO Platform to support token launches on Dogechain. If you’re launching a
+                                    project on Dogechain, contact us!
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Q4 2022
+                            <ul>
+                                <li>Special GameFi project, only on DogeSwap</li>
+                                <li>DST listing</li>
+                            </ul>
+                        </li>
+                        <li>
+                            2023
+                            <ul>
+                                <li>Launch of DogeSwap V69</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- App badge section-->
+    <section class="bg-gradient-primary-to-secondary" id="download">
+        <div class="container px-5">
+            <h2 class="text-center text-white font-alt mb-4">Be first to hear about the token mining</h2>
+            <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
+                <button id="footer-telegram-button" type="button"
+                    class="btn btn-primary mt-4 me-4 px-3 py-2 fs-5 d-flex align-items-center footer-telegram-button">
+                    <i class="bi-telegram me-3 fs-3"></i>
+                    Join pre-launch
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="bg-black text-center pt-5 py-1">
+        <div class="container px-5">
+            <div class="row">
+                <div class="col col-md-3 footer-links d-flex flex-column align-items-start">
+                    <a class="fs-5" href="https://medium.com/@DogeSwapOrg">
+                        <i class="bi-file-earmark-richtext me-3 fs-3"></i>Blog
+                    </a>
+                    <a class="fs-5" href="https://twitter.com/DogeSwapOrg">
+                        <i class="bi-twitter me-3 fs-3"></i>Twitter
+                    </a>
+                    <a class="fs-5" href="https://github.com/Dogeswap-org">
+                        <i class="bi-github me-3 fs-3"></i>GitHub
+                    </a>
+                </div>
+                <div class="col col-md-6 align-items-center justify-content-center d-flex">
+                    <div class="text-white-50 small comic-sans">
+                        <div class="mb-2">&copy; DogeSwap.org 2022. All Rights Reserved.</div>
                     </div>
                 </div>
+            </div>
 
-                <div class="text-white mb-5"></div>
-            </div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        <script>
-            [
-                document.getElementById("header-telegram-button-big"),
-                document.getElementById("header-telegram-button-small"),
-                document.getElementById("footer-telegram-button"),
-            ].forEach((x) => x.addEventListener("click", () => window.open("https://t.me/+6eGjC6hMjf5iYWIy")));
-        </script>
-    </body>
+            <div class="text-white mb-5"></div>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <script>
+        [
+            document.getElementById("header-telegram-button-big"),
+            document.getElementById("header-telegram-button-small"),
+            document.getElementById("footer-telegram-button"),
+        ].forEach((x) => x.addEventListener("click", () => window.open("https://t.me/+6eGjC6hMjf5iYWIy")));
+    </script>
+</body>
+
 </html>
