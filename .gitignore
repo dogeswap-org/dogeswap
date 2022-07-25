@@ -33,6 +33,9 @@ jspm_packages/
 # Environment
 .env
 
+# Mac
+.DS_store
+
 # TypeScript cache
 *.tsbuildinfo
 

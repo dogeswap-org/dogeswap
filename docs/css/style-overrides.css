@@ -68,9 +68,19 @@ img[src="assets/doge-fun.jpeg"] {
 }
 
 .img-roadmap,
-.img-distribution {
+.img-distribution,
+.img-trust {
     border-radius: 1rem;
+}
+
+.img-roadmap,
+.img-distribution {
     width: 100%;
+}
+
+.img-trust {
+    border-radius: 1rem;
+    width: 80%;
 }
 
 .comic-sans {
