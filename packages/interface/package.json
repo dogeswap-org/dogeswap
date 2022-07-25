@@ -1,7 +1,7 @@
 {
     "name": "@dogeswap/interface",
     "version": "1.0.0",
-    "description": "Dogeswap Interface",
+    "description": "DogeSwap Interface",
     "homepage": "https://www.dogeswap.org",
     "private": true,
     "license": "GPL-3.0-or-later",

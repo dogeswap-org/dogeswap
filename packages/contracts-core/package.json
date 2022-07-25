@@ -1,7 +1,7 @@
 {
     "name": "@dogeswap/contracts-core",
     "version": "1.0.0",
-    "description": "🎛 Core contracts for the Dogeswap V2 protocol",
+    "description": "🎛 Core contracts for the DogeSwap V2 protocol",
     "homepage": "https://www.dogeswap.org",
     "license": "GPL-3.0-or-later",
     "files": [

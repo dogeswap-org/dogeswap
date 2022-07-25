@@ -1,6 +1,6 @@
 {
     "name": "dogeswap",
-    "description": "The Dogeswap DEX monorepo",
+    "description": "The DogeSwap DEX monorepo",
     "private": true,
     "workspaces": [
         "packages/*"

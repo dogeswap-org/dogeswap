@@ -1,7 +1,7 @@
 {
     "name": "@dogeswap/v2-sdk",
     "version": "1.0.0",
-    "description": "🛠 An SDK for building applications on top of Dogeswap V2",
+    "description": "🛠 An SDK for building applications on top of DogeSwap V2",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
