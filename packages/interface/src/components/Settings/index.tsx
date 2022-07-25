@@ -1,24 +1,21 @@
-import React, { useRef, useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Settings, X } from "react-feather";
-import styled from "styled-components";
-import { useOnClickOutside } from "../../hooks/useOnClickOutside";
-import {
-    useUserSlippageTolerance,
-    useExpertModeManager,
-    useUserDeadline,
-    useDarkModeManager,
-} from "../../state/user/hooks";
-import TransactionSettings from "../TransactionSettings";
-import { RowFixed, RowBetween } from "../Row";
-import { TYPE } from "../../theme";
-import QuestionHelper from "../QuestionHelper";
-import Toggle from "../Toggle";
-import { ThemeContext } from "styled-components";
-import { AutoColumn } from "../Column";
-import { ButtonError } from "../Button";
-import { useSettingsMenuOpen, useToggleSettingsMenu } from "../../state/application/hooks";
 import { Text } from "rebass";
+import styled, { ThemeContext } from "styled-components";
+import { useOnClickOutside } from "../../hooks/useOnClickOutside";
+import { useSettingsMenuOpen, useToggleSettingsMenu } from "../../state/application/hooks";
+import {
+    useDarkModeManager, useExpertModeManager,
+    useUserDeadline, useUserSlippageTolerance
+} from "../../state/user/hooks";
+import { TYPE } from "../../theme";
+import { ButtonError } from "../Button";
+import { AutoColumn } from "../Column";
 import Modal from "../Modal";
+import QuestionHelper from "../QuestionHelper";
+import { RowBetween, RowFixed } from "../Row";
+import Toggle from "../Toggle";
+import TransactionSettings from "../TransactionSettings";
 
 const StyledMenuIcon = styled(Settings)`
     height: 20px;
@@ -221,23 +218,15 @@ export default function SettingsTab() {
                                 toggle={
                                     expertMode
                                         ? () => {
-                                              toggleExpertMode();
-                                              setShowConfirmation(false);
-                                          }
+                                            toggleExpertMode();
+                                            setShowConfirmation(false);
+                                        }
                                         : () => {
-                                              toggle();
-                                              setShowConfirmation(true);
-                                          }
+                                            toggle();
+                                            setShowConfirmation(true);
+                                        }
                                 }
                             />
-                        </RowBetween>
-                        <RowBetween>
-                            <RowFixed>
-                                <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-                                    Toggle Dark Mode
-                                </TYPE.black>
-                            </RowFixed>
-                            <Toggle isActive={darkMode} toggle={toggleDarkMode} />
                         </RowBetween>
                     </AutoColumn>
                 </MenuFlyout>

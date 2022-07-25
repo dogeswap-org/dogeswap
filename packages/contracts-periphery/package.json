@@ -1,7 +1,7 @@
 {
     "name": "@dogeswap/contracts-periphery",
     "version": "1.0.0",
-    "description": "🎚 Peripheral smart contracts for interacting with Dogeswap V2",
+    "description": "🎚 Peripheral smart contracts for interacting with DogeSwap V2",
     "homepage": "https://www.dogeswap.org",
     "license": "GPL-3.0-or-later",
     "files": [

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { BookOpen, Code, Info, MessageCircle, PieChart } from "react-feather";
+import { Code, GitHub, Info, MessageCircle } from "react-feather";
 import styled from "styled-components";
 import MenuIcon from "../../../assets/images/menu.svg";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
@@ -78,8 +78,6 @@ const MenuItem = styled(ExternalLink)`
     }
 `;
 
-const CODE_LINK = "https://github.com/Uniswap/uniswap-interface";
-
 export default function Menu() {
     const node = useRef<HTMLDivElement>();
     const [open, toggle] = useToggle(false);
@@ -94,25 +92,21 @@ export default function Menu() {
             </StyledMenuButton>
             {open && (
                 <MenuFlyout>
-                    <MenuItem id="link" href="https://uniswap.org/">
+                    <MenuItem id="link" href="https://www.dogeswap.org/">
                         <Info size={14} />
                         About
                     </MenuItem>
-                    <MenuItem id="link" href="https://uniswap.org/docs/v2">
-                        <BookOpen size={14} />
-                        Docs
-                    </MenuItem>
-                    <MenuItem id="link" href={CODE_LINK}>
+                    <MenuItem id="link" href="https://github.com/dogeswap-org/dogeswap">
                         <Code size={14} />
                         Code
                     </MenuItem>
-                    <MenuItem id="link" href="https://discord.gg/EwFs3Pp">
+                    <MenuItem id="link" href="https://t.me/+6eGjC6hMjf5iYWIy">
                         <MessageCircle size={14} />
-                        Discord
+                        Telegram
                     </MenuItem>
-                    <MenuItem id="link" href="https://uniswap.info/">
-                        <PieChart size={14} />
-                        Analytics
+                    <MenuItem id="link" href="https://github.com/Dogeswap-org/dogeswap">
+                        <GitHub size={14} />
+                        GitHub
                     </MenuItem>
                 </MenuFlyout>
             )}

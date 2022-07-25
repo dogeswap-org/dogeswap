@@ -169,7 +169,7 @@ export function usePairAdder(): (pair: Pair) => void {
  */
 export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token], chainId: ChainId): Token {
     const factoryAddress = factory[chainId];
-    return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB, factoryAddress), 18, "DST-V2", "Dogeswap V2");
+    return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB, factoryAddress), 18, "DST-V2", "DogeSwap V2");
 }
 
 /**

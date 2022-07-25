@@ -4,10 +4,7 @@ import { Text } from "rebass";
 
 import styled from "styled-components";
 
-import Logo from "../../../assets/svg/logo.svg";
-import LogoDark from "../../../assets/svg/logo_white.svg";
-import Wordmark from "../../../assets/svg/wordmark.svg";
-import WordmarkDark from "../../../assets/svg/wordmark_white.svg";
+import Logo from "../../../assets/images/logo.svg";
 import { useActiveWeb3React } from "../../hooks";
 import { useDarkModeManager } from "../../state/user/hooks";
 import { useETHBalances } from "../../state/wallet/hooks";
@@ -54,6 +51,7 @@ const Title = styled.a`
     display: flex;
     align-items: center;
     pointer-events: auto;
+    text-decoration: none;
 
     :hover {
         cursor: pointer;
@@ -61,11 +59,16 @@ const Title = styled.a`
 `;
 
 const TitleText = styled(Row)`
+    color: black;
+    font-family: "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 8px;
     width: fit-content;
     white-space: nowrap;
     ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    display: none;
-  `};
+        display: none;
+    `};
 `;
 
 const AccountElement = styled.div<{ active: boolean }>`
@@ -143,15 +146,9 @@ export default function Header() {
                 <HeaderElement>
                     <Title href=".">
                         <UniIcon>
-                            <img src={isDark ? LogoDark : Logo} alt="logo" />
+                            <img src={Logo} alt="logo" height="48" width="48" />
                         </UniIcon>
-                        <TitleText>
-                            <img
-                                style={{ marginLeft: "4px", marginTop: "4px" }}
-                                src={isDark ? WordmarkDark : Wordmark}
-                                alt="logo"
-                            />
-                        </TitleText>
+                        <TitleText>DogeSwap.org</TitleText>
                     </Title>
                 </HeaderElement>
                 <HeaderControls>

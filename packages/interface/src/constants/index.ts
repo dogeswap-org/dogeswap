@@ -1,7 +1,7 @@
 import { ChainId, Percent, Token } from "@dogeswap/sdk-core";
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import JSBI from "jsbi";
-import { injected, walletconnect, walletlink } from "../connectors";
+import { injected } from "../connectors";
 import { localnetConfig } from "../utils/localnet-config";
 import { ChainTokens, DAI, USDC, USDT, WDC } from "./addresses";
 
@@ -81,32 +81,6 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
         description: "Easy-to-use browser extension.",
         href: null,
         color: "#E8831D",
-    },
-    WALLET_CONNECT: {
-        connector: walletconnect,
-        name: "WalletConnect",
-        iconName: "walletConnectIcon.svg",
-        description: "Connect to Trust Wallet, Rainbow Wallet and more...",
-        href: null,
-        color: "#4196FC",
-        mobile: true,
-    },
-    WALLET_LINK: {
-        connector: walletlink,
-        name: "Coinbase Wallet",
-        iconName: "coinbaseWalletIcon.svg",
-        description: "Use Coinbase Wallet app on mobile device",
-        href: null,
-        color: "#315CF5",
-    },
-    COINBASE_LINK: {
-        name: "Open in Coinbase Wallet",
-        iconName: "coinbaseWalletIcon.svg",
-        description: "Open in Coinbase Wallet app.",
-        href: "https://go.cb-w.com/mtUDhEZPy1",
-        color: "#315CF5",
-        mobile: true,
-        mobileOnly: true,
     },
 };
 
