@@ -56,6 +56,7 @@
         "@types/rebass": "^4.0.5",
         "@types/styled-components": "^5.1.0",
         "@types/testing-library__cypress": "^5.0.5",
+        "@types/yargs": "^17.0.10",
         "@uniswap/redux-multicall": "^1.1.5",
         "@uniswap/token-lists": "^1.0.0-beta.16",
         "@web3-react/core": "^6.0.9",
@@ -132,7 +133,8 @@
         "util": "^0.12.4",
         "webpack": "^5.72.1",
         "webpack-cli": "^4.9.2",
-        "webpack-dev-server": "^4.9.0"
+        "webpack-dev-server": "^4.9.0",
+        "yargs": "^17.5.1"
     },
     "resolutions": {
         "@ethersproject/abstract-provider": "5.6.1",

@@ -1,8 +1,8 @@
 import childPromise from "child_process";
-import { Contract } from "ethers/lib/ethers";
+import { ethers, Signer } from "ethers";
 import fs from "fs/promises";
 import glob from "glob";
-import { ethers } from "hardhat";
+import { ethers as hardhatEthers } from "hardhat";
 import { Artifact } from "hardhat/types";
 import path from "path";
 import process from "process";
@@ -63,12 +63,17 @@ const getProjectContractArtifacts = async (project: string) => {
         });
 };
 
-export const deployExternalContracts = async (contracts: string[] | "*", erc20Tokens: string[]) => {
-    const signers = await ethers.getSigners();
-    const [owner] = signers;
+export const deployExternalContracts = async (
+    signer: Signer,
+    contracts: string[] | "*" = [],
+    erc20Tokens: string[] = [],
+) => {
+    const [signerAddress, coreArtifacts, peripheryArtifacts] = await Promise.all([
+        signer.getAddress(),
+        getProjectContractArtifacts("contracts-core"),
+        getProjectContractArtifacts("contracts-periphery"),
+    ]);
 
-    const coreArtifacts = await getProjectContractArtifacts("contracts-core");
-    const peripheryArtifacts = await getProjectContractArtifacts("contracts-periphery");
     const artifacts = [...coreArtifacts, ...peripheryArtifacts];
 
     const addresses: Record<string, string> = {};
@@ -82,8 +87,8 @@ export const deployExternalContracts = async (contracts: string[] | "*", erc20To
         const deployContract = (...args: any[]) => deployNamedContract(artifact.contractName, ...args);
 
         const deployNamedContract = async (name: string, ...args: any[]) => {
-            const contractFactory = await ethers.getContractFactoryFromArtifact(artifact);
-            let contract: Contract;
+            const contractFactory = await hardhatEthers.getContractFactoryFromArtifact(artifact);
+            let contract: ethers.Contract;
             try {
                 contract = await contractFactory.deploy(...args);
             } catch (e) {
@@ -102,7 +107,7 @@ export const deployExternalContracts = async (contracts: string[] | "*", erc20To
                 }
                 break;
             case "UniswapV2Factory":
-                await deployContract(owner.address);
+                await deployContract(signerAddress);
                 break;
             case "UniswapV2Router02":
                 await deployContract(addresses["UniswapV2Factory"], addresses["WDC"]);

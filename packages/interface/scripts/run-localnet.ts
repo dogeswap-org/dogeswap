@@ -50,9 +50,7 @@ const isNetworkReady = async () => {
         try {
             await provider.getBlockNumber();
             return;
-        } catch (e) {
-            console.error(e);
-        }
+        } catch (e) {}
 
         await waitMs(1000);
     }
@@ -62,9 +60,8 @@ const isNetworkReady = async () => {
 };
 
 const run = async () => {
-    await buildExternalContracts();
-    await isNetworkReady();
-    const contractAddresses = await deployExternalContracts("*", erc20Tokens);
+    const [signers] = await Promise.all([ethers.getSigners(), buildExternalContracts(), isNetworkReady()]);
+    const contractAddresses = await deployExternalContracts(signers[0], "*", erc20Tokens);
     await writeConfigFile(contractAddresses);
 };
 

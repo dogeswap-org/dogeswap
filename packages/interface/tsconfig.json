@@ -1,6 +1,15 @@
 {
-    "include": ["./src"],
-    "exclude": ["dist", "node_modules"],
+    "include": [
+        "./src",
+        "./scripts"
+    ],
+    "files": [
+        "./hardhat.config.ts"
+    ],
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,

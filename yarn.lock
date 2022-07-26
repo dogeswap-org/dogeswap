@@ -670,6 +670,7 @@ __metadata:
     "@types/rebass": ^4.0.5
     "@types/styled-components": ^5.1.0
     "@types/testing-library__cypress": ^5.0.5
+    "@types/yargs": ^17.0.10
     "@uniswap/redux-multicall": ^1.1.5
     "@uniswap/token-lists": ^1.0.0-beta.16
     "@web3-react/core": ^6.0.9
@@ -747,6 +748,7 @@ __metadata:
     webpack: ^5.72.1
     webpack-cli: ^4.9.2
     webpack-dev-server: ^4.9.0
+    yargs: ^17.5.1
   languageName: unknown
   linkType: soft
 
@@ -3584,7 +3586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^17.0.8":
+"@types/yargs@npm:^17.0.10, @types/yargs@npm:^17.0.8":
   version: 17.0.10
   resolution: "@types/yargs@npm:17.0.10"
   dependencies:
@@ -22707,7 +22709,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.3.1":
+"yargs@npm:^17.3.1, yargs@npm:^17.5.1":
   version: 17.5.1
   resolution: "yargs@npm:17.5.1"
   dependencies:
