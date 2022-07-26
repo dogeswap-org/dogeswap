@@ -103,6 +103,7 @@ export const deployExternalContracts = async (
         switch (artifact.contractName) {
             case "ERC20":
                 for (const erc20Token of erc20Tokens) {
+                    console.log(erc20Token);
                     await deployNamedContract(erc20Token, erc20Token, erc20Token, ethers.utils.parseEther("1000000"));
                 }
                 break;

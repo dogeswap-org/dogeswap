@@ -24,7 +24,7 @@ const createListElement = (chain: ChainId, ...tokens: ChainTokens[]) => tokens.m
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-    [ChainId.MAINNET]: createListElement(ChainId.MAINNET, WDC, DAI, USDC, USDT),
+    [ChainId.MAINNET]: createListElement(ChainId.MAINNET, WDC),
     [ChainId.TESTNET]: createListElement(ChainId.TESTNET, WDC),
     [ChainId.LOCALNET]: createListElement(ChainId.LOCALNET, WDC, DAI, USDC, USDT),
 };
@@ -46,9 +46,9 @@ export const SUGGESTED_BASES: ChainTokenList = { ...BASES_TO_CHECK_TRADES_AGAINS
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = { ...BASES_TO_CHECK_TRADES_AGAINST };
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
-    [ChainId.MAINNET]: [
-        [USDC[ChainId.MAINNET], USDT[ChainId.MAINNET]],
-        [DAI[ChainId.MAINNET], USDT[ChainId.MAINNET]],
+    [ChainId.LOCALNET]: [
+        [USDC[ChainId.LOCALNET], USDT[ChainId.LOCALNET]],
+        [DAI[ChainId.LOCALNET], USDT[ChainId.LOCALNET]],
     ],
 };
 

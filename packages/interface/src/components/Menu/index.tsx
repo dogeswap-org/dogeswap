@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Code, GitHub, Info, MessageCircle } from "react-feather";
+import { GitHub, Info, MessageCircle } from "react-feather";
 import styled from "styled-components";
 import MenuIcon from "../../../assets/images/menu.svg";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
@@ -96,17 +96,13 @@ export default function Menu() {
                         <Info size={14} />
                         About
                     </MenuItem>
-                    <MenuItem id="link" href="https://github.com/dogeswap-org/dogeswap">
-                        <Code size={14} />
-                        Code
+                    <MenuItem id="link" href="https://github.com/Dogeswap-org/dogeswap">
+                        <GitHub size={14} />
+                        GitHub
                     </MenuItem>
                     <MenuItem id="link" href="https://t.me/+6eGjC6hMjf5iYWIy">
                         <MessageCircle size={14} />
                         Telegram
-                    </MenuItem>
-                    <MenuItem id="link" href="https://github.com/Dogeswap-org/dogeswap">
-                        <GitHub size={14} />
-                        GitHub
                     </MenuItem>
                 </MenuFlyout>
             )}

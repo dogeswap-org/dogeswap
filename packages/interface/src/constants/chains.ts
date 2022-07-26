@@ -1,5 +1,11 @@
 import { ChainId, DOGECHAIN } from "@dogeswap/sdk-core";
 
+export const createChainMap = <T>(generateValue: <TChainId extends ChainId>(x: TChainId) => T) => ({
+    [ChainId.MAINNET]: generateValue(ChainId.MAINNET),
+    [ChainId.TESTNET]: generateValue(ChainId.TESTNET),
+    [ChainId.LOCALNET]: generateValue(ChainId.LOCALNET),
+});
+
 export const chains = {
     [ChainId.MAINNET]: {
         urls: ["http://localhost:8545"],

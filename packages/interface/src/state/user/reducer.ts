@@ -1,5 +1,5 @@
-import { INITIAL_ALLOWED_SLIPPAGE, DEFAULT_DEADLINE_FROM_NOW } from "../../constants";
 import { createReducer } from "@reduxjs/toolkit";
+import { DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from "../../constants";
 import { updateVersion } from "../global/actions";
 import {
     addSerializedPair,
@@ -10,9 +10,9 @@ import {
     SerializedToken,
     updateMatchesDarkMode,
     updateUserDarkMode,
+    updateUserDeadline,
     updateUserExpertMode,
     updateUserSlippageTolerance,
-    updateUserDeadline,
 } from "./actions";
 
 const currentTimestamp = () => new Date().getTime();
@@ -85,7 +85,7 @@ export default createReducer(initialState, (builder) =>
             state.timestamp = currentTimestamp();
         })
         .addCase(updateMatchesDarkMode, (state, action) => {
-            state.matchesDarkMode = action.payload.matchesDarkMode;
+            // TODO DOGESWAP: update state.matchesDarkMode to re-enable.
             state.timestamp = currentTimestamp();
         })
         .addCase(updateUserExpertMode, (state, action) => {
