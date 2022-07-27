@@ -1,6 +1,6 @@
 import { Interface } from "@ethersproject/abi";
 import { useMemo } from "react";
-import { abi as IUniswapV2PairABI } from "../../../contracts-core/artifacts/contracts/interfaces/IUniswapV2Pair.sol/IUniswapV2Pair.json";
+import { abi as IDogeSwapV2PairABI } from "../../../contracts-core/artifacts/contracts/interfaces/IDogeSwapV2Pair.sol/IDogeSwapV2Pair.json";
 import { useActiveWeb3React } from "../hooks";
 
 import { Currency, CurrencyAmount } from "@dogeswap/sdk-core";
@@ -9,7 +9,7 @@ import { getAddress } from "../constants/addresses";
 import { useMultipleContractSingleData } from "../hooks/Multicall";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 
-const PAIR_INTERFACE = new Interface(IUniswapV2PairABI);
+const PAIR_INTERFACE = new Interface(IDogeSwapV2PairABI);
 
 export enum PairState {
     LOADING,

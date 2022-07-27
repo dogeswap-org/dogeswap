@@ -14,10 +14,10 @@ export function useFetchListCallback(): (listUrl: string) => Promise<TokenList> 
 
     const ensResolver = useCallback(
         (ensName: string) => {
-            if (!library) {
+            if (!library || !chainId) {
                 throw new Error("Could not construct mainnet ENS resolver");
             }
-            return resolveENSContentHash(ensName, library);
+            return resolveENSContentHash(ensName, library, chainId);
         },
         [chainId, library],
     );

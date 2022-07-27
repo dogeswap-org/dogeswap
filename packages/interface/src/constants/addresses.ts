@@ -7,27 +7,30 @@ interface InfrastructureAddress {
     factory: string;
     router: string;
     multicall: string;
+    ensRegistrar: string;
 }
 
 export const addresses = {
     [ChainId.MAINNET]: {
         infrastructure: {
-            factory: "0x0000000000000000000000000000000000000004",
-            router: "0x0000000000000000000000000000000000000004",
-            multicall: "0x0000000000000000000000000000000000000004",
+            factory: "0x0000000000000000000000000000000000000000",
+            router: "0x0000000000000000000000000000000000000000",
+            multicall: "0x0000000000000000000000000000000000000000",
+            ensRegistrar: "0x0000000000000000000000000000000000000000",
         } as InfrastructureAddress,
         tokens: {
-            wdc: "0x0000000000000000000000000000000000000004",
+            wdc: "0x0000000000000000000000000000000000000000",
         },
     },
     [ChainId.TESTNET]: {
         infrastructure: {
-            factory: "0x0000000000000000000000000000000000000004",
-            router: "0x0000000000000000000000000000000000000004",
-            multicall: "0x0000000000000000000000000000000000000004",
+            factory: "0x0000000000000000000000000000000000000000",
+            router: "0x0000000000000000000000000000000000000000",
+            multicall: "0x0000000000000000000000000000000000000000",
+            ensRegistrar: "0x0000000000000000000000000000000000000000",
         } as InfrastructureAddress,
         tokens: {
-            wdc: "0x0000000000000000000000000000000000000004",
+            wdc: "0x0000000000000000000000000000000000000000",
         },
     },
     [ChainId.LOCALNET]: {
@@ -35,6 +38,7 @@ export const addresses = {
             factory: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
             router: "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
             multicall: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
+            ensRegistrar: "0x0000000000000000000000000000000000000000",
         } as InfrastructureAddress,
         tokens: {
             dst: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",

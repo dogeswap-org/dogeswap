@@ -5,7 +5,7 @@ import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
 import JSBI from "jsbi";
-import { iUniswapV2Router02Abi } from "../constants/abis";
+import { iDogeSwapV2Router02Abi } from "../constants/abis";
 import { addresses } from "../constants/addresses";
 import { TokenAddressMap } from "../state/lists/hooks";
 
@@ -18,6 +18,7 @@ export function isAddress(value: any): string | false {
     }
 }
 
+// TODO DOGESWAP: update
 export function getEtherscanLink(_chainId: ChainId, _data: string, _type: "transaction" | "token" | "address"): string {
     return "https://www.dogeswap.dog";
 }
@@ -72,7 +73,7 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
 export function getRouterContract(_: number, library: Web3Provider, account?: string): Contract {
     return getContract(
         addresses[library.network.chainId as ChainId].infrastructure.router,
-        iUniswapV2Router02Abi,
+        iDogeSwapV2Router02Abi,
         library,
         account,
     );

@@ -1,7 +1,6 @@
-import { ChainId } from "@dogeswap/sdk-core";
 import { Contract } from "@ethersproject/contracts";
 import { useMemo } from "react";
-import { erc20Abi, iUniswapV2PairAbi, multicallAbi, wdcAbi } from "../constants/abis";
+import { erc20Abi, iDogeSwapV2PairAbi, multicallAbi, wdcAbiChainMap } from "../constants/abis";
 import { getAddress } from "../constants/addresses";
 import { getToken } from "../constants/tokens";
 import { getContract } from "../utils";
@@ -29,22 +28,15 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 export function useWDCContract(withSignerIfPossible?: boolean): Contract | null {
     const { chainId } = useActiveWeb3React();
     const wdc = getToken("wdc", chainId);
+    const wdcAbi = chainId != undefined ? wdcAbiChainMap[chainId] : undefined;
     return useContract(chainId ? wdc?.address : undefined, wdcAbi, withSignerIfPossible);
 }
 
-// If these ENS functions are ever needed, fill in the ABI/resolver ABI variables as well as the contract address.
+// TODO DOGESWAP: If these ENS functions are ever needed, fill in the ABI/resolver ABI variables as well as the contract address.
 
 export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contract | null {
     const { chainId } = useActiveWeb3React();
-    let address: string | undefined;
-    if (chainId) {
-        switch (chainId) {
-            case ChainId.MAINNET:
-            case ChainId.TESTNET:
-                address = "0x0000000000000000000000000000000000000000";
-                break;
-        }
-    }
+    const address = getAddress("ensRegistrar", chainId);
     return useContract(address, "<ENS_ABI>", withSignerIfPossible);
 }
 
@@ -53,7 +45,7 @@ export function useENSResolverContract(address: string | undefined, withSignerIf
 }
 
 export function usePairContract(pairAddress?: string, withSignerIfPossible?: boolean): Contract | null {
-    return useContract(pairAddress, iUniswapV2PairAbi, withSignerIfPossible);
+    return useContract(pairAddress, iDogeSwapV2PairAbi, withSignerIfPossible);
 }
 
 export function useMulticallContract(): Contract | null {

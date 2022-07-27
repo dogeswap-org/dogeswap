@@ -107,11 +107,11 @@ export const deployExternalContracts = async (
                     await deployNamedContract(erc20Token, erc20Token, erc20Token, ethers.utils.parseEther("1000000"));
                 }
                 break;
-            case "UniswapV2Factory":
+            case "DogeSwapV2Factory":
                 await deployContract(signerAddress);
                 break;
-            case "UniswapV2Router02":
-                await deployContract(addresses["UniswapV2Factory"], addresses["WDC"]);
+            case "DogeSwapV2Router":
+                await deployContract(addresses["DogeSwapV2Factory"], addresses["WDC"]);
                 break;
             case "SafeMath":
                 if (didDeploySafeMath) {

@@ -1,6 +1,8 @@
-import { Contract } from "@ethersproject/contracts";
+import { ChainId } from "@dogeswap/sdk-core";
 import { Provider } from "@ethersproject/abstract-provider";
+import { Contract } from "@ethersproject/contracts";
 import { namehash } from "ethers/lib/utils";
+import { addresses } from "../constants/addresses";
 
 const REGISTRAR_ABI = [
     {
@@ -23,7 +25,6 @@ const REGISTRAR_ABI = [
         type: "function",
     },
 ];
-const REGISTRAR_ADDRESS = "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e";
 
 const RESOLVER_ABI = [
     {
@@ -59,8 +60,13 @@ function resolverContract(resolverAddress: string, provider: Provider): Contract
  * @param ensName to resolve
  * @param provider provider to use to fetch the data
  */
-export default async function resolveENSContentHash(ensName: string, provider: Provider): Promise<string> {
-    const ensRegistrarContract = new Contract(REGISTRAR_ADDRESS, REGISTRAR_ABI, provider);
+export default async function resolveENSContentHash(
+    ensName: string,
+    provider: Provider,
+    chainId: ChainId,
+): Promise<string> {
+    const registrarAddress = addresses[chainId].infrastructure.ensRegistrar;
+    const ensRegistrarContract = new Contract(registrarAddress, REGISTRAR_ABI, provider);
     const hash = namehash(ensName);
     const resolverAddress = await ensRegistrarContract.resolver(hash);
     return resolverContract(resolverAddress, provider).contenthash(hash);
