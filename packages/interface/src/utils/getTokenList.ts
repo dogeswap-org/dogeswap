@@ -1,9 +1,10 @@
+import { ChainId } from "@dogeswap/sdk-core";
 import { TokenList } from "@uniswap/token-lists";
 import schema from "@uniswap/token-lists/src/tokenlist.schema.json";
 import Ajv from "ajv";
 import { localListUrl } from "../constants/lists";
+import { tokenLists } from "../constants/tokenLists";
 import contenthashToUri from "./contenthashToUri";
-import { localnetConfig } from "./localnet-config";
 import { parseENSAddress } from "./parseENSAddress";
 import uriToHttp from "./uriToHttp";
 
@@ -70,9 +71,12 @@ const getRemoteTokenList = async (listUrl: string, resolveENSContentHash: (ensNa
 export default async function getTokenList(
     listUrl: string,
     resolveENSContentHash: (ensName: string) => Promise<string>,
+    chainId: ChainId | undefined,
 ): Promise<TokenList> {
     // TODO DOGESWAP: extract local token list to file and add testnet/mainnet tokens
     return listUrl === localListUrl
-        ? localnetConfig.localTokenList
+        ? chainId != undefined
+            ? tokenLists[chainId]
+            : []
         : getRemoteTokenList(listUrl, resolveENSContentHash);
 }

@@ -3,14 +3,14 @@ import { Trade } from "@dogeswap/v2-sdk";
 import { parseUnits } from "@ethersproject/units";
 import JSBI from "jsbi";
 import { ParsedQs } from "qs";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addresses } from "../../constants/addresses";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { useTradeExactIn, useTradeExactOut } from "../../hooks/Trades";
 import useParsedQueryString from "../../hooks/useParsedQueryString";
 import { isAddress } from "../../utils";
-import { localnetConfig } from "../../utils/localnet-config";
 import { computeSlippageAdjustedAmounts } from "../../utils/prices";
 import { AppDispatch, AppState } from "../index";
 import { useUserSlippageTolerance } from "../user/hooks";
@@ -87,8 +87,6 @@ export function tryParseAmount(value?: string, currency?: Currency): CurrencyAmo
     return undefined;
 }
 
-const BAD_RECIPIENT_ADDRESSES: string[] = [localnetConfig.factoryAddress, localnetConfig.routerAddress];
-
 /**
  * Returns true if any of the pairs or tokens in a trade have the given checksummed address
  * @param trade to check for the given address
@@ -109,7 +107,7 @@ export function useDerivedSwapInfo(): {
     v2Trade: Trade | undefined;
     inputError?: string;
 } {
-    const { account } = useActiveWeb3React();
+    const { account, chainId } = useActiveWeb3React();
 
     const {
         independentField,
@@ -160,11 +158,17 @@ export function useDerivedSwapInfo(): {
     }
 
     const formattedTo = isAddress(to);
+    const badRecipientAddresses = useMemo(() => {
+        return chainId == undefined
+            ? []
+            : [addresses[chainId].infrastructure.factory, addresses[chainId].infrastructure.router];
+    }, [chainId]);
+
     if (!to || !formattedTo) {
         inputError = inputError ?? "Enter a recipient";
     } else {
         if (
-            BAD_RECIPIENT_ADDRESSES.indexOf(formattedTo) !== -1 ||
+            badRecipientAddresses.indexOf(formattedTo) !== -1 ||
             (bestTradeExactIn && involvesAddress(bestTradeExactIn, formattedTo)) ||
             (bestTradeExactOut && involvesAddress(bestTradeExactOut, formattedTo))
         ) {

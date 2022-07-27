@@ -1,9 +1,10 @@
 import { ChainId, Currency, CurrencyAmount, DOGECHAIN, Token } from "@dogeswap/sdk-core";
-import { WDC } from "../constants/addresses";
+import { getToken } from "../constants/tokens";
 
 // TODO DOGESWAP: update this to use DS instead of DOGECHAIN and update currency to accept DS instead of DOGECHAIN
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {
-    return chainId && currency === DOGECHAIN ? WDC[chainId] : currency instanceof Token ? currency : undefined;
+    const wdc = getToken(chainId, "wdc");
+    return chainId && currency === DOGECHAIN ? wdc : currency instanceof Token ? currency : undefined;
 }
 
 export function wrappedCurrencyAmount(
@@ -15,6 +16,7 @@ export function wrappedCurrencyAmount(
 }
 
 export function unwrappedToken(token: Token): Currency {
-    if (token.equals(WDC[token.chainId])) return DOGECHAIN;
+    const wdc = getToken(token.chainId, "wdc");
+    if (wdc != undefined && token.equals(wdc)) return DOGECHAIN;
     return token;
 }

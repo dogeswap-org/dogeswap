@@ -6,7 +6,7 @@ import React, { PropsWithChildren, useEffect, useState } from "react";
 import { multicallAbi } from "../../constants/abis";
 import { multicall } from "../../constants/addresses";
 import { chains } from "../../constants/chains";
-import { chainId as envChainId } from "../../env";
+import { defaultChainId as envChainId } from "../../env";
 import { useBlockNumber } from "../../state/application/hooks";
 import ApplicationUpdater from "../../state/application/updater";
 import ListsUpdater from "../../state/lists/updater";
@@ -29,16 +29,16 @@ export const UpdaterProvider = (props: PropsWithChildren<{}>) => {
     }, []);
 
     const blockNumber = useBlockNumber() ?? providerBlockNumber;
-    return blockNumber == undefined || contract == undefined
-        ? <></>
-        : (
-            <>
-                <ListsUpdater />
-                <UserUpdater />
-                <ApplicationUpdater />
-                <TransactionUpdater />
-                <MulticallUpdater blockNumber={blockNumber} chainId={chainId} contract={contract} />
-                {props.children}
-            </>
-        );
-}
+    return blockNumber == undefined || contract == undefined ? (
+        <></>
+    ) : (
+        <>
+            <ListsUpdater />
+            <UserUpdater />
+            <ApplicationUpdater />
+            <TransactionUpdater />
+            <MulticallUpdater blockNumber={blockNumber} chainId={chainId} contract={contract} />
+            {props.children}
+        </>
+    );
+};

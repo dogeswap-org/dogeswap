@@ -1,17 +1,16 @@
 import { ChainId, Token } from "@dogeswap/sdk-core";
 import { addresses } from "./addresses";
-import { createChainMap } from "./chains";
 
 export type ChainToken<T extends ChainId> = keyof typeof addresses[T]["tokens"];
 
 type AddressableTokenMap = { [chainId in ChainId]: ChainToken<chainId> };
-export type AddressableToken = AddressableTokenMap[keyof AddressableTokenMap];
+export type SupportedToken = AddressableTokenMap[keyof AddressableTokenMap];
 
 interface TokenMetadata {
     name: string;
 }
 
-const tokenMetadata: Record<AddressableToken, TokenMetadata> = {
+const tokenMetadata: Record<SupportedToken, TokenMetadata> = {
     dst: {
         name: "Dogeswap Token",
     },
@@ -30,8 +29,8 @@ const tokenMetadata: Record<AddressableToken, TokenMetadata> = {
 };
 
 const createTokens = <T extends ChainId>(chainId: T) => {
-    return Object.entries(addresses[chainId]["tokens"] as AddressableToken).reduce((r, [symbol, address]) => {
-        const { name } = tokenMetadata[symbol as AddressableToken];
+    return Object.entries(addresses[chainId]["tokens"] as SupportedToken).reduce((r, [symbol, address]) => {
+        const { name } = tokenMetadata[symbol as SupportedToken];
         r[symbol as ChainToken<T>] = new Token(chainId, address, 18, symbol, name);
         return r;
     }, {} as Record<ChainToken<T>, Token>);
@@ -43,4 +42,12 @@ export const tokens = {
     [ChainId.LOCALNET]: createTokens(ChainId.LOCALNET),
 };
 
-export const tokens2 = createChainMap((x) => createTokens(x));
+export const getToken = <T extends SupportedToken>(chainId: ChainId | undefined, token: T) => {
+    if (chainId == undefined) {
+        return undefined;
+    }
+
+    return (tokens as Record<ChainId, Partial<Record<SupportedToken, Token>>>)[chainId]?.[token] as
+        | Token<T>
+        | undefined;
+};

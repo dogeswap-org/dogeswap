@@ -1,22 +1,23 @@
 import { ChainId } from "@dogeswap/sdk-core";
 import { TokenList } from "@uniswap/token-lists";
-import { addresses } from "./addresses";
+import { SupportedToken, tokens } from "./tokens";
 
-const createLocalnetTokenListItem = <T extends ChainId>(chainId: T, symbol: ListTokens<T>) => ({
-    chainId: ChainId.LOCALNET,
-    address: addresses[chainId][symbol] as unknown as string, // TS can't figure out how ListTokens<T> maps to an address list.
-    name: symbol,
-    symbol,
-    decimals: 18,
-    logoURI: "https://assets.coingecko.com/coins/images/4490/thumb/aergo.png?1647696770",
-});
+const unlistedTokens: SupportedToken[] = ["wdc"];
 
-type BlacklistedAddressKeys = "factory" | "router" | "multicall" | "wdc";
-type ListTokens<TChain extends ChainId> = Exclude<keyof typeof addresses[TChain], BlacklistedAddressKeys> & string;
+const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
+    const listTokens = Object.entries(tokens[chainId])
+        .filter(([symbol]) => !unlistedTokens.includes(symbol as SupportedToken))
+        .map(([_, token]) => ({
+            chainId,
+            address: token.address,
+            name: token.name,
+            symbol: token.symbol,
+            decimals: token.decimals,
+            logoURI: "https://assets.coingecko.com/coins/images/4490/thumb/aergo.png?1647696770",
+        }));
 
-const createTokenList = <TChain extends ChainId>(chainId: TChain, ...tokens: Array<ListTokens<TChain>>) =>
-    ({
-        name: "Local",
+    return {
+        name: "Default",
         timestamp: new Date().toISOString(),
         version: {
             major: 0,
@@ -26,11 +27,12 @@ const createTokenList = <TChain extends ChainId>(chainId: TChain, ...tokens: Arr
         tags: {},
         logoURI: "ipfs://QmNa8mQkrNKp1WEEeGjFezDmDeodkWRevGFN8JCV7b4Xir",
         keywords: [],
-        tokens: tokens.map((x) => createLocalnetTokenListItem(chainId, x)),
-    } as TokenList);
+        tokens: listTokens,
+    } as TokenList;
+};
 
 export const tokenLists = {
     [ChainId.MAINNET]: createTokenList(ChainId.MAINNET),
     [ChainId.TESTNET]: createTokenList(ChainId.TESTNET),
-    [ChainId.LOCALNET]: createTokenList(ChainId.LOCALNET, "dai", "dst", "usdc", "usdt"),
+    [ChainId.LOCALNET]: createTokenList(ChainId.LOCALNET),
 };
