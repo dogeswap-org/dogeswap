@@ -15,19 +15,18 @@
 
 pragma solidity =0.7.6;
 
-// TODO DOGESWAP: Replace with ERC20?
 contract WDC {
-    string public name     = "Wrapped Dogechain";
-    string public symbol   = "WDC";
-    uint8  public decimals = 18;
+    string public name = "Wrapped Dogechain";
+    string public symbol = "WDC";
+    uint8 public decimals = 18;
 
-    event  Approval(address indexed src, address indexed guy, uint wad);
-    event  Transfer(address indexed src, address indexed dst, uint wad);
-    event  Deposit(address indexed dst, uint wad);
-    event  Withdrawal(address indexed src, uint wad);
+    event Approval(address indexed src, address indexed guy, uint wad);
+    event Transfer(address indexed src, address indexed dst, uint wad);
+    event Deposit(address indexed dst, uint wad);
+    event Withdrawal(address indexed src, uint wad);
 
-    mapping (address => uint)                       public  balanceOf;
-    mapping (address => mapping (address => uint))  public  allowance;
+    mapping(address => uint) public balanceOf;
+    mapping(address => mapping(address => uint)) public allowance;
 
     // function() public payable {
     //     deposit();
@@ -36,6 +35,7 @@ contract WDC {
         balanceOf[msg.sender] += msg.value;
         emit Deposit(msg.sender, msg.value);
     }
+
     function withdraw(uint wad) public {
         require(balanceOf[msg.sender] >= wad, "");
         balanceOf[msg.sender] -= wad;
@@ -57,10 +57,11 @@ contract WDC {
         return transferFrom(msg.sender, dst, wad);
     }
 
-    function transferFrom(address src, address dst, uint wad)
-        public
-        returns (bool)
-    {
+    function transferFrom(
+        address src,
+        address dst,
+        uint wad
+    ) public returns (bool) {
         require(balanceOf[src] >= wad, "");
 
         if (src != msg.sender && allowance[src][msg.sender] != uint(-1)) {
@@ -76,7 +77,6 @@ contract WDC {
         return true;
     }
 }
-
 
 /*
                     GNU GENERAL PUBLIC LICENSE

@@ -567,7 +567,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dogeswap/contracts-core@workspace:packages/contracts-core":
+"@dogeswap/contracts-core@workspace:^, @dogeswap/contracts-core@workspace:packages/contracts-core":
   version: 0.0.0-use.local
   resolution: "@dogeswap/contracts-core@workspace:packages/contracts-core"
   dependencies:
@@ -602,6 +602,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dogeswap/contracts-periphery@workspace:packages/contracts-periphery"
   dependencies:
+    "@dogeswap/contracts-core": "workspace:^"
     "@ethersproject/abi": ^5.6.4
     "@ethersproject/bytes": ^5.6.1
     "@ethersproject/constants": ^5.6.1
@@ -615,7 +616,6 @@ __metadata:
     "@types/ethereumjs-util": ^6.1.0
     "@types/node": ^18.0.6
     "@uniswap/lib": 4.0.1-alpha
-    "@uniswap/v2-core": 1.0.0
     ethereumjs-util: ^7.1.5
     ethers: ^5.6.9
     hardhat: ^2.10.0
@@ -3753,13 +3753,6 @@ __metadata:
   version: 1.0.0-beta.30
   resolution: "@uniswap/token-lists@npm:1.0.0-beta.30"
   checksum: 4138b15eab65c2d20749ab7dcf37f838198a349c402c40d810bcb11ab35dfee6b905d5fb7167e676ac863a562ba0a075bf6dd7fcc1e88dffe8b07fc58ce336ca
-  languageName: node
-  linkType: hard
-
-"@uniswap/v2-core@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@uniswap/v2-core@npm:1.0.0"
-  checksum: 41e42ad801dbc058ebf0ab38a8ce3195990e21eff4b2d49cd0a8c8fd25ac067feed55c379f2be22d915a7601d94966ae66127b748b2d3acde20eeb2351e51703
   languageName: node
   linkType: hard
 
