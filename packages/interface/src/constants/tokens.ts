@@ -31,7 +31,7 @@ const tokenMetadata: Record<SupportedToken, TokenMetadata> = {
 const createTokens = <T extends ChainId>(chainId: T) => {
     return Object.entries(addresses[chainId]["tokens"]).reduce((r, [symbol, address]) => {
         const { name } = tokenMetadata[symbol as SupportedToken];
-        r[symbol as ChainToken<T>] = new Token(chainId, address, 18, symbol, name);
+        r[symbol as ChainToken<T>] = new Token(chainId, address, 18, symbol.toUpperCase(), name);
         return r;
     }, {} as Record<ChainToken<T>, Token>);
 };
