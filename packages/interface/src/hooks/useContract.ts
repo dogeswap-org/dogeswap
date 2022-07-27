@@ -2,7 +2,8 @@ import { ChainId } from "@dogeswap/sdk-core";
 import { Contract } from "@ethersproject/contracts";
 import { useMemo } from "react";
 import { erc20Abi, iUniswapV2PairAbi, multicallAbi, wdcAbi } from "../constants/abis";
-import { multicall, WDC } from "../constants/addresses";
+import { getAddress } from "../constants/addresses";
+import { getToken } from "../constants/tokens";
 import { getContract } from "../utils";
 import { useActiveWeb3React } from "./index";
 
@@ -27,7 +28,8 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 
 export function useWDCContract(withSignerIfPossible?: boolean): Contract | null {
     const { chainId } = useActiveWeb3React();
-    return useContract(chainId ? WDC[chainId]?.address : undefined, wdcAbi, withSignerIfPossible);
+    const wdc = getToken("wdc", chainId);
+    return useContract(chainId ? wdc?.address : undefined, wdcAbi, withSignerIfPossible);
 }
 
 // If these ENS functions are ever needed, fill in the ABI/resolver ABI variables as well as the contract address.
@@ -56,5 +58,6 @@ export function usePairContract(pairAddress?: string, withSignerIfPossible?: boo
 
 export function useMulticallContract(): Contract | null {
     const { chainId } = useActiveWeb3React();
-    return useContract(chainId && multicall[chainId], multicallAbi, false);
+    const multicall = getAddress("multicall", chainId);
+    return useContract(multicall, multicallAbi, false);
 }

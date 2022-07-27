@@ -5,7 +5,7 @@ import { useActiveWeb3React } from "../hooks";
 
 import { Currency, CurrencyAmount } from "@dogeswap/sdk-core";
 import { Pair } from "@dogeswap/v2-sdk";
-import { factory } from "../constants/addresses";
+import { getAddress } from "../constants/addresses";
 import { useMultipleContractSingleData } from "../hooks/Multicall";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 
@@ -30,15 +30,14 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
         [chainId, currencies],
     );
 
-    const pairAddresses = useMemo(
-        () =>
-            tokens.map(([tokenA, tokenB]) => {
-                return tokenA && tokenB && !tokenA.equals(tokenB)
-                    ? Pair.getAddress(tokenA, tokenB, factory[chainId!])
-                    : undefined;
-            }),
-        [tokens, chainId],
-    );
+    const pairAddresses = useMemo(() => {
+        return tokens.map(([tokenA, tokenB]) => {
+            const factory = getAddress("factory", chainId);
+            return tokenA && tokenB && factory && !tokenA.equals(tokenB)
+                ? Pair.getAddress(tokenA, tokenB, factory)
+                : undefined;
+        });
+    }, [tokens, chainId]);
 
     const results = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, "getReserves");
 
@@ -47,8 +46,9 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
             const { result: reserves, loading } = result;
             const tokenA = tokens[i][0];
             const tokenB = tokens[i][1];
+            const factory = getAddress("factory", chainId);
 
-            if (loading) return [PairState.LOADING, null];
+            if (loading || factory == undefined) return [PairState.LOADING, null];
             if (!tokenA || !tokenB || tokenA.equals(tokenB)) return [PairState.INVALID, null];
             if (!reserves) return [PairState.NOT_EXISTS, null];
             const { reserve0, reserve1 } = reserves;
@@ -58,7 +58,7 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
                 new Pair(
                     new CurrencyAmount(token0, reserve0.toString()),
                     new CurrencyAmount(token1, reserve1.toString()),
-                    factory[chainId!],
+                    factory,
                 ),
             ];
         });

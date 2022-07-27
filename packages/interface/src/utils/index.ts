@@ -5,8 +5,8 @@ import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
 import JSBI from "jsbi";
-import { getRouterAddress } from "../constants";
 import { iUniswapV2Router02Abi } from "../constants/abis";
+import { addresses } from "../constants/addresses";
 import { TokenAddressMap } from "../state/lists/hooks";
 
 // returns the checksummed address if the address is valid, otherwise returns false
@@ -70,7 +70,12 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
 
 // account is optional
 export function getRouterContract(_: number, library: Web3Provider, account?: string): Contract {
-    return getContract(getRouterAddress(library.network.chainId), iUniswapV2Router02Abi, library, account);
+    return getContract(
+        addresses[library.network.chainId as ChainId].infrastructure.router,
+        iUniswapV2Router02Abi,
+        library,
+        account,
+    );
 }
 
 export function escapeRegExp(string: string): string {

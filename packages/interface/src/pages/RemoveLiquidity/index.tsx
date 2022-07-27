@@ -19,7 +19,6 @@ import TransactionConfirmationModal, { ConfirmationModalContent } from "../../co
 
 import CurrencyLogo from "../../components/CurrencyLogo";
 import Slider from "../../components/Slider";
-import { getRouterAddress } from "../../constants";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { usePairContract } from "../../hooks/useContract";
@@ -27,7 +26,8 @@ import { usePairContract } from "../../hooks/useContract";
 import { Currency, currencyEquals, DOGECHAIN, Percent } from "@dogeswap/sdk-core";
 import { BigNumber } from "@ethersproject/bignumber";
 import { Dots } from "../../components/swap/styleds";
-import { WDC } from "../../constants/addresses";
+import { getAddress } from "../../constants/addresses";
+import { getToken } from "../../constants/tokens";
 import { ApprovalState, useApproveCallback } from "../../hooks/useApproveCallback";
 import { useWalletModalToggle } from "../../state/application/hooks";
 import { Field } from "../../state/burn/actions";
@@ -103,7 +103,8 @@ export default function RemoveLiquidity({
     const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(
         null,
     );
-    const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.LIQUIDITY], getRouterAddress(chainId));
+    const routerAddress = useMemo(() => getAddress("router", chainId), [chainId]);
+    const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.LIQUIDITY], routerAddress);
     async function onAttemptToApprove() {
         if (!pairContract || !pair || !library) throw new Error("missing dependencies");
         const liquidityAmount = parsedAmounts[Field.LIQUIDITY];
@@ -134,7 +135,7 @@ export default function RemoveLiquidity({
         ];
         const message = {
             owner: account,
-            spender: getRouterAddress(chainId),
+            spender: routerAddress,
             value: liquidityAmount.raw.toString(),
             nonce: nonce.toHexString(),
             deadline: deadlineForSignature,
@@ -438,11 +439,12 @@ export default function RemoveLiquidity({
         [onUserInput],
     );
 
-    const oneCurrencyIsETH = currencyA === DOGECHAIN || currencyB === DOGECHAIN;
+    const wdc = useMemo(() => getToken("wdc", chainId), [chainId]);
+    const oneCurrencyIsDC = currencyA === DOGECHAIN || currencyB === DOGECHAIN;
     const oneCurrencyIsWDC = Boolean(
         chainId &&
-            ((currencyA && currencyEquals(WDC[chainId], currencyA)) ||
-                (currencyB && currencyEquals(WDC[chainId], currencyB))),
+            wdc &&
+            ((currencyA && currencyEquals(wdc, currencyA)) || (currencyB && currencyEquals(wdc, currencyB))),
     );
 
     const handleSelectCurrencyA = useCallback(
@@ -593,31 +595,29 @@ export default function RemoveLiquidity({
                                                 </Text>
                                             </RowFixed>
                                         </RowBetween>
-                                        {chainId && (oneCurrencyIsWDC || oneCurrencyIsETH) ? (
+                                        {chainId && (oneCurrencyIsWDC || oneCurrencyIsDC) ? (
                                             <RowBetween style={{ justifyContent: "flex-end" }}>
-                                                {oneCurrencyIsETH ? (
+                                                {oneCurrencyIsDC && wdc ? (
                                                     <StyledInternalLink
                                                         to={`/remove/${
-                                                            currencyA === DOGECHAIN ? WDC[chainId].address : currencyIdA
-                                                        }/${
-                                                            currencyB === DOGECHAIN ? WDC[chainId].address : currencyIdB
-                                                        }`}
+                                                            currencyA === DOGECHAIN ? wdc.address : currencyIdA
+                                                        }/${currencyB === DOGECHAIN ? wdc.address : currencyIdB}`}
                                                     >
                                                         Receive WDC
                                                     </StyledInternalLink>
-                                                ) : oneCurrencyIsWDC ? (
+                                                ) : oneCurrencyIsWDC && wdc ? (
                                                     <StyledInternalLink
                                                         to={`/remove/${
-                                                            currencyA && currencyEquals(currencyA, WDC[chainId])
-                                                                ? "ETH"
+                                                            currencyA && currencyEquals(currencyA, wdc)
+                                                                ? "DC"
                                                                 : currencyIdA
                                                         }/${
-                                                            currencyB && currencyEquals(currencyB, WDC[chainId])
-                                                                ? "ETH"
+                                                            currencyB && currencyEquals(currencyB, wdc)
+                                                                ? "DC"
                                                                 : currencyIdB
                                                         }`}
                                                     >
-                                                        Receive ETH
+                                                        Receive DC
                                                     </StyledInternalLink>
                                                 ) : null}
                                             </RowBetween>

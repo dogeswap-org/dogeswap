@@ -1,6 +1,6 @@
 import { Currency, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
 import { useMemo } from "react";
-import { WDC } from "../constants/addresses";
+import { getToken } from "../constants/tokens";
 import { tryParseAmount } from "../state/swap/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import { useCurrencyBalance } from "../state/wallet/hooks";
@@ -33,11 +33,12 @@ export default function useWrapCallback(
     const addTransaction = useTransactionAdder();
 
     return useMemo(() => {
-        if (!wdcContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE;
+        const wdc = getToken("wdc", chainId);
+        if (!wdc || !wdcContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE;
 
         const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount);
 
-        if (inputCurrency === DOGECHAIN && currencyEquals(WDC[chainId], outputCurrency)) {
+        if (inputCurrency === DOGECHAIN && currencyEquals(wdc, outputCurrency)) {
             return {
                 wrapType: WrapType.WRAP,
                 execute:
@@ -57,7 +58,7 @@ export default function useWrapCallback(
                         : undefined,
                 inputError: sufficientBalance ? undefined : "Insufficient ETH balance",
             };
-        } else if (currencyEquals(WDC[chainId], inputCurrency) && outputCurrency === DOGECHAIN) {
+        } else if (currencyEquals(wdc, inputCurrency) && outputCurrency === DOGECHAIN) {
             return {
                 wrapType: WrapType.UNWRAP,
                 execute:

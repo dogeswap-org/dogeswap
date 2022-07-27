@@ -4,7 +4,7 @@ import flatMap from "lodash.flatmap";
 import { useCallback, useMemo } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from "../../constants";
-import { factory } from "../../constants/addresses";
+import { addresses } from "../../constants/addresses";
 
 import { useActiveWeb3React } from "../../hooks";
 import { useAllTokens } from "../../hooks/Tokens";
@@ -168,7 +168,7 @@ export function usePairAdder(): (pair: Pair) => void {
  * @param tokenB the other token
  */
 export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token], chainId: ChainId): Token {
-    const factoryAddress = factory[chainId];
+    const factoryAddress = addresses[chainId].infrastructure.factory;
     return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB, factoryAddress), 18, "DST-V2", "DogeSwap V2");
 }
 

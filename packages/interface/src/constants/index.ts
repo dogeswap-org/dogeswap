@@ -2,18 +2,8 @@ import { ChainId, Percent, Token } from "@dogeswap/sdk-core";
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import JSBI from "jsbi";
 import { injected } from "../connectors";
-import { localnetConfig } from "../utils/localnet-config";
-import { ChainTokens, DAI, USDC, USDT, WDC } from "./addresses";
-
-export const routerAddress = {
-    [ChainId.MAINNET]: localnetConfig.routerAddress,
-    [ChainId.TESTNET]: localnetConfig.routerAddress,
-    [ChainId.LOCALNET]: localnetConfig.routerAddress,
-};
-
-export const getRouterAddress = (chainId: number | undefined) => {
-    return routerAddress[chainId as ChainId];
-};
+import { ChainTokens } from "./addresses";
+import { tokens } from "./tokens";
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -24,9 +14,14 @@ const createListElement = (chain: ChainId, ...tokens: ChainTokens[]) => tokens.m
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-    [ChainId.MAINNET]: createListElement(ChainId.MAINNET, WDC),
-    [ChainId.TESTNET]: createListElement(ChainId.TESTNET, WDC),
-    [ChainId.LOCALNET]: createListElement(ChainId.LOCALNET, WDC, DAI, USDC, USDT),
+    [ChainId.MAINNET]: [tokens[ChainId.MAINNET].wdc],
+    [ChainId.TESTNET]: [tokens[ChainId.TESTNET].wdc],
+    [ChainId.LOCALNET]: [
+        tokens[ChainId.LOCALNET].wdc,
+        tokens[ChainId.LOCALNET].dai,
+        tokens[ChainId.LOCALNET].usdc,
+        tokens[ChainId.LOCALNET].usdt,
+    ],
 };
 
 /**
@@ -47,8 +42,8 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = { ...BASES_TO_CHECK_
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
     [ChainId.LOCALNET]: [
-        [USDC[ChainId.LOCALNET], USDT[ChainId.LOCALNET]],
-        [DAI[ChainId.LOCALNET], USDT[ChainId.LOCALNET]],
+        [tokens[ChainId.LOCALNET].usdc, tokens[ChainId.LOCALNET].usdt],
+        [tokens[ChainId.LOCALNET].dai, tokens[ChainId.LOCALNET].usdt],
     ],
 };
 

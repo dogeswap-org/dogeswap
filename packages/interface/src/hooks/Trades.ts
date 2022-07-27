@@ -4,7 +4,8 @@ import flatMap from "lodash.flatmap";
 import { useMemo } from "react";
 
 import { BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES } from "../constants";
-import { factory, WDC } from "../constants/addresses";
+import { getAddress } from "../constants/addresses";
+import { getToken } from "../constants/tokens";
 import { PairState, usePairs } from "../data/Reserves";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 
@@ -93,17 +94,20 @@ export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?:
     }
 
     const allowedPairs = useAllCommonPairs(currencyAmountIn?.currency, currencyOut);
+
     return useMemo(() => {
-        if (currencyAmountIn && currencyOut && allowedPairs.length > 0) {
+        const wdc = getToken("wdc", chainId);
+        const factory = getAddress("factory", chainId);
+        if (currencyAmountIn && currencyOut && wdc && factory && allowedPairs.length > 0) {
             return (
-                Trade.bestTradeExactIn(allowedPairs, currencyAmountIn, currencyOut, WDC[chainId], factory[chainId], {
+                Trade.bestTradeExactIn(allowedPairs, currencyAmountIn, currencyOut, wdc, factory, {
                     maxHops: 3,
                     maxNumResults: 1,
                 })[0] ?? null
             );
         }
         return null;
-    }, [allowedPairs, currencyAmountIn, currencyOut]);
+    }, [allowedPairs, currencyAmountIn, currencyOut, chainId, getToken, getAddress]);
 }
 
 /**
@@ -119,14 +123,16 @@ export function useTradeExactOut(currencyIn?: Currency, currencyAmountOut?: Curr
     const allowedPairs = useAllCommonPairs(currencyIn, currencyAmountOut?.currency);
 
     return useMemo(() => {
-        if (currencyIn && currencyAmountOut && allowedPairs.length > 0) {
+        const wdc = getToken("wdc", chainId);
+        const factory = getAddress("factory", chainId);
+        if (currencyIn && currencyAmountOut && wdc && factory && allowedPairs.length > 0) {
             return (
-                Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, WDC[chainId], factory[chainId], {
+                Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, wdc, factory, {
                     maxHops: 3,
                     maxNumResults: 1,
                 })[0] ?? null
             );
         }
         return null;
-    }, [allowedPairs, currencyIn, currencyAmountOut]);
+    }, [allowedPairs, currencyIn, currencyAmountOut, chainId, getToken, getAddress]);
 }

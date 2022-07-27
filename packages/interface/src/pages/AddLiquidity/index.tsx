@@ -1,6 +1,6 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { TransactionResponse } from "@ethersproject/providers";
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { Plus } from "react-feather";
 import ReactGA from "react-ga";
 import { RouteComponentProps } from "react-router-dom";
@@ -23,8 +23,8 @@ import { useDerivedMintInfo, useMintActionHandlers, useMintState } from "../../s
 
 import { Currency, CurrencyAmount, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
 import { ButtonError, ButtonLight, ButtonPrimary } from "../../components/Button";
-import { getRouterAddress } from "../../constants";
-import { WDC } from "../../constants/addresses";
+import { getAddress } from "../../constants/addresses";
+import { getToken } from "../../constants/tokens";
 import { ApprovalState, useApproveCallback } from "../../hooks/useApproveCallback";
 import { useTransactionAdder } from "../../state/transactions/hooks";
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from "../../state/user/hooks";
@@ -50,11 +50,11 @@ export default function AddLiquidity({
 
     const currencyA = useCurrency(currencyIdA);
     const currencyB = useCurrency(currencyIdB);
-
+    const wdc = useMemo(() => getToken("wdc", chainId), [chainId]);
     const oneCurrencyIsWDC = Boolean(
         chainId &&
-            ((currencyA && currencyEquals(currencyA, WDC[chainId])) ||
-                (currencyB && currencyEquals(currencyB, WDC[chainId]))),
+            wdc &&
+            ((currencyA && currencyEquals(currencyA, wdc)) || (currencyB && currencyEquals(currencyB, wdc))),
     );
 
     const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
@@ -116,15 +116,11 @@ export default function AddLiquidity({
         {},
     );
 
+    const routerAddress = useMemo(() => getAddress("router", chainId), [chainId]);
+
     // check whether the user has approved the router on the tokens
-    const [approvalA, approveACallback] = useApproveCallback(
-        parsedAmounts[Field.CURRENCY_A],
-        getRouterAddress(chainId),
-    );
-    const [approvalB, approveBCallback] = useApproveCallback(
-        parsedAmounts[Field.CURRENCY_B],
-        getRouterAddress(chainId),
-    );
+    const [approvalA, approveACallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_A], routerAddress);
+    const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_B], routerAddress);
 
     const addTransaction = useTransactionAdder();
 

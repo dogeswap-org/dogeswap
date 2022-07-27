@@ -1,7 +1,7 @@
 import { ChainId, Currency, currencyEquals, Price } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import { useMemo } from "react";
-import { USDC, WDC } from "../constants/addresses";
+import { getToken } from "../constants/tokens";
 import { PairState, usePairs } from "../data/Reserves";
 import { useActiveWeb3React } from "../hooks";
 import { wrappedCurrency } from "./wrappedCurrency";
@@ -12,67 +12,60 @@ import { wrappedCurrency } from "./wrappedCurrency";
  */
 export default function useUSDCPrice(currency?: Currency): Price | undefined {
     const { chainId } = useActiveWeb3React();
-    if (chainId == undefined) {
-        return undefined;
-    }
-
+    const wdc = useMemo(() => getToken("wdc", chainId), [chainId]);
+    const usdc = useMemo(() => getToken("usdc", chainId), [chainId]);
     const wrapped = wrappedCurrency(currency, chainId);
     const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
-        () => [
-            [wrapped && currencyEquals(WDC[chainId], wrapped) ? undefined : currency, WDC[chainId]],
-            [
-                wrapped?.equals(USDC[chainId]) ? undefined : wrapped,
-                chainId === ChainId.MAINNET ? USDC[chainId] : undefined,
-            ],
-            [chainId ? WDC[chainId] : undefined, chainId === ChainId.MAINNET ? USDC[chainId] : undefined],
-        ],
+        () =>
+            wdc == undefined || usdc == undefined
+                ? []
+                : [
+                      [wrapped && currencyEquals(wdc, wrapped) ? undefined : currency, wdc],
+                      [wrapped?.equals(usdc) ? undefined : wrapped, chainId === ChainId.MAINNET ? usdc : undefined],
+                      [chainId ? wdc : undefined, chainId === ChainId.MAINNET ? usdc : undefined],
+                  ],
         [chainId, currency, wrapped],
     );
     const [[ethPairState, ethPair], [usdcPairState, usdcPair], [usdcEthPairState, usdcEthPair]] = usePairs(tokenPairs);
 
     return useMemo(() => {
-        if (!currency || !wrapped || !chainId) {
+        if (!currency || !wrapped || !chainId || wdc == undefined || usdc == undefined) {
             return undefined;
         }
         // handle wdc/eth
-        if (wrapped.equals(WDC[chainId])) {
+        if (wrapped.equals(wdc)) {
             if (usdcPair) {
-                const price = usdcPair.priceOf(WDC[chainId]);
-                return new Price(currency, USDC[chainId], price.denominator, price.numerator);
+                const price = usdcPair.priceOf(wdc);
+                return new Price(currency, usdc, price.denominator, price.numerator);
             } else {
                 return undefined;
             }
         }
         // handle usdc
-        if (wrapped.equals(USDC[chainId])) {
-            return new Price(USDC[chainId], USDC[chainId], "1", "1");
+        if (wrapped.equals(usdc)) {
+            return new Price(usdc, usdc, "1", "1");
         }
 
-        const ethPairETHAmount = ethPair?.reserveOf(WDC[chainId]);
+        const ethPairETHAmount = ethPair?.reserveOf(wdc);
         const ethPairETHUSDCValue: JSBI =
-            ethPairETHAmount && usdcEthPair
-                ? usdcEthPair.priceOf(WDC[chainId]).quote(ethPairETHAmount).raw
-                : JSBI.BigInt(0);
+            ethPairETHAmount && usdcEthPair ? usdcEthPair.priceOf(wdc).quote(ethPairETHAmount).raw : JSBI.BigInt(0);
 
         // all other tokens
         // first try the usdc pair
         if (
             usdcPairState === PairState.EXISTS &&
             usdcPair &&
-            usdcPair.reserveOf(USDC[chainId]).greaterThan(ethPairETHUSDCValue)
+            usdcPair.reserveOf(usdc).greaterThan(ethPairETHUSDCValue)
         ) {
             const price = usdcPair.priceOf(wrapped);
-            return new Price(currency, USDC[chainId], price.denominator, price.numerator);
+            return new Price(currency, usdc, price.denominator, price.numerator);
         }
         if (ethPairState === PairState.EXISTS && ethPair && usdcEthPairState === PairState.EXISTS && usdcEthPair) {
-            if (
-                usdcEthPair.reserveOf(USDC[chainId]).greaterThan("0") &&
-                ethPair.reserveOf(WDC[chainId]).greaterThan("0")
-            ) {
-                const ethUsdcPrice = usdcEthPair.priceOf(USDC[chainId]);
-                const currencyEthPrice = ethPair.priceOf(WDC[chainId]);
+            if (usdcEthPair.reserveOf(usdc).greaterThan("0") && ethPair.reserveOf(wdc).greaterThan("0")) {
+                const ethUsdcPrice = usdcEthPair.priceOf(usdc);
+                const currencyEthPrice = ethPair.priceOf(wdc);
                 const usdcPrice = ethUsdcPrice.multiply(currencyEthPrice).invert();
-                return new Price(currency, USDC[chainId], usdcPrice.denominator, usdcPrice.numerator);
+                return new Price(currency, usdc, usdcPrice.denominator, usdcPrice.numerator);
             }
         }
         return undefined;

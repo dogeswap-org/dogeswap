@@ -29,7 +29,7 @@ const tokenMetadata: Record<SupportedToken, TokenMetadata> = {
 };
 
 const createTokens = <T extends ChainId>(chainId: T) => {
-    return Object.entries(addresses[chainId]["tokens"] as SupportedToken).reduce((r, [symbol, address]) => {
+    return Object.entries(addresses[chainId]["tokens"]).reduce((r, [symbol, address]) => {
         const { name } = tokenMetadata[symbol as SupportedToken];
         r[symbol as ChainToken<T>] = new Token(chainId, address, 18, symbol, name);
         return r;
@@ -42,12 +42,12 @@ export const tokens = {
     [ChainId.LOCALNET]: createTokens(ChainId.LOCALNET),
 };
 
-export const getToken = <T extends SupportedToken>(chainId: ChainId | undefined, token: T) => {
+export const getToken = <T extends SupportedToken>(token: T, chainId: ChainId | undefined) => {
     if (chainId == undefined) {
         return undefined;
     }
 
     return (tokens as Record<ChainId, Partial<Record<SupportedToken, Token>>>)[chainId]?.[token] as
-        | Token<T>
+        | Token<Uppercase<T>>
         | undefined;
 };

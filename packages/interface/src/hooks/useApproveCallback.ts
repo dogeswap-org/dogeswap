@@ -4,7 +4,7 @@ import { MaxUint256 } from "@ethersproject/constants";
 import { TransactionResponse } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import { useCallback, useMemo } from "react";
-import { getRouterAddress } from "../constants";
+import { getAddress } from "../constants/addresses";
 import { useTokenAllowance } from "../data/Allowances";
 import { Field } from "../state/swap/actions";
 import { useHasPendingApproval, useTransactionAdder } from "../state/transactions/hooks";
@@ -109,5 +109,6 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
         () => (trade ? computeSlippageAdjustedAmounts(trade, allowedSlippage)[Field.INPUT] : undefined),
         [trade, allowedSlippage],
     );
-    return useApproveCallback(amountToApprove, getRouterAddress(chainId));
+    const routerAddress = getAddress("router", chainId);
+    return useApproveCallback(amountToApprove, routerAddress);
 }
