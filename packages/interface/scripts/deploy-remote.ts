@@ -14,8 +14,8 @@ const run = async () => {
         .describe("e", "The comma-separated list of ERC-20 tokens to create")
         .string(["c", "e"]).argv;
 
-    const contracts = args.c?.split(",");
-    const erc20 = args.e?.split(",");
+    const contracts = args.c?.split(",") ?? [];
+    const erc20 = args.e?.split(",") ?? [];
 
     const walletFile = process.env.WALLET;
     if (typeof walletFile !== "string") {
@@ -31,7 +31,7 @@ const run = async () => {
 
     const walletJson = await fs.readFile(walletFile, { encoding: "utf8" });
     const wallet = await ethers.Wallet.fromEncryptedJson(walletJson, walletPassword);
-    await deployExternalContracts(wallet, contracts, erc20);
+    await deployExternalContracts(undefined, contracts, erc20, wallet);
 };
 
 run();

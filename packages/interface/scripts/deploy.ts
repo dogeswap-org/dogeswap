@@ -58,18 +58,18 @@ const getProjectContractArtifacts = async (project: string) => {
                 !x.startsWith("examples"),
         )
         .map((x) => {
-            console.log(x);
             const fullPath = path.join(artifactsDir, x);
             return parseArtifact(fullPath);
         });
 };
 
 export const deployExternalContracts = async (
+    wdcAddress: string | undefined,
+    contracts: string[] | "*",
+    erc20Tokens: string[],
     signer: Signer,
-    contracts: string[] | "*" = [],
-    erc20Tokens: string[] = [],
 ) => {
-    const priorityContracts = ["ERC20", "WDC"];
+    const deploymentOrder = ["ERC20", "WDC", "DogeSwapV2Factory", "DogeSwapV2Router", "DogeSwapInterfaceMulticall"];
 
     const [signerAddress, coreArtifacts, peripheryArtifacts] = await Promise.all([
         signer.getAddress(),
@@ -77,16 +77,20 @@ export const deployExternalContracts = async (
         getProjectContractArtifacts("contracts-periphery"),
     ]);
 
-    const unorderedArtifacts = [...coreArtifacts, ...peripheryArtifacts];
-    const priorityArtifacts = unorderedArtifacts.filter((x) => priorityContracts.includes(x.contractName));
-    const nonPriorityArtifacts = unorderedArtifacts.filter((x) => !priorityContracts.includes(x.contractName));
-    const artifacts = [...priorityArtifacts, ...nonPriorityArtifacts];
+    const allArtifacts = [...coreArtifacts, ...peripheryArtifacts];
+    const deployArtifacts = deploymentOrder.map((x) => {
+        const artifact = allArtifacts.find((y) => y.contractName === x);
+        if (artifact == undefined) {
+            console.error(`Could not find artifact for contract ${x}`);
+            process.exit(1);
+        }
 
-    console.log(artifacts.map((x) => x.contractName));
+        return artifact;
+    });
 
     const addresses: Record<string, string> = {};
 
-    for (const artifact of artifacts) {
+    for (const artifact of deployArtifacts) {
         if (contracts !== "*" && !contracts.includes(artifact.contractName)) {
             continue;
         }
@@ -110,17 +114,22 @@ export const deployExternalContracts = async (
         switch (artifact.contractName) {
             case "ERC20":
                 for (const erc20Token of erc20Tokens) {
-                    console.log(erc20Token);
                     await deployNamedContract(erc20Token, erc20Token, erc20Token, ethers.utils.parseEther("1000000"));
+                }
+                break;
+            case "WDC":
+                if (wdcAddress == undefined) {
+                    console.log("WDC address unspecified. Deploying.");
+                    await deployContract();
+                } else {
+                    console.log("WDC address specified. Skipping deployment.");
                 }
                 break;
             case "DogeSwapV2Factory":
                 await deployContract(signerAddress);
                 break;
             case "DogeSwapV2Router":
-                console.log(addresses["DogeSwapV2Factory"]);
-                console.log(addresses["WDC"]);
-                await deployContract(addresses["DogeSwapV2Factory"], addresses["WDC"]);
+                await deployContract(addresses["DogeSwapV2Factory"], wdcAddress ?? addresses["WDC"]);
                 break;
             default:
                 await deployContract();
