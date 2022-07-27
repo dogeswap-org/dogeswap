@@ -6,7 +6,7 @@ import "./libraries/SafeMath.sol";
 contract DogeSwapV2ERC20 is IDogeSwapV2ERC20 {
     using SafeMath for uint;
 
-    string public constant name = "Dogeswap V2";
+    string public constant name = "DogeSwap V2";
     string public constant symbol = "DS-V2";
     uint8 public constant decimals = 18;
     uint public totalSupply;

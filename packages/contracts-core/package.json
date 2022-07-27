@@ -21,8 +21,7 @@
         "lint:fix": "yarn prettier ./test/*.ts --write",
         "clean": "rimraf ./cache && rimraf ./artifacts && rimraf ./typechain-types",
         "build": "hardhat compile",
-        "pretest": "yarn build",
-        "test": "mocha test/**/*.spec.*",
+        "test": "yarn build && mocha test/**/*.spec.*",
         "prepublishOnly": "yarn test"
     },
     "devDependencies": {
