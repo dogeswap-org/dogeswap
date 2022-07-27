@@ -1,14 +1,14 @@
 import childPromise from "child_process";
 import { ethers, Signer } from "ethers";
-import fs from "fs/promises";
+import fs from "fs";
 import glob from "glob";
 import { ethers as hardhatEthers } from "hardhat";
 import { Artifact } from "hardhat/types";
 import path from "path";
 import process from "process";
 
-const parseArtifact = async (path: string) => {
-    const jsonString = await fs.readFile(path, { encoding: "utf-8" });
+const parseArtifact = (path: string) => {
+    const jsonString = fs.readFileSync(path, { encoding: "utf-8" });
     return JSON.parse(jsonString) as Artifact;
 };
 
@@ -57,9 +57,10 @@ const getProjectContractArtifacts = async (project: string) => {
                 !x.startsWith("test") &&
                 !x.startsWith("examples"),
         )
-        .map(async (x) => {
+        .map((x) => {
+            console.log(x);
             const fullPath = path.join(artifactsDir, x);
-            return await parseArtifact(fullPath);
+            return parseArtifact(fullPath);
         });
 };
 
@@ -68,18 +69,24 @@ export const deployExternalContracts = async (
     contracts: string[] | "*" = [],
     erc20Tokens: string[] = [],
 ) => {
+    const priorityContracts = ["ERC20", "WDC"];
+
     const [signerAddress, coreArtifacts, peripheryArtifacts] = await Promise.all([
         signer.getAddress(),
         getProjectContractArtifacts("contracts-core"),
         getProjectContractArtifacts("contracts-periphery"),
     ]);
 
-    const artifacts = [...coreArtifacts, ...peripheryArtifacts];
+    const unorderedArtifacts = [...coreArtifacts, ...peripheryArtifacts];
+    const priorityArtifacts = unorderedArtifacts.filter((x) => priorityContracts.includes(x.contractName));
+    const nonPriorityArtifacts = unorderedArtifacts.filter((x) => !priorityContracts.includes(x.contractName));
+    const artifacts = [...priorityArtifacts, ...nonPriorityArtifacts];
+
+    console.log(artifacts.map((x) => x.contractName));
 
     const addresses: Record<string, string> = {};
-    let didDeploySafeMath = false;
 
-    for await (const artifact of artifacts) {
+    for (const artifact of artifacts) {
         if (contracts !== "*" && !contracts.includes(artifact.contractName)) {
             continue;
         }
@@ -111,15 +118,9 @@ export const deployExternalContracts = async (
                 await deployContract(signerAddress);
                 break;
             case "DogeSwapV2Router":
+                console.log(addresses["DogeSwapV2Factory"]);
+                console.log(addresses["WDC"]);
                 await deployContract(addresses["DogeSwapV2Factory"], addresses["WDC"]);
-                break;
-            case "SafeMath":
-                if (didDeploySafeMath) {
-                    continue;
-                }
-
-                await deployContract();
-                didDeploySafeMath = true;
                 break;
             default:
                 await deployContract();
