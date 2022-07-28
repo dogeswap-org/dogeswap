@@ -69,7 +69,7 @@ describe("DogeSwapV2Factory", () => {
     it("createPair:gas", async () => {
         const tx = await factory.createPair(...TEST_ADDRESSES);
         const receipt = await tx.wait();
-        expect(receipt.gasUsed).to.eq(2005247);
+        expect(receipt.gasUsed).to.eq(2_005_247);
     });
 
     it("setFeeTo", async () => {

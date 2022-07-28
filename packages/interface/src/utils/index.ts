@@ -18,9 +18,34 @@ export function isAddress(value: any): string | false {
     }
 }
 
-// TODO: update
-export function getEtherscanLink(_chainId: ChainId, _data: string, _type: "transaction" | "token" | "address"): string {
-    return "https://www.dogeswap.dog";
+const explorerPrefixes = {
+    [ChainId.MAINNET]: "explorer",
+    [ChainId.TESTNET]: "explorer-testnet",
+    [ChainId.LOCALNET]: "explorer-testnet",
+};
+
+export function getEtherscanLink(
+    chainId: ChainId,
+    data: string,
+    type: "transaction" | "token" | "address" | "block",
+): string {
+    const prefix = `https://${explorerPrefixes[chainId]}.dogechain.dog`;
+
+    switch (type) {
+        case "transaction": {
+            return `${prefix}/tx/${data}`;
+        }
+        case "token": {
+            return `${prefix}/token/${data}`;
+        }
+        case "block": {
+            return `${prefix}/block/${data}`;
+        }
+        case "address":
+        default: {
+            return `${prefix}/address/${data}`;
+        }
+    }
 }
 
 // shorten the checksummed version of the input address to have 0x + 4 characters at start and end

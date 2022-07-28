@@ -181,8 +181,8 @@ export default function AddLiquidity({
             } catch (e) {
                 console.log("Could not estimate gas limit", e);
 
-                // Real gas cost should be in the 3.2m range
-                estimatedGasLimit = BigNumber.from(4_000_000);
+                // Real gas cost should be in the 2.1m range
+                estimatedGasLimit = BigNumber.from(2_200_000);
             }
 
             const response = await method(...args, {
