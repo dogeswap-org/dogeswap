@@ -27,7 +27,7 @@ const isNetworkReady = async () => {
 
 const run = async () => {
     const [signers] = await Promise.all([ethers.getSigners(), buildExternalContracts(), isNetworkReady()]);
-    await deployExternalContracts(undefined, "*", erc20Tokens, signers[0], hre);
+    await deployExternalContracts(undefined, undefined, "*", erc20Tokens, signers[0], hre);
 };
 
 run();

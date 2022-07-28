@@ -9,8 +9,9 @@ const config: HardhatUserConfig = {
             allowUnlimitedContractSize: true,
         },
         testnet: {
-            url: "http://localhost:8545",
-            chainId: 31337,
+            url: "https://rpc-testnet.dogechain.dog",
+            chainId: 568,
+            allowUnlimitedContractSize: true,
         },
     },
 };

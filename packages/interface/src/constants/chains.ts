@@ -7,7 +7,7 @@ export const chains = {
         nativeCurrency: DOGECHAIN,
     },
     [ChainId.TESTNET]: {
-        urls: ["http://localhost:8545"],
+        urls: ["https://rpc-testnet.dogechain.dog"],
         name: "Dogechain Testnet",
         nativeCurrency: DOGECHAIN,
     },

@@ -4,14 +4,14 @@ import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 
 import { ChainId } from "@dogeswap/sdk-core";
+import { chains } from "../constants/chains";
 import { defaultChainId } from "../env";
 import { NetworkConnector } from "./NetworkConnector";
 
-const networkUrls = {
-    [ChainId.MAINNET]: "http://localhost:8545",
-    [ChainId.TESTNET]: "http://localhost:8545",
-    [ChainId.LOCALNET]: "http://localhost:8545",
-};
+const networkUrls = Object.entries(chains).reduce((r, [chainId, chain]) => {
+    r[parseInt(chainId) as ChainId] = chain.urls[0];
+    return r;
+}, {} as Record<ChainId, string>);
 
 export const network = new NetworkConnector({
     urls: networkUrls,
@@ -24,7 +24,9 @@ export function getNetworkLibrary(): Web3Provider {
 }
 
 export const injected = new InjectedConnector({
-    supportedChainIds: [31337],
+    supportedChainIds: Object.keys(ChainId)
+        .map((x) => parseInt(x))
+        .filter((x) => !isNaN(x)),
 });
 
 // mainnet only

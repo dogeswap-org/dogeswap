@@ -12,8 +12,10 @@
     ],
     "packageManager": "yarn@3.2.2",
     "scripts": {
+        "build": "yarn workspaces foreach run build",
         "clean": "yarn workspaces foreach run clean && hardhat clean",
         "dev": "yarn workspaces foreach run build && concurrently \"yarn localnet:run\" \"yarn localnet:deploy\" \"yarn workspace @dogeswap/interface dev\"",
+        "interface:run": "yarn workspace @dogeswap/interface dev",
         "localnet:run": "yarn hardhat node",
         "localnet:deploy": "yarn hardhat run --network localhost scripts/run-localnet.ts",
         "testnet:deploy": "yarn hardhat deploy --network testnet"

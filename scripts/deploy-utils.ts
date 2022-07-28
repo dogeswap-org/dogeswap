@@ -64,8 +64,39 @@ const getProjectContractArtifacts = async (project: string) => {
         });
 };
 
+export const promptPassword = async () => {
+    return new Promise<string>((res) => {
+        let muted = false;
+
+        const mutableStdout = new Writable({
+            write: function (chunk, encoding, callback) {
+                if (!muted) {
+                    process.stdout.write(chunk, encoding);
+                }
+
+                callback();
+            },
+        });
+
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: mutableStdout,
+            terminal: true,
+        });
+
+        rl.question("Wallet password: ", function (password) {
+            rl.close();
+            console.log();
+            res(password);
+        });
+
+        muted = true;
+    });
+};
+
 export const deployExternalContracts = async (
     wdcAddress: string | undefined,
+    factoryAddress: string | undefined,
     contracts: string[] | "*",
     erc20Tokens: string[],
     signer: Signer,
@@ -100,7 +131,7 @@ export const deployExternalContracts = async (
         const deployContract = (...args: any[]) => deployNamedContract(artifact.contractName, ...args);
 
         const deployNamedContract = async (name: string, ...args: any[]) => {
-            const contractFactory = await hre.ethers.getContractFactoryFromArtifact(artifact);
+            const contractFactory = await hre.ethers.getContractFactoryFromArtifact(artifact, signer);
             let contract: ethers.Contract;
             try {
                 contract = await contractFactory.deploy(...args);
@@ -128,10 +159,15 @@ export const deployExternalContracts = async (
                 }
                 break;
             case "DogeSwapV2Factory":
-                await deployContract(signerAddress);
+                if (factoryAddress == undefined) {
+                    console.log("Factory address unspecified. Deploying.");
+                    await deployContract(signerAddress);
+                } else {
+                    console.log("Fatory address specified. Skipping deployment.");
+                }
                 break;
             case "DogeSwapV2Router":
-                await deployContract(addresses["DogeSwapV2Factory"], wdcAddress ?? addresses["WDC"]);
+                await deployContract(factoryAddress ?? addresses["DogeSwapV2Factory"], wdcAddress ?? addresses["WDC"]);
                 break;
             default:
                 await deployContract();
@@ -139,33 +175,4 @@ export const deployExternalContracts = async (
     }
 
     return addresses;
-};
-
-export const promptPassword = async () => {
-    return new Promise<string>((res) => {
-        let muted = false;
-
-        const mutableStdout = new Writable({
-            write: function (chunk, encoding, callback) {
-                if (!muted) {
-                    process.stdout.write(chunk, encoding);
-                }
-
-                callback();
-            },
-        });
-
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: mutableStdout,
-            terminal: true,
-        });
-
-        rl.question("Wallet password: ", function (password) {
-            rl.close();
-            res(password);
-        });
-
-        muted = true;
-    });
 };
