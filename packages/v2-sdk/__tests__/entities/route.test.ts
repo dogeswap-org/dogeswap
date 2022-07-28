@@ -3,12 +3,14 @@ import { Pair } from "../../src/entities/pair";
 import { Route } from "../../src/entities/route";
 import { testWDC } from "../testUtils";
 
+const factoryAddress = "0x0000000000000000000000000000000000000000";
+
 describe("Route", () => {
     const token0 = new Token(ChainId.LOCALNET, "0x0000000000000000000000000000000000000001", 18, "t0");
     const token1 = new Token(ChainId.LOCALNET, "0x0000000000000000000000000000000000000002", 18, "t1");
-    const pair_0_1 = new Pair(new CurrencyAmount(token0, "100"), new CurrencyAmount(token1, "200"));
-    const pair_0_wdc = new Pair(new CurrencyAmount(token0, "100"), new CurrencyAmount(testWDC, "100"));
-    const pair_1_wdc = new Pair(new CurrencyAmount(token1, "175"), new CurrencyAmount(testWDC, "100"));
+    const pair_0_1 = new Pair(new CurrencyAmount(token0, "100"), new CurrencyAmount(token1, "200"), factoryAddress);
+    const pair_0_wdc = new Pair(new CurrencyAmount(token0, "100"), new CurrencyAmount(testWDC, "100"), factoryAddress);
+    const pair_1_wdc = new Pair(new CurrencyAmount(token1, "175"), new CurrencyAmount(testWDC, "100"), factoryAddress);
 
     it("constructs a path from the tokens", () => {
         const route = new Route([pair_0_1], testWDC, token0);

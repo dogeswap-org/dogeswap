@@ -1,7 +1,7 @@
 pragma solidity >=0.5.0;
 
 import "@dogeswap/contracts-core/contracts/interfaces/IDogeSwapV2Pair.sol";
-
+import "hardhat/console.sol";
 import "./SafeMath.sol";
 
 library DogeSwapV2Library {
@@ -28,7 +28,9 @@ library DogeSwapV2Library {
                         hex"ff",
                         factory,
                         keccak256(abi.encodePacked(token0, token1)),
-                        hex"aae7dc513491fb17b541bd4a9953285ddf2bb20a773374baecc88c4ebada0767" // init code hash
+                        // Init code hash. Must correspond with the value in v2-sdk constants. The value is calculated and
+                        // verified in unit tests.
+                        hex"74bf983967c2b455df9f282733d9e757c95e47ec24f51e55c9721629277fdbf2"
                     )
                 )
             )
@@ -41,9 +43,13 @@ library DogeSwapV2Library {
         address tokenA,
         address tokenB
     ) internal view returns (uint reserveA, uint reserveB) {
+        console.log("LIBRARY GETTING RESERVES");
         (address token0, ) = sortTokens(tokenA, tokenB);
+        console.log("LIBRARY SORTED TOKENS");
         (uint reserve0, uint reserve1, ) = IDogeSwapV2Pair(pairFor(factory, tokenA, tokenB)).getReserves();
+        console.log("LIBRARY GOT RESERVES");
         (reserveA, reserveB) = tokenA == token0 ? (reserve0, reserve1) : (reserve1, reserve0);
+        console.log("LIBRARY RETURNING");
     }
 
     // given some amount of an asset and pair reserves, returns an equivalent amount of the other asset

@@ -14,6 +14,8 @@ function checkDeadline(deadline: string[] | string): void {
     expect(new Date().getTime() / 1000 - parseInt(deadline)).toBeLessThanOrEqual(5);
 }
 
+const factoryAddress = "0x0000000000000000000000000000000000000000";
+
 describe("Router", () => {
     const token0 = new Token(ChainId.LOCALNET, "0x0000000000000000000000000000000000000001", 18, "t0");
     const token1 = new Token(ChainId.LOCALNET, "0x0000000000000000000000000000000000000002", 18, "t1");
@@ -21,9 +23,14 @@ describe("Router", () => {
     const pair_0_1 = new Pair(
         new CurrencyAmount(token0, JSBI.BigInt(1000)),
         new CurrencyAmount(token1, JSBI.BigInt(1000)),
+        factoryAddress,
     );
 
-    const pair_wdc_0 = new Pair(new CurrencyAmount(testWDC, "1000"), new CurrencyAmount(token0, "1000"));
+    const pair_wdc_0 = new Pair(
+        new CurrencyAmount(testWDC, "1000"),
+        new CurrencyAmount(token0, "1000"),
+        factoryAddress,
+    );
 
     describe("#swapCallParameters", () => {
         describe("exact in", () => {
@@ -33,6 +40,7 @@ describe("Router", () => {
                         new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
                         CurrencyAmount.ether(JSBI.BigInt(100)),
                         testWDC,
+                        factoryAddress,
                     ),
                     {
                         ttl: 50,
@@ -56,6 +64,7 @@ describe("Router", () => {
                         new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
                         CurrencyAmount.ether(JSBI.BigInt(100)),
                         testWDC,
+                        factoryAddress,
                     ),
                     {
                         deadline: 50,
@@ -79,6 +88,7 @@ describe("Router", () => {
                         new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
                         new CurrencyAmount(token1, JSBI.BigInt(100)),
                         testWDC,
+                        factoryAddress,
                     ),
                     {
                         ttl: 50,
@@ -102,6 +112,7 @@ describe("Router", () => {
                         new Route([pair_0_1], testWDC, token0, token1),
                         new CurrencyAmount(token0, JSBI.BigInt(100)),
                         testWDC,
+                        factoryAddress,
                     ),
                     {
                         ttl: 50,
@@ -127,6 +138,7 @@ describe("Router", () => {
                         new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
                         new CurrencyAmount(token1, JSBI.BigInt(100)),
                         testWDC,
+                        factoryAddress,
                     ),
                     {
                         ttl: 50,
@@ -149,6 +161,7 @@ describe("Router", () => {
                         new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
                         CurrencyAmount.ether(JSBI.BigInt(100)),
                         testWDC,
+                        factoryAddress,
                     ),
                     {
                         ttl: 50,
@@ -172,6 +185,7 @@ describe("Router", () => {
                         new Route([pair_0_1], testWDC, token0, token1),
                         new CurrencyAmount(token1, JSBI.BigInt(100)),
                         testWDC,
+                        factoryAddress,
                     ),
                     {
                         ttl: 50,
@@ -198,6 +212,7 @@ describe("Router", () => {
                             new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
                             CurrencyAmount.ether(JSBI.BigInt(100)),
                             testWDC,
+                            factoryAddress,
                         ),
                         {
                             ttl: 50,
@@ -221,6 +236,7 @@ describe("Router", () => {
                             new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
                             new CurrencyAmount(token1, JSBI.BigInt(100)),
                             testWDC,
+                            factoryAddress,
                         ),
                         {
                             ttl: 50,
@@ -245,6 +261,7 @@ describe("Router", () => {
                             new Route([pair_0_1], testWDC, token0, token1),
                             new CurrencyAmount(token0, JSBI.BigInt(100)),
                             testWDC,
+                            factoryAddress,
                         ),
                         {
                             ttl: 50,
@@ -272,6 +289,7 @@ describe("Router", () => {
                                 new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
                                 new CurrencyAmount(token1, JSBI.BigInt(100)),
                                 testWDC,
+                                factoryAddress,
                             ),
                             {
                                 ttl: 50,
@@ -289,6 +307,7 @@ describe("Router", () => {
                                 new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
                                 CurrencyAmount.ether(JSBI.BigInt(100)),
                                 testWDC,
+                                factoryAddress,
                             ),
                             {
                                 ttl: 50,
@@ -306,6 +325,7 @@ describe("Router", () => {
                                 new Route([pair_0_1], testWDC, token0, token1),
                                 new CurrencyAmount(token1, JSBI.BigInt(100)),
                                 testWDC,
+                                factoryAddress,
                             ),
                             {
                                 ttl: 50,

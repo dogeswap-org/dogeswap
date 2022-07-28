@@ -5,6 +5,8 @@ import { Route } from "../../src/entities/route";
 import { Trade } from "../../src/entities/trade";
 import { testWDC } from "../testUtils";
 
+const factoryAddress = "0x0000000000000000000000000000000000000000";
+
 describe("Trade", () => {
     const token0 = new Token(ChainId.LOCALNET, "0x0000000000000000000000000000000000000001", 18, "t0");
     const token1 = new Token(ChainId.LOCALNET, "0x0000000000000000000000000000000000000002", 18, "t1");
@@ -14,32 +16,39 @@ describe("Trade", () => {
     const pair_0_1 = new Pair(
         new CurrencyAmount(token0, JSBI.BigInt(1000)),
         new CurrencyAmount(token1, JSBI.BigInt(1000)),
+        factoryAddress,
     );
     const pair_0_2 = new Pair(
         new CurrencyAmount(token0, JSBI.BigInt(1000)),
         new CurrencyAmount(token2, JSBI.BigInt(1100)),
+        factoryAddress,
     );
     const pair_0_3 = new Pair(
         new CurrencyAmount(token0, JSBI.BigInt(1000)),
         new CurrencyAmount(token3, JSBI.BigInt(900)),
+        factoryAddress,
     );
     const pair_1_2 = new Pair(
         new CurrencyAmount(token1, JSBI.BigInt(1200)),
         new CurrencyAmount(token2, JSBI.BigInt(1000)),
+        factoryAddress,
     );
     const pair_1_3 = new Pair(
         new CurrencyAmount(token1, JSBI.BigInt(1200)),
         new CurrencyAmount(token3, JSBI.BigInt(1300)),
+        factoryAddress,
     );
 
     const pair_wdc_0 = new Pair(
         new CurrencyAmount(testWDC, JSBI.BigInt(1000)),
         new CurrencyAmount(token0, JSBI.BigInt(1000)),
+        factoryAddress,
     );
 
     const empty_pair_0_1 = new Pair(
         new CurrencyAmount(token0, JSBI.BigInt(0)),
         new CurrencyAmount(token1, JSBI.BigInt(0)),
+        factoryAddress,
     );
 
     it("can be constructed with DOGECHAIN as input", () => {
@@ -48,6 +57,7 @@ describe("Trade", () => {
             CurrencyAmount.ether(JSBI.BigInt(100)),
             TradeType.EXACT_INPUT,
             testWDC,
+            factoryAddress,
         );
         expect(trade.inputAmount.currency).toEqual(DOGECHAIN);
         expect(trade.outputAmount.currency).toEqual(token0);
@@ -58,6 +68,7 @@ describe("Trade", () => {
             new CurrencyAmount(token0, JSBI.BigInt(100)),
             TradeType.EXACT_OUTPUT,
             testWDC,
+            factoryAddress,
         );
         expect(trade.inputAmount.currency).toEqual(DOGECHAIN);
         expect(trade.outputAmount.currency).toEqual(token0);
@@ -69,6 +80,7 @@ describe("Trade", () => {
             CurrencyAmount.ether(JSBI.BigInt(100)),
             TradeType.EXACT_OUTPUT,
             testWDC,
+            factoryAddress,
         );
         expect(trade.inputAmount.currency).toEqual(token0);
         expect(trade.outputAmount.currency).toEqual(DOGECHAIN);
@@ -79,6 +91,7 @@ describe("Trade", () => {
             new CurrencyAmount(token0, JSBI.BigInt(100)),
             TradeType.EXACT_INPUT,
             testWDC,
+            factoryAddress,
         );
         expect(trade.inputAmount.currency).toEqual(token0);
         expect(trade.outputAmount.currency).toEqual(DOGECHAIN);
@@ -87,14 +100,27 @@ describe("Trade", () => {
     describe("#bestTradeExactIn", () => {
         it("throws with empty pairs", () => {
             expect(() =>
-                Trade.bestTradeExactIn([], new CurrencyAmount(token0, JSBI.BigInt(100)), token2, testWDC),
+                Trade.bestTradeExactIn(
+                    [],
+                    new CurrencyAmount(token0, JSBI.BigInt(100)),
+                    token2,
+                    testWDC,
+                    factoryAddress,
+                ),
             ).toThrow("PAIRS");
         });
         it("throws with max hops of 0", () => {
             expect(() =>
-                Trade.bestTradeExactIn([pair_0_2], new CurrencyAmount(token0, JSBI.BigInt(100)), token2, testWDC, {
-                    maxHops: 0,
-                }),
+                Trade.bestTradeExactIn(
+                    [pair_0_2],
+                    new CurrencyAmount(token0, JSBI.BigInt(100)),
+                    token2,
+                    testWDC,
+                    factoryAddress,
+                    {
+                        maxHops: 0,
+                    },
+                ),
             ).toThrow("MAX_HOPS");
         });
 
@@ -104,6 +130,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token0, JSBI.BigInt(100)),
                 token2,
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(2);
             expect(result[0].route.pairs).toHaveLength(1); // 0 -> 2 at 10:11
@@ -118,7 +145,13 @@ describe("Trade", () => {
 
         it("doesnt throw for zero liquidity pairs", () => {
             expect(
-                Trade.bestTradeExactIn([empty_pair_0_1], new CurrencyAmount(token0, JSBI.BigInt(100)), token1, testWDC),
+                Trade.bestTradeExactIn(
+                    [empty_pair_0_1],
+                    new CurrencyAmount(token0, JSBI.BigInt(100)),
+                    token1,
+                    testWDC,
+                    factoryAddress,
+                ),
             ).toHaveLength(0);
         });
 
@@ -128,6 +161,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token0, JSBI.BigInt(10)),
                 token2,
                 testWDC,
+                factoryAddress,
                 { maxHops: 1 },
             );
             expect(result).toHaveLength(1);
@@ -141,6 +175,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token0, JSBI.BigInt(1)),
                 token2,
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(1);
             expect(result[0].route.pairs).toHaveLength(1); // 0 -> 2 at 10:11
@@ -154,6 +189,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token0, JSBI.BigInt(10)),
                 token2,
                 testWDC,
+                factoryAddress,
                 { maxNumResults: 1 },
             );
 
@@ -166,6 +202,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token0, JSBI.BigInt(10)),
                 token2,
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(0);
         });
@@ -176,6 +213,7 @@ describe("Trade", () => {
                 CurrencyAmount.ether(JSBI.BigInt(100)),
                 token3,
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(2);
             expect(result[0].inputAmount.currency).toEqual(DOGECHAIN);
@@ -191,6 +229,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token3, JSBI.BigInt(100)),
                 DOGECHAIN,
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(2);
             expect(result[0].inputAmount.currency).toEqual(token3);
@@ -209,6 +248,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token0, JSBI.BigInt(100)),
                 TradeType.EXACT_INPUT,
                 testWDC,
+                factoryAddress,
             );
             it("throws if less than 0", () => {
                 expect(() => exactIn.maximumAmountIn(new Percent(JSBI.BigInt(-1), JSBI.BigInt(100)))).toThrow(
@@ -238,6 +278,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token2, JSBI.BigInt(100)),
                 TradeType.EXACT_OUTPUT,
                 testWDC,
+                factoryAddress,
             );
 
             it("throws if less than 0", () => {
@@ -271,6 +312,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token0, JSBI.BigInt(100)),
                 TradeType.EXACT_INPUT,
                 testWDC,
+                factoryAddress,
             );
             it("throws if less than 0", () => {
                 expect(() => exactIn.minimumAmountOut(new Percent(JSBI.BigInt(-1), JSBI.BigInt(100)))).toThrow(
@@ -300,6 +342,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token2, JSBI.BigInt(100)),
                 TradeType.EXACT_OUTPUT,
                 testWDC,
+                factoryAddress,
             );
 
             it("throws if less than 0", () => {
@@ -333,6 +376,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token0, 100),
                 TradeType.EXACT_INPUT,
                 testWDC,
+                factoryAddress,
             );
             it("throws if less than 0", () => {
                 expect(() => exactIn.minimumAmountOut(new Percent(-1, 100))).toThrow("SLIPPAGE_TOLERANCE");
@@ -352,6 +396,7 @@ describe("Trade", () => {
                 new CurrencyAmount(token2, 100),
                 TradeType.EXACT_OUTPUT,
                 testWDC,
+                factoryAddress,
             );
 
             it("throws if less than 0", () => {
@@ -373,14 +418,27 @@ describe("Trade", () => {
     describe("#bestTradeExactOut", () => {
         it("throws with empty pairs", () => {
             expect(() =>
-                Trade.bestTradeExactOut([], token0, new CurrencyAmount(token2, JSBI.BigInt(100)), testWDC),
+                Trade.bestTradeExactOut(
+                    [],
+                    token0,
+                    new CurrencyAmount(token2, JSBI.BigInt(100)),
+                    testWDC,
+                    factoryAddress,
+                ),
             ).toThrow("PAIRS");
         });
         it("throws with max hops of 0", () => {
             expect(() =>
-                Trade.bestTradeExactOut([pair_0_2], token0, new CurrencyAmount(token2, JSBI.BigInt(100)), testWDC, {
-                    maxHops: 0,
-                }),
+                Trade.bestTradeExactOut(
+                    [pair_0_2],
+                    token0,
+                    new CurrencyAmount(token2, JSBI.BigInt(100)),
+                    testWDC,
+                    factoryAddress,
+                    {
+                        maxHops: 0,
+                    },
+                ),
             ).toThrow("MAX_HOPS");
         });
 
@@ -390,6 +448,7 @@ describe("Trade", () => {
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(100)),
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(2);
             expect(result[0].route.pairs).toHaveLength(1); // 0 -> 2 at 10:11
@@ -409,6 +468,7 @@ describe("Trade", () => {
                     token1,
                     new CurrencyAmount(token1, JSBI.BigInt(100)),
                     testWDC,
+                    factoryAddress,
                 ),
             ).toHaveLength(0);
         });
@@ -419,6 +479,7 @@ describe("Trade", () => {
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(10)),
                 testWDC,
+                factoryAddress,
                 { maxHops: 1 },
             );
             expect(result).toHaveLength(1);
@@ -432,6 +493,7 @@ describe("Trade", () => {
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(1200)),
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(0);
         });
@@ -442,6 +504,7 @@ describe("Trade", () => {
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(1050)),
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(1);
         });
@@ -452,6 +515,7 @@ describe("Trade", () => {
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(10)),
                 testWDC,
+                factoryAddress,
                 { maxNumResults: 1 },
             );
 
@@ -464,6 +528,7 @@ describe("Trade", () => {
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(10)),
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(0);
         });
@@ -474,6 +539,7 @@ describe("Trade", () => {
                 DOGECHAIN,
                 new CurrencyAmount(token3, JSBI.BigInt(100)),
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(2);
             expect(result[0].inputAmount.currency).toEqual(DOGECHAIN);
@@ -489,6 +555,7 @@ describe("Trade", () => {
                 token3,
                 CurrencyAmount.ether(JSBI.BigInt(100)),
                 testWDC,
+                factoryAddress,
             );
             expect(result).toHaveLength(2);
             expect(result[0].inputAmount.currency).toEqual(token3);
