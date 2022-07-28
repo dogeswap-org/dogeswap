@@ -41,8 +41,8 @@ export class Pair {
             currencyAmounts[0].currency.chainId,
             Pair.getAddress(currencyAmounts[0].currency, currencyAmounts[1].currency, factoryAddress),
             18,
-            "UNI-V2",
-            "Uniswap V2",
+            "DST-V2",
+            "DogeSwap V2",
         );
         this.currencyAmounts = currencyAmounts as [CurrencyAmount, CurrencyAmount];
     }

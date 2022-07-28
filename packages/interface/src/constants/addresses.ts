@@ -37,7 +37,7 @@ export const addresses = {
         infrastructure: {
             factory: "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
             router: "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44",
-            multicall: "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
+            multicall: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
             ensRegistrar: "0x0000000000000000000000000000000000000000",
         } as InfrastructureAddress,
         tokens: {

@@ -234,6 +234,7 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
                             </Text>
                         </FixedHeightRow>
 
+                        {/* TODO DOGESWAP: update this  */}
                         <AutoRow justify="center" marginTop={"10px"}>
                             <ExternalLink href={`https://uniswap.info/pair/${pair.liquidityToken.address}`}>
                                 View pool information ↗
