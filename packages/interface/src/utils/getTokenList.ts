@@ -73,7 +73,7 @@ export default async function getTokenList(
     resolveENSContentHash: (ensName: string) => Promise<string>,
     chainId: ChainId | undefined,
 ): Promise<TokenList> {
-    // TODO DOGESWAP: extract local token list to file and add testnet/mainnet tokens
+    // TODO: extract local token list to file and add testnet/mainnet tokens
     return listUrl === localListUrl
         ? chainId != undefined
             ? tokenLists[chainId]

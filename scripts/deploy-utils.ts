@@ -2,10 +2,11 @@ import childPromise from "child_process";
 import { ethers, Signer } from "ethers";
 import fs from "fs";
 import glob from "glob";
-import { ethers as hardhatEthers } from "hardhat";
-import { Artifact } from "hardhat/types";
+import { Artifact, HardhatRuntimeEnvironment } from "hardhat/types";
 import path from "path";
 import process from "process";
+import readline from "readline";
+import { Writable } from "stream";
 
 const parseArtifact = (path: string) => {
     const jsonString = fs.readFileSync(path, { encoding: "utf-8" });
@@ -13,7 +14,7 @@ const parseArtifact = (path: string) => {
 };
 
 const getContractArtifactsDir = (project: string) =>
-    path.join(__dirname, "..", "..", project, "artifacts", "contracts");
+    path.resolve(__dirname, "..", "packages", project, "artifacts", "contracts");
 
 const getGlob = (pattern: string, cwd: string) =>
     new Promise<string[]>((res, rej) => {
@@ -42,8 +43,8 @@ const exec = (command: string, cwd: string) => {
 };
 
 export const buildExternalContracts = async () => {
-    await exec("yarn build", path.join(__dirname, "..", "..", "contracts-core"));
-    await exec("yarn build", path.join(__dirname, "..", "..", "contracts-periphery"));
+    await exec("yarn build", path.join(__dirname, "..", "packages", "contracts-core"));
+    await exec("yarn build", path.join(__dirname, "..", "packages", "contracts-periphery"));
 };
 
 const getProjectContractArtifacts = async (project: string) => {
@@ -68,6 +69,7 @@ export const deployExternalContracts = async (
     contracts: string[] | "*",
     erc20Tokens: string[],
     signer: Signer,
+    hre: HardhatRuntimeEnvironment,
 ) => {
     const deploymentOrder = ["ERC20", "WDC", "DogeSwapV2Factory", "DogeSwapV2Router", "DogeSwapInterfaceMulticall"];
 
@@ -98,7 +100,7 @@ export const deployExternalContracts = async (
         const deployContract = (...args: any[]) => deployNamedContract(artifact.contractName, ...args);
 
         const deployNamedContract = async (name: string, ...args: any[]) => {
-            const contractFactory = await hardhatEthers.getContractFactoryFromArtifact(artifact);
+            const contractFactory = await hre.ethers.getContractFactoryFromArtifact(artifact);
             let contract: ethers.Contract;
             try {
                 contract = await contractFactory.deploy(...args);
@@ -137,4 +139,33 @@ export const deployExternalContracts = async (
     }
 
     return addresses;
+};
+
+export const promptPassword = async () => {
+    return new Promise<string>((res) => {
+        let muted = false;
+
+        const mutableStdout = new Writable({
+            write: function (chunk, encoding, callback) {
+                if (!muted) {
+                    process.stdout.write(chunk, encoding);
+                }
+
+                callback();
+            },
+        });
+
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: mutableStdout,
+            terminal: true,
+        });
+
+        rl.question("Wallet password: ", function (password) {
+            rl.close();
+            res(password);
+        });
+
+        muted = true;
+    });
 };

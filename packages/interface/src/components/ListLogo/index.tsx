@@ -22,6 +22,6 @@ export default function ListLogo({
 }) {
     const srcs: string[] = useHttpLocations(logoURI);
 
-    // TODO DOGESWAP: Fix React style prop type discrepancies
+    // TODO: Fix React style prop type discrepancies
     return <StyledListLogo alt={alt} size={size} srcs={srcs} style={style as any} />;
 }

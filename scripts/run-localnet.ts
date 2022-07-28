@@ -1,6 +1,6 @@
-import { ethers } from "hardhat";
+import hre, { ethers } from "hardhat";
 import process from "process";
-import { buildExternalContracts, deployExternalContracts } from "./deploy";
+import { buildExternalContracts, deployExternalContracts } from "./deploy-utils";
 
 const erc20Tokens = ["DST", "USDT", "USDC", "DAI"];
 
@@ -27,7 +27,7 @@ const isNetworkReady = async () => {
 
 const run = async () => {
     const [signers] = await Promise.all([ethers.getSigners(), buildExternalContracts(), isNetworkReady()]);
-    await deployExternalContracts(undefined, "*", erc20Tokens, signers[0]);
+    await deployExternalContracts(undefined, "*", erc20Tokens, signers[0], hre);
 };
 
 run();

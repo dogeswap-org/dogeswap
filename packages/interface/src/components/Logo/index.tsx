@@ -8,7 +8,7 @@ export interface LogoProps extends Pick<ImageProps, "style" | "alt" | "className
     srcs: string[];
 }
 
-// TODO DOGESWAP: Typed the rest props as any because the React CSS properties don't quite line up yet. Fix this later.
+// TODO: Typed the rest props as any because the React CSS properties don't quite line up yet. Fix this later.
 
 /**
  * Renders an image by sequentially trying a list of URIs, and then eventually a fallback triangle alert

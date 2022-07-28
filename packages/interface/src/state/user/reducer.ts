@@ -85,7 +85,7 @@ export default createReducer(initialState, (builder) =>
             state.timestamp = currentTimestamp();
         })
         .addCase(updateMatchesDarkMode, (state, action) => {
-            // TODO DOGESWAP: update state.matchesDarkMode to re-enable.
+            // TODO: update state.matchesDarkMode to re-enable.
             state.timestamp = currentTimestamp();
         })
         .addCase(updateUserExpertMode, (state, action) => {

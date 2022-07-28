@@ -53,7 +53,7 @@ export default createReducer(initialState, (builder) =>
             state.byUrl[url] = {
                 current: null,
                 pendingUpdate: null,
-                ...(state.byUrl[url] as any), // TODO DOGECHAIN: any required to sidestep TS error. Fix this properly.
+                ...(state.byUrl[url] as any), // TODO: any required to sidestep TS error. Fix this properly.
                 loadingRequestId: requestId,
                 error: null,
             };

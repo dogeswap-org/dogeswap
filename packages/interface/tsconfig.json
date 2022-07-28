@@ -1,10 +1,9 @@
 {
     "include": [
-        "./src",
-        "./scripts"
+        "./src"
     ],
     "files": [
-        "./hardhat.config.ts"
+        "../../hardhat.config.ts"
     ],
     "exclude": [
         "dist",

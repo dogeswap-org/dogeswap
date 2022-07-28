@@ -1,4 +1,7 @@
 {
+    "include": [
+        "./scripts"
+    ],
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
         "declaration": true,

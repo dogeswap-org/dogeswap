@@ -106,7 +106,7 @@ function CurrencyRow({
     // only show add or remove buttons if not on selected list
     return (
         <MenuItem
-            // TODO DOGESWAP: Types don't line up but it's just CSS. Fix this later.
+            // TODO: Types don't line up but it's just CSS. Fix this later.
             style={style as any}
             className={`token-item-${key}`}
             onClick={() => (isSelected ? null : onSelect())}

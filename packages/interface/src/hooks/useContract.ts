@@ -32,7 +32,7 @@ export function useWDCContract(withSignerIfPossible?: boolean): Contract | null 
     return useContract(chainId ? wdc?.address : undefined, wdcAbi, withSignerIfPossible);
 }
 
-// TODO DOGESWAP: If these ENS functions are ever needed, fill in the ABI/resolver ABI variables as well as the contract address.
+// TODO: If these ENS functions are ever needed, fill in the ABI/resolver ABI variables as well as the contract address.
 
 export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contract | null {
     const { chainId } = useActiveWeb3React();

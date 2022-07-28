@@ -7,7 +7,7 @@ import multicall from "../../../contracts-periphery/artifacts/contracts/DogeSwap
 import iDogeSwapV2Router02 from "../../../contracts-periphery/artifacts/contracts/interfaces/IDogeSwapV2Router02.sol/IDogeSwapV2Router02.json";
 import wdcLocalnet from "../../../contracts-periphery/artifacts/contracts/localnet/WDC.sol/WDC.json";
 
-// TODO DOGESWAP: Does this need to be updated per environment?
+// TODO: Does this need to be updated per environment?
 export const erc20Abi = erc20.abi;
 
 export const erc20Interface = new Interface(erc20Abi);

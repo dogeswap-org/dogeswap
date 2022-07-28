@@ -18,7 +18,7 @@ export function isAddress(value: any): string | false {
     }
 }
 
-// TODO DOGESWAP: update
+// TODO: update
 export function getEtherscanLink(_chainId: ChainId, _data: string, _type: "transaction" | "token" | "address"): string {
     return "https://www.dogeswap.dog";
 }

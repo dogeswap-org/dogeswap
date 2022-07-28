@@ -15,7 +15,7 @@ import TransactionUpdater from "../../state/transactions/updater";
 import UserUpdater from "../../state/user/updater";
 
 export const UpdaterProvider = (props: PropsWithChildren<{}>) => {
-    // TODO DOGESWAP: we'll probably want to handle changing chain IDs at some point, at which time this will need refactoring.
+    // TODO: we'll probably want to handle changing chain IDs at some point, at which time this will need refactoring.
     const chainId = useWeb3React().chainId ?? envChainId;
     const [providerBlockNumber, setProviderBlockNumber] = useState<number>();
     const [contract, setContract] = useState<Contract>();

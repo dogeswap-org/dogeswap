@@ -50,6 +50,6 @@ export default function CurrencyLogo({
         return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />;
     }
 
-    // TODO DOGESWAP: Fix style property discrepancies in @react/types
+    // TODO: Fix style property discrepancies in @react/types
     return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? "token"} logo`} style={style as any} />;
 }

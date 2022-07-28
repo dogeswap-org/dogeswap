@@ -12,9 +12,15 @@
     ],
     "packageManager": "yarn@3.2.2",
     "scripts": {
-        "dev": "concurrently \"yarn workspace @dogeswap/interface localnet:start\" \"yarn workspace @dogeswap/interface localnet:deploy\" \"yarn workspaces foreach run build && yarn workspace @dogeswap/interface dev\""
+        "clean": "yarn workspaces foreach run clean && hardhat clean",
+        "dev": "yarn workspaces foreach run build && concurrently \"yarn localnet:run\" \"yarn localnet:deploy\" \"yarn workspace @dogeswap/interface dev\"",
+        "localnet:run": "yarn hardhat node",
+        "localnet:deploy": "yarn hardhat run --network localhost scripts/run-localnet.ts",
+        "testnet:deploy": "yarn hardhat deploy --network testnet"
     },
     "devDependencies": {
+        "@nomiclabs/hardhat-ethers": "^2.1.0",
+        "@types/yargs": "^17.0.10",
         "@typescript-eslint/eslint-plugin": "^5.25.0",
         "@typescript-eslint/parser": "^5.25.0",
         "concurrently": "^7.3.0",
@@ -22,7 +28,10 @@
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-react": "^7.30.0",
         "eslint-plugin-react-hooks": "^4.5.0",
-        "prettier": "^2.7.1"
+        "ethers": "^5.6.9",
+        "hardhat": "^2.10.0",
+        "prettier": "^2.7.1",
+        "yargs": "^17.5.1"
     },
     "resolutions": {
         "@types/react": "16.9.43",

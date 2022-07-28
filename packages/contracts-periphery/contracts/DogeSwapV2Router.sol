@@ -9,8 +9,6 @@ import "./libraries/SafeMath.sol";
 import "./interfaces/IERC20.sol";
 import "./interfaces/IWDC.sol";
 
-import "hardhat/console.sol";
-
 contract DogeSwapV2Router is IDogeSwapV2Router02 {
     using SafeMath for uint;
 
@@ -23,9 +21,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
     }
 
     constructor(address _factory, address _WDC) {
-        console.log("FACTORY: %s", _factory);
-        console.log("WDC: %s", _WDC);
-
         factory = _factory;
         WDC = _WDC;
     }
@@ -43,35 +38,25 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         uint amountAMin,
         uint amountBMin
     ) internal virtual returns (uint amountA, uint amountB) {
-        console.log("ROUTER _addLiquidity");
         // create the pair if it doesn't exist yet
         if (IDogeSwapV2Factory(factory).getPair(tokenA, tokenB) == address(0)) {
-            console.log("ROUTER _addLiquidity got pair");
             IDogeSwapV2Factory(factory).createPair(tokenA, tokenB);
-            console.log("ROUTER _addLiquidity created pair");
         }
         (uint reserveA, uint reserveB) = DogeSwapV2Library.getReserves(factory, tokenA, tokenB);
-        console.log("ROUTER _addLiquidity got reserves");
         if (reserveA == 0 && reserveB == 0) {
-            console.log("ROUTER _addLiquidity a and b zero");
             (amountA, amountB) = (amountADesired, amountBDesired);
         } else {
-            console.log("ROUTER _addLiquidity a and b not zero");
             uint amountBOptimal = DogeSwapV2Library.quote(amountADesired, reserveA, reserveB);
-            console.log("ROUTER _addLiquidity b optimal");
             if (amountBOptimal <= amountBDesired) {
-                console.log("ROUTER _addLiquidity b optimal lt b desired");
                 require(amountBOptimal >= amountBMin, "DogeSwapV2Router: INSUFFICIENT_B_AMOUNT");
                 (amountA, amountB) = (amountADesired, amountBOptimal);
             } else {
-                console.log("ROUTER _addLiquidity b optimal not lt b desired");
                 uint amountAOptimal = DogeSwapV2Library.quote(amountBDesired, reserveB, reserveA);
                 assert(amountAOptimal <= amountADesired);
                 require(amountAOptimal >= amountAMin, "DogeSwapV2Router: INSUFFICIENT_A_AMOUNT");
                 (amountA, amountB) = (amountAOptimal, amountBDesired);
             }
         }
-        console.log("ROUTER _addLiquidity returning");
     }
 
     function addLiquidity(
@@ -94,7 +79,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
             uint liquidity
         )
     {
-        console.log("ROUTER addLiquidity");
         (amountA, amountB) = _addLiquidity(tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin);
         address pair = DogeSwapV2Library.pairFor(factory, tokenA, tokenB);
         TransferHelper.safeTransferFrom(tokenA, msg.sender, pair, amountA);
@@ -121,7 +105,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
             uint liquidity
         )
     {
-        console.log("ROUTER addLiquidityETH");
         (amountToken, amountETH) = _addLiquidity(
             token,
             WDC,
@@ -149,7 +132,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) public virtual override ensure(deadline) returns (uint amountA, uint amountB) {
-        console.log("ROUTER removeLiquidity");
         address pair = DogeSwapV2Library.pairFor(factory, tokenA, tokenB);
         IDogeSwapV2Pair(pair).transferFrom(msg.sender, pair, liquidity); // send liquidity to pair
         (uint amount0, uint amount1) = IDogeSwapV2Pair(pair).burn(to);
@@ -167,7 +149,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) public virtual override ensure(deadline) returns (uint amountToken, uint amountETH) {
-        console.log("ROUTER removeLiquidityETH");
         (amountToken, amountETH) = removeLiquidity(
             token,
             WDC,
@@ -195,7 +176,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         bytes32 r,
         bytes32 s
     ) external virtual override returns (uint amountA, uint amountB) {
-        console.log("ROUTER removeLiquidityWithPermit");
         address pair = DogeSwapV2Library.pairFor(factory, tokenA, tokenB);
         uint value = approveMax ? uint(-1) : liquidity;
         IDogeSwapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
@@ -214,7 +194,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         bytes32 r,
         bytes32 s
     ) external virtual override returns (uint amountToken, uint amountETH) {
-        console.log("ROUTER removeLiquidityETHWithPermit");
         address pair = DogeSwapV2Library.pairFor(factory, token, WDC);
         uint value = approveMax ? uint(-1) : liquidity;
         IDogeSwapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
@@ -230,7 +209,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) public virtual override ensure(deadline) returns (uint amountETH) {
-        console.log("ROUTER removeLiquidityETHSupportingFeeOnTransferTokens");
         (, amountETH) = removeLiquidity(token, WDC, liquidity, amountTokenMin, amountETHMin, address(this), deadline);
         TransferHelper.safeTransfer(token, to, IERC20(token).balanceOf(address(this)));
         IWDC(WDC).withdraw(amountETH);
@@ -249,7 +227,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         bytes32 r,
         bytes32 s
     ) external virtual override returns (uint amountETH) {
-        console.log("ROUTER removeLiquidityETHWithPermitSupportingFeeOnTransferTokens");
         address pair = DogeSwapV2Library.pairFor(factory, token, WDC);
         uint value = approveMax ? uint(-1) : liquidity;
         IDogeSwapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
@@ -270,7 +247,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address[] memory path,
         address _to
     ) internal virtual {
-        console.log("ROUTER _swap");
         for (uint i; i < path.length - 1; i++) {
             (address input, address output) = (path[i], path[i + 1]);
             (address token0, ) = DogeSwapV2Library.sortTokens(input, output);
@@ -293,7 +269,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) external virtual override ensure(deadline) returns (uint[] memory amounts) {
-        console.log("ROUTER swapExactTokensForTokens");
         amounts = DogeSwapV2Library.getAmountsOut(factory, amountIn, path);
         require(amounts[amounts.length - 1] >= amountOutMin, "DogeSwapV2Router: INSUFFICIENT_OUTPUT_AMOUNT");
         TransferHelper.safeTransferFrom(
@@ -312,7 +287,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) external virtual override ensure(deadline) returns (uint[] memory amounts) {
-        console.log("ROUTER swapTokensForExactTokens");
         amounts = DogeSwapV2Library.getAmountsIn(factory, amountOut, path);
         require(amounts[0] <= amountInMax, "DogeSwapV2Router: EXCESSIVE_INPUT_AMOUNT");
         TransferHelper.safeTransferFrom(
@@ -330,7 +304,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) external payable virtual override ensure(deadline) returns (uint[] memory amounts) {
-        console.log("ROUTER swapExactETHForTokens");
         require(path[0] == WDC, "DogeSwapV2Router: INVALID_PATH");
         amounts = DogeSwapV2Library.getAmountsOut(factory, msg.value, path);
         require(amounts[amounts.length - 1] >= amountOutMin, "DogeSwapV2Router: INSUFFICIENT_OUTPUT_AMOUNT");
@@ -346,7 +319,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) external virtual override ensure(deadline) returns (uint[] memory amounts) {
-        console.log("ROUTER swapTokensForExactETH");
         require(path[path.length - 1] == WDC, "DogeSwapV2Router: INVALID_PATH");
         amounts = DogeSwapV2Library.getAmountsIn(factory, amountOut, path);
         require(amounts[0] <= amountInMax, "DogeSwapV2Router: EXCESSIVE_INPUT_AMOUNT");
@@ -368,7 +340,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) external virtual override ensure(deadline) returns (uint[] memory amounts) {
-        console.log("ROUTER swapExactTokensForETH");
         require(path[path.length - 1] == WDC, "DogeSwapV2Router: INVALID_PATH");
         amounts = DogeSwapV2Library.getAmountsOut(factory, amountIn, path);
         require(amounts[amounts.length - 1] >= amountOutMin, "DogeSwapV2Router: INSUFFICIENT_OUTPUT_AMOUNT");
@@ -389,7 +360,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) external payable virtual override ensure(deadline) returns (uint[] memory amounts) {
-        console.log("ROUTER swapETHForExactTokens");
         require(path[0] == WDC, "DogeSwapV2Router: INVALID_PATH");
         amounts = DogeSwapV2Library.getAmountsIn(factory, amountOut, path);
         require(amounts[0] <= msg.value, "DogeSwapV2Router: EXCESSIVE_INPUT_AMOUNT");
@@ -403,7 +373,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
     // **** SWAP (supporting fee-on-transfer tokens) ****
     // requires the initial amount to have already been sent to the first pair
     function _swapSupportingFeeOnTransferTokens(address[] memory path, address _to) internal virtual {
-        console.log("ROUTER _swapSupportingFeeOnTransferTokens");
         for (uint i; i < path.length - 1; i++) {
             (address input, address output) = (path[i], path[i + 1]);
             (address token0, ) = DogeSwapV2Library.sortTokens(input, output);
@@ -430,7 +399,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) external virtual override ensure(deadline) {
-        console.log("ROUTER swapExactTokensForTokensSupportingFeeOnTransferTokens");
         TransferHelper.safeTransferFrom(
             path[0],
             msg.sender,
@@ -451,7 +419,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) external payable virtual override ensure(deadline) {
-        console.log("ROUTER swapExactETHForTokensSupportingFeeOnTransferTokens");
         require(path[0] == WDC, "DogeSwapV2Router: INVALID_PATH");
         uint amountIn = msg.value;
         IWDC(WDC).deposit{value: amountIn}();
@@ -471,7 +438,6 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         address to,
         uint deadline
     ) external virtual override ensure(deadline) {
-        console.log("ROUTER swapExactTokensForETHSupportingFeeOnTransferTokens");
         require(path[path.length - 1] == WDC, "DogeSwapV2Router: INVALID_PATH");
         TransferHelper.safeTransferFrom(
             path[0],
