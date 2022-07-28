@@ -35,8 +35,8 @@ export const addresses = {
     },
     [ChainId.LOCALNET]: {
         infrastructure: {
-            factory: "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
-            router: "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44",
+            factory: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+            router: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
             multicall: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
             ensRegistrar: "0x0000000000000000000000000000000000000000",
         } as InfrastructureAddress,
