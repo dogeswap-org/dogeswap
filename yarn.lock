@@ -699,7 +699,6 @@ __metadata:
     jest-environment-jsdom-fourteen: 1.0.1
     jsbi: ^3.1.4
     koa: ^2.13.4
-    koa-mount: ^4.0.0
     koa-static: ^5.0.0
     lodash.flatmap: ^4.5.0
     multicodec: ^2.0.0
@@ -726,6 +725,7 @@ __metadata:
     rebass: ^4.0.7
     redux-localstorage-simple: ^2.3.1
     resolve: 1.15.0
+    rimraf: ^3.0.2
     sass-loader: ^12.6.0
     serve: ^11.3.0
     solidity-coverage: ^0.7.21
@@ -8076,7 +8076,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:4.3.4, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4":
+"debug@npm:4, debug@npm:4.3.4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4":
   version: 4.3.4
   resolution: "debug@npm:4.3.4"
   dependencies:
@@ -14095,16 +14095,6 @@ __metadata:
     co: ^4.6.0
     koa-compose: ^4.1.0
   checksum: 7385b3391995f59c1312142e110d5dff677f9850dbfbcf387cd36a7b0af03b5d26e82b811eb9bb008b4f3e661cdab1f8817596e46b1929da2cf6e97a2f7456ed
-  languageName: node
-  linkType: hard
-
-"koa-mount@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "koa-mount@npm:4.0.0"
-  dependencies:
-    debug: ^4.0.1
-    koa-compose: ^4.1.0
-  checksum: c7e8c5cca4d2ccc4742e63c81b86b44f0290075148897b5d633acdd137e90f554c60c232fbc62e843eaedb913b67c5a49367c1142e290b8cfd9c28eb4a0480ec
   languageName: node
   linkType: hard
 

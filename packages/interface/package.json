@@ -14,11 +14,16 @@
     ],
     "scripts": {
         "assets:copy": "ncp assets dist",
+        "clean": "rimraf dist",
         "dev": "webpack serve",
         "build": "concurrently \"yarn client:build\" \"yarn server:build\" \"yarn assets:copy\"",
         "client:build": "webpack",
         "server:build": "tsc -p tsconfig-server.json",
         "test": "echo notests"
+    },
+    "dependencies": {
+        "koa": "^2.13.4",
+        "koa-static": "^5.0.0"
     },
     "devDependencies": {
         "@dogeswap/sdk-core": "workspace:^",
@@ -86,9 +91,6 @@
         "jest": "^28.1.3",
         "jest-environment-jsdom-fourteen": "1.0.1",
         "jsbi": "^3.1.4",
-        "koa": "^2.13.4",
-        "koa-mount": "^4.0.0",
-        "koa-static": "^5.0.0",
         "lodash.flatmap": "^4.5.0",
         "multicodec": "^2.0.0",
         "multihashes": "^3.0.1",
@@ -114,6 +116,7 @@
         "rebass": "^4.0.7",
         "redux-localstorage-simple": "^2.3.1",
         "resolve": "1.15.0",
+        "rimraf": "^3.0.2",
         "sass-loader": "^12.6.0",
         "serve": "^11.3.0",
         "solidity-coverage": "^0.7.21",
