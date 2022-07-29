@@ -22,6 +22,10 @@ const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT ?? "10
 module.exports = {
     mode,
     devtool,
+    entry: path.resolve(__dirname, "src", "client", "index.tsx"),
+    output: {
+        filename: "main.js",
+    },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".scss"],
         fallback: {
@@ -63,10 +67,6 @@ module.exports = {
                 use: ["style-loader", "css-loader"],
             },
         ],
-    },
-    entry: path.resolve(__dirname, "src", "index.tsx"),
-    output: {
-        filename: "main.js",
     },
     devServer: {
         compress: true,

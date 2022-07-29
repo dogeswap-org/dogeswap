@@ -10,9 +10,9 @@ import Copy from "./Copy";
 import Transaction from "./Transaction";
 
 import { ExternalLink as LinkIcon } from "react-feather";
-import CoinbaseWalletIcon from "../../../assets/images/coinbaseWalletIcon.svg";
-import WalletConnectIcon from "../../../assets/images/walletConnectIcon.svg";
-import Close from "../../../assets/images/x.svg";
+import CoinbaseWalletIcon from "../../../../assets/images/coinbaseWalletIcon.svg";
+import WalletConnectIcon from "../../../../assets/images/walletConnectIcon.svg";
+import Close from "../../../../assets/images/x.svg";
 import { injected, walletconnect, walletlink } from "../../connectors";
 import { SUPPORTED_WALLETS } from "../../constants";
 import { ExternalLink, LinkStyledButton, TYPE } from "../../theme";
