@@ -1,6 +1,6 @@
 import { Interface } from "@ethersproject/abi";
 import { useMemo } from "react";
-import { abi as IDogeSwapV2PairABI } from "../../../contracts-core/artifacts/contracts/interfaces/IDogeSwapV2Pair.sol/IDogeSwapV2Pair.json";
+import { abi as IDogeSwapV2PairABI } from "../../../../contracts-core/artifacts/contracts/interfaces/IDogeSwapV2Pair.sol/IDogeSwapV2Pair.json";
 import { useActiveWeb3React } from "../hooks";
 
 import { Currency, CurrencyAmount } from "@dogeswap/sdk-core";

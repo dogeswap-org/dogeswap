@@ -1,15 +1,26 @@
 const webpack = require("webpack");
 const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const TerserWebpackPlugin = require("terser-webpack-plugin");
 
 require('dotenv').config()
 
-const devtool = "inline-source-map";
+let mode;
+let devtool;
+const additionalPlugins = [];
+if (process.env.NODE_ENV === "production") {
+    mode = "production";
+    devtool = undefined;
+    additionalPlugins.push(new TerserWebpackPlugin())
+} else {
+    mode = "development";
+    devtool = "inline-source-map";
+}
 
 const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT ?? "10000");
 
 module.exports = {
-    mode: process.env.NODE_ENV ?? "development",
+    mode,
     devtool,
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".scss"],
@@ -34,6 +45,7 @@ module.exports = {
             CHAIN_ID: JSON.stringify(process.env.CHAIN_ID),
         }),
         new ForkTsCheckerWebpackPlugin(),
+        ...additionalPlugins
     ],
     module: {
         rules: [
