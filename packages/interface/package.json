@@ -14,7 +14,7 @@
     ],
     "scripts": {
         "dev": "webpack serve",
-        "test": "jest"
+        "test": "echo notests"
     },
     "devDependencies": {
         "@dogeswap/sdk-core": "workspace:^",

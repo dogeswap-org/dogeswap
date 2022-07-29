@@ -22,7 +22,6 @@
         "clean": "rimraf ./cache && rimraf ./artifacts && rimraf ./typechain-types",
         "build": "hardhat compile",
         "pretest": "yarn build",
-        "test": "mocha",
         "prepublishOnly": "yarn test"
     },
     "dependencies": {

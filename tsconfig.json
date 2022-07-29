@@ -1,6 +1,7 @@
 {
     "include": [
-        "./scripts"
+        "./scripts",
+        "./hardhat.config.ts"
     ],
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,

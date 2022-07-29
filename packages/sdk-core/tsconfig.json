@@ -1,9 +1,15 @@
 {
     "extends": "../../tsconfig.json",
-    "include": ["src", "types.d.ts"],
-    "exclude": ["dist", "node_modules"],
+    "include": [
+        "src",
+        "types.d.ts"
+    ],
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
     "compilerOptions": {
-        "outDir": "dist",
-        "typeRoots": ["./node_modules/@types"]
+        "skipLibCheck": true,
+        "outDir": "dist"
     }
 }

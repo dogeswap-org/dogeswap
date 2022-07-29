@@ -14,11 +14,13 @@
     "scripts": {
         "build": "yarn workspaces foreach run build",
         "clean": "yarn workspaces foreach run clean && hardhat clean",
-        "dev": "yarn workspaces foreach run build && concurrently \"yarn localnet:run\" \"yarn localnet:deploy\" \"yarn workspace @dogeswap/interface dev\"",
+        "dev": "CHAIN_ID=31337 && concurrently \"yarn localnet:run\" \"yarn localnet:deploy\" \"yarn interface:run\"",
         "interface:run": "yarn workspace @dogeswap/interface dev",
+        "testnet:dev": "CHAIN_ID=568 && yarn interface:run",
         "localnet:run": "yarn hardhat node",
-        "localnet:deploy": "yarn hardhat run --network localhost scripts/run-localnet.ts",
-        "testnet:deploy": "yarn hardhat deploy --network testnet"
+        "localnet:deploy": "yarn build && yarn hardhat run --network localhost scripts/run-localnet.ts",
+        "test": "yarn workspaces foreach run test",
+        "testnet:deploy": "yarn build && yarn hardhat deploy --network testnet"
     },
     "devDependencies": {
         "@nomiclabs/hardhat-ethers": "^2.1.0",

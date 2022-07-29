@@ -24,13 +24,13 @@ export const addresses = {
     },
     [ChainId.TESTNET]: {
         infrastructure: {
-            factory: "0xA44372D280E1959662541782Aefa7f8972BC85B8",
-            router: "0x4967c8614B929D4d8040C65e072B9BCc422f1EF9",
-            multicall: "0x63f1ae4757661390DE9E75c26962c5cC31C4D5F1",
+            factory: "0x4193b331BaedFc3B6187139bF4DA2626c227765f",
+            router: "0x779e94cC367561Be40923b2c5e981367ff984c51",
+            multicall: "0x28667CA7b810C0242Bbeb2C95DAB30D47AF07679",
             ensRegistrar: "0x0000000000000000000000000000000000000000",
         } as InfrastructureAddress,
         tokens: {
-            wdc: "0xf6FCb597701f5207122Da5902AD5Fec6a2Cb6608",
+            wdc: "0xd379d6ee12B35ee0ddFDCd36d0562300babf5751",
             usdt: "0x5b5E34d03b1533877E23F68622f642ECb721B918",
             usdc: "0x1D0DD931c0101ba58bDB312e5416C5f8330c194D",
         },
