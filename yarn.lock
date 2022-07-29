@@ -677,12 +677,12 @@ __metadata:
     camelcase: ^5.3.1
     chai: ^4.3.6
     cids: ^1.0.0
+    concurrently: ^7.3.0
     copy-to-clipboard: ^3.2.0
     cross-env: ^7.0.2
     crypto-browserify: ^3.12.0
     css-loader: ^6.7.1
     cypress: ^4.11.0
-    dotenv: ^16.0.1
     ethers: ^5.6.9
     file-loader: ^6.2.0
     fork-ts-checker-webpack-plugin: ^7.2.11
@@ -741,7 +741,6 @@ __metadata:
     ts-pnp: 1.1.6
     typechain: ^8.1.0
     typescript: ^4.7.4
-    url-loader: ^4.1.1
     util: ^0.12.4
     webpack: ^5.72.1
     webpack-cli: ^4.9.2
@@ -8557,13 +8556,6 @@ __metadata:
   dependencies:
     webidl-conversions: ^4.0.2
   checksum: f564a9c0915dcb83ceefea49df14aaed106b1468fbe505119e8bcb0b77e242534f3aba861978537c0fc9dc6f35b176d0ffc77b3e342820fb27a8f215e7ae4d52
-  languageName: node
-  linkType: hard
-
-"dotenv@npm:^16.0.1":
-  version: 16.0.1
-  resolution: "dotenv@npm:16.0.1"
-  checksum: f459ffce07b977b7f15d8cc4ee69cdff77d4dd8c5dc8c85d2d485ee84655352c2415f9dd09d42b5b5985ced3be186130871b34e2f3e2569ebc72fbc2e8096792
   languageName: node
   linkType: hard
 
@@ -21220,23 +21212,6 @@ __metadata:
   version: 0.1.0
   resolution: "urix@npm:0.1.0"
   checksum: 4c076ecfbf3411e888547fe844e52378ab5ada2d2f27625139011eada79925e77f7fbf0e4016d45e6a9e9adb6b7e64981bd49b22700c7c401c5fc15f423303b3
-  languageName: node
-  linkType: hard
-
-"url-loader@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "url-loader@npm:4.1.1"
-  dependencies:
-    loader-utils: ^2.0.0
-    mime-types: ^2.1.27
-    schema-utils: ^3.0.0
-  peerDependencies:
-    file-loader: "*"
-    webpack: ^4.0.0 || ^5.0.0
-  peerDependenciesMeta:
-    file-loader:
-      optional: true
-  checksum: c1122a992c6cff70a7e56dfc2b7474534d48eb40b2cc75467cde0c6972e7597faf8e43acb4f45f93c2473645dfd803bcbc20960b57544dd1e4c96e77f72ba6fd
   languageName: node
   linkType: hard
 

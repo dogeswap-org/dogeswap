@@ -18,7 +18,7 @@
         "interface:run": "yarn workspace @dogeswap/interface dev",
         "testnet:dev": "CHAIN_ID=568 && yarn interface:run",
         "localnet:run": "yarn hardhat node",
-        "localnet:deploy": "yarn build && yarn hardhat run --network localhost scripts/run-localnet.ts",
+        "localnet:deploy": "concurrently \"yarn workspace @dogeswap/contracts-core build\" \"yarn workspace @dogeswap/contracts-periphery build\" && yarn hardhat run --network localhost scripts/run-localnet.ts",
         "test": "yarn workspaces foreach run test",
         "testnet:deploy": "yarn build && yarn hardhat deploy --network testnet"
     },

@@ -3,8 +3,6 @@ const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 
-require('dotenv').config()
-
 let mode;
 let devtool;
 const additionalPlugins = [];
@@ -17,8 +15,6 @@ if (process.env.NODE_ENV === "production") {
     devtool = "inline-source-map";
 }
 
-const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT ?? "10000");
-
 module.exports = {
     mode,
     devtool,
@@ -27,7 +23,7 @@ module.exports = {
         filename: "main.js",
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".scss"],
+        extensions: [".ts", ".tsx", ".js"],
         fallback: {
             http: require.resolve("http-browserify"),
             https: require.resolve("https-browserify"),
@@ -56,11 +52,7 @@ module.exports = {
             { test: /\.tsx?$/, loader: "ts-loader" },
             {
                 test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
-                loader: "url-loader",
-                options: {
-                    limit: imageInlineSizeLimit,
-                    name: "static/media/[name].[hash:8].[ext]",
-                },
+                type: "asset/resource"
             },
             {
                 test: /\.css$/i,
@@ -74,7 +66,7 @@ module.exports = {
         liveReload: false,
         open: false,
         port: 9000,
-        static: [path.resolve(__dirname, "src"), path.resolve(__dirname, "dist"), path.resolve(__dirname)],
+        static: [path.resolve(__dirname, "src/client"), path.resolve(__dirname)],
         watchFiles: ["src/**/*.ts*"],
     },
 };
