@@ -21,7 +21,7 @@ module.exports = {
     entry: path.resolve(__dirname, "src", "client", "index.tsx"),
     output: {
         path: path.resolve(__dirname, "dist", "client"),
-        filename: "main.js",
+        filename: "client.js",
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js"],
