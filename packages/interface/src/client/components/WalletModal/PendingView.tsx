@@ -4,6 +4,7 @@ import React from "react";
 import styled from "styled-components";
 import { injected } from "../../connectors";
 import { SUPPORTED_WALLETS } from "../../constants";
+import { getWalletIcon } from "../../utils/getWalletIcon";
 import Loader from "../Loader";
 import Option from "./Option";
 
@@ -119,7 +120,7 @@ export default function PendingView({
                             color={option.color}
                             header={option.name}
                             subheader={option.description}
-                            icon={require("../../../../assets/embedded/" + option.iconName).default}
+                            icon={getWalletIcon(option.iconName)}
                         />
                     );
                 }

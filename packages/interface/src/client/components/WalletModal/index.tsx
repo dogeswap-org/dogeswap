@@ -8,11 +8,11 @@ import { useWalletModalOpen, useWalletModalToggle } from "../../state/applicatio
 
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import MetamaskIcon from "../../../../assets/embedded/metamask.png";
 import Close from "../../../../assets/embedded/x.svg";
 import { injected } from "../../connectors";
 import { SUPPORTED_WALLETS } from "../../constants";
 import { ExternalLink } from "../../theme";
+import { getWalletIcon } from "../../utils/getWalletIcon";
 import AccountDetails from "../AccountDetails";
 import Modal from "../Modal";
 import Option from "./Option";
@@ -216,7 +216,7 @@ export default function WalletModal({
                             link={option.href}
                             header={option.name}
                             subheader={null}
-                            icon={require("../../../../assets/embedded/" + option.iconName).default}
+                            icon={getWalletIcon(option.iconName)}
                         />
                     );
                 }
@@ -236,7 +236,7 @@ export default function WalletModal({
                                 header={"Install Metamask"}
                                 subheader={null}
                                 link={"https://metamask.io/"}
-                                icon={MetamaskIcon}
+                                icon={getWalletIcon(option.iconName)}
                             />
                         );
                     } else {
@@ -270,7 +270,7 @@ export default function WalletModal({
                         link={option.href}
                         header={option.name}
                         subheader={null} //use option.descriptio to bring back multi-line
-                        icon={require("../../../../assets/embedded/" + option.iconName).default}
+                        icon={getWalletIcon(option.iconName)}
                     />
                 )
             );
