@@ -9,6 +9,9 @@ import styled, {
 import { useIsDarkMode } from "../state/user/hooks";
 import { Colors } from "./styled";
 
+import background from "../../../assets/embedded/background.jpeg";
+console.log("BACKGROUND", background);
+
 export * from "./components";
 
 const MEDIA_WIDTHS = {
@@ -213,6 +216,6 @@ html {
 body {
   min-height: 100vh;
   background-position: 0 -30vh;
-  background-image: url("assets/images/background.jpeg");
+  background-image: url("${background}");
 }
 `;

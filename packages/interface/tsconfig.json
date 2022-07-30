@@ -5,16 +5,12 @@
     "files": [
         "../../hardhat.config.ts"
     ],
-    "exclude": [
-        "dist",
-        "node_modules"
-    ],
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "jsx": "react",
         "module": "commonjs",
-        "outDir": "/dist",
+        "outDir": "dist",
         "resolveJsonModule": true,
         "strict": true,
         "target": "es2021"

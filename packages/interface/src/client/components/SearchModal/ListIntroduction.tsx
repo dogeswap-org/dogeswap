@@ -7,8 +7,8 @@ import { OutlineCard } from "../Card";
 import Column, { AutoColumn } from "../Column";
 import { PaddedColumn } from "./styleds";
 
-import listDark from "../../../../assets/images/token-list/lists-dark.png";
-import listLight from "../../../../assets/images/token-list/lists-light.png";
+import listDark from "../../../../assets/embedded/token-list/lists-dark.png";
+import listLight from "../../../../assets/embedded/token-list/lists-light.png";
 
 export default function ListIntroduction({ onSelectList }: { onSelectList: () => void }) {
     const [isDark] = useDarkModeManager();

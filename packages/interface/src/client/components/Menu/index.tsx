@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { GitHub, Info, MessageCircle } from "react-feather";
 import styled from "styled-components";
-import MenuIcon from "../../../../assets/images/menu.svg";
+import MenuIcon from "../../../../assets/embedded/menu.svg";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import useToggle from "../../hooks/useToggle";
 

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { AlertTriangle, ArrowUpCircle } from "react-feather";
 import { Text } from "rebass";
 import styled, { ThemeContext } from "styled-components";
-import Circle from "../../../../assets/images/blue-loader.svg";
+import Circle from "../../../../assets/embedded/blue-loader.svg";
 import { ExternalLink } from "../../theme";
 import { CloseIcon, Spinner } from "../../theme/components";
 import { ButtonPrimary } from "../Button";

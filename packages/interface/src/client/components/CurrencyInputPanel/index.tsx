@@ -1,7 +1,7 @@
 import { darken } from "polished";
 import React, { useCallback, useContext, useState } from "react";
 import styled, { ThemeContext } from "styled-components";
-import DropDown from "../../../../assets/images/dropdown.svg";
+import DropDown from "../../../../assets/embedded/dropdown.svg";
 import { useCurrencyBalance } from "../../state/wallet/hooks";
 import { TYPE } from "../../theme";
 import CurrencyLogo from "../CurrencyLogo";
