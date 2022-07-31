@@ -14,9 +14,8 @@
     "scripts": {
         "build": "yarn workspaces foreach run build",
         "clean": "yarn workspaces foreach run clean && hardhat clean",
-        "dev": "CHAIN_ID=31337 && concurrently \"yarn localnet:run\" \"yarn localnet:deploy\" \"yarn interface:run\"",
+        "dev": "concurrently \"yarn localnet:run\" \"yarn localnet:deploy\" \"yarn interface:run\"",
         "interface:run": "yarn workspace @dogeswap/interface dev",
-        "testnet:dev": "CHAIN_ID=568 && yarn interface:run",
         "localnet:run": "yarn hardhat node",
         "localnet:deploy": "concurrently \"yarn workspace @dogeswap/contracts-core build\" \"yarn workspace @dogeswap/contracts-periphery build\" && yarn hardhat run --network localhost scripts/run-localnet.ts",
         "test": "yarn workspaces foreach run test",

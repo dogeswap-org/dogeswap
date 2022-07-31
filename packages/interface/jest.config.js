@@ -7,6 +7,5 @@ module.exports = {
         "ts-jest": {
             isolatedModules: true,
         },
-    },
-    setupFiles: ["<rootDir>/__tests__/setup.ts"],
+    }
 };

@@ -76,5 +76,3 @@ declare module "content-hash" {
     function decode(x: string): string;
     function getCodec(x: string): string;
 }
-
-declare const CHAIN_ID: string;

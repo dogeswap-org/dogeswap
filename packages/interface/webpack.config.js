@@ -42,9 +42,6 @@ module.exports = {
             // Thanks to https://stackoverflow.com/a/65018686/14239942
             process: "process/browser",
         }),
-        new webpack.DefinePlugin({
-            CHAIN_ID: JSON.stringify(process.env.CHAIN_ID),
-        }),
         new ForkTsCheckerWebpackPlugin(),
         ...additionalPlugins
     ],

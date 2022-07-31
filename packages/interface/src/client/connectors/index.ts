@@ -5,7 +5,7 @@ import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 
 import { ChainId } from "@dogeswap/sdk-core";
 import { chains } from "../constants/chains";
-import { defaultChainId } from "../env";
+import { defaultChainId } from "../utils/chainId";
 import { NetworkConnector } from "./NetworkConnector";
 
 const networkUrls = Object.entries(chains).reduce((r, [chainId, chain]) => {

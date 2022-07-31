@@ -6,13 +6,13 @@ import React, { PropsWithChildren, useEffect, useState } from "react";
 import { multicallAbi } from "../../constants/abis";
 import { getAddress } from "../../constants/addresses";
 import { chains } from "../../constants/chains";
-import { defaultChainId as envChainId } from "../../env";
 import { useBlockNumber } from "../../state/application/hooks";
 import ApplicationUpdater from "../../state/application/updater";
 import ListsUpdater from "../../state/lists/updater";
 import { MulticallUpdater } from "../../state/multicall/updater";
 import TransactionUpdater from "../../state/transactions/updater";
 import UserUpdater from "../../state/user/updater";
+import { defaultChainId as envChainId } from "../../utils/chainId";
 
 export const UpdaterProvider = (props: PropsWithChildren<{}>) => {
     // TODO: we'll probably want to handle changing chain IDs at some point, at which time this will need refactoring.
