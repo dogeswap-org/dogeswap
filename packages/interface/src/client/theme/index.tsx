@@ -10,7 +10,6 @@ import { useIsDarkMode } from "../state/user/hooks";
 import { Colors } from "./styled";
 
 import background from "../../../assets/embedded/background.jpeg";
-console.log("BACKGROUND", background);
 
 export * from "./components";
 
