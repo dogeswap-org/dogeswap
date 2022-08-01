@@ -293,7 +293,7 @@ export default function RemoveLiquidity({
                     .then(calculateGasMargin)
                     .catch((error) => {
                         console.error(`estimateGas failed`, methodName, args, error);
-                        return BigNumber.from(1_000_000);
+                        return BigNumber.from(350_000); // Should actually require ~267k.
                     }),
             ),
         );

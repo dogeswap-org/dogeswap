@@ -1,5 +1,6 @@
 import { ChainId } from "@dogeswap/sdk-core";
 import { TokenList } from "@uniswap/token-lists";
+import DogeSwapLogo from "../../../assets/embedded/logo.svg";
 import { SupportedToken, tokens } from "./tokens";
 
 const unlistedTokens: SupportedToken[] = ["wdc"];
@@ -25,7 +26,7 @@ const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
             patch: 0,
         },
         tags: {},
-        logoURI: "ipfs://QmNa8mQkrNKp1WEEeGjFezDmDeodkWRevGFN8JCV7b4Xir",
+        logoURI: DogeSwapLogo,
         keywords: [],
         tokens: listTokens,
     } as TokenList;
