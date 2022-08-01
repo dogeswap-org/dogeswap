@@ -12,7 +12,7 @@ interface TokenMetadata {
 
 const tokenMetadata: Record<SupportedToken, TokenMetadata> = {
     dst: {
-        name: "Dogeswap Token",
+        name: "DogeSwap Token",
     },
     dai: {
         name: "Dai Stablecoin",
