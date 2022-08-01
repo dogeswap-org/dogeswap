@@ -7,7 +7,7 @@ import styled from "styled-components";
 import Logo from "../../../../assets/embedded/logo.svg";
 import { useActiveWeb3React } from "../../hooks";
 import { useDarkModeManager } from "../../state/user/hooks";
-import { useETHBalances } from "../../state/wallet/hooks";
+import { useDCBalances } from "../../state/wallet/hooks";
 
 import { YellowCard } from "../Card";
 import Menu from "../Menu";
@@ -137,7 +137,7 @@ const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
 export default function Header() {
     const { account, chainId } = useActiveWeb3React();
 
-    const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? ""];
+    const userEthBalance = useDCBalances(account ? [account] : [])?.[account ?? ""];
     const [isDark] = useDarkModeManager();
 
     return (
@@ -161,7 +161,7 @@ export default function Header() {
                         <AccountElement active={!!account} style={{ pointerEvents: "auto" }}>
                             {account && userEthBalance ? (
                                 <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                                    {userEthBalance?.toSignificant(4)} ETH
+                                    {userEthBalance?.toSignificant(4)} SD
                                 </BalanceText>
                             ) : null}
                             <Web3Status />

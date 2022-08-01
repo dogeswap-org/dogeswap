@@ -49,14 +49,14 @@ export default function useWrapCallback(
                                       value: `0x${inputAmount.raw.toString(16)}`,
                                   });
                                   addTransaction(txReceipt, {
-                                      summary: `Wrap ${inputAmount.toSignificant(6)} ETH to WDC`,
+                                      summary: `Wrap ${inputAmount.toSignificant(6)} DC to WDC`,
                                   });
                               } catch (error) {
                                   console.error("Could not deposit", error);
                               }
                           }
                         : undefined,
-                inputError: sufficientBalance ? undefined : "Insufficient ETH balance",
+                inputError: sufficientBalance ? undefined : "Insufficient DC balance",
             };
         } else if (currencyEquals(wdc, inputCurrency) && outputCurrency === DOGECHAIN) {
             return {
@@ -67,7 +67,7 @@ export default function useWrapCallback(
                               try {
                                   const txReceipt = await wdcContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
                                   addTransaction(txReceipt, {
-                                      summary: `Unwrap ${inputAmount.toSignificant(6)} WDC to ETH`,
+                                      summary: `Unwrap ${inputAmount.toSignificant(6)} WDC to DC`,
                                   });
                               } catch (error) {
                                   console.error("Could not withdraw", error);

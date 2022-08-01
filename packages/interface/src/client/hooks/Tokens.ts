@@ -82,7 +82,7 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-    const isETH = currencyId?.toUpperCase() === "ETH";
-    const token = useToken(isETH ? undefined : currencyId);
-    return isETH ? DOGECHAIN : token;
+    const isDC = currencyId?.toUpperCase() === "DC";
+    const token = useToken(isDC ? undefined : currencyId);
+    return isDC ? DOGECHAIN : token;
 }

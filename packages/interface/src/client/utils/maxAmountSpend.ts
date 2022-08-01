@@ -1,6 +1,6 @@
 import { CurrencyAmount, DOGECHAIN } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
-import { MIN_ETH } from "../constants";
+import { MIN_DC } from "../constants";
 
 /**
  * Given some token amount, return the max that can be spent of it
@@ -9,8 +9,8 @@ import { MIN_ETH } from "../constants";
 export function maxAmountSpend(currencyAmount?: CurrencyAmount): CurrencyAmount | undefined {
     if (!currencyAmount) return undefined;
     if (currencyAmount.currency === DOGECHAIN) {
-        if (JSBI.greaterThan(currencyAmount.raw, MIN_ETH)) {
-            return CurrencyAmount.ether(JSBI.subtract(currencyAmount.raw, MIN_ETH));
+        if (JSBI.greaterThan(currencyAmount.raw, MIN_DC)) {
+            return CurrencyAmount.ether(JSBI.subtract(currencyAmount.raw, MIN_DC));
         } else {
             return CurrencyAmount.ether(JSBI.BigInt(0));
         }

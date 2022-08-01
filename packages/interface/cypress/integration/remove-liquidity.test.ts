@@ -8,15 +8,15 @@ describe("Remove Liquidity", () => {
     });
 
     it("eth remove", () => {
-        cy.visit("/remove/ETH/0xF9bA5210F91D0474bd1e1DcDAeC4C58E359AaD85");
-        cy.get("#remove-liquidity-tokena-symbol").should("contain.text", "ETH");
+        cy.visit("/remove/DC/0xF9bA5210F91D0474bd1e1DcDAeC4C58E359AaD85");
+        cy.get("#remove-liquidity-tokena-symbol").should("contain.text", "DC");
         cy.get("#remove-liquidity-tokenb-symbol").should("contain.text", "MKR");
     });
 
     it("eth remove swap order", () => {
-        cy.visit("/remove/0xF9bA5210F91D0474bd1e1DcDAeC4C58E359AaD85/ETH");
+        cy.visit("/remove/0xF9bA5210F91D0474bd1e1DcDAeC4C58E359AaD85/DC");
         cy.get("#remove-liquidity-tokena-symbol").should("contain.text", "MKR");
-        cy.get("#remove-liquidity-tokenb-symbol").should("contain.text", "ETH");
+        cy.get("#remove-liquidity-tokenb-symbol").should("contain.text", "DC");
     });
 
     it("loads the two correct tokens", () => {
@@ -25,7 +25,7 @@ describe("Remove Liquidity", () => {
         cy.get("#remove-liquidity-tokenb-symbol").should("contain.text", "MKR");
     });
 
-    it("does not crash if ETH is duplicated", () => {
+    it("does not crash if DC is duplicated", () => {
         cy.visit("/remove/0xc778417E063141139Fce010982780140Aa0cD5Ab-0xc778417E063141139Fce010982780140Aa0cD5Ab");
         cy.get("#remove-liquidity-tokena-symbol").should("contain.text", "WDC");
         cy.get("#remove-liquidity-tokenb-symbol").should("contain.text", "WDC");

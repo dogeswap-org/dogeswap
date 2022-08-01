@@ -46,16 +46,16 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
             return new Price(usdc, usdc, "1", "1");
         }
 
-        const ethPairETHAmount = ethPair?.reserveOf(wdc);
-        const ethPairETHUSDCValue: JSBI =
-            ethPairETHAmount && usdcEthPair ? usdcEthPair.priceOf(wdc).quote(ethPairETHAmount).raw : JSBI.BigInt(0);
+        const ethPairDCAmount = ethPair?.reserveOf(wdc);
+        const ethPairDCUSDCValue: JSBI =
+            ethPairDCAmount && usdcEthPair ? usdcEthPair.priceOf(wdc).quote(ethPairDCAmount).raw : JSBI.BigInt(0);
 
         // all other tokens
         // first try the usdc pair
         if (
             usdcPairState === PairState.EXISTS &&
             usdcPair &&
-            usdcPair.reserveOf(usdc).greaterThan(ethPairETHUSDCValue)
+            usdcPair.reserveOf(usdc).greaterThan(ethPairDCUSDCValue)
         ) {
             const price = usdcPair.priceOf(wrapped);
             return new Price(currency, usdc, price.denominator, price.numerator);

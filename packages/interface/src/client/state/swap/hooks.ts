@@ -34,7 +34,7 @@ export function useSwapActionHandlers(): {
             dispatch(
                 selectCurrency({
                     field,
-                    currencyId: currency instanceof Token ? currency.address : currency === DOGECHAIN ? "ETH" : "",
+                    currencyId: currency instanceof Token ? currency.address : currency === DOGECHAIN ? "DC" : "",
                 }),
             );
         },
@@ -204,10 +204,10 @@ function parseCurrencyFromURLParameter(urlParam: any): string {
     if (typeof urlParam === "string") {
         const valid = isAddress(urlParam);
         if (valid) return valid;
-        if (urlParam.toUpperCase() === "ETH") return "ETH";
-        if (valid === false) return "ETH";
+        if (urlParam.toUpperCase() === "DC") return "DC";
+        if (valid === false) return "DC";
     }
-    return "ETH" ?? "";
+    return "DC" ?? "";
 }
 
 function parseCurrencyAmountURLParameter(urlParam: any): string {

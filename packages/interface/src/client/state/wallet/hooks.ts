@@ -9,9 +9,9 @@ import { useMulticallContract } from "../../hooks/useContract";
 import { isAddress } from "../../utils";
 
 /**
- * Returns a map of the given addresses to their eventually consistent ETH balances.
+ * Returns a map of the given addresses to their eventually consistent DC balances.
  */
-export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
+export function useDCBalances(uncheckedAddresses?: (string | undefined)[]): {
     [address: string]: CurrencyAmount | undefined;
 } {
     const multicallContract = useMulticallContract();
@@ -108,11 +108,11 @@ export function useCurrencyBalances(
     );
 
     const tokenBalances = useTokenBalances(account, tokens);
-    const containsETH: boolean = useMemo(
+    const containsDC: boolean = useMemo(
         () => currencies?.some((currency) => currency === DOGECHAIN) ?? false,
         [currencies],
     );
-    const ethBalance = useETHBalances(containsETH ? [account] : []);
+    const ethBalance = useDCBalances(containsDC ? [account] : []);
 
     return useMemo(
         () =>

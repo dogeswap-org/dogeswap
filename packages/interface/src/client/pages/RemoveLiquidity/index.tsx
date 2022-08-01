@@ -210,8 +210,8 @@ export default function RemoveLiquidity({
         const liquidityAmount = parsedAmounts[Field.LIQUIDITY];
         if (!liquidityAmount) throw new Error("missing liquidity amount");
 
-        const currencyBIsETH = currencyB === DOGECHAIN;
-        const oneCurrencyIsETH = currencyA === DOGECHAIN || currencyBIsETH;
+        const currencyBIsDC = currencyB === DOGECHAIN;
+        const oneCurrencyIsDC = currencyA === DOGECHAIN || currencyBIsDC;
         const deadlineFromNow = Math.ceil(Date.now() / 1000) + deadline;
 
         if (!tokenA || !tokenB) throw new Error("could not wrap");
@@ -219,14 +219,14 @@ export default function RemoveLiquidity({
         let methodNames: string[], args: Array<string | string[] | number | boolean>;
         // we have approval, use normal remove liquidity
         if (approval === ApprovalState.APPROVED) {
-            // removeLiquidityETH
-            if (oneCurrencyIsETH) {
+            // removeLiquidityDC
+            if (oneCurrencyIsDC) {
                 methodNames = ["removeLiquidityETH", "removeLiquidityETHSupportingFeeOnTransferTokens"];
                 args = [
-                    currencyBIsETH ? tokenA.address : tokenB.address,
+                    currencyBIsDC ? tokenA.address : tokenB.address,
                     liquidityAmount.raw.toString(),
-                    amountsMin[currencyBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
-                    amountsMin[currencyBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
+                    amountsMin[currencyBIsDC ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
+                    amountsMin[currencyBIsDC ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
                     account,
                     deadlineFromNow,
                 ];
@@ -248,16 +248,16 @@ export default function RemoveLiquidity({
         // we have a signataure, use permit versions of remove liquidity
         else if (signatureData !== null) {
             // removeLiquidityETHWithPermit
-            if (oneCurrencyIsETH) {
+            if (oneCurrencyIsDC) {
                 methodNames = [
                     "removeLiquidityETHWithPermit",
                     "removeLiquidityETHWithPermitSupportingFeeOnTransferTokens",
                 ];
                 args = [
-                    currencyBIsETH ? tokenA.address : tokenB.address,
+                    currencyBIsDC ? tokenA.address : tokenB.address,
                     liquidityAmount.raw.toString(),
-                    amountsMin[currencyBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
-                    amountsMin[currencyBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
+                    amountsMin[currencyBIsDC ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
+                    amountsMin[currencyBIsDC ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
                     account,
                     signatureData.deadline,
                     false,
