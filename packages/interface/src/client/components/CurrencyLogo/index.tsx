@@ -2,7 +2,7 @@ import { Currency, DOGECHAIN, Token } from "@dogeswap/sdk-core";
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
-import EthereumLogo from "../../../../assets/embedded/ethereum-logo.png";
+import DogechainLogo from "../../../../assets/embedded/dogechain-logo.png";
 import useHttpLocations from "../../hooks/useHttpLocations";
 import { WrappedTokenInfo } from "../../state/lists/hooks";
 import Logo from "../Logo";
@@ -48,7 +48,7 @@ export default function CurrencyLogo({
     }, [currency, uriLocations]);
 
     if (currency === DOGECHAIN) {
-        return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />;
+        return <StyledEthereumLogo src={DogechainLogo} size={size} style={style} />;
     }
 
     // TODO: Fix style property discrepancies in @react/types
