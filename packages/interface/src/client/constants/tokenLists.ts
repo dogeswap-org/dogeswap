@@ -1,6 +1,6 @@
 import { ChainId } from "@dogeswap/sdk-core";
 import { TokenList } from "@uniswap/token-lists";
-import DogeSwapLogo from "../../../assets/embedded/logo.svg";
+import DogeSwapLogo from "../../../assets/embedded/logo.png";
 import { SupportedToken, tokens } from "./tokens";
 
 const unlistedTokens: SupportedToken[] = ["wdc"];
