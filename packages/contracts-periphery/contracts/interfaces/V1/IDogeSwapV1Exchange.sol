@@ -16,11 +16,11 @@ interface IDogeSwapV1Exchange {
         uint
     ) external returns (uint, uint);
 
-    function tokenToEthSwapInput(
+    function tokenToDCSwapInput(
         uint,
         uint,
         uint
     ) external returns (uint);
 
-    function ethToTokenSwapInput(uint, uint) external payable returns (uint);
+    function dcToTokenSwapInput(uint, uint) external payable returns (uint);
 }

@@ -11,6 +11,6 @@ export function currencyEquals(currencyA: Currency, currencyB: Currency): boolea
     } else if (currencyB.isToken) {
         return false;
     } else {
-        return currencyA.isEther === currencyB.isEther;
+        return currencyA.isDogechain === currencyB.isDogechain;
     }
 }

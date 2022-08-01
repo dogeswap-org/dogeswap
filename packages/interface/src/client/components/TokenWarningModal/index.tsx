@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { useActiveWeb3React } from "../../hooks";
 import { useAllTokens } from "../../hooks/Tokens";
 import { ExternalLink, TYPE } from "../../theme";
-import { getEtherscanLink, shortenAddress } from "../../utils";
+import { getExplorerLink, shortenAddress } from "../../utils";
 import { ButtonError } from "../Button";
 import { AutoColumn } from "../Column";
 import CurrencyLogo from "../CurrencyLogo";
@@ -75,10 +75,10 @@ function TokenWarningCard({ token }: TokenWarningCardProps) {
                     {chainId && (
                         <ExternalLink
                             style={{ fontWeight: 400 }}
-                            href={getEtherscanLink(chainId, token.address, "token")}
+                            href={getExplorerLink(chainId, token.address, "token")}
                         >
                             <TYPE.blue title={token.address}>
-                                {shortenAddress(token.address)} (View on Etherscan)
+                                {shortenAddress(token.address)} (View on Explorer)
                             </TYPE.blue>
                         </ExternalLink>
                     )}
@@ -110,7 +110,7 @@ export default function TokenWarningModal({
                         <TYPE.main color={"red2"}>Token imported</TYPE.main>
                     </AutoRow>
                     <TYPE.body color={"red2"}>
-                        Anyone can create an ERC20 token on Ethereum with <em>any</em> name, including creating fake
+                        Anyone can create an ERC20 token on Dogechain with <em>any</em> name, including creating fake
                         versions of existing tokens and tokens that claim to represent projects that do not have a
                         token.
                     </TYPE.body>

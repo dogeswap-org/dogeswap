@@ -221,7 +221,7 @@ export default function RemoveLiquidity({
         if (approval === ApprovalState.APPROVED) {
             // removeLiquidityDC
             if (oneCurrencyIsDC) {
-                methodNames = ["removeLiquidityETH", "removeLiquidityETHSupportingFeeOnTransferTokens"];
+                methodNames = ["removeLiquidityDC", "removeLiquidityDCSupportingFeeOnTransferTokens"];
                 args = [
                     currencyBIsDC ? tokenA.address : tokenB.address,
                     liquidityAmount.raw.toString(),
@@ -247,11 +247,11 @@ export default function RemoveLiquidity({
         }
         // we have a signataure, use permit versions of remove liquidity
         else if (signatureData !== null) {
-            // removeLiquidityETHWithPermit
+            // removeLiquidityDCWithPermit
             if (oneCurrencyIsDC) {
                 methodNames = [
-                    "removeLiquidityETHWithPermit",
-                    "removeLiquidityETHWithPermitSupportingFeeOnTransferTokens",
+                    "removeLiquidityDCWithPermit",
+                    "removeLiquidityDCWithPermitSupportingFeeOnTransferTokens",
                 ];
                 args = [
                     currencyBIsDC ? tokenA.address : tokenB.address,
@@ -266,7 +266,7 @@ export default function RemoveLiquidity({
                     signatureData.s,
                 ];
             }
-            // removeLiquidityETHWithPermit
+            // removeLiquidityDCWithPermit
             else {
                 methodNames = ["removeLiquidityWithPermit"];
                 args = [
@@ -293,7 +293,7 @@ export default function RemoveLiquidity({
                     .then(calculateGasMargin)
                     .catch((error) => {
                         console.error(`estimateGas failed`, methodName, args, error);
-                        return undefined;
+                        return BigNumber.from(1_000_000);
                     }),
             ),
         );

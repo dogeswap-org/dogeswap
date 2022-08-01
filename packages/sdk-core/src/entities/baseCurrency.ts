@@ -1,12 +1,12 @@
 import invariant from "tiny-invariant";
 
 /**
- * A currency is any fungible financial instrument on Ethereum, including Ether and all ERC20 tokens.
+ * A currency is any fungible financial instrument on Dogechain, including Dogechain and all ERC20 tokens.
  *
- * The only instance of the base class `Currency` is Ether.
+ * The only instance of the base class `Currency` is Dogechain.
  */
 export abstract class BaseCurrency<T extends string = string> {
-    public abstract readonly isEther: boolean;
+    public abstract readonly isDogechain: boolean;
     public abstract readonly isToken: boolean;
 
     public readonly decimals: number;

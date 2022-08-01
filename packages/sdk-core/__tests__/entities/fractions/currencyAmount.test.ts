@@ -1,7 +1,7 @@
 import JSBI from "jsbi";
 import { ChainId, MaxUint256 } from "../../../src/constants";
-import { Token } from "../../../src/entities/token";
 import CurrencyAmount from "../../../src/entities/fractions/currencyAmount";
+import { Token } from "../../../src/entities/token";
 
 describe("CurrencyAmount", () => {
     const ADDRESS_ONE = "0x0000000000000000000000000000000000000001";
@@ -16,7 +16,7 @@ describe("CurrencyAmount", () => {
 
     describe("#ether", () => {
         it("produces ether amount", () => {
-            const amount = CurrencyAmount.ether(100);
+            const amount = CurrencyAmount.dogechain(100);
             expect(amount.raw).toEqual(JSBI.BigInt(100));
         });
     });

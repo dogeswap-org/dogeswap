@@ -54,7 +54,7 @@ describe("Trade", () => {
     it("can be constructed with DOGECHAIN as input", () => {
         const trade = new Trade(
             new Route([pair_wdc_0], testWDC, DOGECHAIN),
-            CurrencyAmount.ether(JSBI.BigInt(100)),
+            CurrencyAmount.dogechain(JSBI.BigInt(100)),
             TradeType.EXACT_INPUT,
             testWDC,
             factoryAddress,
@@ -77,7 +77,7 @@ describe("Trade", () => {
     it("can be constructed with DOGECHAIN as output", () => {
         const trade = new Trade(
             new Route([pair_wdc_0], testWDC, token0, DOGECHAIN),
-            CurrencyAmount.ether(JSBI.BigInt(100)),
+            CurrencyAmount.dogechain(JSBI.BigInt(100)),
             TradeType.EXACT_OUTPUT,
             testWDC,
             factoryAddress,
@@ -210,7 +210,7 @@ describe("Trade", () => {
         it("works for DOGECHAIN currency input", () => {
             const result = Trade.bestTradeExactIn(
                 [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
-                CurrencyAmount.ether(JSBI.BigInt(100)),
+                CurrencyAmount.dogechain(JSBI.BigInt(100)),
                 token3,
                 testWDC,
                 factoryAddress,
@@ -553,7 +553,7 @@ describe("Trade", () => {
             const result = Trade.bestTradeExactOut(
                 [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
                 token3,
-                CurrencyAmount.ether(JSBI.BigInt(100)),
+                CurrencyAmount.dogechain(JSBI.BigInt(100)),
                 testWDC,
                 factoryAddress,
             );

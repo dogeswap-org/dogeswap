@@ -26,13 +26,13 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
                   ],
         [chainId, currency, wrapped],
     );
-    const [[ethPairState, ethPair], [usdcPairState, usdcPair], [usdcEthPairState, usdcEthPair]] = usePairs(tokenPairs);
+    const [[dcPairState, dcPair], [usdcPairState, usdcPair], [usdcDCPairState, usdcDCPair]] = usePairs(tokenPairs);
 
     return useMemo(() => {
         if (!currency || !wrapped || !chainId || wdc == undefined || usdc == undefined) {
             return undefined;
         }
-        // handle wdc/eth
+        // handle wdc/dc
         if (wrapped.equals(wdc)) {
             if (usdcPair) {
                 const price = usdcPair.priceOf(wdc);
@@ -46,28 +46,24 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
             return new Price(usdc, usdc, "1", "1");
         }
 
-        const ethPairDCAmount = ethPair?.reserveOf(wdc);
-        const ethPairDCUSDCValue: JSBI =
-            ethPairDCAmount && usdcEthPair ? usdcEthPair.priceOf(wdc).quote(ethPairDCAmount).raw : JSBI.BigInt(0);
+        const dcPairDCAmount = dcPair?.reserveOf(wdc);
+        const dcPairDCUSDCValue: JSBI =
+            dcPairDCAmount && usdcDCPair ? usdcDCPair.priceOf(wdc).quote(dcPairDCAmount).raw : JSBI.BigInt(0);
 
         // all other tokens
         // first try the usdc pair
-        if (
-            usdcPairState === PairState.EXISTS &&
-            usdcPair &&
-            usdcPair.reserveOf(usdc).greaterThan(ethPairDCUSDCValue)
-        ) {
+        if (usdcPairState === PairState.EXISTS && usdcPair && usdcPair.reserveOf(usdc).greaterThan(dcPairDCUSDCValue)) {
             const price = usdcPair.priceOf(wrapped);
             return new Price(currency, usdc, price.denominator, price.numerator);
         }
-        if (ethPairState === PairState.EXISTS && ethPair && usdcEthPairState === PairState.EXISTS && usdcEthPair) {
-            if (usdcEthPair.reserveOf(usdc).greaterThan("0") && ethPair.reserveOf(wdc).greaterThan("0")) {
-                const ethUsdcPrice = usdcEthPair.priceOf(usdc);
-                const currencyEthPrice = ethPair.priceOf(wdc);
-                const usdcPrice = ethUsdcPrice.multiply(currencyEthPrice).invert();
+        if (dcPairState === PairState.EXISTS && dcPair && usdcDCPairState === PairState.EXISTS && usdcDCPair) {
+            if (usdcDCPair.reserveOf(usdc).greaterThan("0") && dcPair.reserveOf(wdc).greaterThan("0")) {
+                const dcUsdcPrice = usdcDCPair.priceOf(usdc);
+                const currencyDCPrice = dcPair.priceOf(wdc);
+                const usdcPrice = dcUsdcPrice.multiply(currencyDCPrice).invert();
                 return new Price(currency, usdc, usdcPrice.denominator, usdcPrice.numerator);
             }
         }
         return undefined;
-    }, [chainId, currency, ethPair, ethPairState, usdcEthPair, usdcEthPairState, usdcPair, usdcPairState, wrapped]);
+    }, [chainId, currency, dcPair, dcPairState, usdcDCPair, usdcDCPairState, usdcPair, usdcPairState, wrapped]);
 }

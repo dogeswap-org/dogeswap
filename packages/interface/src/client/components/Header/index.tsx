@@ -137,7 +137,7 @@ const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
 export default function Header() {
     const { account, chainId } = useActiveWeb3React();
 
-    const userEthBalance = useDCBalances(account ? [account] : [])?.[account ?? ""];
+    const userDCBalance = useDCBalances(account ? [account] : [])?.[account ?? ""];
     const [isDark] = useDarkModeManager();
 
     return (
@@ -159,9 +159,9 @@ export default function Header() {
                             )}
                         </TestnetWrapper>
                         <AccountElement active={!!account} style={{ pointerEvents: "auto" }}>
-                            {account && userEthBalance ? (
+                            {account && userDCBalance ? (
                                 <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                                    {userEthBalance?.toSignificant(4)} SD
+                                    {userDCBalance?.toSignificant(4)} SD
                                 </BalanceText>
                             ) : null}
                             <Web3Status />

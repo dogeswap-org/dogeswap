@@ -29,7 +29,7 @@ export function useDCBalances(uncheckedAddresses?: (string | undefined)[]): {
 
     const results = useSingleContractMultipleData(
         multicallContract,
-        "getEthBalance",
+        "getDCBalance",
         addresses.map((address) => [address]),
     );
 
@@ -37,7 +37,7 @@ export function useDCBalances(uncheckedAddresses?: (string | undefined)[]): {
         () =>
             addresses.reduce<{ [address: string]: CurrencyAmount }>((memo, address, i) => {
                 const value = results?.[i]?.result?.[0];
-                if (value) memo[address] = CurrencyAmount.ether(JSBI.BigInt(value.toString()));
+                if (value) memo[address] = CurrencyAmount.dogechain(JSBI.BigInt(value.toString()));
                 return memo;
             }, {}),
         [addresses, results],
@@ -112,17 +112,17 @@ export function useCurrencyBalances(
         () => currencies?.some((currency) => currency === DOGECHAIN) ?? false,
         [currencies],
     );
-    const ethBalance = useDCBalances(containsDC ? [account] : []);
+    const dcBalance = useDCBalances(containsDC ? [account] : []);
 
     return useMemo(
         () =>
             currencies?.map((currency) => {
                 if (!account || !currency) return undefined;
                 if (currency instanceof Token) return tokenBalances[currency.address];
-                if (currency === DOGECHAIN) return ethBalance[account];
+                if (currency === DOGECHAIN) return dcBalance[account];
                 return undefined;
             }) ?? [],
-        [account, currencies, ethBalance, tokenBalances],
+        [account, currencies, dcBalance, tokenBalances],
     );
 }
 

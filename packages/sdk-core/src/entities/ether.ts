@@ -2,7 +2,7 @@ import { BaseCurrency } from "./baseCurrency";
 import { Token } from "./token";
 
 export class DC extends BaseCurrency {
-    public readonly isEther: true = true;
+    public readonly isDogechain: true = true;
     public readonly isToken: false = false;
 
     /**

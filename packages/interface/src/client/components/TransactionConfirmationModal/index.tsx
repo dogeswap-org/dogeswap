@@ -12,7 +12,7 @@ import { RowBetween } from "../Row";
 
 import { ChainId } from "@dogeswap/sdk-core";
 import { useActiveWeb3React } from "../../hooks";
-import { getEtherscanLink } from "../../utils";
+import { getExplorerLink } from "../../utils";
 
 const Wrapper = styled.div`
     width: 100%;
@@ -92,9 +92,9 @@ function TransactionSubmittedContent({
                     </Text>
 
                     {chainId && hash && (
-                        <ExternalLink href={getEtherscanLink(chainId, hash, "transaction")}>
+                        <ExternalLink href={getExplorerLink(chainId, hash, "transaction")}>
                             <Text fontWeight={500} fontSize={14} color={theme.primary1}>
-                                View on Etherscan
+                                View on Explorer
                             </Text>
                         </ExternalLink>
                     )}

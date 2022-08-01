@@ -6,30 +6,30 @@ import {
     basisPointsToPercent,
     calculateGasMargin,
     calculateSlippageAmount,
-    getEtherscanLink,
+    getExplorerLink,
     isAddress,
     shortenAddress,
-} from "../../src/utils";
+} from "../../src/client/utils";
 
 describe("utils", () => {
     describe.skip("#getEtherscanLink", () => {
         it("correct for tx", () => {
-            expect(getEtherscanLink(1, "abc", "transaction")).toEqual("https://etherscan.io/tx/abc");
+            expect(getExplorerLink(1, "abc", "transaction")).toEqual("https://etherscan.io/tx/abc");
         });
         it("correct for token", () => {
-            expect(getEtherscanLink(1, "abc", "token")).toEqual("https://etherscan.io/token/abc");
+            expect(getExplorerLink(1, "abc", "token")).toEqual("https://etherscan.io/token/abc");
         });
         it("correct for address", () => {
-            expect(getEtherscanLink(1, "abc", "address")).toEqual("https://etherscan.io/address/abc");
+            expect(getExplorerLink(1, "abc", "address")).toEqual("https://etherscan.io/address/abc");
         });
         it("unrecognized chain id defaults to mainnet", () => {
-            expect(getEtherscanLink(2, "abc", "address")).toEqual("https://etherscan.io/address/abc");
+            expect(getExplorerLink(2, "abc", "address")).toEqual("https://etherscan.io/address/abc");
         });
         it("ropsten", () => {
-            expect(getEtherscanLink(3, "abc", "address")).toEqual("https://ropsten.etherscan.io/address/abc");
+            expect(getExplorerLink(3, "abc", "address")).toEqual("https://ropsten.etherscan.io/address/abc");
         });
         it("enum", () => {
-            expect(getEtherscanLink(ChainId.TESTNET, "abc", "address")).toEqual(
+            expect(getExplorerLink(ChainId.TESTNET, "abc", "address")).toEqual(
                 "https://rinkeby.etherscan.io/address/abc",
             );
         });

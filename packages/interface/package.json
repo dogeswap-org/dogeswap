@@ -19,7 +19,7 @@
         "build": "concurrently \"yarn client:build\" \"yarn server:build\" \"yarn assets:copy\"",
         "client:build": "webpack",
         "server:build": "tsc -p tsconfig-server.json",
-        "test": "echo notests"
+        "test": "echo 'Interface tests have not been migrated yet. Skipping.'"
     },
     "dependencies": {
         "koa": "^2.13.4",

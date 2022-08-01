@@ -16,9 +16,9 @@ export default class CurrencyAmount<T extends Currency = Currency> extends Fract
 
     /**
      * Helper that calls the constructor with the DOGECHAIN currency
-     * @param amount ether amount in wei
+     * @param amount Dogechain amount in wei
      */
-    public static ether(amount: BigintIsh): CurrencyAmount {
+    public static dogechain(amount: BigintIsh): CurrencyAmount {
         return new CurrencyAmount(DOGECHAIN, amount);
     }
 

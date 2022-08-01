@@ -22,11 +22,11 @@ interface IDogeSwapV2Router01 {
             uint liquidity
         );
 
-    function addLiquidityETH(
+    function addLiquidityDC(
         address token,
         uint amountTokenDesired,
         uint amountTokenMin,
-        uint amountETHMin,
+        uint amountDCMin,
         address to,
         uint deadline
     )
@@ -34,7 +34,7 @@ interface IDogeSwapV2Router01 {
         payable
         returns (
             uint amountToken,
-            uint amountETH,
+            uint amountDC,
             uint liquidity
         );
 
@@ -48,14 +48,14 @@ interface IDogeSwapV2Router01 {
         uint deadline
     ) external returns (uint amountA, uint amountB);
 
-    function removeLiquidityETH(
+    function removeLiquidityDC(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountETHMin,
+        uint amountDCMin,
         address to,
         uint deadline
-    ) external returns (uint amountToken, uint amountETH);
+    ) external returns (uint amountToken, uint amountDC);
 
     function removeLiquidityWithPermit(
         address tokenA,
@@ -71,18 +71,18 @@ interface IDogeSwapV2Router01 {
         bytes32 s
     ) external returns (uint amountA, uint amountB);
 
-    function removeLiquidityETHWithPermit(
+    function removeLiquidityDCWithPermit(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountETHMin,
+        uint amountDCMin,
         address to,
         uint deadline,
         bool approveMax,
         uint8 v,
         bytes32 r,
         bytes32 s
-    ) external returns (uint amountToken, uint amountETH);
+    ) external returns (uint amountToken, uint amountDC);
 
     function swapExactTokensForTokens(
         uint amountIn,
@@ -100,14 +100,14 @@ interface IDogeSwapV2Router01 {
         uint deadline
     ) external returns (uint[] memory amounts);
 
-    function swapExactETHForTokens(
+    function swapExactDCForTokens(
         uint amountOutMin,
         address[] calldata path,
         address to,
         uint deadline
     ) external payable returns (uint[] memory amounts);
 
-    function swapTokensForExactETH(
+    function swapTokensForExactDC(
         uint amountOut,
         uint amountInMax,
         address[] calldata path,
@@ -115,7 +115,7 @@ interface IDogeSwapV2Router01 {
         uint deadline
     ) external returns (uint[] memory amounts);
 
-    function swapExactTokensForETH(
+    function swapExactTokensForDC(
         uint amountIn,
         uint amountOutMin,
         address[] calldata path,
@@ -123,7 +123,7 @@ interface IDogeSwapV2Router01 {
         uint deadline
     ) external returns (uint[] memory amounts);
 
-    function swapETHForExactTokens(
+    function swapDCForExactTokens(
         uint amountOut,
         address[] calldata path,
         address to,

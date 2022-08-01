@@ -95,7 +95,7 @@ export interface BestTradeOptions {
  */
 function wrappedAmount(currencyAmount: CurrencyAmount, wdc: WDC): CurrencyAmount {
     if (currencyAmount.currency.isToken) return currencyAmount;
-    if (currencyAmount.currency.isEther) return new CurrencyAmount(wdc, currencyAmount.raw);
+    if (currencyAmount.currency.isDogechain) return new CurrencyAmount(wdc, currencyAmount.raw);
     throw new Error("CURRENCY");
 }
 
@@ -186,13 +186,13 @@ export class Trade {
             tradeType === TradeType.EXACT_INPUT
                 ? amount
                 : route.input === DOGECHAIN
-                ? CurrencyAmount.ether(amounts[0].raw)
+                ? CurrencyAmount.dogechain(amounts[0].raw)
                 : amounts[0];
         this.outputAmount =
             tradeType === TradeType.EXACT_OUTPUT
                 ? amount
                 : route.output === DOGECHAIN
-                ? CurrencyAmount.ether(amounts[amounts.length - 1].raw)
+                ? CurrencyAmount.dogechain(amounts[amounts.length - 1].raw)
                 : amounts[amounts.length - 1];
         this.executionPrice = new Price(
             this.inputAmount.currency,

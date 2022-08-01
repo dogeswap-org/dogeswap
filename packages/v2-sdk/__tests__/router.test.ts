@@ -38,7 +38,7 @@ describe("Router", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactIn(
                         new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
-                        CurrencyAmount.ether(JSBI.BigInt(100)),
+                        CurrencyAmount.dogechain(JSBI.BigInt(100)),
                         testWDC,
                         factoryAddress,
                     ),
@@ -48,7 +48,7 @@ describe("Router", () => {
                         allowedSlippage: new Percent("1", "100"),
                     },
                 );
-                expect(result.methodName).toEqual("swapExactETHForTokens");
+                expect(result.methodName).toEqual("swapExactDCForTokens");
                 expect(result.args.slice(0, -1)).toEqual([
                     "0x51",
                     [testWDC.address, token0.address, token1.address],
@@ -62,7 +62,7 @@ describe("Router", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactIn(
                         new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
-                        CurrencyAmount.ether(JSBI.BigInt(100)),
+                        CurrencyAmount.dogechain(JSBI.BigInt(100)),
                         testWDC,
                         factoryAddress,
                     ),
@@ -72,7 +72,7 @@ describe("Router", () => {
                         allowedSlippage: new Percent("1", "100"),
                     },
                 );
-                expect(result.methodName).toEqual("swapExactETHForTokens");
+                expect(result.methodName).toEqual("swapExactDCForTokens");
                 expect(result.args).toEqual([
                     "0x51",
                     [testWDC.address, token0.address, token1.address],
@@ -96,7 +96,7 @@ describe("Router", () => {
                         allowedSlippage: new Percent("1", "100"),
                     },
                 );
-                expect(result.methodName).toEqual("swapExactTokensForETH");
+                expect(result.methodName).toEqual("swapExactTokensForDC");
                 expect(result.args.slice(0, -1)).toEqual([
                     "0x64",
                     "0x51",
@@ -146,7 +146,7 @@ describe("Router", () => {
                         allowedSlippage: new Percent("1", "100"),
                     },
                 );
-                expect(result.methodName).toEqual("swapETHForExactTokens");
+                expect(result.methodName).toEqual("swapDCForExactTokens");
                 expect(result.args.slice(0, -1)).toEqual([
                     "0x64",
                     [testWDC.address, token0.address, token1.address],
@@ -159,7 +159,7 @@ describe("Router", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactOut(
                         new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
-                        CurrencyAmount.ether(JSBI.BigInt(100)),
+                        CurrencyAmount.dogechain(JSBI.BigInt(100)),
                         testWDC,
                         factoryAddress,
                     ),
@@ -169,7 +169,7 @@ describe("Router", () => {
                         allowedSlippage: new Percent("1", "100"),
                     },
                 );
-                expect(result.methodName).toEqual("swapTokensForExactETH");
+                expect(result.methodName).toEqual("swapTokensForExactDC");
                 expect(result.args.slice(0, -1)).toEqual([
                     "0x64",
                     "0x80",
@@ -210,7 +210,7 @@ describe("Router", () => {
                     const result = Router.swapCallParameters(
                         Trade.exactIn(
                             new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
-                            CurrencyAmount.ether(JSBI.BigInt(100)),
+                            CurrencyAmount.dogechain(JSBI.BigInt(100)),
                             testWDC,
                             factoryAddress,
                         ),
@@ -221,7 +221,7 @@ describe("Router", () => {
                             feeOnTransfer: true,
                         },
                     );
-                    expect(result.methodName).toEqual("swapExactETHForTokensSupportingFeeOnTransferTokens");
+                    expect(result.methodName).toEqual("swapExactDCForTokensSupportingFeeOnTransferTokens");
                     expect(result.args.slice(0, -1)).toEqual([
                         "0x51",
                         [testWDC.address, token0.address, token1.address],
@@ -245,7 +245,7 @@ describe("Router", () => {
                             feeOnTransfer: true,
                         },
                     );
-                    expect(result.methodName).toEqual("swapExactTokensForETHSupportingFeeOnTransferTokens");
+                    expect(result.methodName).toEqual("swapExactTokensForDCSupportingFeeOnTransferTokens");
                     expect(result.args.slice(0, -1)).toEqual([
                         "0x64",
                         "0x51",
@@ -305,7 +305,7 @@ describe("Router", () => {
                         Router.swapCallParameters(
                             Trade.exactOut(
                                 new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
-                                CurrencyAmount.ether(JSBI.BigInt(100)),
+                                CurrencyAmount.dogechain(JSBI.BigInt(100)),
                                 testWDC,
                                 factoryAddress,
                             ),

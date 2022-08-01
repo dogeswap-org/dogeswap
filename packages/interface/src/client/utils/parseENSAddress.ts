@@ -1,5 +1,6 @@
 const ENS_NAME_REGEX = /^(([a-zA-Z0-9]+\.)+)eth(\/.*)?$/;
 
+// TODO: Maybe we should remove all this ENS code?
 export function parseENSAddress(ensAddress: string): { ensName: string; ensPath: string | undefined } | undefined {
     const match = ensAddress.match(ENS_NAME_REGEX);
     if (!match) return undefined;

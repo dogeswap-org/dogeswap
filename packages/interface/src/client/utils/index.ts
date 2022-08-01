@@ -24,7 +24,7 @@ const explorerPrefixes = {
     [ChainId.LOCALNET]: "explorer-testnet",
 };
 
-export function getEtherscanLink(
+export function getExplorerLink(
     chainId: ChainId,
     data: string,
     type: "transaction" | "token" | "address" | "block",

@@ -86,7 +86,7 @@ export function useDerivedMintInfo(
                         ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
                         : pair.priceOf(tokenB).quote(wrappedIndependentAmount);
                 return dependentCurrency === DOGECHAIN
-                    ? CurrencyAmount.ether(dependentCurrencyAmount.raw)
+                    ? CurrencyAmount.dogechain(dependentCurrencyAmount.raw)
                     : dependentCurrencyAmount;
             }
             return undefined;

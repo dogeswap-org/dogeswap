@@ -26,7 +26,7 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
     }
 
     receive() external payable {
-        assert(msg.sender == WDC); // only accept ETH via fallback from the WDC contract
+        assert(msg.sender == WDC); // only accept DC via fallback from the WDC contract
     }
 
     // **** ADD LIQUIDITY ****
@@ -86,11 +86,11 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         liquidity = IDogeSwapV2Pair(pair).mint(to);
     }
 
-    function addLiquidityETH(
+    function addLiquidityDC(
         address token,
         uint amountTokenDesired,
         uint amountTokenMin,
-        uint amountETHMin,
+        uint amountDCMin,
         address to,
         uint deadline
     )
@@ -101,25 +101,18 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         ensure(deadline)
         returns (
             uint amountToken,
-            uint amountETH,
+            uint amountDC,
             uint liquidity
         )
     {
-        (amountToken, amountETH) = _addLiquidity(
-            token,
-            WDC,
-            amountTokenDesired,
-            msg.value,
-            amountTokenMin,
-            amountETHMin
-        );
+        (amountToken, amountDC) = _addLiquidity(token, WDC, amountTokenDesired, msg.value, amountTokenMin, amountDCMin);
         address pair = DogeSwapV2Library.pairFor(factory, token, WDC);
         TransferHelper.safeTransferFrom(token, msg.sender, pair, amountToken);
-        IWDC(WDC).deposit{value: amountETH}();
-        assert(IWDC(WDC).transfer(pair, amountETH));
+        IWDC(WDC).deposit{value: amountDC}();
+        assert(IWDC(WDC).transfer(pair, amountDC));
         liquidity = IDogeSwapV2Pair(pair).mint(to);
-        // refund dust eth, if any
-        if (msg.value > amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH);
+        // refund dust DC, if any
+        if (msg.value > amountDC) TransferHelper.safeTransferETH(msg.sender, msg.value - amountDC);
     }
 
     // **** REMOVE LIQUIDITY ****
@@ -141,26 +134,26 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         require(amountB >= amountBMin, "DogeSwapV2Router: INSUFFICIENT_B_AMOUNT");
     }
 
-    function removeLiquidityETH(
+    function removeLiquidityDC(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountETHMin,
+        uint amountDCMin,
         address to,
         uint deadline
-    ) public virtual override ensure(deadline) returns (uint amountToken, uint amountETH) {
-        (amountToken, amountETH) = removeLiquidity(
+    ) public virtual override ensure(deadline) returns (uint amountToken, uint amountDC) {
+        (amountToken, amountDC) = removeLiquidity(
             token,
             WDC,
             liquidity,
             amountTokenMin,
-            amountETHMin,
+            amountDCMin,
             address(this),
             deadline
         );
         TransferHelper.safeTransfer(token, to, amountToken);
-        IWDC(WDC).withdraw(amountETH);
-        TransferHelper.safeTransferETH(to, amountETH);
+        IWDC(WDC).withdraw(amountDC);
+        TransferHelper.safeTransferETH(to, amountDC);
     }
 
     function removeLiquidityWithPermit(
@@ -182,59 +175,59 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         (amountA, amountB) = removeLiquidity(tokenA, tokenB, liquidity, amountAMin, amountBMin, to, deadline);
     }
 
-    function removeLiquidityETHWithPermit(
+    function removeLiquidityDCWithPermit(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountETHMin,
+        uint amountDCMin,
         address to,
         uint deadline,
         bool approveMax,
         uint8 v,
         bytes32 r,
         bytes32 s
-    ) external virtual override returns (uint amountToken, uint amountETH) {
+    ) external virtual override returns (uint amountToken, uint amountDC) {
         address pair = DogeSwapV2Library.pairFor(factory, token, WDC);
         uint value = approveMax ? uint(-1) : liquidity;
         IDogeSwapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
-        (amountToken, amountETH) = removeLiquidityETH(token, liquidity, amountTokenMin, amountETHMin, to, deadline);
+        (amountToken, amountDC) = removeLiquidityDC(token, liquidity, amountTokenMin, amountDCMin, to, deadline);
     }
 
     // **** REMOVE LIQUIDITY (supporting fee-on-transfer tokens) ****
-    function removeLiquidityETHSupportingFeeOnTransferTokens(
+    function removeLiquidityDCSupportingFeeOnTransferTokens(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountETHMin,
+        uint amountDCMin,
         address to,
         uint deadline
-    ) public virtual override ensure(deadline) returns (uint amountETH) {
-        (, amountETH) = removeLiquidity(token, WDC, liquidity, amountTokenMin, amountETHMin, address(this), deadline);
+    ) public virtual override ensure(deadline) returns (uint amountDC) {
+        (, amountDC) = removeLiquidity(token, WDC, liquidity, amountTokenMin, amountDCMin, address(this), deadline);
         TransferHelper.safeTransfer(token, to, IERC20(token).balanceOf(address(this)));
-        IWDC(WDC).withdraw(amountETH);
-        TransferHelper.safeTransferETH(to, amountETH);
+        IWDC(WDC).withdraw(amountDC);
+        TransferHelper.safeTransferETH(to, amountDC);
     }
 
-    function removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
+    function removeLiquidityDCWithPermitSupportingFeeOnTransferTokens(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountETHMin,
+        uint amountDCMin,
         address to,
         uint deadline,
         bool approveMax,
         uint8 v,
         bytes32 r,
         bytes32 s
-    ) external virtual override returns (uint amountETH) {
+    ) external virtual override returns (uint amountDC) {
         address pair = DogeSwapV2Library.pairFor(factory, token, WDC);
         uint value = approveMax ? uint(-1) : liquidity;
         IDogeSwapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
-        amountETH = removeLiquidityETHSupportingFeeOnTransferTokens(
+        amountDC = removeLiquidityDCSupportingFeeOnTransferTokens(
             token,
             liquidity,
             amountTokenMin,
-            amountETHMin,
+            amountDCMin,
             to,
             deadline
         );
@@ -298,7 +291,7 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         _swap(amounts, path, to);
     }
 
-    function swapExactETHForTokens(
+    function swapExactDCForTokens(
         uint amountOutMin,
         address[] calldata path,
         address to,
@@ -312,7 +305,7 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         _swap(amounts, path, to);
     }
 
-    function swapTokensForExactETH(
+    function swapTokensForExactDC(
         uint amountOut,
         uint amountInMax,
         address[] calldata path,
@@ -333,7 +326,7 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         TransferHelper.safeTransferETH(to, amounts[amounts.length - 1]);
     }
 
-    function swapExactTokensForETH(
+    function swapExactTokensForDC(
         uint amountIn,
         uint amountOutMin,
         address[] calldata path,
@@ -354,7 +347,7 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         TransferHelper.safeTransferETH(to, amounts[amounts.length - 1]);
     }
 
-    function swapETHForExactTokens(
+    function swapDCForExactTokens(
         uint amountOut,
         address[] calldata path,
         address to,
@@ -366,7 +359,7 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         IWDC(WDC).deposit{value: amounts[0]}();
         assert(IWDC(WDC).transfer(DogeSwapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
         _swap(amounts, path, to);
-        // refund dust eth, if any
+        // refund dust DC, if any
         if (msg.value > amounts[0]) TransferHelper.safeTransferETH(msg.sender, msg.value - amounts[0]);
     }
 
@@ -413,7 +406,7 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         );
     }
 
-    function swapExactETHForTokensSupportingFeeOnTransferTokens(
+    function swapExactDCForTokensSupportingFeeOnTransferTokens(
         uint amountOutMin,
         address[] calldata path,
         address to,
@@ -431,7 +424,7 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         );
     }
 
-    function swapExactTokensForETHSupportingFeeOnTransferTokens(
+    function swapExactTokensForDCSupportingFeeOnTransferTokens(
         uint amountIn,
         uint amountOutMin,
         address[] calldata path,

@@ -16,7 +16,7 @@ import Close from "../../../../assets/embedded/x.svg";
 import { injected, walletconnect, walletlink } from "../../connectors";
 import { SUPPORTED_WALLETS } from "../../constants";
 import { ExternalLink, LinkStyledButton, TYPE } from "../../theme";
-import { getEtherscanLink } from "../../utils";
+import { getExplorerLink } from "../../utils";
 import { ButtonSecondary } from "../Button";
 import Identicon from "../Identicon";
 
@@ -333,10 +333,10 @@ export default function AccountDetails({
                                                     <AddressLink
                                                         hasENS={!!ENSName}
                                                         isENS={true}
-                                                        href={chainId && getEtherscanLink(chainId, ENSName, "address")}
+                                                        href={chainId && getExplorerLink(chainId, ENSName, "address")}
                                                     >
                                                         <LinkIcon size={16} />
-                                                        <span style={{ marginLeft: "4px" }}>View on Etherscan</span>
+                                                        <span style={{ marginLeft: "4px" }}>View on Explorer</span>
                                                     </AddressLink>
                                                 )}
                                             </div>
@@ -355,10 +355,10 @@ export default function AccountDetails({
                                                     <AddressLink
                                                         hasENS={!!ENSName}
                                                         isENS={false}
-                                                        href={getEtherscanLink(chainId, account, "address")}
+                                                        href={getExplorerLink(chainId, account, "address")}
                                                     >
                                                         <LinkIcon size={16} />
-                                                        <span style={{ marginLeft: "4px" }}>View on Etherscan</span>
+                                                        <span style={{ marginLeft: "4px" }}>View on Explorer</span>
                                                     </AddressLink>
                                                 )}
                                             </div>

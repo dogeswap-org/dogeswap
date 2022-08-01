@@ -3,27 +3,27 @@ pragma solidity >=0.6.2;
 import "./IDogeSwapV2Router01.sol";
 
 interface IDogeSwapV2Router02 is IDogeSwapV2Router01 {
-    function removeLiquidityETHSupportingFeeOnTransferTokens(
+    function removeLiquidityDCSupportingFeeOnTransferTokens(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountETHMin,
+        uint amountDCMin,
         address to,
         uint deadline
-    ) external returns (uint amountETH);
+    ) external returns (uint amountDC);
 
-    function removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
+    function removeLiquidityDCWithPermitSupportingFeeOnTransferTokens(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountETHMin,
+        uint amountDCMin,
         address to,
         uint deadline,
         bool approveMax,
         uint8 v,
         bytes32 r,
         bytes32 s
-    ) external returns (uint amountETH);
+    ) external returns (uint amountDC);
 
     function swapExactTokensForTokensSupportingFeeOnTransferTokens(
         uint amountIn,
@@ -33,14 +33,14 @@ interface IDogeSwapV2Router02 is IDogeSwapV2Router01 {
         uint deadline
     ) external;
 
-    function swapExactETHForTokensSupportingFeeOnTransferTokens(
+    function swapExactDCForTokensSupportingFeeOnTransferTokens(
         uint amountOutMin,
         address[] calldata path,
         address to,
         uint deadline
     ) external payable;
 
-    function swapExactTokensForETHSupportingFeeOnTransferTokens(
+    function swapExactTokensForDCSupportingFeeOnTransferTokens(
         uint amountIn,
         uint amountOutMin,
         address[] calldata path,

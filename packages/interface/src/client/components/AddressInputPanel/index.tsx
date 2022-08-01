@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { useActiveWeb3React } from "../../hooks";
 import { ExternalLink, TYPE } from "../../theme";
-import { getEtherscanLink } from "../../utils";
+import { getExplorerLink } from "../../utils";
 import { AutoColumn } from "../Column";
 import { RowBetween } from "../Row";
 
@@ -100,10 +100,10 @@ export default function AddressInputPanel({
                             </TYPE.black>
                             {value && chainId && (
                                 <ExternalLink
-                                    href={getEtherscanLink(chainId, value, "address")}
+                                    href={getExplorerLink(chainId, value, "address")}
                                     style={{ fontSize: "14px" }}
                                 >
-                                    (View on Etherscan)
+                                    (View on Explorer)
                                 </ExternalLink>
                             )}
                         </RowBetween>
