@@ -21,7 +21,7 @@ describe("computePairAddress", () => {
             tokenB,
         });
 
-        expect(result).toEqual("0x72E36F52E06B8adC0FAAF3ef1C84d15350ad5f27");
+        expect(result).toEqual("0x40acd5101938facB56B59Ca611fF512f9C6ACBe8");
     });
     it("should give same result regardless of token order", () => {
         const USDC = new Token(ChainId.MAINNET, "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 18, "USDC", "USD Coin");
@@ -66,7 +66,7 @@ describe("Pair", () => {
 
     describe("#getAddress", () => {
         it("returns the correct address", () => {
-            expect(Pair.getAddress(USDC, DAI, factoryAddress)).toEqual("0x72E36F52E06B8adC0FAAF3ef1C84d15350ad5f27");
+            expect(Pair.getAddress(USDC, DAI, factoryAddress)).toEqual("0x40acd5101938facB56B59Ca611fF512f9C6ACBe8");
         });
     });
 

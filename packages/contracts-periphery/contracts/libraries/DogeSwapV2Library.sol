@@ -30,7 +30,7 @@ library DogeSwapV2Library {
                         keccak256(abi.encodePacked(token0, token1)),
                         // Init code hash. Must correspond with the value in v2-sdk constants. The value is calculated and
                         // verified in unit tests.
-                        hex"8860968d16c7477a11e04101ca0b08ed3ce4935e02cf4f2bd95d75571e863bfa"
+                        hex"bfc2d4e06b5c176871b6144c7de089666b9ec72c1d8ba86002bfc8ea119b2419"
                     )
                 )
             )

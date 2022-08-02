@@ -69,6 +69,8 @@ describe("DogeSwapV2Pair", () => {
         await token1.transfer(pair.address, token1Amount);
         await pair.mint(wallet.address, overrides);
     }
+
+    // TODO
     const swapTestCases: BigNumber[][] = [
         [1, 5, 10, "1662497915624478906"],
         [1, 10, 5, "453305446940074565"],
@@ -93,10 +95,10 @@ describe("DogeSwapV2Pair", () => {
     });
 
     const optimisticTestCases: BigNumber[][] = [
-        ["997000000000000000", 5, 10, 1], // given amountIn, amountOut = floor(amountIn * .997)
-        ["997000000000000000", 10, 5, 1],
-        ["997000000000000000", 5, 5, 1],
-        [1, 5, 5, "1003009027081243732"], // given amountOut, amountIn = ceiling(amountOut / .997)
+        ["998000000000000000", 5, 10, 1], // given amountIn, amountOut = floor(amountIn * .998)
+        ["998000000000000000", 10, 5, 1],
+        ["998000000000000000", 5, 5, 1],
+        [1, 5, 5, "1003009027081243732"], // given amountOut, amountIn = ceiling(amountOut / .997) // TODO
     ].map((a) => a.map((n) => (typeof n === "string" ? BigNumber.from(n) : expandTo18Decimals(n))));
     optimisticTestCases.forEach((optimisticTestCase, i) => {
         it(`optimistic:${i}`, async () => {

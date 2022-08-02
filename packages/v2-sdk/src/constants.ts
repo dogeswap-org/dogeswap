@@ -1,7 +1,7 @@
 import JSBI from "jsbi";
 
 // Must match the value in DogeSwapV2Library.sol
-export const INIT_CODE_HASH = "0x8860968d16c7477a11e04101ca0b08ed3ce4935e02cf4f2bd95d75571e863bfa";
+export const INIT_CODE_HASH = "0xbfc2d4e06b5c176871b6144c7de089666b9ec72c1d8ba86002bfc8ea119b2419";
 
 export const MINIMUM_LIQUIDITY = JSBI.BigInt(1000);
 
