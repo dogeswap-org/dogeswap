@@ -28,10 +28,10 @@ library DogeSwapV2LiquidityMathLibrary {
             FullMath.mulDiv(
                 invariant.mul(1000),
                 aToB ? truePriceTokenA : truePriceTokenB,
-                (aToB ? truePriceTokenB : truePriceTokenA).mul(997)
+                (aToB ? truePriceTokenB : truePriceTokenA).mul(998)
             )
         );
-        uint rightSide = (aToB ? reserveA.mul(1000) : reserveB.mul(1000)) / 997;
+        uint rightSide = (aToB ? reserveA.mul(1000) : reserveB.mul(1000)) / 998;
 
         if (leftSide < rightSide) return (false, 0);
 
