@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import { task, types } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { promptPassword } from "./deploy-utils";
+import { deployExternalContracts, promptPassword } from "./deploy-utils";
 
 const arrayify = (arg: any) =>
     (arg as string)
@@ -70,5 +70,5 @@ task("deploy")
         const wallet = await getWallet(walletPath, hre);
         const contracts = contractsString === "*" ? contractsString : arrayify(contractsString);
         const erc20 = arrayify(erc20String);
-        console.log(wdc, factory, contracts, erc20, wallet, hre);
+        await deployExternalContracts(wdc, factory, contracts, erc20, wallet, hre);
     });
