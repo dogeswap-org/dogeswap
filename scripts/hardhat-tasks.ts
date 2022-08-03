@@ -1,4 +1,3 @@
-import { Wallet } from "ethers";
 import fs from "fs/promises";
 import { task, types } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
@@ -10,15 +9,34 @@ import { promptPassword } from "./deploy-utils";
 //         .map((x) => x.trim())
 //         .filter((x) => x != undefined && x !== "");
 
-const getWallet = async (walletPath: string, hre: HardhatRuntimeEnvironment) => {
+const tryGetJsonWallet = async (walletPath: string, hre: HardhatRuntimeEnvironment) => {
     const walletJson = await fs.readFile(walletPath, { encoding: "utf8" });
-    let wallet: Wallet;
-    const walletObject = JSON.parse(walletJson);
-    if (typeof walletObject.owner === "object" && typeof walletObject.owner.privateKey === "string") {
-        wallet = new hre.ethers.Wallet(walletObject.owner.privateKey);
-    } else {
-        const walletPassword = await promptPassword();
-        wallet = await hre.ethers.Wallet.fromEncryptedJson(walletJson, walletPassword);
+    try {
+        JSON.parse(walletJson);
+    } catch {
+        return undefined;
+    }
+
+    const walletPassword = await promptPassword();
+    return await hre.ethers.Wallet.fromEncryptedJson(walletJson, walletPassword);
+};
+
+const tryGetJsWallet = async (walletPath: string, hre: HardhatRuntimeEnvironment) => {
+    try {
+        const wallet = require(walletPath);
+        if (typeof wallet.owner === "object" && typeof wallet.owner.privateKey === "string") {
+            return new hre.ethers.Wallet(wallet.owner.privateKey);
+        }
+    } catch {}
+
+    return undefined;
+};
+
+const getWallet = async (walletPath: string, hre: HardhatRuntimeEnvironment) => {
+    const wallet = (await tryGetJsonWallet(walletPath, hre)) ?? (await tryGetJsWallet(walletPath, hre));
+    if (wallet == undefined) {
+        console.error("Could not instantiate wallet");
+        process.exit(1);
     }
 
     return wallet.connect(hre.ethers.provider);
