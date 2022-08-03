@@ -12,7 +12,7 @@
     ],
     "packageManager": "yarn@3.2.2",
     "scripts": {
-        "build": "yarn workspaces foreach run build",
+        "build": "concurrently \"yarn workspace @dogeswap/contracts-core build && yarn workspace @dogeswap/contracts-periphery build\" \"yarn workspace @dogeswap/sdk-core build && yarn workspace @dogeswap/v2-sdk build\" && yarn workspace @dogeswap/interface build",
         "clean": "yarn workspaces foreach run clean && hardhat clean",
         "dev": "concurrently \"yarn localnet:run\" \"yarn localnet:deploy\" \"yarn interface:run\"",
         "interface:run": "yarn workspace @dogeswap/interface dev",

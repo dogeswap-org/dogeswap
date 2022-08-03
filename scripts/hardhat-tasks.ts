@@ -1,13 +1,13 @@
 import fs from "fs/promises";
 import { task, types } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { promptPassword } from "./deploy-utils";
+import { deployExternalContracts, promptPassword } from "./deploy-utils";
 
-// const arrayify = (arg: any) =>
-//     (arg as string)
-//         .split(",")
-//         .map((x) => x.trim())
-//         .filter((x) => x != undefined && x !== "");
+const arrayify = (arg: any) =>
+    (arg as string)
+        .split(",")
+        .map((x) => x.trim())
+        .filter((x) => x != undefined && x !== "");
 
 const tryGetJsonWallet = async (walletPath: string, hre: HardhatRuntimeEnvironment) => {
     const walletJson = await fs.readFile(walletPath, { encoding: "utf8" });
@@ -63,10 +63,9 @@ task("deploy")
         undefined,
         types.string,
     )
-    .setAction(
-        async ({ contracts: _contractsString, erc20: _erc20String, factory: _, wallet: walletPath, wdc: __ }, hre) => {
-            const wallet = await getWallet(walletPath, hre);
-            console.log("SUCCESSFULLY RETRIEVED WALLET", await wallet.getAddress());
-            return;
-        },
-    );
+    .setAction(async ({ contracts: contractsString, erc20: erc20String, factory, wallet: walletPath, wdc }, hre) => {
+        const wallet = await getWallet(walletPath, wdc);
+        const contracts = contractsString === "*" ? contractsString : arrayify(contractsString);
+        const erc20 = arrayify(erc20String);
+        await deployExternalContracts(wdc, factory, contracts, erc20, wallet, hre);
+    });
