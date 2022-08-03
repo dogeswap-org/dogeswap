@@ -18,6 +18,7 @@
         "interface:run": "yarn workspace @dogeswap/interface dev",
         "localnet:run": "yarn hardhat node",
         "localnet:deploy": "concurrently \"yarn workspace @dogeswap/contracts-core build\" \"yarn workspace @dogeswap/contracts-periphery build\" && yarn hardhat run --network localhost scripts/run-localnet.ts",
+        "mainnet:deploy": "yarn build && yarn hardhat deploy --network mainnet",
         "test": "yarn workspaces foreach run test",
         "testnet:deploy": "yarn build && yarn hardhat deploy --network testnet"
     },

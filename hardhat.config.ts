@@ -13,6 +13,11 @@ const config: HardhatUserConfig = {
             chainId: 568,
             allowUnlimitedContractSize: true,
         },
+        mainnet: {
+            url: "https://rpc01-sg.dogechain.dog",
+            chainId: 2000,
+            allowUnlimitedContractSize: true,
+        },
     },
 };
 
