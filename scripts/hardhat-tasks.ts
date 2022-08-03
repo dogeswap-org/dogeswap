@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import { task, types } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { deployExternalContracts, promptPassword } from "./deploy-utils";
+import { promptPassword } from "./deploy-utils";
 
 const arrayify = (arg: any) =>
     (arg as string)
@@ -67,8 +67,8 @@ task("deploy")
         types.string,
     )
     .setAction(async ({ contracts: contractsString, erc20: erc20String, factory, wallet: walletPath, wdc }, hre) => {
-        const wallet = await getWallet(walletPath, wdc);
+        const wallet = await getWallet(walletPath, hre);
         const contracts = contractsString === "*" ? contractsString : arrayify(contractsString);
         const erc20 = arrayify(erc20String);
-        await deployExternalContracts(wdc, factory, contracts, erc20, wallet, hre);
+        console.log(wdc, factory, contracts, erc20, wallet, hre);
     });
