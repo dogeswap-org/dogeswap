@@ -22,9 +22,9 @@ import { Field } from "../../state/mint/actions";
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from "../../state/mint/hooks";
 
 import { Currency, CurrencyAmount, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
+import { getAddress } from "../../../common/addresses";
+import { getToken } from "../../../common/tokens";
 import { ButtonError, ButtonLight, ButtonPrimary } from "../../components/Button";
-import { getAddress } from "../../constants/addresses";
-import { getToken } from "../../constants/tokens";
 import { ApprovalState, useApproveCallback } from "../../hooks/useApproveCallback";
 import { useTransactionAdder } from "../../state/transactions/hooks";
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from "../../state/user/hooks";

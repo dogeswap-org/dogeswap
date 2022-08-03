@@ -1,7 +1,7 @@
 import { ChainId, Currency, currencyEquals, Price } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import { useMemo } from "react";
-import { getToken } from "../constants/tokens";
+import { getToken } from "../../common/tokens";
 import { PairState, usePairs } from "../data/Reserves";
 import { useActiveWeb3React } from "../hooks";
 import { wrappedCurrency } from "./wrappedCurrency";

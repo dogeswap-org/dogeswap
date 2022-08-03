@@ -25,9 +25,9 @@ import { usePairContract } from "../../hooks/useContract";
 
 import { Currency, currencyEquals, DOGECHAIN, Percent } from "@dogeswap/sdk-core";
 import { BigNumber } from "@ethersproject/bignumber";
+import { getAddress } from "../../../common/addresses";
+import { getToken } from "../../../common/tokens";
 import { Dots } from "../../components/swap/styleds";
-import { getAddress } from "../../constants/addresses";
-import { getToken } from "../../constants/tokens";
 import { ApprovalState, useApproveCallback } from "../../hooks/useApproveCallback";
 import { useWalletModalToggle } from "../../state/application/hooks";
 import { Field } from "../../state/burn/actions";

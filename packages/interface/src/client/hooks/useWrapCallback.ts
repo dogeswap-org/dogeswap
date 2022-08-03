@@ -1,6 +1,6 @@
 import { Currency, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
 import { useMemo } from "react";
-import { getToken } from "../constants/tokens";
+import { getToken } from "../../common/tokens";
 import { tryParseAmount } from "../state/swap/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import { useCurrencyBalance } from "../state/wallet/hooks";

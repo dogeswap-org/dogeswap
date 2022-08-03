@@ -5,7 +5,7 @@ import JSBI from "jsbi";
 import { ParsedQs } from "qs";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addresses } from "../../constants/addresses";
+import { addresses } from "../../../common/addresses";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { useTradeExactIn, useTradeExactOut } from "../../hooks/Trades";

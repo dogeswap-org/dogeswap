@@ -13,12 +13,13 @@ interface InfrastructureAddress {
 export const addresses = {
     [ChainId.MAINNET]: {
         infrastructure: {
-            factory: "0x0000000000000000000000000000000000000000",
-            router: "0x0000000000000000000000000000000000000000",
-            multicall: "0x0000000000000000000000000000000000000000",
+            factory: "0x2Ac38D8F5eDAee0cbFEbFD3b5a7ac5433B9D9E10",
+            router: "0x4fd1AdFf6c2cE65a20eA9c8a4158Ca631d3181e4",
+            multicall: "0xCE12Ba615EE0BD5b4994fd5f7a9c3C141f9ee821",
             ensRegistrar: "0x0000000000000000000000000000000000000000",
         } as InfrastructureAddress,
         tokens: {
+            omnom: "0xe3fcA919883950c5cD468156392a6477Ff5d18de",
             wdc: "0x0000000000000000000000000000000000000000",
         },
     },

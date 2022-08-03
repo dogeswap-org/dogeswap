@@ -3,8 +3,8 @@ import { Pair } from "@dogeswap/v2-sdk";
 import flatMap from "lodash.flatmap";
 import { useCallback, useMemo } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { addresses } from "../../../common/addresses";
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from "../../constants";
-import { addresses } from "../../constants/addresses";
 
 import { useActiveWeb3React } from "../../hooks";
 import { useAllTokens } from "../../hooks/Tokens";

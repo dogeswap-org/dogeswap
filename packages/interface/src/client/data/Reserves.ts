@@ -5,7 +5,7 @@ import { useActiveWeb3React } from "../hooks";
 
 import { Currency, CurrencyAmount } from "@dogeswap/sdk-core";
 import { Pair } from "@dogeswap/v2-sdk";
-import { getAddress } from "../constants/addresses";
+import { getAddress } from "../../common/addresses";
 import { useMultipleContractSingleData } from "../hooks/Multicall";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 

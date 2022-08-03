@@ -5,8 +5,8 @@ import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
 import JSBI from "jsbi";
+import { addresses } from "../../common/addresses";
 import { iDogeSwapV2Router02Abi } from "../constants/abis";
-import { addresses } from "../constants/addresses";
 import { TokenAddressMap } from "../state/lists/hooks";
 
 // returns the checksummed address if the address is valid, otherwise returns false

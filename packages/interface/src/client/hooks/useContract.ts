@@ -1,8 +1,8 @@
 import { Contract } from "@ethersproject/contracts";
 import { useMemo } from "react";
+import { getAddress } from "../../common/addresses";
+import { getToken } from "../../common/tokens";
 import { erc20Abi, iDogeSwapV2PairAbi, multicallAbi, wdcAbiChainMap } from "../constants/abis";
-import { getAddress } from "../constants/addresses";
-import { getToken } from "../constants/tokens";
 import { getContract } from "../utils";
 import { useActiveWeb3React } from "./index";
 

@@ -2,7 +2,7 @@ import { ChainId } from "@dogeswap/sdk-core";
 import { Provider } from "@ethersproject/abstract-provider";
 import { Contract } from "@ethersproject/contracts";
 import { namehash } from "ethers/lib/utils";
-import { addresses } from "../constants/addresses";
+import { addresses } from "../../common/addresses";
 
 const REGISTRAR_ABI = [
     {

@@ -3,9 +3,9 @@ import { Pair, Trade } from "@dogeswap/v2-sdk";
 import flatMap from "lodash.flatmap";
 import { useMemo } from "react";
 
+import { getAddress } from "../../common/addresses";
+import { getToken } from "../../common/tokens";
 import { BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES } from "../constants";
-import { getAddress } from "../constants/addresses";
-import { getToken } from "../constants/tokens";
 import { PairState, usePairs } from "../data/Reserves";
 import { wrappedCurrency } from "../utils/wrappedCurrency";
 

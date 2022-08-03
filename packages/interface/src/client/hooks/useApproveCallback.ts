@@ -4,7 +4,7 @@ import { MaxUint256 } from "@ethersproject/constants";
 import { TransactionResponse } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import { useCallback, useMemo } from "react";
-import { getAddress } from "../constants/addresses";
+import { getAddress } from "../../common/addresses";
 import { useTokenAllowance } from "../data/Allowances";
 import { Field } from "../state/swap/actions";
 import { useHasPendingApproval, useTransactionAdder } from "../state/transactions/hooks";

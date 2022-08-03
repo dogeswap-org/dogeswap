@@ -1,5 +1,5 @@
 import { ChainId, Currency, CurrencyAmount, DOGECHAIN, Token } from "@dogeswap/sdk-core";
-import { getToken } from "../constants/tokens";
+import { getToken } from "../../common/tokens";
 
 // TODO: update this to use DS instead of DOGECHAIN and update currency to accept DS instead of DOGECHAIN
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {

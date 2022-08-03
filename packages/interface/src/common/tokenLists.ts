@@ -1,9 +1,10 @@
 import { ChainId } from "@dogeswap/sdk-core";
 import { TokenList } from "@uniswap/token-lists";
-import DogeSwapLogo from "../../../assets/embedded/logo.png";
 import { SupportedToken, tokens } from "./tokens";
 
 const unlistedTokens: SupportedToken[] = ["wdc"];
+
+const chainLogoMap: Record<string, string> = {};
 
 const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
     const listTokens = Object.entries(tokens[chainId])
@@ -14,7 +15,7 @@ const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
             name: token.name,
             symbol: token.symbol,
             decimals: token.decimals,
-            logoURI: "https://assets.coingecko.com/coins/images/4490/thumb/aergo.png?1647696770",
+            logoURI: chainLogoMap[token.symbol] ?? "https://about.dogeswap.org/assets/chain.svg",
         }));
 
     return {
@@ -26,7 +27,7 @@ const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
             patch: 0,
         },
         tags: {},
-        logoURI: DogeSwapLogo,
+        logoURI: "https://about.dogeswap.org/assets/logo.svg",
         keywords: [],
         tokens: listTokens,
     } as TokenList;

@@ -1,16 +1,13 @@
 import { ChainId, Percent, Token } from "@dogeswap/sdk-core";
 import { AbstractConnector } from "@web3-react/abstract-connector";
 import JSBI from "jsbi";
+import { tokens } from "../../common/tokens";
 import { injected } from "../connectors";
-import { ChainTokens } from "./addresses";
-import { tokens } from "./tokens";
 
 // a list of tokens by chain
 type ChainTokenList = {
     readonly [chainId in ChainId]: Token[];
 };
-
-const createListElement = (chain: ChainId, ...tokens: ChainTokens[]) => tokens.map((x) => x[chain]);
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
