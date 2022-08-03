@@ -1,12 +1,28 @@
+import { Wallet } from "ethers";
 import fs from "fs/promises";
 import { task, types } from "hardhat/config";
-import { deployExternalContracts, promptPassword } from "./deploy-utils";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { promptPassword } from "./deploy-utils";
 
-const arrayify = (arg: any) =>
-    (arg as string)
-        .split(",")
-        .map((x) => x.trim())
-        .filter((x) => x != undefined && x !== "");
+// const arrayify = (arg: any) =>
+//     (arg as string)
+//         .split(",")
+//         .map((x) => x.trim())
+//         .filter((x) => x != undefined && x !== "");
+
+const getWallet = async (walletPath: string, hre: HardhatRuntimeEnvironment) => {
+    const walletJson = await fs.readFile(walletPath, { encoding: "utf8" });
+    let wallet: Wallet;
+    const walletObject = JSON.parse(walletJson);
+    if (typeof walletObject.owner === "object" && typeof walletObject.owner.privateKey === "string") {
+        wallet = new hre.ethers.Wallet(walletObject.owner.privateKey);
+    } else {
+        const walletPassword = await promptPassword();
+        wallet = await hre.ethers.Wallet.fromEncryptedJson(walletJson, walletPassword);
+    }
+
+    return wallet.connect(hre.ethers.provider);
+};
 
 task("deploy")
     .addOptionalParam(
@@ -29,12 +45,10 @@ task("deploy")
         undefined,
         types.string,
     )
-    .setAction(async ({ contracts: contractsString, erc20: erc20String, factory, wallet: walletPath, wdc }, hre) => {
-        const walletPassword = await promptPassword();
-        const walletJson = await fs.readFile(walletPath, { encoding: "utf8" });
-        const walletNoProvider = await hre.ethers.Wallet.fromEncryptedJson(walletJson, walletPassword);
-        const wallet = walletNoProvider.connect(hre.ethers.provider);
-        const contracts = contractsString === "*" ? contractsString : arrayify(contractsString);
-        const erc20 = arrayify(erc20String);
-        await deployExternalContracts(wdc, factory, contracts, erc20, wallet, hre);
-    });
+    .setAction(
+        async ({ contracts: _contractsString, erc20: _erc20String, factory: _, wallet: walletPath, wdc: __ }, hre) => {
+            const wallet = await getWallet(walletPath, hre);
+            console.log("SUCCESSFULLY RETRIEVED WALLET", await wallet.getAddress());
+            return;
+        },
+    );
