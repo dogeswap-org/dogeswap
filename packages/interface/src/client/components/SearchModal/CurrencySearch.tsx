@@ -1,4 +1,4 @@
-import { Currency, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Currency, Token } from "@dogeswap/sdk-core";
 import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactGA from "react-ga";
 import { useTranslation } from "react-i18next";
@@ -9,13 +9,11 @@ import { ThemeContext } from "styled-components";
 import { useActiveWeb3React } from "../../hooks";
 import { useAllTokens, useToken } from "../../hooks/Tokens";
 import { useSelectedListInfo } from "../../state/lists/hooks";
-import { CloseIcon, LinkStyledButton, TYPE } from "../../theme";
+import { CloseIcon } from "../../theme";
 import { isAddress } from "../../utils";
-import Card from "../Card";
 import Column from "../Column";
-import ListLogo from "../ListLogo";
 import QuestionHelper from "../QuestionHelper";
-import Row, { RowBetween } from "../Row";
+import { RowBetween } from "../Row";
 import CommonBases from "./CommonBases";
 import CurrencyList from "./CurrencyList";
 import { filterTokens } from "./filtering";
@@ -66,8 +64,9 @@ export function CurrencySearch({
     }, [isAddressSearch]);
 
     const showDC: boolean = useMemo(() => {
-        const s = searchQuery.toLowerCase().trim();
-        return s === "" || s === "d" || s === "dc";
+        // const s = searchQuery.toLowerCase().trim();
+        // return s === "" || s === "d" || s === "dc";
+        return false; // TODO: reenable after unchaining
     }, [searchQuery]);
 
     const tokenComparator = useTokenComparator(invertSearchOrder);
@@ -120,8 +119,8 @@ export function CurrencySearch({
         (e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") {
                 const s = searchQuery.toLowerCase().trim();
-                if (s === "dc") {
-                    handleCurrencySelect(DOGECHAIN);
+                if (s === "dc" && false) {
+                    // TODO: remove false when unchaine
                 } else if (filteredSortedTokens.length > 0) {
                     if (
                         filteredSortedTokens[0].symbol?.toLowerCase() === searchQuery.trim().toLowerCase() ||
@@ -192,7 +191,8 @@ export function CurrencySearch({
                 </AutoSizer>
             </div>
 
-            <Separator />
+            {/* TODO: enable to show list selection UI */}
+            {/* <Separator />
             <Card>
                 <RowBetween>
                     {selectedListInfo.current ? (
@@ -217,7 +217,7 @@ export function CurrencySearch({
                         {selectedListInfo.current ? "Change" : "Select a list"}
                     </LinkStyledButton>
                 </RowBetween>
-            </Card>
+            </Card> */}
         </Column>
     );
 }

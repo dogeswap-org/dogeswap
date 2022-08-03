@@ -609,11 +609,11 @@ export default function RemoveLiquidity({
                                                     <StyledInternalLink
                                                         to={`/remove/${
                                                             currencyA && currencyEquals(currencyA, wdc)
-                                                                ? "DC"
+                                                                ? DOGECHAIN.symbol
                                                                 : currencyIdA
                                                         }/${
                                                             currencyB && currencyEquals(currencyB, wdc)
-                                                                ? "DC"
+                                                                ? DOGECHAIN.symbol
                                                                 : currencyIdB
                                                         }`}
                                                     >

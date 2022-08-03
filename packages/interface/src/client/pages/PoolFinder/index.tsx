@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, DOGECHAIN } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import React, { useCallback, useEffect, useState } from "react";
 import { Plus } from "react-feather";
@@ -31,7 +31,7 @@ export default function PoolFinder() {
     const [showSearch, setShowSearch] = useState<boolean>(false);
     const [activeField, setActiveField] = useState<number>(Fields.TOKEN1);
 
-    const [currency0, setCurrency0] = useState<Currency | null>(DOGECHAIN);
+    const [currency0, setCurrency0] = useState<Currency | null>(null); // TODO: set to DOGECHAIN after unchaining
     const [currency1, setCurrency1] = useState<Currency | null>(null);
 
     const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined);
@@ -190,7 +190,7 @@ export default function PoolFinder() {
                 isOpen={showSearch}
                 onCurrencySelect={handleCurrencySelect}
                 onDismiss={handleSearchDismiss}
-                showCommonBases
+                showCommonBases={false} // TODO: reenable after unchaining
                 selectedCurrency={(activeField === Fields.TOKEN0 ? currency1 : currency0) ?? undefined}
             />
         </AppBody>
