@@ -14,6 +14,7 @@ const tryGetJsonWallet = async (walletPath: string, hre: HardhatRuntimeEnvironme
     try {
         JSON.parse(walletJson);
     } catch {
+        console.log("The wallet is not a JSON wallet. Attempting to load JS wallet...");
         return undefined;
     }
 
@@ -27,7 +28,9 @@ const tryGetJsWallet = async (walletPath: string, hre: HardhatRuntimeEnvironment
         if (typeof wallet.owner === "object" && typeof wallet.owner.privateKey === "string") {
             return new hre.ethers.Wallet(wallet.owner.privateKey);
         }
-    } catch {}
+    } catch (e) {
+        console.error("Could not load JS wallet", e);
+    }
 
     return undefined;
 };
