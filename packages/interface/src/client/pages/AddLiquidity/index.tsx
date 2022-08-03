@@ -331,7 +331,7 @@ export default function AddLiquidity({
                             showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
                             currency={currencies[Field.CURRENCY_A]}
                             id="add-liquidity-input-tokena"
-                            showCommonBases
+                            showCommonBases={false} // TODO: reenable after unchaining
                         />
                         <ColumnCenter>
                             <Plus size="16" color={theme.text2} />
@@ -346,7 +346,7 @@ export default function AddLiquidity({
                             showMaxButton={!atMaxAmounts[Field.CURRENCY_B]}
                             currency={currencies[Field.CURRENCY_B]}
                             id="add-liquidity-input-tokenb"
-                            showCommonBases
+                            showCommonBases={false} // TODO: reenable after unchaining
                         />
                         {currencies[Field.CURRENCY_A] &&
                             currencies[Field.CURRENCY_B] &&
