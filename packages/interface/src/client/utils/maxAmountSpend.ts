@@ -1,4 +1,4 @@
-import { CurrencyAmount, DOGECHAIN } from "@dogeswap/sdk-core";
+import { CurrencyAmount, NativeToken } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import { MIN_DC } from "../constants";
 
@@ -8,7 +8,7 @@ import { MIN_DC } from "../constants";
  */
 export function maxAmountSpend(currencyAmount?: CurrencyAmount): CurrencyAmount | undefined {
     if (!currencyAmount) return undefined;
-    if (currencyAmount.currency === DOGECHAIN) {
+    if (currencyAmount.currency === NativeToken.Instance) {
         if (JSBI.greaterThan(currencyAmount.raw, MIN_DC)) {
             return CurrencyAmount.dogechain(JSBI.subtract(currencyAmount.raw, MIN_DC));
         } else {

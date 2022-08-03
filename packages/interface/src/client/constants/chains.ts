@@ -1,20 +1,20 @@
-import { ChainId, DOGECHAIN } from "@dogeswap/sdk-core";
+import { ChainId, NativeToken } from "@dogeswap/sdk-core";
 
 export const chains = {
     [ChainId.MAINNET]: {
         urls: ["https://rpc01-sg.dogechain.dog", "https://rpc02-sg.dogechain.dog", "https://rpc03-sg.dogechain.dog"],
         name: "Dogechain Mainnet",
-        nativeCurrency: DOGECHAIN,
+        nativeCurrency: NativeToken.Instance,
     },
     [ChainId.TESTNET]: {
         urls: ["https://rpc-testnet.dogechain.dog"],
         name: "Dogechain Testnet",
-        nativeCurrency: DOGECHAIN,
+        nativeCurrency: NativeToken.Instance,
     },
     [ChainId.LOCALNET]: {
         urls: ["http://localhost:8545"],
         name: "Dogechain Localnet",
-        nativeCurrency: DOGECHAIN,
+        nativeCurrency: NativeToken.Instance,
     },
 };
 

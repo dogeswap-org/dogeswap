@@ -61,9 +61,7 @@ export default function Pool() {
             <AppBody>
                 <SwapPoolTabs active={"pool"} />
                 <AutoColumn gap="lg" justify="center">
-                    {/* TODO: Revert after unchaining */}
-                    {/* <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to="/add/DC"> */}
-                    <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to="/add">
+                    <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to="/add/WDOGE">
                         <Text fontWeight={500} fontSize={20}>
                             Add Liquidity
                         </Text>

@@ -6,7 +6,7 @@ import invariant from "tiny-invariant";
  * The only instance of the base class `Currency` is Dogechain.
  */
 export abstract class BaseCurrency<T extends string = string> {
-    public abstract readonly isDogechain: boolean;
+    public abstract readonly isNativeToken: boolean;
     public abstract readonly isToken: boolean;
 
     public readonly decimals: number;
@@ -14,7 +14,7 @@ export abstract class BaseCurrency<T extends string = string> {
     public readonly name: string | undefined;
 
     /**
-     * Constructs an instance of the base class `Currency`. The only instance of the base class `Currency` is `Currency.DOGECHAIN`.
+     * Constructs an instance of the base class `Currency`. The only instance of the base class `Currency` is `Currency.NativeToken.Instance`.
      * @param decimals decimals of the currency
      * @param symbol symbol of the currency
      * @param name of the currency

@@ -23,7 +23,7 @@ import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { usePairContract } from "../../hooks/useContract";
 
-import { Currency, currencyEquals, DOGECHAIN, Percent } from "@dogeswap/sdk-core";
+import { Currency, currencyEquals, NativeToken, Percent } from "@dogeswap/sdk-core";
 import { BigNumber } from "@ethersproject/bignumber";
 import { getAddress } from "../../../common/addresses";
 import { getToken } from "../../../common/tokens";
@@ -210,8 +210,8 @@ export default function RemoveLiquidity({
         const liquidityAmount = parsedAmounts[Field.LIQUIDITY];
         if (!liquidityAmount) throw new Error("missing liquidity amount");
 
-        const currencyBIsDC = currencyB === DOGECHAIN;
-        const oneCurrencyIsDC = currencyA === DOGECHAIN || currencyBIsDC;
+        const currencyBIsDC = currencyB === NativeToken.Instance;
+        const oneCurrencyIsDC = currencyA === NativeToken.Instance || currencyBIsDC;
         const deadlineFromNow = Math.ceil(Date.now() / 1000) + deadline;
 
         if (!tokenA || !tokenB) throw new Error("could not wrap");
@@ -439,12 +439,12 @@ export default function RemoveLiquidity({
         [onUserInput],
     );
 
-    const wdc = useMemo(() => getToken("wdc", chainId), [chainId]);
-    const oneCurrencyIsDC = currencyA === DOGECHAIN || currencyB === DOGECHAIN;
+    const wrapped = useMemo(() => getToken("wwdoge", chainId), [chainId]);
+    const oneCurrencyIsDC = currencyA === NativeToken.Instance || currencyB === NativeToken.Instance;
     const oneCurrencyIsWDC = Boolean(
         chainId &&
-            wdc &&
-            ((currencyA && currencyEquals(wdc, currencyA)) || (currencyB && currencyEquals(wdc, currencyB))),
+            wrapped &&
+            ((currencyA && currencyEquals(wrapped, currencyA)) || (currencyB && currencyEquals(wrapped, currencyB))),
     );
 
     const handleSelectCurrencyA = useCallback(
@@ -597,23 +597,29 @@ export default function RemoveLiquidity({
                                         </RowBetween>
                                         {chainId && (oneCurrencyIsWDC || oneCurrencyIsDC) ? (
                                             <RowBetween style={{ justifyContent: "flex-end" }}>
-                                                {oneCurrencyIsDC && wdc ? (
+                                                {oneCurrencyIsDC && wrapped ? (
                                                     <StyledInternalLink
                                                         to={`/remove/${
-                                                            currencyA === DOGECHAIN ? wdc.address : currencyIdA
-                                                        }/${currencyB === DOGECHAIN ? wdc.address : currencyIdB}`}
+                                                            currencyA === NativeToken.Instance
+                                                                ? wrapped.address
+                                                                : currencyIdA
+                                                        }/${
+                                                            currencyB === NativeToken.Instance
+                                                                ? wrapped.address
+                                                                : currencyIdB
+                                                        }`}
                                                     >
                                                         Receive WDC
                                                     </StyledInternalLink>
-                                                ) : oneCurrencyIsWDC && wdc ? (
+                                                ) : oneCurrencyIsWDC && wrapped ? (
                                                     <StyledInternalLink
                                                         to={`/remove/${
-                                                            currencyA && currencyEquals(currencyA, wdc)
-                                                                ? DOGECHAIN.symbol
+                                                            currencyA && currencyEquals(currencyA, wrapped)
+                                                                ? NativeToken.Instance.symbol
                                                                 : currencyIdA
                                                         }/${
-                                                            currencyB && currencyEquals(currencyB, wdc)
-                                                                ? DOGECHAIN.symbol
+                                                            currencyB && currencyEquals(currencyB, wrapped)
+                                                                ? NativeToken.Instance.symbol
                                                                 : currencyIdB
                                                         }`}
                                                     >

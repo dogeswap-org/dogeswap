@@ -1,4 +1,4 @@
-import { CurrencyAmount, DOGECHAIN, Percent, TradeType, validateAndParseAddress } from "@dogeswap/sdk-core";
+import { CurrencyAmount, NativeToken, Percent, TradeType, validateAndParseAddress } from "@dogeswap/sdk-core";
 import invariant from "tiny-invariant";
 import { Trade } from "./entities/trade";
 
@@ -73,10 +73,10 @@ export abstract class Router {
      * @param options options for the call parameters
      */
     public static swapCallParameters(trade: Trade, options: TradeOptions | TradeOptionsDeadline): SwapParameters {
-        const dogechainIn = trade.inputAmount.currency === DOGECHAIN;
-        const dogechainOut = trade.outputAmount.currency === DOGECHAIN;
+        const dogechainIn = trade.inputAmount.currency === NativeToken.Instance;
+        const dogechainOut = trade.outputAmount.currency === NativeToken.Instance;
         // the router does not support both dogechain in and out
-        invariant(!(dogechainIn && dogechainOut), "DOGECHAIN_IN_OUT");
+        invariant(!(dogechainIn && dogechainOut), "NativeToken.Instance_IN_OUT");
         invariant(!("ttl" in options) || options.ttl > 0, "TTL");
 
         const to: string = validateAndParseAddress(options.recipient);

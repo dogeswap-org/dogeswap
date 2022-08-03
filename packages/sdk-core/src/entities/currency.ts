@@ -1,4 +1,4 @@
-import { DC } from "./ether";
+import { NativeToken } from "./NativeToken";
 import { Token } from "./token";
 
-export type Currency = DC | Token;
+export type Currency = NativeToken | Token;

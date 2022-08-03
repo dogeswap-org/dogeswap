@@ -1,11 +1,11 @@
-import { Currency, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
+import { Currency, currencyEquals, NativeToken } from "@dogeswap/sdk-core";
 import { useMemo } from "react";
 import { getToken } from "../../common/tokens";
 import { tryParseAmount } from "../state/swap/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import { useCurrencyBalance } from "../state/wallet/hooks";
 import { useActiveWeb3React } from "./index";
-import { useWDCContract } from "./useContract";
+import { useWwdogeContract } from "./useContract";
 
 export enum WrapType {
     NOT_APPLICABLE,
@@ -26,19 +26,19 @@ export default function useWrapCallback(
     typedValue: string | undefined,
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
     const { chainId, account } = useActiveWeb3React();
-    const wdcContract = useWDCContract();
+    const wdcContract = useWwdogeContract();
     const balance = useCurrencyBalance(account ?? undefined, inputCurrency);
     // we can always parse the amount typed as the input currency, since wrapping is 1:1
     const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue]);
     const addTransaction = useTransactionAdder();
 
     return useMemo(() => {
-        const wdc = getToken("wdc", chainId);
-        if (!wdc || !wdcContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE;
+        const wrapped = getToken("wwdoge", chainId);
+        if (!wrapped || !wdcContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE;
 
         const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount);
 
-        if (inputCurrency === DOGECHAIN && currencyEquals(wdc, outputCurrency)) {
+        if (inputCurrency === NativeToken.Instance && currencyEquals(wrapped, outputCurrency)) {
             return {
                 wrapType: WrapType.WRAP,
                 execute:
@@ -58,7 +58,7 @@ export default function useWrapCallback(
                         : undefined,
                 inputError: sufficientBalance ? undefined : "Insufficient DC balance",
             };
-        } else if (currencyEquals(wdc, inputCurrency) && outputCurrency === DOGECHAIN) {
+        } else if (currencyEquals(wrapped, inputCurrency) && outputCurrency === NativeToken.Instance) {
             return {
                 wrapType: WrapType.UNWRAP,
                 execute:

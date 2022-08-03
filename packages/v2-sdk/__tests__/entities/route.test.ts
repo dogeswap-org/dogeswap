@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { ChainId, CurrencyAmount, NativeToken, Token } from "@dogeswap/sdk-core";
 import { Pair } from "../../src/entities/pair";
 import { Route } from "../../src/entities/route";
 import { testWDC } from "../testUtils";
@@ -29,16 +29,16 @@ describe("Route", () => {
     });
 
     it("supports ether input", () => {
-        const route = new Route([pair_0_wdc], testWDC, DOGECHAIN);
+        const route = new Route([pair_0_wdc], testWDC, NativeToken.Instance);
         expect(route.pairs).toEqual([pair_0_wdc]);
-        expect(route.input).toEqual(DOGECHAIN);
+        expect(route.input).toEqual(NativeToken.Instance);
         expect(route.output).toEqual(token0);
     });
 
     it("supports ether output", () => {
-        const route = new Route([pair_0_wdc], testWDC, token0, DOGECHAIN);
+        const route = new Route([pair_0_wdc], testWDC, token0, NativeToken.Instance);
         expect(route.pairs).toEqual([pair_0_wdc]);
         expect(route.input).toEqual(token0);
-        expect(route.output).toEqual(DOGECHAIN);
+        expect(route.output).toEqual(NativeToken.Instance);
     });
 });

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { PairState, usePair } from "../../data/Reserves";
 import { useTotalSupply } from "../../data/TotalSupply";
 
-import { Currency, CurrencyAmount, DOGECHAIN, Percent, Price } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, NativeToken, Percent, Price } from "@dogeswap/sdk-core";
 import { Pair } from "@dogeswap/v2-sdk";
 import JSBI from "jsbi";
 import { useActiveWeb3React } from "../../hooks";
@@ -85,7 +85,7 @@ export function useDerivedMintInfo(
                     dependentField === Field.CURRENCY_B
                         ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
                         : pair.priceOf(tokenB).quote(wrappedIndependentAmount);
-                return dependentCurrency === DOGECHAIN
+                return dependentCurrency === NativeToken.Instance
                     ? CurrencyAmount.dogechain(dependentCurrencyAmount.raw)
                     : dependentCurrencyAmount;
             }

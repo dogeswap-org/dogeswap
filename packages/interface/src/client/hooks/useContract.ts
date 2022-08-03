@@ -25,11 +25,11 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
     return useContract(tokenAddress, erc20Abi, withSignerIfPossible);
 }
 
-export function useWDCContract(withSignerIfPossible?: boolean): Contract | null {
+export function useWwdogeContract(withSignerIfPossible?: boolean): Contract | null {
     const { chainId } = useActiveWeb3React();
-    const wdc = getToken("wdc", chainId);
+    const wrapped = getToken("wwdoge", chainId);
     const wdcAbi = chainId != undefined ? wdcAbiChainMap[chainId] : undefined;
-    return useContract(chainId ? wdc?.address : undefined, wdcAbi, withSignerIfPossible);
+    return useContract(chainId ? wrapped?.address : undefined, wdcAbi, withSignerIfPossible);
 }
 
 // TODO: If these ENS functions are ever needed, fill in the ABI/resolver ABI variables as well as the contract address.

@@ -1,4 +1,4 @@
-import { Currency, Token } from "@dogeswap/sdk-core";
+import { Currency, NativeToken, Token } from "@dogeswap/sdk-core";
 import React, { KeyboardEvent, RefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactGA from "react-ga";
 import { useTranslation } from "react-i18next";
@@ -63,10 +63,11 @@ export function CurrencySearch({
         }
     }, [isAddressSearch]);
 
+    const showNativeQueries = useMemo(() => ["w", "wd", "wdo", "wdog", "wdoge"], []);
+
     const showDC: boolean = useMemo(() => {
-        // const s = searchQuery.toLowerCase().trim();
-        // return s === "" || s === "d" || s === "dc";
-        return false; // TODO: reenable after unchaining
+        const s = searchQuery.toLowerCase().trim();
+        return showNativeQueries.includes(s);
     }, [searchQuery]);
 
     const tokenComparator = useTokenComparator(invertSearchOrder);
@@ -119,8 +120,8 @@ export function CurrencySearch({
         (e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") {
                 const s = searchQuery.toLowerCase().trim();
-                if (s === "dc" && false) {
-                    // TODO: remove false when unchaine
+                if (s === "dc") {
+                    handleCurrencySelect(NativeToken.Instance);
                 } else if (filteredSortedTokens.length > 0) {
                     if (
                         filteredSortedTokens[0].symbol?.toLowerCase() === searchQuery.trim().toLowerCase() ||

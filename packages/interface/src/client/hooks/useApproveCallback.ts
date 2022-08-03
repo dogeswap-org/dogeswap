@@ -1,4 +1,4 @@
-import { CurrencyAmount, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { CurrencyAmount, NativeToken, Token } from "@dogeswap/sdk-core";
 import { Trade } from "@dogeswap/v2-sdk";
 import { MaxUint256 } from "@ethersproject/constants";
 import { TransactionResponse } from "@ethersproject/providers";
@@ -27,7 +27,7 @@ export function useApproveCallback(
 ): [ApprovalState, () => Promise<void>] {
     const { account } = useActiveWeb3React();
     const token =
-        amountToApprove == undefined || amountToApprove.currency === DOGECHAIN
+        amountToApprove == undefined || amountToApprove.currency === NativeToken.Instance
             ? undefined
             : (amountToApprove as CurrencyAmount<Token>).currency;
     const currentAllowance = useTokenAllowance(token, account ?? undefined, spender);
@@ -36,7 +36,7 @@ export function useApproveCallback(
     // check the current approval status
     const approvalState: ApprovalState = useMemo(() => {
         if (!amountToApprove || !spender) return ApprovalState.UNKNOWN;
-        if (amountToApprove.currency === DOGECHAIN) return ApprovalState.APPROVED;
+        if (amountToApprove.currency === NativeToken.Instance) return ApprovalState.APPROVED;
         // we might not have enough data to know whether or not we need to approve
         if (!currentAllowance) return ApprovalState.UNKNOWN;
 

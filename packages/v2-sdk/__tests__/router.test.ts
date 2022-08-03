@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, DOGECHAIN, Percent, Token } from "@dogeswap/sdk-core";
+import { ChainId, CurrencyAmount, NativeToken, Percent, Token } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import invariant from "tiny-invariant";
 import { Pair } from "../src/entities/pair";
@@ -37,7 +37,7 @@ describe("Router", () => {
             it("ether to token1", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactIn(
-                        new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
+                        new Route([pair_wdc_0, pair_0_1], testWDC, NativeToken.Instance, token1),
                         CurrencyAmount.dogechain(JSBI.BigInt(100)),
                         testWDC,
                         factoryAddress,
@@ -61,7 +61,7 @@ describe("Router", () => {
             it("deadline specified", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactIn(
-                        new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
+                        new Route([pair_wdc_0, pair_0_1], testWDC, NativeToken.Instance, token1),
                         CurrencyAmount.dogechain(JSBI.BigInt(100)),
                         testWDC,
                         factoryAddress,
@@ -85,7 +85,7 @@ describe("Router", () => {
             it("token1 to ether", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactIn(
-                        new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
+                        new Route([pair_0_1, pair_wdc_0], testWDC, token1, NativeToken.Instance),
                         new CurrencyAmount(token1, JSBI.BigInt(100)),
                         testWDC,
                         factoryAddress,
@@ -135,7 +135,7 @@ describe("Router", () => {
             it("ether to token1", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactOut(
-                        new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
+                        new Route([pair_wdc_0, pair_0_1], testWDC, NativeToken.Instance, token1),
                         new CurrencyAmount(token1, JSBI.BigInt(100)),
                         testWDC,
                         factoryAddress,
@@ -158,7 +158,7 @@ describe("Router", () => {
             it("token1 to ether", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactOut(
-                        new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
+                        new Route([pair_0_1, pair_wdc_0], testWDC, token1, NativeToken.Instance),
                         CurrencyAmount.dogechain(JSBI.BigInt(100)),
                         testWDC,
                         factoryAddress,
@@ -209,7 +209,7 @@ describe("Router", () => {
                 it("ether to token1", () => {
                     const result = Router.swapCallParameters(
                         Trade.exactIn(
-                            new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
+                            new Route([pair_wdc_0, pair_0_1], testWDC, NativeToken.Instance, token1),
                             CurrencyAmount.dogechain(JSBI.BigInt(100)),
                             testWDC,
                             factoryAddress,
@@ -233,7 +233,7 @@ describe("Router", () => {
                 it("token1 to ether", () => {
                     const result = Router.swapCallParameters(
                         Trade.exactIn(
-                            new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
+                            new Route([pair_0_1, pair_wdc_0], testWDC, token1, NativeToken.Instance),
                             new CurrencyAmount(token1, JSBI.BigInt(100)),
                             testWDC,
                             factoryAddress,
@@ -286,7 +286,7 @@ describe("Router", () => {
                     expect(() =>
                         Router.swapCallParameters(
                             Trade.exactOut(
-                                new Route([pair_wdc_0, pair_0_1], testWDC, DOGECHAIN, token1),
+                                new Route([pair_wdc_0, pair_0_1], testWDC, NativeToken.Instance, token1),
                                 new CurrencyAmount(token1, JSBI.BigInt(100)),
                                 testWDC,
                                 factoryAddress,
@@ -304,7 +304,7 @@ describe("Router", () => {
                     expect(() =>
                         Router.swapCallParameters(
                             Trade.exactOut(
-                                new Route([pair_0_1, pair_wdc_0], testWDC, token1, DOGECHAIN),
+                                new Route([pair_0_1, pair_wdc_0], testWDC, token1, NativeToken.Instance),
                                 CurrencyAmount.dogechain(JSBI.BigInt(100)),
                                 testWDC,
                                 factoryAddress,

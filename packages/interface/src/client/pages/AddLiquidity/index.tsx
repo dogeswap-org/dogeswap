@@ -21,7 +21,7 @@ import { useWalletModalToggle } from "../../state/application/hooks";
 import { Field } from "../../state/mint/actions";
 import { useDerivedMintInfo, useMintActionHandlers, useMintState } from "../../state/mint/hooks";
 
-import { Currency, CurrencyAmount, currencyEquals, DOGECHAIN } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, currencyEquals, NativeToken } from "@dogeswap/sdk-core";
 import { getAddress } from "../../../common/addresses";
 import { getToken } from "../../../common/tokens";
 import { ButtonError, ButtonLight, ButtonPrimary } from "../../components/Button";
@@ -50,11 +50,11 @@ export default function AddLiquidity({
 
     const currencyA = useCurrency(currencyIdA);
     const currencyB = useCurrency(currencyIdB);
-    const wdc = useMemo(() => getToken("wdc", chainId), [chainId]);
+    const wrapped = useMemo(() => getToken("wwdoge", chainId), [chainId]);
     const oneCurrencyIsWDC = Boolean(
         chainId &&
-            wdc &&
-            ((currencyA && currencyEquals(currencyA, wdc)) || (currencyB && currencyEquals(currencyB, wdc))),
+            wrapped &&
+            ((currencyA && currencyEquals(currencyA, wrapped)) || (currencyB && currencyEquals(currencyB, wrapped))),
     );
 
     const toggleWalletModal = useWalletModalToggle(); // toggle wallet when disconnected
@@ -144,8 +144,8 @@ export default function AddLiquidity({
             method: (...args: any) => Promise<TransactionResponse>,
             args: Array<string | string[] | number>,
             value: BigNumber | null;
-        if (currencyA === DOGECHAIN || currencyB === DOGECHAIN) {
-            const tokenBIsDC = currencyB === DOGECHAIN;
+        if (currencyA === NativeToken.Instance || currencyB === NativeToken.Instance) {
+            const tokenBIsDC = currencyB === NativeToken.Instance;
             estimate = router.estimateGas.addLiquidityDC;
             method = router.addLiquidityDC;
             args = [
@@ -331,7 +331,7 @@ export default function AddLiquidity({
                             showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
                             currency={currencies[Field.CURRENCY_A]}
                             id="add-liquidity-input-tokena"
-                            showCommonBases={false} // TODO: reenable after unchaining
+                            showCommonBases
                         />
                         <ColumnCenter>
                             <Plus size="16" color={theme.text2} />
@@ -346,7 +346,7 @@ export default function AddLiquidity({
                             showMaxButton={!atMaxAmounts[Field.CURRENCY_B]}
                             currency={currencies[Field.CURRENCY_B]}
                             id="add-liquidity-input-tokenb"
-                            showCommonBases={false} // TODO: reenable after unchaining
+                            showCommonBases
                         />
                         {currencies[Field.CURRENCY_A] &&
                             currencies[Field.CURRENCY_B] &&

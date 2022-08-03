@@ -4,9 +4,9 @@ import invariant from "tiny-invariant";
 import toFormat from "toformat";
 import { currencyEquals } from "../../utils";
 import { Currency } from "../currency";
-import { DOGECHAIN } from "../ether";
 
 import { BigintIsh, MaxUint256, Rounding } from "../../constants";
+import { NativeToken } from "../NativeToken";
 import Fraction from "./fraction";
 
 const Big = toFormat(_Big);
@@ -15,11 +15,11 @@ export default class CurrencyAmount<T extends Currency = Currency> extends Fract
     public readonly currency: T;
 
     /**
-     * Helper that calls the constructor with the DOGECHAIN currency
+     * Helper that calls the constructor with the NativeToken.Instance currency
      * @param amount Dogechain amount in wei
      */
     public static dogechain(amount: BigintIsh): CurrencyAmount {
-        return new CurrencyAmount(DOGECHAIN, amount);
+        return new CurrencyAmount(NativeToken.Instance, amount);
     }
 
     // amount _must_ be raw, i.e. in the native representation

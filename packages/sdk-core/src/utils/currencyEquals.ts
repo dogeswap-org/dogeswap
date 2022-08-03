@@ -11,6 +11,6 @@ export function currencyEquals(currencyA: Currency, currencyB: Currency): boolea
     } else if (currencyB.isToken) {
         return false;
     } else {
-        return currencyA.isDogechain === currencyB.isDogechain;
+        return currencyA.isNativeToken === currencyB.isNativeToken;
     }
 }

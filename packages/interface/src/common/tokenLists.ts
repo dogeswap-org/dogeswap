@@ -2,7 +2,7 @@ import { ChainId } from "@dogeswap/sdk-core";
 import { TokenList } from "@uniswap/token-lists";
 import { SupportedToken, tokens } from "./tokens";
 
-const unlistedTokens: SupportedToken[] = ["wdc"];
+const unlistedTokens: SupportedToken[] = ["wwdoge"];
 
 const chainLogoMap: Record<string, string> = {};
 

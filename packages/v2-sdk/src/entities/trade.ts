@@ -6,14 +6,14 @@ import {
     Currency,
     CurrencyAmount,
     currencyEquals,
-    DOGECHAIN,
     Fraction,
+    NativeToken,
     Percent,
     Price,
     sortedInsert,
     Token,
     TradeType,
-    WDC,
+    WrappedNativeToken,
 } from "@dogeswap/sdk-core";
 import { Pair } from "./pair";
 import { Route } from "./route";
@@ -90,18 +90,18 @@ export interface BestTradeOptions {
 
 /**
  * Given a currency amount and a chain ID, returns the equivalent representation as the token amount.
- * In other words, if the currency is DOGECHAIN, returns the WDC token amount for the given chain. Otherwise, returns
+ * In other words, if the currency is NativeToken.Instance, returns the WDC token amount for the given chain. Otherwise, returns
  * the input currency amount.
  */
-function wrappedAmount(currencyAmount: CurrencyAmount, wdc: WDC): CurrencyAmount {
+function wrappedAmount(currencyAmount: CurrencyAmount, wdc: WrappedNativeToken): CurrencyAmount {
     if (currencyAmount.currency.isToken) return currencyAmount;
-    if (currencyAmount.currency.isDogechain) return new CurrencyAmount(wdc, currencyAmount.raw);
+    if (currencyAmount.currency.isNativeToken) return new CurrencyAmount(wdc, currencyAmount.raw);
     throw new Error("CURRENCY");
 }
 
-function wrappedCurrency(currency: Currency, wdc: WDC): Token {
+function wrappedCurrency(currency: Currency, wdc: WrappedNativeToken): Token {
     if (currency.isToken) return currency;
-    if (currency === DOGECHAIN) return wdc;
+    if (currency === NativeToken.Instance) return wdc;
     throw new Error("CURRENCY");
 }
 
@@ -144,8 +144,13 @@ export class Trade {
      * @param route route of the exact in trade
      * @param amountIn the amount being passed in
      */
-    public static exactIn(route: Route, amountIn: CurrencyAmount, wdc: WDC, factoryAddress: string): Trade {
-        return new Trade(route, amountIn, TradeType.EXACT_INPUT, wdc, factoryAddress);
+    public static exactIn(
+        route: Route,
+        amountIn: CurrencyAmount,
+        wrapped: WrappedNativeToken,
+        factoryAddress: string,
+    ): Trade {
+        return new Trade(route, amountIn, TradeType.EXACT_INPUT, wrapped, factoryAddress);
     }
 
     /**
@@ -153,16 +158,27 @@ export class Trade {
      * @param route route of the exact out trade
      * @param amountOut the amount returned by the trade
      */
-    public static exactOut(route: Route, amountOut: CurrencyAmount, wdc: WDC, factoryAddress: string): Trade {
-        return new Trade(route, amountOut, TradeType.EXACT_OUTPUT, wdc, factoryAddress);
+    public static exactOut(
+        route: Route,
+        amountOut: CurrencyAmount,
+        wrapped: WrappedNativeToken,
+        factoryAddress: string,
+    ): Trade {
+        return new Trade(route, amountOut, TradeType.EXACT_OUTPUT, wrapped, factoryAddress);
     }
 
-    public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType, wdc: WDC, factoryAddress: string) {
+    public constructor(
+        route: Route,
+        amount: CurrencyAmount,
+        tradeType: TradeType,
+        wrapped: WrappedNativeToken,
+        factoryAddress: string,
+    ) {
         const amounts: CurrencyAmount[] = new Array(route.path.length);
         const nextPairs: Pair[] = new Array(route.pairs.length);
         if (tradeType === TradeType.EXACT_INPUT) {
             invariant(currencyEquals(amount.currency, route.input), "INPUT");
-            amounts[0] = wrappedAmount(amount, wdc);
+            amounts[0] = wrappedAmount(amount, wrapped);
             for (let i = 0; i < route.path.length - 1; i++) {
                 const pair = route.pairs[i];
                 const [outputAmount, nextPair] = pair.getOutputAmount(amounts[i], factoryAddress);
@@ -171,7 +187,7 @@ export class Trade {
             }
         } else {
             invariant(currencyEquals(amount.currency, route.output), "OUTPUT");
-            amounts[amounts.length - 1] = wrappedAmount(amount, wdc);
+            amounts[amounts.length - 1] = wrappedAmount(amount, wrapped);
             for (let i = route.path.length - 1; i > 0; i--) {
                 const pair = route.pairs[i - 1];
                 const [inputAmount, nextPair] = pair.getInputAmount(amounts[i], factoryAddress);
@@ -185,13 +201,13 @@ export class Trade {
         this.inputAmount =
             tradeType === TradeType.EXACT_INPUT
                 ? amount
-                : route.input === DOGECHAIN
+                : route.input === NativeToken.Instance
                 ? CurrencyAmount.dogechain(amounts[0].raw)
                 : amounts[0];
         this.outputAmount =
             tradeType === TradeType.EXACT_OUTPUT
                 ? amount
-                : route.output === DOGECHAIN
+                : route.output === NativeToken.Instance
                 ? CurrencyAmount.dogechain(amounts[amounts.length - 1].raw)
                 : amounts[amounts.length - 1];
         this.executionPrice = new Price(
@@ -200,7 +216,7 @@ export class Trade {
             this.inputAmount.raw,
             this.outputAmount.raw,
         );
-        this.nextMidPrice = new Route(nextPairs, wdc, route.input).midPrice;
+        this.nextMidPrice = new Route(nextPairs, wrapped, route.input).midPrice;
         this.priceImpact = computePriceImpact(route.midPrice, this.inputAmount, this.outputAmount);
     }
 
@@ -255,7 +271,7 @@ export class Trade {
         pairs: Pair[],
         currencyAmountIn: CurrencyAmount,
         currencyOut: Currency,
-        wdc: WDC,
+        wrapped: WrappedNativeToken,
         factoryAddress: string,
         { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
         // used in recursion.
@@ -273,8 +289,8 @@ export class Trade {
             : undefined;
         invariant(chainId !== undefined, "CHAIN_ID");
 
-        const amountIn = wrappedAmount(currencyAmountIn, wdc);
-        const tokenOut = wrappedCurrency(currencyOut, wdc);
+        const amountIn = wrappedAmount(currencyAmountIn, wrapped);
+        const tokenOut = wrappedCurrency(currencyOut, wrapped);
         for (let i = 0; i < pairs.length; i++) {
             const pair = pairs[i];
             // pair irrelevant
@@ -297,10 +313,10 @@ export class Trade {
                 sortedInsert(
                     bestTrades,
                     new Trade(
-                        new Route([...currentPairs, pair], wdc, originalAmountIn.currency, currencyOut),
+                        new Route([...currentPairs, pair], wrapped, originalAmountIn.currency, currencyOut),
                         originalAmountIn,
                         TradeType.EXACT_INPUT,
-                        wdc,
+                        wrapped,
                         factoryAddress,
                     ),
                     maxNumResults,
@@ -314,7 +330,7 @@ export class Trade {
                     pairsExcludingThisPair,
                     amountOut,
                     currencyOut,
-                    wdc,
+                    wrapped,
                     factoryAddress,
                     {
                         maxNumResults,
@@ -362,7 +378,7 @@ export class Trade {
         pairs: Pair[],
         currencyIn: Currency,
         currencyAmountOut: CurrencyAmount,
-        wdc: WDC,
+        wrapped: WrappedNativeToken,
         factoryAddress: string,
         { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
         // used in recursion.
@@ -380,8 +396,8 @@ export class Trade {
             : undefined;
         invariant(chainId !== undefined, "CHAIN_ID");
 
-        const amountOut = wrappedAmount(currencyAmountOut, wdc);
-        const tokenIn = wrappedCurrency(currencyIn, wdc);
+        const amountOut = wrappedAmount(currencyAmountOut, wrapped);
+        const tokenIn = wrappedCurrency(currencyIn, wrapped);
         for (let i = 0; i < pairs.length; i++) {
             const pair = pairs[i];
             // pair irrelevant
@@ -404,10 +420,10 @@ export class Trade {
                 sortedInsert(
                     bestTrades,
                     new Trade(
-                        new Route([pair, ...currentPairs], wdc, currencyIn, originalAmountOut.currency),
+                        new Route([pair, ...currentPairs], wrapped, currencyIn, originalAmountOut.currency),
                         originalAmountOut,
                         TradeType.EXACT_OUTPUT,
-                        wdc,
+                        wrapped,
                         factoryAddress,
                     ),
                     maxNumResults,
@@ -421,7 +437,7 @@ export class Trade {
                     pairsExcludingThisPair,
                     currencyIn,
                     amountIn,
-                    wdc,
+                    wrapped,
                     factoryAddress,
                     {
                         maxNumResults,

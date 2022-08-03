@@ -1,4 +1,4 @@
-import { Currency, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Currency, NativeToken, Token } from "@dogeswap/sdk-core";
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
@@ -35,7 +35,7 @@ export default function CurrencyLogo({
     const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined);
 
     const srcs: string[] = useMemo(() => {
-        if (currency === DOGECHAIN) return [];
+        if (currency === NativeToken.Instance) return [];
 
         if (currency instanceof Token) {
             if (currency instanceof WrappedTokenInfo) {
@@ -47,7 +47,7 @@ export default function CurrencyLogo({
         return [];
     }, [currency, uriLocations]);
 
-    if (currency === DOGECHAIN) {
+    if (currency === NativeToken.Instance) {
         return <StyledEthereumLogo src={DogechainLogo} size={size} style={style} />;
     }
 

@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, NativeToken, Token } from "@dogeswap/sdk-core";
 import JSBI from "jsbi";
 import { useMemo } from "react";
 import { erc20Interface } from "../../constants/abis";
@@ -109,7 +109,7 @@ export function useCurrencyBalances(
 
     const tokenBalances = useTokenBalances(account, tokens);
     const containsDC: boolean = useMemo(
-        () => currencies?.some((currency) => currency === DOGECHAIN) ?? false,
+        () => currencies?.some((currency) => currency === NativeToken.Instance) ?? false,
         [currencies],
     );
     const dcBalance = useDCBalances(containsDC ? [account] : []);
@@ -119,7 +119,7 @@ export function useCurrencyBalances(
             currencies?.map((currency) => {
                 if (!account || !currency) return undefined;
                 if (currency instanceof Token) return tokenBalances[currency.address];
-                if (currency === DOGECHAIN) return dcBalance[account];
+                if (currency === NativeToken.Instance) return dcBalance[account];
                 return undefined;
             }) ?? [],
         [account, currencies, dcBalance, tokenBalances],

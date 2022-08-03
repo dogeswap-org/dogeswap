@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, currencyEquals, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, currencyEquals, NativeToken, Token } from "@dogeswap/sdk-core";
 import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from "react";
 import { FixedSizeList } from "react-window";
 import { Text } from "rebass";
@@ -18,7 +18,11 @@ import { MouseoverTooltip } from "../Tooltip";
 import { FadedSpan, MenuItem } from "./styleds";
 
 function currencyKey(currency: Currency): string {
-    return currency instanceof Token ? currency.address : currency === DOGECHAIN ? "DOGECHAIN" : "";
+    return currency instanceof Token
+        ? currency.address
+        : currency === NativeToken.Instance
+        ? "NativeToken.Instance"
+        : "";
 }
 
 const StyledBalanceText = styled(Text)`
@@ -172,7 +176,7 @@ export default function CurrencyList({
     fixedListRef?: MutableRefObject<FixedSizeList | undefined>;
     showDC: boolean;
 }) {
-    const itemData = useMemo(() => (showDC ? [DOGECHAIN, ...currencies] : currencies), [currencies, showDC]);
+    const itemData = useMemo(() => (showDC ? [NativeToken.Instance, ...currencies] : currencies), [currencies, showDC]);
 
     const Row = useCallback(
         ({ data, index, style }) => {

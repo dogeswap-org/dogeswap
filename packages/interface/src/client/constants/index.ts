@@ -11,10 +11,10 @@ type ChainTokenList = {
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-    [ChainId.MAINNET]: [tokens[ChainId.MAINNET].wdc],
-    [ChainId.TESTNET]: [tokens[ChainId.TESTNET].wdc],
+    [ChainId.MAINNET]: [tokens[ChainId.MAINNET].wwdoge],
+    [ChainId.TESTNET]: [tokens[ChainId.TESTNET].wwdoge],
     [ChainId.LOCALNET]: [
-        tokens[ChainId.LOCALNET].wdc,
+        tokens[ChainId.LOCALNET].wwdoge,
         tokens[ChainId.LOCALNET].dai,
         tokens[ChainId.LOCALNET].usdc,
         tokens[ChainId.LOCALNET].usdt,

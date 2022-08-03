@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, DOGECHAIN, Percent, Token } from "@dogeswap/sdk-core";
+import { ChainId, Currency, CurrencyAmount, NativeToken, Percent, Token } from "@dogeswap/sdk-core";
 import { getAddress } from "@ethersproject/address";
 import { BigNumber } from "@ethersproject/bignumber";
 import { AddressZero } from "@ethersproject/constants";
@@ -109,6 +109,6 @@ export function escapeRegExp(string: string): string {
 }
 
 export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
-    if (currency === DOGECHAIN) return true;
+    if (currency === NativeToken.Instance) return true;
     return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address]);
 }

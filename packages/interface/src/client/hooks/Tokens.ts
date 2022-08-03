@@ -1,4 +1,4 @@
-import { Currency, currencyEquals, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Currency, currencyEquals, NativeToken, Token } from "@dogeswap/sdk-core";
 import { NEVER_RELOAD } from "@uniswap/redux-multicall";
 import { useMemo } from "react";
 import { useSelectedTokenList } from "../state/lists/hooks";
@@ -82,7 +82,7 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-    const isDC = currencyId?.toUpperCase() === DOGECHAIN.symbol;
+    const isDC = currencyId?.toUpperCase() === NativeToken.Instance.symbol;
     const token = useToken(isDC ? undefined : currencyId);
-    return isDC ? DOGECHAIN : token;
+    return isDC ? NativeToken.Instance : token;
 }

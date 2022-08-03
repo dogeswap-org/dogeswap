@@ -20,7 +20,7 @@ export const addresses = {
         } as InfrastructureAddress,
         tokens: {
             omnom: "0xe3fcA919883950c5cD468156392a6477Ff5d18de",
-            wdc: "0x0000000000000000000000000000000000000000",
+            wwdoge: "0x0000000000000000000000000000000000000000",
         },
     },
     [ChainId.TESTNET]: {
@@ -31,7 +31,7 @@ export const addresses = {
             ensRegistrar: "0x0000000000000000000000000000000000000000",
         } as InfrastructureAddress,
         tokens: {
-            wdc: "0xdCcdbF44FCb6c99C91d25fB40794686C66b9DC66",
+            wwdoge: "0xdCcdbF44FCb6c99C91d25fB40794686C66b9DC66",
             usdt: "0x5b5E34d03b1533877E23F68622f642ECb721B918",
             usdc: "0x1D0DD931c0101ba58bDB312e5416C5f8330c194D",
         },
@@ -48,7 +48,7 @@ export const addresses = {
             usdt: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
             usdc: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
             dai: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
-            wdc: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+            wwdoge: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
         },
     },
 };

@@ -7,7 +7,7 @@ import { BaseCurrency } from "./baseCurrency";
  * Represents an ERC20 token with a unique address and some metadata.
  */
 export class Token<T extends string = string> extends BaseCurrency<T> {
-    public readonly isDogechain: false = false;
+    public readonly isNativeToken: false = false;
     public readonly isToken: true = true;
 
     public readonly chainId: ChainId;

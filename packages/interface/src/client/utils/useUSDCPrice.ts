@@ -12,30 +12,30 @@ import { wrappedCurrency } from "./wrappedCurrency";
  */
 export default function useUSDCPrice(currency?: Currency): Price | undefined {
     const { chainId } = useActiveWeb3React();
-    const wdc = useMemo(() => getToken("wdc", chainId), [chainId]);
+    const wwdoge = useMemo(() => getToken("wwdoge", chainId), [chainId]);
     const usdc = useMemo(() => getToken("usdc", chainId), [chainId]);
     const wrapped = wrappedCurrency(currency, chainId);
     const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
         () =>
-            wdc == undefined || usdc == undefined
+            wwdoge == undefined || usdc == undefined
                 ? []
                 : [
-                      [wrapped && currencyEquals(wdc, wrapped) ? undefined : currency, wdc],
+                      [wrapped && currencyEquals(wwdoge, wrapped) ? undefined : currency, wwdoge],
                       [wrapped?.equals(usdc) ? undefined : wrapped, chainId === ChainId.MAINNET ? usdc : undefined],
-                      [chainId ? wdc : undefined, chainId === ChainId.MAINNET ? usdc : undefined],
+                      [chainId ? wwdoge : undefined, chainId === ChainId.MAINNET ? usdc : undefined],
                   ],
         [chainId, currency, wrapped],
     );
     const [[dcPairState, dcPair], [usdcPairState, usdcPair], [usdcDCPairState, usdcDCPair]] = usePairs(tokenPairs);
 
     return useMemo(() => {
-        if (!currency || !wrapped || !chainId || wdc == undefined || usdc == undefined) {
+        if (!currency || !wrapped || !chainId || wwdoge == undefined || usdc == undefined) {
             return undefined;
         }
         // handle wdc/dc
-        if (wrapped.equals(wdc)) {
+        if (wrapped.equals(wwdoge)) {
             if (usdcPair) {
-                const price = usdcPair.priceOf(wdc);
+                const price = usdcPair.priceOf(wwdoge);
                 return new Price(currency, usdc, price.denominator, price.numerator);
             } else {
                 return undefined;
@@ -46,9 +46,9 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
             return new Price(usdc, usdc, "1", "1");
         }
 
-        const dcPairDCAmount = dcPair?.reserveOf(wdc);
+        const dcPairDCAmount = dcPair?.reserveOf(wwdoge);
         const dcPairDCUSDCValue: JSBI =
-            dcPairDCAmount && usdcDCPair ? usdcDCPair.priceOf(wdc).quote(dcPairDCAmount).raw : JSBI.BigInt(0);
+            dcPairDCAmount && usdcDCPair ? usdcDCPair.priceOf(wwdoge).quote(dcPairDCAmount).raw : JSBI.BigInt(0);
 
         // all other tokens
         // first try the usdc pair
@@ -57,9 +57,9 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
             return new Price(currency, usdc, price.denominator, price.numerator);
         }
         if (dcPairState === PairState.EXISTS && dcPair && usdcDCPairState === PairState.EXISTS && usdcDCPair) {
-            if (usdcDCPair.reserveOf(usdc).greaterThan("0") && dcPair.reserveOf(wdc).greaterThan("0")) {
+            if (usdcDCPair.reserveOf(usdc).greaterThan("0") && dcPair.reserveOf(wwdoge).greaterThan("0")) {
                 const dcUsdcPrice = usdcDCPair.priceOf(usdc);
-                const currencyDCPrice = dcPair.priceOf(wdc);
+                const currencyDCPrice = dcPair.priceOf(wwdoge);
                 const usdcPrice = dcUsdcPrice.multiply(currencyDCPrice).invert();
                 return new Price(currency, usdc, usdcPrice.denominator, usdcPrice.numerator);
             }

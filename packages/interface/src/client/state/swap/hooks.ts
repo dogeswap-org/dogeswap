@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { Currency, CurrencyAmount, NativeToken, Token } from "@dogeswap/sdk-core";
 import { Trade } from "@dogeswap/v2-sdk";
 import { parseUnits } from "@ethersproject/units";
 import JSBI from "jsbi";
@@ -35,7 +35,11 @@ export function useSwapActionHandlers(): {
                 selectCurrency({
                     field,
                     currencyId:
-                        currency instanceof Token ? currency.address : currency === DOGECHAIN ? DOGECHAIN.symbol : "",
+                        currency instanceof Token
+                            ? currency.address
+                            : currency === NativeToken.Instance
+                            ? NativeToken.Instance.symbol
+                            : "",
                 }),
             );
         },
@@ -205,11 +209,11 @@ function parseCurrencyFromURLParameter(urlParam: any): string {
     if (typeof urlParam === "string") {
         const valid = isAddress(urlParam);
         if (valid) return valid;
-        if (urlParam.toUpperCase() === DOGECHAIN.symbol) return DOGECHAIN.symbol;
-        if (valid === false) return DOGECHAIN.symbol;
+        if (urlParam.toUpperCase() === NativeToken.Instance.symbol) return NativeToken.Instance.symbol;
+        if (valid === false) return NativeToken.Instance.symbol;
     }
 
-    return ""; // TODO: Return DOGECHAIN.symbol after unchaining
+    return NativeToken.Instance.symbol;
 }
 
 function parseCurrencyAmountURLParameter(urlParam: any): string {

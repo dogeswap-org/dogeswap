@@ -1,4 +1,4 @@
-import { ChainId, Currency, DOGECHAIN, Price, Token, WDC } from "@dogeswap/sdk-core";
+import { ChainId, Currency, NativeToken, Price, Token, WrappedNativeToken } from "@dogeswap/sdk-core";
 import invariant from "tiny-invariant";
 
 import { Pair } from "./pair";
@@ -21,7 +21,7 @@ export class Route {
         return prices.slice(1).reduce((accumulator, currentValue) => accumulator.multiply(currentValue), prices[0]);
     }
 
-    public constructor(pairs: Pair[], wdc: WDC, input: Currency, output?: Currency) {
+    public constructor(pairs: Pair[], wrapped: WrappedNativeToken, input: Currency, output?: Currency) {
         invariant(pairs.length > 0, "PAIRS");
         const chainId: ChainId | number = pairs[0].chainId;
         invariant(
@@ -30,17 +30,18 @@ export class Route {
         );
 
         invariant(
-            (input.isToken && pairs[0].involvesToken(input)) || (input === DOGECHAIN && pairs[0].involvesToken(wdc)),
+            (input.isToken && pairs[0].involvesToken(input)) ||
+                (input === NativeToken.Instance && pairs[0].involvesToken(wrapped)),
             "INPUT",
         );
         invariant(
             typeof output === "undefined" ||
                 (output.isToken && pairs[pairs.length - 1].involvesToken(output)) ||
-                (output === DOGECHAIN && wdc && pairs[pairs.length - 1].involvesToken(wdc)),
+                (output === NativeToken.Instance && wrapped && pairs[pairs.length - 1].involvesToken(wrapped)),
             "OUTPUT",
         );
 
-        const path: Token[] = [input.isToken ? input : wdc];
+        const path: Token[] = [input.isToken ? input : wrapped];
         for (const [i, pair] of pairs.entries()) {
             const currentInput = path[i];
             invariant(currentInput.equals(pair.token0) || currentInput.equals(pair.token1), "PATH");

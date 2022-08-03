@@ -1,4 +1,4 @@
-import { ChainId, Currency, currencyEquals, DOGECHAIN, Token } from "@dogeswap/sdk-core";
+import { ChainId, Currency, currencyEquals, NativeToken, Token } from "@dogeswap/sdk-core";
 import React from "react";
 import { Text } from "rebass";
 import styled from "styled-components";
@@ -45,13 +45,13 @@ export default function CommonBases({
             <AutoRow gap="4px">
                 <BaseWrapper
                     onClick={() => {
-                        if (!selectedCurrency || !currencyEquals(selectedCurrency, DOGECHAIN)) {
-                            onSelect(DOGECHAIN);
+                        if (!selectedCurrency || !currencyEquals(selectedCurrency, NativeToken.Instance)) {
+                            onSelect(NativeToken.Instance);
                         }
                     }}
-                    disable={selectedCurrency === DOGECHAIN}
+                    disable={selectedCurrency === NativeToken.Instance}
                 >
-                    <CurrencyLogo currency={DOGECHAIN} style={{ marginRight: 8 }} />
+                    <CurrencyLogo currency={NativeToken.Instance} style={{ marginRight: 8 }} />
                     <Text fontWeight={500} fontSize={16}>
                         DC
                     </Text>
