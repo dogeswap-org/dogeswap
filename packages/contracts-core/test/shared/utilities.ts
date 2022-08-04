@@ -1,7 +1,7 @@
 import { defaultAbiCoder } from "@ethersproject/abi";
-import { Web3Provider } from "@ethersproject/providers";
-import { BigNumber, Contract } from "ethers";
+import { BigNumber, Contract, Signer } from "ethers";
 import { getAddress, keccak256, solidityPack, toUtf8Bytes } from "ethers/lib/utils";
+import hre, { ethers } from "hardhat";
 
 const PERMIT_TYPEHASH = keccak256(
     toUtf8Bytes("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"),
@@ -21,7 +21,7 @@ function getDomainSeparator(name: string, tokenAddress: string) {
                 ),
                 keccak256(toUtf8Bytes(name)),
                 keccak256(toUtf8Bytes("1")),
-                1,
+                31337,
                 tokenAddress,
             ],
         ),
@@ -74,10 +74,10 @@ export async function getApprovalDigest(
     );
 }
 
-export async function mineBlock(provider: Web3Provider, timestamp: number): Promise<void> {
+export async function setAutomine(enable: boolean) {
     await new Promise(async (resolve, reject) => {
-        (provider.provider.sendAsync as any)(
-            { jsonrpc: "2.0", method: "evm_mine", params: [timestamp] },
+        (hre.network.provider.sendAsync as any)(
+            { jsonrpc: "2.0", method: "evm_setAutomine", params: [enable] },
             (error: any, result: any): void => {
                 if (error) {
                     reject(error);
@@ -89,9 +89,22 @@ export async function mineBlock(provider: Web3Provider, timestamp: number): Prom
     });
 }
 
+export async function mineBlock(timestamp?: number) {
+    if (timestamp != undefined) {
+        await hre.network.provider.send("evm_setNextBlockTimestamp", [timestamp]);
+    }
+
+    await hre.network.provider.send("evm_mine");
+}
+
 export function encodePrice(reserve0: BigNumber, reserve1: BigNumber) {
     return [
         reserve1.mul(BigNumber.from(2).pow(112)).div(reserve0),
         reserve0.mul(BigNumber.from(2).pow(112)).div(reserve1),
     ];
 }
+
+export const deployContract = async (name: string, signer: Signer, ...args: any[]) => {
+    const factory = await ethers.getContractFactory(name, signer);
+    return factory.deploy(...args);
+};

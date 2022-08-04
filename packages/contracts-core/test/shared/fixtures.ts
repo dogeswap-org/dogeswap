@@ -1,41 +1,35 @@
-import { deployContract } from "ethereum-waffle";
-import { Contract, Wallet } from "ethers";
-
-import { expandTo18Decimals } from "./utilities";
-
-import { Web3Provider } from "@ethersproject/providers";
-import DogeSwapV2Factory from "../../artifacts/contracts/DogeSwapV2Factory.sol/DogeSwapV2Factory.json";
+import { Contract } from "ethers";
+import { ethers } from "hardhat";
 import DogeSwapV2Pair from "../../artifacts/contracts/DogeSwapV2Pair.sol/DogeSwapV2Pair.json";
-import ERC20 from "../../artifacts/contracts/test/ERC20.sol/ERC20.json";
+import { deployContract, expandTo18Decimals } from "./utilities";
 
 interface FactoryFixture {
     factory: Contract;
 }
 
-const overrides = {
-    gasLimit: 9999999,
-};
-
-export async function factoryFixture([wallet]: Wallet[], _: Web3Provider): Promise<FactoryFixture> {
-    const factory = await deployContract(wallet, DogeSwapV2Factory, [wallet.address], overrides);
-    return { factory };
-}
-
-interface PairFixture extends FactoryFixture {
+interface FullFixture extends FactoryFixture {
     token0: Contract;
     token1: Contract;
     pair: Contract;
 }
 
-export async function pairFixture([wallet]: Wallet[], provider: Web3Provider): Promise<PairFixture> {
-    const { factory } = await factoryFixture([wallet], provider);
+export async function factoryFixture(): Promise<FactoryFixture> {
+    const [owner] = await ethers.getSigners();
+    const factory = await deployContract("DogeSwapV2Factory", owner, owner.address);
+    return { factory };
+}
 
-    const tokenA = await deployContract(wallet, ERC20, [expandTo18Decimals(10000)], overrides);
-    const tokenB = await deployContract(wallet, ERC20, [expandTo18Decimals(10000)], overrides);
+export async function fullFixture(): Promise<FullFixture> {
+    const [owner] = await ethers.getSigners();
 
-    await factory.createPair(tokenA.address, tokenB.address, overrides);
+    const { factory } = await factoryFixture();
+
+    const tokenA = await deployContract("ERC20", owner, expandTo18Decimals(10000));
+    const tokenB = await deployContract("ERC20", owner, expandTo18Decimals(10000));
+
+    await factory.createPair(tokenA.address, tokenB.address);
     const pairAddress = await factory.getPair(tokenA.address, tokenB.address);
-    const pair = new Contract(pairAddress, JSON.stringify(DogeSwapV2Pair.abi), provider).connect(wallet);
+    const pair = new Contract(pairAddress, JSON.stringify(DogeSwapV2Pair.abi), owner);
 
     const token0Address = (await pair.token0()).address;
     const token0 = tokenA.address === token0Address ? tokenA : tokenB;

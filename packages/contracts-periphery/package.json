@@ -22,7 +22,8 @@
         "clean": "rimraf ./cache && rimraf ./artifacts && rimraf ./typechain-types",
         "build": "hardhat compile",
         "pretest": "yarn build",
-        "prepublishOnly": "yarn test"
+        "prepublishOnly": "yarn test",
+        "test": "hardhat test"
     },
     "dependencies": {
         "@dogeswap/contracts-core": "workspace:^",

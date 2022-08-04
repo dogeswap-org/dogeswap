@@ -9,6 +9,11 @@ const config: HardhatUserConfig = {
             optimizer: { enabled: true, runs: 100 },
         },
     },
+    networks: {
+        hardhat: {
+            allowUnlimitedContractSize: true,
+        },
+    },
 };
 
 export default config;

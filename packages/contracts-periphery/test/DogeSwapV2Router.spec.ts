@@ -1,39 +1,29 @@
-import chai, { expect } from "chai";
-import { createFixtureLoader, deployContract, MockProvider, solidity } from "ethereum-waffle";
+import { expect } from "chai";
 import { BigNumber, Contract } from "ethers";
 import { ethers } from "hardhat";
 import IUniswapV2Pair from "../../contracts-core/artifacts/contracts/interfaces/IDogeSwapV2Pair.sol/IDogeSwapV2Pair.json";
 
-import { v2Fixture } from "./shared/fixtures";
+import { createFixture, deployContract } from "./shared/fixtures";
 import { expandTo18Decimals, getApprovalDigest, MINIMUM_LIQUIDITY } from "./shared/utilities";
 
 import { ecsign } from "ethereumjs-util";
-import DeflatingERC20 from "../build/DeflatingERC20.json";
 
 const {
     constants: { MaxUint256 },
 } = ethers;
 
-chai.use(solidity);
-
 const overrides = {
     gasLimit: 9999999,
 };
 
-describe("UniswapV2Router02", () => {
-    const provider = new MockProvider({
-        hardfork: "istanbul",
-        mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
-        gasLimit: 9999999,
-    });
-    const [wallet] = provider.getWallets();
-    const loadFixture = createFixtureLoader(provider, [wallet]);
+describe("UniswapV2Router02", async () => {
+    const [owner] = await ethers.getSigners();
 
     let token0: Contract;
     let token1: Contract;
     let router: Contract;
     beforeEach(async function () {
-        const fixture = await loadFixture(v2Fixture);
+        const fixture = await createFixture();
         token0 = fixture.token0;
         token1 = fixture.token1;
         router = fixture.router;
@@ -97,7 +87,7 @@ describe("UniswapV2Router02", () => {
             BigNumber.from(10000),
             0,
             0,
-            wallet.address,
+            owner.address,
             MaxUint256,
             overrides,
         );
@@ -119,7 +109,7 @@ describe("UniswapV2Router02", () => {
             BigNumber.from(10000),
             0,
             0,
-            wallet.address,
+            owner.address,
             MaxUint256,
             overrides,
         );
@@ -132,40 +122,35 @@ describe("UniswapV2Router02", () => {
     });
 });
 
-describe("fee-on-transfer tokens", () => {
-    const provider = new MockProvider({
-        hardfork: "istanbul",
-        mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
-        gasLimit: 9999999,
-    });
-    const [wallet] = provider.getWallets();
-    const loadFixture = createFixtureLoader(provider, [wallet]);
+describe("fee-on-transfer tokens", async () => {
+    const [owner] = await ethers.getSigners();
+    const ownerPrivateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"; // Same as first localnet account.
 
     let DTT: Contract;
     let WETH: Contract;
     let router: Contract;
     let pair: Contract;
     beforeEach(async function () {
-        const fixture = await loadFixture(v2Fixture);
+        const fixture = await createFixture();
 
         WETH = fixture.WETH;
         router = fixture.router;
 
-        DTT = await deployContract(wallet, DeflatingERC20, [expandTo18Decimals(10000)]);
+        DTT = await deployContract("DeflatingERC20", owner, "DTT", "DTT", expandTo18Decimals(10000));
 
         // make a DTT<>WETH pair
         await fixture.factory.createPair(DTT.address, WETH.address);
         const pairAddress = await fixture.factory.getPair(DTT.address, WETH.address);
-        pair = new Contract(pairAddress, JSON.stringify(IUniswapV2Pair.abi), provider).connect(wallet);
+        pair = new Contract(pairAddress, JSON.stringify(IUniswapV2Pair.abi), owner);
     });
 
     afterEach(async function () {
-        expect(await provider.getBalance(router.address)).to.eq(0);
+        expect(await ethers.getDefaultProvider().getBalance(router.address)).to.eq(0);
     });
 
     async function addLiquidity(DTTAmount: BigNumber, WETHAmount: BigNumber) {
         await DTT.approve(router.address, MaxUint256);
-        await router.addLiquidityETH(DTT.address, DTTAmount, DTTAmount, WETHAmount, wallet.address, MaxUint256, {
+        await router.addLiquidityETH(DTT.address, DTTAmount, DTTAmount, WETHAmount, owner.address, MaxUint256, {
             ...overrides,
             value: WETHAmount,
         });
@@ -178,7 +163,7 @@ describe("fee-on-transfer tokens", () => {
 
         const DTTInPair = await DTT.balanceOf(pair.address);
         const WETHInPair = await WETH.balanceOf(pair.address);
-        const liquidity = await pair.balanceOf(wallet.address);
+        const liquidity = await pair.balanceOf(owner.address);
         const totalSupply = await pair.totalSupply();
         const NaiveDTTExpected = DTTInPair.mul(liquidity).div(totalSupply);
         const WETHExpected = WETHInPair.mul(liquidity).div(totalSupply);
@@ -189,7 +174,7 @@ describe("fee-on-transfer tokens", () => {
             liquidity,
             NaiveDTTExpected,
             WETHExpected,
-            wallet.address,
+            owner.address,
             MaxUint256,
             overrides,
         );
@@ -202,18 +187,19 @@ describe("fee-on-transfer tokens", () => {
 
         const expectedLiquidity = expandTo18Decimals(2);
 
-        const nonce = await pair.nonces(wallet.address);
+        const nonce = await pair.nonces(owner.address);
         const digest = await getApprovalDigest(
             pair,
-            { owner: wallet.address, spender: router.address, value: expectedLiquidity.sub(MINIMUM_LIQUIDITY) },
+            { owner: owner.address, spender: router.address, value: expectedLiquidity.sub(MINIMUM_LIQUIDITY) },
             nonce,
             MaxUint256,
         );
-        const { v, r, s } = ecsign(Buffer.from(digest.slice(2), "hex"), Buffer.from(wallet.privateKey.slice(2), "hex"));
+
+        const { v, r, s } = ecsign(Buffer.from(digest.slice(2), "hex"), Buffer.from(ownerPrivateKey.slice(2), "hex"));
 
         const DTTInPair = await DTT.balanceOf(pair.address);
         const WETHInPair = await WETH.balanceOf(pair.address);
-        const liquidity = await pair.balanceOf(wallet.address);
+        const liquidity = await pair.balanceOf(owner.address);
         const totalSupply = await pair.totalSupply();
         const NaiveDTTExpected = DTTInPair.mul(liquidity).div(totalSupply);
         const WETHExpected = WETHInPair.mul(liquidity).div(totalSupply);
@@ -224,7 +210,7 @@ describe("fee-on-transfer tokens", () => {
             liquidity,
             NaiveDTTExpected,
             WETHExpected,
-            wallet.address,
+            owner.address,
             MaxUint256,
             false,
             v,
@@ -250,7 +236,7 @@ describe("fee-on-transfer tokens", () => {
                 amountIn,
                 0,
                 [DTT.address, WETH.address],
-                wallet.address,
+                owner.address,
                 MaxUint256,
                 overrides,
             );
@@ -265,7 +251,7 @@ describe("fee-on-transfer tokens", () => {
                 amountIn,
                 0,
                 [WETH.address, DTT.address],
-                wallet.address,
+                owner.address,
                 MaxUint256,
                 overrides,
             );
@@ -282,7 +268,7 @@ describe("fee-on-transfer tokens", () => {
         await router.swapExactETHForTokensSupportingFeeOnTransferTokens(
             0,
             [WETH.address, DTT.address],
-            wallet.address,
+            owner.address,
             MaxUint256,
             {
                 ...overrides,
@@ -304,32 +290,26 @@ describe("fee-on-transfer tokens", () => {
             swapAmount,
             0,
             [DTT.address, WETH.address],
-            wallet.address,
+            owner.address,
             MaxUint256,
             overrides,
         );
     });
 });
 
-describe("fee-on-transfer tokens: reloaded", () => {
-    const provider = new MockProvider({
-        hardfork: "istanbul",
-        mnemonic: "horn horn horn horn horn horn horn horn horn horn horn horn",
-        gasLimit: 9999999,
-    });
-    const [wallet] = provider.getWallets();
-    const loadFixture = createFixtureLoader(provider, [wallet]);
+describe("fee-on-transfer tokens: reloaded", async () => {
+    const [owner] = await ethers.getSigners();
 
     let DTT: Contract;
     let DTT2: Contract;
     let router: Contract;
     beforeEach(async function () {
-        const fixture = await loadFixture(v2Fixture);
+        const fixture = await createFixture();
 
         router = fixture.router;
 
-        DTT = await deployContract(wallet, DeflatingERC20, [expandTo18Decimals(10000)]);
-        DTT2 = await deployContract(wallet, DeflatingERC20, [expandTo18Decimals(10000)]);
+        DTT = await deployContract("DeflatingERC20", owner, "DTT", "DTT", expandTo18Decimals(10000));
+        DTT2 = await deployContract("DeflatingERC20", owner, "DTT2", "DTT2", expandTo18Decimals(10000));
 
         // make a DTT<>WETH pair
         await fixture.factory.createPair(DTT.address, DTT2.address);
@@ -337,7 +317,7 @@ describe("fee-on-transfer tokens: reloaded", () => {
     });
 
     afterEach(async function () {
-        expect(await provider.getBalance(router.address)).to.eq(0);
+        expect(await ethers.getDefaultProvider().getBalance(router.address)).to.eq(0);
     });
 
     async function addLiquidity(DTTAmount: BigNumber, DTT2Amount: BigNumber) {
@@ -350,7 +330,7 @@ describe("fee-on-transfer tokens: reloaded", () => {
             DTT2Amount,
             DTTAmount,
             DTT2Amount,
-            wallet.address,
+            owner.address,
             MaxUint256,
             overrides,
         );
@@ -372,7 +352,7 @@ describe("fee-on-transfer tokens: reloaded", () => {
                 amountIn,
                 0,
                 [DTT.address, DTT2.address],
-                wallet.address,
+                owner.address,
                 MaxUint256,
                 overrides,
             );

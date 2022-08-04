@@ -3,9 +3,8 @@
     "include": [
         "./test"
     ],
-    "exclude": [
-        "dist",
-        "node_modules"
+    "files": [
+        "./hardhat.config.ts"
     ],
     "compilerOptions": {
         "outDir": "dist"

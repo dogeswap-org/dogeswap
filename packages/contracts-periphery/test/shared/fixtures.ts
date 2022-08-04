@@ -1,14 +1,11 @@
-import { Web3Provider } from "@ethersproject/providers";
-import { deployContract } from "ethereum-waffle";
-import { Contract, Wallet } from "ethers";
+import { Contract, Signer } from "ethers";
+import { ethers } from "hardhat";
 
 import { expandTo18Decimals } from "./utilities";
 
+import { Artifact } from "hardhat/types";
 import UniswapV2Factory from "../../../contracts-core/artifacts/contracts/DogeSwapV2Factory.sol/DogeSwapV2Factory.json";
 import IUniswapV2Pair from "../../../contracts-core/artifacts/contracts/DogeSwapV2Pair.sol/DogeSwapV2Pair.json";
-import UniswapV2Router from "../../artifacts/contracts/DogeSwapV2Router.sol/DogeSwapV2Router.json";
-import ERC20 from "../../artifacts/contracts/localnet/ERC20.sol/ERC20.json";
-import WETH9 from "../../artifacts/contracts/localnet/WDC.sol/WDC.json";
 
 const overrides = {
     gasLimit: 9999999,
@@ -25,22 +22,33 @@ interface V2Fixture {
     WETHPair: Contract;
 }
 
-export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Promise<V2Fixture> {
+export const deployContract = async (name: string, signer: Signer, ...args: any[]) => {
+    const factory = await ethers.getContractFactory(name, signer);
+    return factory.deploy(...args);
+};
+
+export const deployContractFromArtifact = async (artifact: Artifact, signer: Signer, ...args: any[]) => {
+    const factory = await ethers.getContractFactoryFromArtifact(artifact, signer);
+    return factory.deploy(...args);
+};
+
+export async function createFixture(): Promise<V2Fixture> {
+    const [signer] = await ethers.getSigners();
+
     // deploy tokens
-    const tokenA = await deployContract(wallet, ERC20, [expandTo18Decimals(10000)]);
-    const tokenB = await deployContract(wallet, ERC20, [expandTo18Decimals(10000)]);
-    const WETH = await deployContract(wallet, WETH9);
-    const WETHPartner = await deployContract(wallet, ERC20, [expandTo18Decimals(10000)]);
+    const tokenA = await deployContract("ERC20", signer, "Token A", "A", expandTo18Decimals(10000));
+    const tokenB = await deployContract("ERC20", signer, "Token B", "B", expandTo18Decimals(10000));
+    const WETH = await deployContract("WDC", signer);
+    const WETHPartner = await deployContract("ERC20", signer, "WDC Partner", "WDCP", expandTo18Decimals(10000));
 
     // deploy V2
-    const factory = await deployContract(wallet, UniswapV2Factory, [wallet.address]);
-
-    const router = await deployContract(wallet, UniswapV2Router, [factory.address, WETH.address], overrides);
+    const factory = await deployContractFromArtifact(UniswapV2Factory, signer, signer.address);
+    const router = await deployContract("DogeSwapV2Router", signer, factory.address, WETH.address, overrides);
 
     // initialize V2
     await factory.createPair(tokenA.address, tokenB.address);
     const pairAddress = await factory.getPair(tokenA.address, tokenB.address);
-    const pair = new Contract(pairAddress, JSON.stringify(IUniswapV2Pair.abi), provider).connect(wallet);
+    const pair = new Contract(pairAddress, JSON.stringify(IUniswapV2Pair.abi), signer);
 
     const token0Address = await pair.token0();
     const token0 = tokenA.address === token0Address ? tokenA : tokenB;
@@ -48,7 +56,7 @@ export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Pro
 
     await factory.createPair(WETH.address, WETHPartner.address);
     const WETHPairAddress = await factory.getPair(WETH.address, WETHPartner.address);
-    const WETHPair = new Contract(WETHPairAddress, JSON.stringify(IUniswapV2Pair.abi), provider).connect(wallet);
+    const WETHPair = new Contract(WETHPairAddress, JSON.stringify(IUniswapV2Pair.abi), signer);
 
     return {
         token0,
