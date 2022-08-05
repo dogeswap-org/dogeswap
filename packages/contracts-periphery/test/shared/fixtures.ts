@@ -14,12 +14,12 @@ const overrides = {
 interface V2Fixture {
     token0: Contract;
     token1: Contract;
-    WDC: Contract;
-    WDCPartner: Contract;
+    WWDOGE: Contract;
+    WWDOGEPartner: Contract;
     factory: Contract;
     router: Contract;
     pair: Contract;
-    WDCPair: Contract;
+    WWDOGEPair: Contract;
 }
 
 export const deployContract = async (name: string, signer: Signer, ...args: any[]) => {
@@ -38,12 +38,12 @@ export async function fixture(): Promise<V2Fixture> {
     // deploy tokens
     const tokenA = await deployContract("ERC20", signer, "Token A", "A", expandTo18Decimals(10000));
     const tokenB = await deployContract("ERC20", signer, "Token B", "B", expandTo18Decimals(10000));
-    const WDC = await deployContract("WDC", signer);
-    const WDCPartner = await deployContract("ERC20", signer, "WDC Partner", "WDCP", expandTo18Decimals(10000));
+    const WWDOGE = await deployContract("WWDOGE", signer);
+    const WWDOGEPartner = await deployContract("ERC20", signer, "WWDOGE Partner", "WWDOGEP", expandTo18Decimals(10000));
 
     // deploy V2
     const factory = await deployContractFromArtifact(UniswapV2Factory, signer, signer.address);
-    const router = await deployContract("DogeSwapV2Router", signer, factory.address, WDC.address, overrides);
+    const router = await deployContract("DogeSwapV2Router", signer, factory.address, WWDOGE.address, overrides);
 
     // initialize V2
     await factory.createPair(tokenA.address, tokenB.address);
@@ -54,18 +54,18 @@ export async function fixture(): Promise<V2Fixture> {
     const token0 = tokenA.address === token0Address ? tokenA : tokenB;
     const token1 = tokenA.address === token0Address ? tokenB : tokenA;
 
-    await factory.createPair(WDC.address, WDCPartner.address);
-    const WDCPairAddress = await factory.getPair(WDC.address, WDCPartner.address);
-    const WDCPair = new Contract(WDCPairAddress, JSON.stringify(IUniswapV2Pair.abi), signer);
+    await factory.createPair(WWDOGE.address, WWDOGEPartner.address);
+    const WWDOGEPairAddress = await factory.getPair(WWDOGE.address, WWDOGEPartner.address);
+    const WWDOGEPair = new Contract(WWDOGEPairAddress, JSON.stringify(IUniswapV2Pair.abi), signer);
 
     return {
         token0,
         token1,
-        WDC,
-        WDCPartner,
+        WWDOGE,
+        WWDOGEPartner,
         factory,
         router,
         pair,
-        WDCPair,
+        WWDOGEPair,
     };
 }

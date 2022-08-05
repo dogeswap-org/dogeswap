@@ -4,7 +4,7 @@ import invariant from "tiny-invariant";
 import { Pair } from "../../src/entities/pair";
 import { Route } from "../../src/entities/route";
 import { Trade } from "../../src/entities/trade";
-import { testWDC } from "../testUtils";
+import { testWWDOGE } from "../testUtils";
 
 const factoryAddress = "0x0000000000000000000000000000000000000000";
 const ADDRESSES = [
@@ -51,7 +51,7 @@ describe("entities", () => {
                     ),
                     new Pair(
                         new CurrencyAmount(tokens[2], decimalize(1, tokens[2].decimals)),
-                        new CurrencyAmount(testWDC, decimalize(1234, testWDC.decimals)),
+                        new CurrencyAmount(testWWDOGE, decimalize(1234, testWWDOGE.decimals)),
                         factoryAddress,
                     ),
                 ];
@@ -59,11 +59,11 @@ describe("entities", () => {
 
             let route: Route;
             it("Route", () => {
-                route = new Route(pairs, testWDC, tokens[0]);
+                route = new Route(pairs, testWWDOGE, tokens[0]);
                 expect(route.pairs).toEqual(pairs);
-                expect(route.path).toEqual(tokens.concat([testWDC]));
+                expect(route.path).toEqual(tokens.concat([testWWDOGE]));
                 expect(route.input).toEqual(tokens[0]);
-                expect(route.output).toEqual(testWDC);
+                expect(route.output).toEqual(testWWDOGE);
             });
 
             it("Price:Route.midPrice", () => {
@@ -114,16 +114,16 @@ describe("entities", () => {
                         [
                             new Pair(
                                 new CurrencyAmount(tokens[1], decimalize(5, tokens[1].decimals)),
-                                new CurrencyAmount(testWDC, decimalize(10, testWDC.decimals)),
+                                new CurrencyAmount(testWWDOGE, decimalize(10, testWWDOGE.decimals)),
                                 factoryAddress,
                             ),
                         ],
-                        testWDC,
+                        testWWDOGE,
                         tokens[1],
                     );
                     const inputAmount = new CurrencyAmount(tokens[1], decimalize(1, tokens[1].decimals));
-                    const expectedOutputAmount = new CurrencyAmount(testWDC, "1662497915624478906");
-                    const trade = new Trade(route, inputAmount, TradeType.EXACT_INPUT, testWDC, factoryAddress);
+                    const expectedOutputAmount = new CurrencyAmount(testWWDOGE, "1662497915624478906");
+                    const trade = new Trade(route, inputAmount, TradeType.EXACT_INPUT, testWWDOGE, factoryAddress);
                     expect(trade.route).toEqual(route);
                     expect(trade.tradeType).toEqual(TradeType.EXACT_INPUT);
                     expect(trade.inputAmount).toEqual(inputAmount);
@@ -141,9 +141,9 @@ describe("entities", () => {
                 });
 
                 it("TradeType.EXACT_OUTPUT", () => {
-                    const outputAmount = new CurrencyAmount(testWDC, "1662497915624478906");
+                    const outputAmount = new CurrencyAmount(testWWDOGE, "1662497915624478906");
                     const expectedInputAmount = new CurrencyAmount(tokens[1], decimalize(1, tokens[1].decimals));
-                    const trade = new Trade(route, outputAmount, TradeType.EXACT_OUTPUT, testWDC, factoryAddress);
+                    const trade = new Trade(route, outputAmount, TradeType.EXACT_OUTPUT, testWWDOGE, factoryAddress);
                     expect(trade.route).toEqual(route);
                     expect(trade.tradeType).toEqual(TradeType.EXACT_OUTPUT);
                     expect(trade.outputAmount).toEqual(outputAmount);
@@ -167,9 +167,9 @@ describe("entities", () => {
                                 new Pair(
                                     new CurrencyAmount(tokens[1], decimalize(1, tokens[1].decimals)),
                                     new CurrencyAmount(
-                                        testWDC,
+                                        testWWDOGE,
                                         JSBI.add(
-                                            decimalize(10, testWDC.decimals),
+                                            decimalize(10, testWWDOGE.decimals),
                                             tokens[1].decimals === 9
                                                 ? JSBI.BigInt("30090280812437312")
                                                 : JSBI.BigInt("30090270812437322"),
@@ -178,11 +178,11 @@ describe("entities", () => {
                                     factoryAddress,
                                 ),
                             ],
-                            testWDC,
+                            testWWDOGE,
                             tokens[1],
                         );
                         const outputAmount = new CurrencyAmount(tokens[1], "1");
-                        const trade = new Trade(route, outputAmount, TradeType.EXACT_INPUT, testWDC, factoryAddress);
+                        const trade = new Trade(route, outputAmount, TradeType.EXACT_INPUT, testWWDOGE, factoryAddress);
 
                         expect(trade.priceImpact.toSignificant(18)).toEqual(
                             tokens[1].decimals === 9 ? "0.300000099400899902" : "0.3000000000000001",
@@ -192,7 +192,7 @@ describe("entities", () => {
             });
 
             it("CurrencyAmount", () => {
-                const amount = new CurrencyAmount(testWDC, "1234567000000000000000");
+                const amount = new CurrencyAmount(testWWDOGE, "1234567000000000000000");
                 expect(amount.toExact()).toEqual("1234.567");
                 expect(amount.toExact({ groupSeparator: "," })).toEqual("1,234.567");
             });

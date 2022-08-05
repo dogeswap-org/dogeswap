@@ -62,7 +62,7 @@ task("deploy")
     .addParam("wallet", "The path to the encrypted JSON wallet file.", undefined, types.inputFile, false)
     .addOptionalParam(
         "wdc",
-        "The address to the WDC contract, if it exists. If unpecified the WDC contract will be created.",
+        "The address to the WWDOGE contract, if it exists. If unpecified the WWDOGE contract will be created.",
         undefined,
         types.string,
     )

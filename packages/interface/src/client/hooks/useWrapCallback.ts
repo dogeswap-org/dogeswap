@@ -49,7 +49,7 @@ export default function useWrapCallback(
                                       value: `0x${inputAmount.raw.toString(16)}`,
                                   });
                                   addTransaction(txReceipt, {
-                                      summary: `Wrap ${inputAmount.toSignificant(6)} DC to WDC`,
+                                      summary: `Wrap ${inputAmount.toSignificant(6)} DC to WWDOGE`,
                                   });
                               } catch (error) {
                                   console.error("Could not deposit", error);
@@ -67,14 +67,14 @@ export default function useWrapCallback(
                               try {
                                   const txReceipt = await wdcContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
                                   addTransaction(txReceipt, {
-                                      summary: `Unwrap ${inputAmount.toSignificant(6)} WDC to DC`,
+                                      summary: `Unwrap ${inputAmount.toSignificant(6)} WWDOGE to DC`,
                                   });
                               } catch (error) {
                                   console.error("Could not withdraw", error);
                               }
                           }
                         : undefined,
-                inputError: sufficientBalance ? undefined : "Insufficient WDC balance",
+                inputError: sufficientBalance ? undefined : "Insufficient WWDOGE balance",
             };
         } else {
             return NOT_APPLICABLE;

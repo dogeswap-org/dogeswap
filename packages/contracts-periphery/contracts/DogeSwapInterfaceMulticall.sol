@@ -20,7 +20,7 @@ contract DogeSwapInterfaceMulticall {
         timestamp = block.timestamp;
     }
 
-    function getDCBalance(address addr) public view returns (uint balance) {
+    function getWDOGEBalance(address addr) public view returns (uint balance) {
         balance = addr.balance;
     }
 

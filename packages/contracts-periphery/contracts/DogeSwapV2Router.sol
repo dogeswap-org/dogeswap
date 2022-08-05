@@ -7,26 +7,26 @@ import "./interfaces/IDogeSwapV2Router02.sol";
 import "./libraries/DogeSwapV2Library.sol";
 import "./libraries/SafeMath.sol";
 import "./interfaces/IERC20.sol";
-import "./interfaces/IWDC.sol";
+import "./interfaces/IWWDOGE.sol";
 
 contract DogeSwapV2Router is IDogeSwapV2Router02 {
     using SafeMath for uint;
 
     address public immutable override factory;
-    address public immutable override WDC;
+    address public immutable override WWDOGE;
 
     modifier ensure(uint deadline) {
         require(deadline >= block.timestamp, "DogeSwapV2Router: EXPIRED");
         _;
     }
 
-    constructor(address _factory, address _WDC) {
+    constructor(address _factory, address _WWDOGE) {
         factory = _factory;
-        WDC = _WDC;
+        WWDOGE = _WWDOGE;
     }
 
     receive() external payable {
-        assert(msg.sender == WDC); // only accept DC via fallback from the WDC contract
+        assert(msg.sender == WWDOGE); // only accept WDOGE via fallback from the WWDOGE contract
     }
 
     // **** ADD LIQUIDITY ****
@@ -86,11 +86,11 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         liquidity = IDogeSwapV2Pair(pair).mint(to);
     }
 
-    function addLiquidityDC(
+    function addLiquidityWDOGE(
         address token,
         uint amountTokenDesired,
         uint amountTokenMin,
-        uint amountDCMin,
+        uint amountWDOGEMin,
         address to,
         uint deadline
     )
@@ -101,18 +101,25 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         ensure(deadline)
         returns (
             uint amountToken,
-            uint amountDC,
+            uint amountWDOGE,
             uint liquidity
         )
     {
-        (amountToken, amountDC) = _addLiquidity(token, WDC, amountTokenDesired, msg.value, amountTokenMin, amountDCMin);
-        address pair = DogeSwapV2Library.pairFor(factory, token, WDC);
+        (amountToken, amountWDOGE) = _addLiquidity(
+            token,
+            WWDOGE,
+            amountTokenDesired,
+            msg.value,
+            amountTokenMin,
+            amountWDOGEMin
+        );
+        address pair = DogeSwapV2Library.pairFor(factory, token, WWDOGE);
         TransferHelper.safeTransferFrom(token, msg.sender, pair, amountToken);
-        IWDC(WDC).deposit{value: amountDC}();
-        assert(IWDC(WDC).transfer(pair, amountDC));
+        IWWDOGE(WWDOGE).deposit{value: amountWDOGE}();
+        assert(IWWDOGE(WWDOGE).transfer(pair, amountWDOGE));
         liquidity = IDogeSwapV2Pair(pair).mint(to);
-        // refund dust DC, if any
-        if (msg.value > amountDC) TransferHelper.safeTransferETH(msg.sender, msg.value - amountDC);
+        // refund dust WDOGE, if any
+        if (msg.value > amountWDOGE) TransferHelper.safeTransferETH(msg.sender, msg.value - amountWDOGE);
     }
 
     // **** REMOVE LIQUIDITY ****
@@ -134,26 +141,26 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         require(amountB >= amountBMin, "DogeSwapV2Router: INSUFFICIENT_B_AMOUNT");
     }
 
-    function removeLiquidityDC(
+    function removeLiquidityWDOGE(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountDCMin,
+        uint amountWDOGEMin,
         address to,
         uint deadline
-    ) public virtual override ensure(deadline) returns (uint amountToken, uint amountDC) {
-        (amountToken, amountDC) = removeLiquidity(
+    ) public virtual override ensure(deadline) returns (uint amountToken, uint amountWDOGE) {
+        (amountToken, amountWDOGE) = removeLiquidity(
             token,
-            WDC,
+            WWDOGE,
             liquidity,
             amountTokenMin,
-            amountDCMin,
+            amountWDOGEMin,
             address(this),
             deadline
         );
         TransferHelper.safeTransfer(token, to, amountToken);
-        IWDC(WDC).withdraw(amountDC);
-        TransferHelper.safeTransferETH(to, amountDC);
+        IWWDOGE(WWDOGE).withdraw(amountWDOGE);
+        TransferHelper.safeTransferETH(to, amountWDOGE);
     }
 
     function removeLiquidityWithPermit(
@@ -175,59 +182,74 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         (amountA, amountB) = removeLiquidity(tokenA, tokenB, liquidity, amountAMin, amountBMin, to, deadline);
     }
 
-    function removeLiquidityDCWithPermit(
+    function removeLiquidityWDOGEWithPermit(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountDCMin,
+        uint amountWDOGEMin,
         address to,
         uint deadline,
         bool approveMax,
         uint8 v,
         bytes32 r,
         bytes32 s
-    ) external virtual override returns (uint amountToken, uint amountDC) {
-        address pair = DogeSwapV2Library.pairFor(factory, token, WDC);
+    ) external virtual override returns (uint amountToken, uint amountWDOGE) {
+        address pair = DogeSwapV2Library.pairFor(factory, token, WWDOGE);
         uint value = approveMax ? uint(-1) : liquidity;
         IDogeSwapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
-        (amountToken, amountDC) = removeLiquidityDC(token, liquidity, amountTokenMin, amountDCMin, to, deadline);
-    }
-
-    // **** REMOVE LIQUIDITY (supporting fee-on-transfer tokens) ****
-    function removeLiquidityDCSupportingFeeOnTransferTokens(
-        address token,
-        uint liquidity,
-        uint amountTokenMin,
-        uint amountDCMin,
-        address to,
-        uint deadline
-    ) public virtual override ensure(deadline) returns (uint amountDC) {
-        (, amountDC) = removeLiquidity(token, WDC, liquidity, amountTokenMin, amountDCMin, address(this), deadline);
-        TransferHelper.safeTransfer(token, to, IERC20(token).balanceOf(address(this)));
-        IWDC(WDC).withdraw(amountDC);
-        TransferHelper.safeTransferETH(to, amountDC);
-    }
-
-    function removeLiquidityDCWithPermitSupportingFeeOnTransferTokens(
-        address token,
-        uint liquidity,
-        uint amountTokenMin,
-        uint amountDCMin,
-        address to,
-        uint deadline,
-        bool approveMax,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    ) external virtual override returns (uint amountDC) {
-        address pair = DogeSwapV2Library.pairFor(factory, token, WDC);
-        uint value = approveMax ? uint(-1) : liquidity;
-        IDogeSwapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
-        amountDC = removeLiquidityDCSupportingFeeOnTransferTokens(
+        (amountToken, amountWDOGE) = removeLiquidityWDOGE(
             token,
             liquidity,
             amountTokenMin,
-            amountDCMin,
+            amountWDOGEMin,
+            to,
+            deadline
+        );
+    }
+
+    // **** REMOVE LIQUIDITY (supporting fee-on-transfer tokens) ****
+    function removeLiquidityWDOGESupportingFeeOnTransferTokens(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountWDOGEMin,
+        address to,
+        uint deadline
+    ) public virtual override ensure(deadline) returns (uint amountWDOGE) {
+        (, amountWDOGE) = removeLiquidity(
+            token,
+            WWDOGE,
+            liquidity,
+            amountTokenMin,
+            amountWDOGEMin,
+            address(this),
+            deadline
+        );
+        TransferHelper.safeTransfer(token, to, IERC20(token).balanceOf(address(this)));
+        IWWDOGE(WWDOGE).withdraw(amountWDOGE);
+        TransferHelper.safeTransferETH(to, amountWDOGE);
+    }
+
+    function removeLiquidityWDOGEWithPermitSupportingFeeOnTransferTokens(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountWDOGEMin,
+        address to,
+        uint deadline,
+        bool approveMax,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external virtual override returns (uint amountWDOGE) {
+        address pair = DogeSwapV2Library.pairFor(factory, token, WWDOGE);
+        uint value = approveMax ? uint(-1) : liquidity;
+        IDogeSwapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
+        amountWDOGE = removeLiquidityWDOGESupportingFeeOnTransferTokens(
+            token,
+            liquidity,
+            amountTokenMin,
+            amountWDOGEMin,
             to,
             deadline
         );
@@ -291,28 +313,28 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         _swap(amounts, path, to);
     }
 
-    function swapExactDCForTokens(
+    function swapExactWDOGEForTokens(
         uint amountOutMin,
         address[] calldata path,
         address to,
         uint deadline
     ) external payable virtual override ensure(deadline) returns (uint[] memory amounts) {
-        require(path[0] == WDC, "DogeSwapV2Router: INVALID_PATH");
+        require(path[0] == WWDOGE, "DogeSwapV2Router: INVALID_PATH");
         amounts = DogeSwapV2Library.getAmountsOut(factory, msg.value, path);
         require(amounts[amounts.length - 1] >= amountOutMin, "DogeSwapV2Router: INSUFFICIENT_OUTPUT_AMOUNT");
-        IWDC(WDC).deposit{value: amounts[0]}();
-        assert(IWDC(WDC).transfer(DogeSwapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
+        IWWDOGE(WWDOGE).deposit{value: amounts[0]}();
+        assert(IWWDOGE(WWDOGE).transfer(DogeSwapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
         _swap(amounts, path, to);
     }
 
-    function swapTokensForExactDC(
+    function swapTokensForExactWDOGE(
         uint amountOut,
         uint amountInMax,
         address[] calldata path,
         address to,
         uint deadline
     ) external virtual override ensure(deadline) returns (uint[] memory amounts) {
-        require(path[path.length - 1] == WDC, "DogeSwapV2Router: INVALID_PATH");
+        require(path[path.length - 1] == WWDOGE, "DogeSwapV2Router: INVALID_PATH");
         amounts = DogeSwapV2Library.getAmountsIn(factory, amountOut, path);
         require(amounts[0] <= amountInMax, "DogeSwapV2Router: EXCESSIVE_INPUT_AMOUNT");
         TransferHelper.safeTransferFrom(
@@ -322,18 +344,18 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
             amounts[0]
         );
         _swap(amounts, path, address(this));
-        IWDC(WDC).withdraw(amounts[amounts.length - 1]);
+        IWWDOGE(WWDOGE).withdraw(amounts[amounts.length - 1]);
         TransferHelper.safeTransferETH(to, amounts[amounts.length - 1]);
     }
 
-    function swapExactTokensForDC(
+    function swapExactTokensForWDOGE(
         uint amountIn,
         uint amountOutMin,
         address[] calldata path,
         address to,
         uint deadline
     ) external virtual override ensure(deadline) returns (uint[] memory amounts) {
-        require(path[path.length - 1] == WDC, "DogeSwapV2Router: INVALID_PATH");
+        require(path[path.length - 1] == WWDOGE, "DogeSwapV2Router: INVALID_PATH");
         amounts = DogeSwapV2Library.getAmountsOut(factory, amountIn, path);
         require(amounts[amounts.length - 1] >= amountOutMin, "DogeSwapV2Router: INSUFFICIENT_OUTPUT_AMOUNT");
         TransferHelper.safeTransferFrom(
@@ -343,23 +365,23 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
             amounts[0]
         );
         _swap(amounts, path, address(this));
-        IWDC(WDC).withdraw(amounts[amounts.length - 1]);
+        IWWDOGE(WWDOGE).withdraw(amounts[amounts.length - 1]);
         TransferHelper.safeTransferETH(to, amounts[amounts.length - 1]);
     }
 
-    function swapDCForExactTokens(
+    function swapWDOGEForExactTokens(
         uint amountOut,
         address[] calldata path,
         address to,
         uint deadline
     ) external payable virtual override ensure(deadline) returns (uint[] memory amounts) {
-        require(path[0] == WDC, "DogeSwapV2Router: INVALID_PATH");
+        require(path[0] == WWDOGE, "DogeSwapV2Router: INVALID_PATH");
         amounts = DogeSwapV2Library.getAmountsIn(factory, amountOut, path);
         require(amounts[0] <= msg.value, "DogeSwapV2Router: EXCESSIVE_INPUT_AMOUNT");
-        IWDC(WDC).deposit{value: amounts[0]}();
-        assert(IWDC(WDC).transfer(DogeSwapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
+        IWWDOGE(WWDOGE).deposit{value: amounts[0]}();
+        assert(IWWDOGE(WWDOGE).transfer(DogeSwapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
         _swap(amounts, path, to);
-        // refund dust DC, if any
+        // refund dust WDOGE, if any
         if (msg.value > amounts[0]) TransferHelper.safeTransferETH(msg.sender, msg.value - amounts[0]);
     }
 
@@ -406,16 +428,16 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         );
     }
 
-    function swapExactDCForTokensSupportingFeeOnTransferTokens(
+    function swapExactWDOGEForTokensSupportingFeeOnTransferTokens(
         uint amountOutMin,
         address[] calldata path,
         address to,
         uint deadline
     ) external payable virtual override ensure(deadline) {
-        require(path[0] == WDC, "DogeSwapV2Router: INVALID_PATH");
+        require(path[0] == WWDOGE, "DogeSwapV2Router: INVALID_PATH");
         uint amountIn = msg.value;
-        IWDC(WDC).deposit{value: amountIn}();
-        assert(IWDC(WDC).transfer(DogeSwapV2Library.pairFor(factory, path[0], path[1]), amountIn));
+        IWWDOGE(WWDOGE).deposit{value: amountIn}();
+        assert(IWWDOGE(WWDOGE).transfer(DogeSwapV2Library.pairFor(factory, path[0], path[1]), amountIn));
         uint balanceBefore = IERC20(path[path.length - 1]).balanceOf(to);
         _swapSupportingFeeOnTransferTokens(path, to);
         require(
@@ -424,14 +446,14 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
         );
     }
 
-    function swapExactTokensForDCSupportingFeeOnTransferTokens(
+    function swapExactTokensForWDOGESupportingFeeOnTransferTokens(
         uint amountIn,
         uint amountOutMin,
         address[] calldata path,
         address to,
         uint deadline
     ) external virtual override ensure(deadline) {
-        require(path[path.length - 1] == WDC, "DogeSwapV2Router: INVALID_PATH");
+        require(path[path.length - 1] == WWDOGE, "DogeSwapV2Router: INVALID_PATH");
         TransferHelper.safeTransferFrom(
             path[0],
             msg.sender,
@@ -439,9 +461,9 @@ contract DogeSwapV2Router is IDogeSwapV2Router02 {
             amountIn
         );
         _swapSupportingFeeOnTransferTokens(path, address(this));
-        uint amountOut = IERC20(WDC).balanceOf(address(this));
+        uint amountOut = IERC20(WWDOGE).balanceOf(address(this));
         require(amountOut >= amountOutMin, "DogeSwapV2Router: INSUFFICIENT_OUTPUT_AMOUNT");
-        IWDC(WDC).withdraw(amountOut);
+        IWWDOGE(WWDOGE).withdraw(amountOut);
         TransferHelper.safeTransferETH(to, amountOut);
     }
 

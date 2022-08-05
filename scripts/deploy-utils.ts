@@ -102,7 +102,7 @@ export const deployExternalContracts = async (
     signer: Signer,
     hre: HardhatRuntimeEnvironment,
 ) => {
-    const deploymentOrder = ["ERC20", "WDC", "DogeSwapV2Factory", "DogeSwapV2Router", "DogeSwapInterfaceMulticall"];
+    const deploymentOrder = ["ERC20", "WWDOGE", "DogeSwapV2Factory", "DogeSwapV2Router", "DogeSwapInterfaceMulticall"];
 
     const [signerAddress, coreArtifacts, peripheryArtifacts] = await Promise.all([
         signer.getAddress(),
@@ -150,12 +150,12 @@ export const deployExternalContracts = async (
                     await deployNamedContract(erc20Token, erc20Token, erc20Token, ethers.utils.parseEther("1000000"));
                 }
                 break;
-            case "WDC":
+            case "WWDOGE":
                 if (wdcAddress == undefined) {
-                    console.log("WDC address unspecified. Deploying.");
+                    console.log("WWDOGE address unspecified. Deploying.");
                     await deployContract();
                 } else {
-                    console.log("WDC address specified. Skipping deployment.");
+                    console.log("WWDOGE address specified. Skipping deployment.");
                 }
                 break;
             case "DogeSwapV2Factory":
@@ -167,7 +167,10 @@ export const deployExternalContracts = async (
                 }
                 break;
             case "DogeSwapV2Router":
-                await deployContract(factoryAddress ?? addresses["DogeSwapV2Factory"], wdcAddress ?? addresses["WDC"]);
+                await deployContract(
+                    factoryAddress ?? addresses["DogeSwapV2Factory"],
+                    wdcAddress ?? addresses["WWDOGE"],
+                );
                 break;
             default:
                 await deployContract();

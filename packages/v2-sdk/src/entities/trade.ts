@@ -90,7 +90,7 @@ export interface BestTradeOptions {
 
 /**
  * Given a currency amount and a chain ID, returns the equivalent representation as the token amount.
- * In other words, if the currency is NativeToken.Instance, returns the WDC token amount for the given chain. Otherwise, returns
+ * In other words, if the currency is NativeToken.Instance, returns the WWDOGE token amount for the given chain. Otherwise, returns
  * the input currency amount.
  */
 function wrappedAmount(currencyAmount: CurrencyAmount, wdc: WrappedNativeToken): CurrencyAmount {

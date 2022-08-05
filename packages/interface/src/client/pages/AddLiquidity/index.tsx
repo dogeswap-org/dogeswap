@@ -51,7 +51,7 @@ export default function AddLiquidity({
     const currencyA = useCurrency(currencyIdA);
     const currencyB = useCurrency(currencyIdB);
     const wrapped = useMemo(() => getToken("wwdoge", chainId), [chainId]);
-    const oneCurrencyIsWDC = Boolean(
+    const oneCurrencyIsWWDOGE = Boolean(
         chainId &&
             wrapped &&
             ((currencyA && currencyEquals(currencyA, wrapped)) || (currencyB && currencyEquals(currencyB, wrapped))),
@@ -146,8 +146,8 @@ export default function AddLiquidity({
             value: BigNumber | null;
         if (currencyA === NativeToken.Instance || currencyB === NativeToken.Instance) {
             const tokenBIsDC = currencyB === NativeToken.Instance;
-            estimate = router.estimateGas.addLiquidityDC;
-            method = router.addLiquidityDC;
+            estimate = router.estimateGas.addLiquidityWDOGE;
+            method = router.addLiquidityWDOGE;
             args = [
                 wrappedCurrency(tokenBIsDC ? currencyA : currencyB, chainId)?.address ?? "", // token
                 (tokenBIsDC ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
@@ -435,7 +435,7 @@ export default function AddLiquidity({
 
             {pair && !noLiquidity && pairState !== PairState.INVALID ? (
                 <AutoColumn style={{ minWidth: "20rem", marginTop: "1rem" }}>
-                    <MinimalPositionCard showUnwrapped={oneCurrencyIsWDC} pair={pair} />
+                    <MinimalPositionCard showUnwrapped={oneCurrencyIsWWDOGE} pair={pair} />
                 </AutoColumn>
             ) : null}
         </>

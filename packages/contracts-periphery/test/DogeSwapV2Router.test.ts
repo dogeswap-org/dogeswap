@@ -130,7 +130,7 @@ describe("fee-on-transfer tokens", () => {
     const ownerPrivateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"; // Same as first localnet account.
 
     let DTT: Contract;
-    let WDC: Contract;
+    let WWDOGE: Contract;
     let router: Contract;
     let pair: Contract;
     let owner: SignerWithAddress;
@@ -139,16 +139,16 @@ describe("fee-on-transfer tokens", () => {
 
         const loaded = await loadFixture(fixture);
 
-        WDC = loaded.WDC;
+        WWDOGE = loaded.WWDOGE;
         router = loaded.router;
         pair = loaded.pair;
         const { factory } = loaded;
 
         DTT = await deployContract("DeflatingERC20", owner, expandTo18Decimals(10000));
 
-        // make a DTT<>WDC pair
-        await factory.createPair(DTT.address, WDC.address);
-        const pairAddress = await factory.getPair(DTT.address, WDC.address);
+        // make a DTT<>WWDOGE pair
+        await factory.createPair(DTT.address, WWDOGE.address);
+        const pairAddress = await factory.getPair(DTT.address, WWDOGE.address);
         pair = new Contract(pairAddress, JSON.stringify(IUniswapV2Pair.abi), owner);
     });
 
@@ -156,44 +156,44 @@ describe("fee-on-transfer tokens", () => {
         expect(await ethers.provider.getBalance(router.address)).to.eq(0);
     });
 
-    async function addLiquidity(DTTAmount: BigNumber, WDCAmount: BigNumber) {
+    async function addLiquidity(DTTAmount: BigNumber, WWDOGEAmount: BigNumber) {
         const [owner] = await ethers.getSigners();
 
         await DTT.approve(router.address, MaxUint256);
-        await router.addLiquidityDC(DTT.address, DTTAmount, DTTAmount, WDCAmount, owner.address, MaxUint256, {
+        await router.addLiquidityWDOGE(DTT.address, DTTAmount, DTTAmount, WWDOGEAmount, owner.address, MaxUint256, {
             ...overrides,
-            value: WDCAmount,
+            value: WWDOGEAmount,
         });
     }
 
-    it("removeLiquidityDCSupportingFeeOnTransferTokens", async () => {
+    it("removeLiquidityWDOGESupportingFeeOnTransferTokens", async () => {
         const DTTAmount = expandTo18Decimals(1);
-        const DCAmount = expandTo18Decimals(4);
-        await addLiquidity(DTTAmount, DCAmount);
+        const WDOGEAmount = expandTo18Decimals(4);
+        await addLiquidity(DTTAmount, WDOGEAmount);
 
         const DTTInPair = await DTT.balanceOf(pair.address);
-        const WDCInPair = await WDC.balanceOf(pair.address);
+        const WWDOGEInPair = await WWDOGE.balanceOf(pair.address);
         const liquidity = await pair.balanceOf(owner.address);
         const totalSupply = await pair.totalSupply();
         const NaiveDTTExpected = DTTInPair.mul(liquidity).div(totalSupply);
-        const WDCExpected = WDCInPair.mul(liquidity).div(totalSupply);
+        const WWDOGEExpected = WWDOGEInPair.mul(liquidity).div(totalSupply);
 
         await pair.approve(router.address, MaxUint256);
-        await router.removeLiquidityDCSupportingFeeOnTransferTokens(
+        await router.removeLiquidityWDOGESupportingFeeOnTransferTokens(
             DTT.address,
             liquidity,
             NaiveDTTExpected,
-            WDCExpected,
+            WWDOGEExpected,
             owner.address,
             MaxUint256,
             overrides,
         );
     });
 
-    it("removeLiquidityDCWithPermitSupportingFeeOnTransferTokens", async () => {
+    it("removeLiquidityWDOGEWithPermitSupportingFeeOnTransferTokens", async () => {
         const DTTAmount = expandTo18Decimals(1).mul(100).div(99);
-        const DCAmount = expandTo18Decimals(4);
-        await addLiquidity(DTTAmount, DCAmount);
+        const WDOGEAmount = expandTo18Decimals(4);
+        await addLiquidity(DTTAmount, WDOGEAmount);
 
         const expectedLiquidity = expandTo18Decimals(2);
 
@@ -208,18 +208,18 @@ describe("fee-on-transfer tokens", () => {
         const { v, r, s } = ecsign(Buffer.from(digest.slice(2), "hex"), Buffer.from(ownerPrivateKey.slice(2), "hex"));
 
         const DTTInPair = await DTT.balanceOf(pair.address);
-        const WDCInPair = await WDC.balanceOf(pair.address);
+        const WWDOGEInPair = await WWDOGE.balanceOf(pair.address);
         const liquidity = await pair.balanceOf(owner.address);
         const totalSupply = await pair.totalSupply();
         const NaiveDTTExpected = DTTInPair.mul(liquidity).div(totalSupply);
-        const WDCExpected = WDCInPair.mul(liquidity).div(totalSupply);
+        const WWDOGEExpected = WWDOGEInPair.mul(liquidity).div(totalSupply);
 
         await pair.approve(router.address, MaxUint256);
-        await router.removeLiquidityDCWithPermitSupportingFeeOnTransferTokens(
+        await router.removeLiquidityWDOGEWithPermitSupportingFeeOnTransferTokens(
             DTT.address,
             liquidity,
             NaiveDTTExpected,
-            WDCExpected,
+            WWDOGEExpected,
             owner.address,
             MaxUint256,
             false,
@@ -232,38 +232,38 @@ describe("fee-on-transfer tokens", () => {
 
     describe("swapExactTokensForTokensSupportingFeeOnTransferTokens", () => {
         const DTTAmount = expandTo18Decimals(5).mul(100).div(99);
-        const DCAmount = expandTo18Decimals(10);
+        const WDOGEAmount = expandTo18Decimals(10);
         const amountIn = expandTo18Decimals(1);
 
         let owner: SignerWithAddress;
 
         beforeEach(async () => {
             owner = (await ethers.getSigners())[0];
-            await addLiquidity(DTTAmount, DCAmount);
+            await addLiquidity(DTTAmount, WDOGEAmount);
         });
 
-        it("DTT -> WDC", async () => {
+        it("DTT -> WWDOGE", async () => {
             await DTT.approve(router.address, MaxUint256);
 
             await router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
                 amountIn,
                 0,
-                [DTT.address, WDC.address],
+                [DTT.address, WWDOGE.address],
                 owner.address,
                 MaxUint256,
                 overrides,
             );
         });
 
-        // WDC -> DTT
-        it("WDC -> DTT", async () => {
-            await WDC.deposit({ value: amountIn }); // mint WDC
-            await WDC.approve(router.address, MaxUint256);
+        // WWDOGE -> DTT
+        it("WWDOGE -> DTT", async () => {
+            await WWDOGE.deposit({ value: amountIn }); // mint WWDOGE
+            await WWDOGE.approve(router.address, MaxUint256);
 
             await router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
                 amountIn,
                 0,
-                [WDC.address, DTT.address],
+                [WWDOGE.address, DTT.address],
                 owner.address,
                 MaxUint256,
                 overrides,
@@ -271,16 +271,16 @@ describe("fee-on-transfer tokens", () => {
         });
     });
 
-    // DC -> DTT
-    it("swapExactDCForTokensSupportingFeeOnTransferTokens", async () => {
+    // WDOGE -> DTT
+    it("swapExactWDOGEForTokensSupportingFeeOnTransferTokens", async () => {
         const DTTAmount = expandTo18Decimals(10).mul(100).div(99);
-        const DCAmount = expandTo18Decimals(5);
+        const WDOGEAmount = expandTo18Decimals(5);
         const swapAmount = expandTo18Decimals(1);
-        await addLiquidity(DTTAmount, DCAmount);
+        await addLiquidity(DTTAmount, WDOGEAmount);
 
-        await router.swapExactDCForTokensSupportingFeeOnTransferTokens(
+        await router.swapExactWDOGEForTokensSupportingFeeOnTransferTokens(
             0,
-            [WDC.address, DTT.address],
+            [WWDOGE.address, DTT.address],
             owner.address,
             MaxUint256,
             {
@@ -290,21 +290,21 @@ describe("fee-on-transfer tokens", () => {
         );
     });
 
-    // DTT -> DC
-    it("swapExactTokensForDCSupportingFeeOnTransferTokens", async () => {
+    // DTT -> WDOGE
+    it("swapExactTokensForWDOGESupportingFeeOnTransferTokens", async () => {
         const [owner] = await ethers.getSigners();
 
         const DTTAmount = expandTo18Decimals(5).mul(100).div(99);
-        const DCAmount = expandTo18Decimals(10);
+        const WDOGEAmount = expandTo18Decimals(10);
         const swapAmount = expandTo18Decimals(1);
 
-        await addLiquidity(DTTAmount, DCAmount);
+        await addLiquidity(DTTAmount, WDOGEAmount);
         await DTT.approve(router.address, MaxUint256);
 
-        await router.swapExactTokensForDCSupportingFeeOnTransferTokens(
+        await router.swapExactTokensForWDOGESupportingFeeOnTransferTokens(
             swapAmount,
             0,
-            [DTT.address, WDC.address],
+            [DTT.address, WWDOGE.address],
             owner.address,
             MaxUint256,
             overrides,
@@ -327,7 +327,7 @@ describe("fee-on-transfer tokens: reloaded", () => {
         DTT = await deployContract("DeflatingERC20", owner, expandTo18Decimals(10000));
         DTT2 = await deployContract("DeflatingERC20", owner, expandTo18Decimals(10000));
 
-        // make a DTT<>WDC pair
+        // make a DTT<>WWDOGE pair
         await loaded.factory.createPair(DTT.address, DTT2.address);
     });
 

@@ -3,7 +3,7 @@ import JSBI from "jsbi";
 import { Pair } from "../../src/entities/pair";
 import { Route } from "../../src/entities/route";
 import { Trade } from "../../src/entities/trade";
-import { testWDC } from "../testUtils";
+import { testWWDOGE } from "../testUtils";
 
 const factoryAddress = "0x0000000000000000000000000000000000000000";
 
@@ -40,7 +40,7 @@ describe("Trade", () => {
     );
 
     const pair_wdc_0 = new Pair(
-        new CurrencyAmount(testWDC, JSBI.BigInt(1000)),
+        new CurrencyAmount(testWWDOGE, JSBI.BigInt(1000)),
         new CurrencyAmount(token0, JSBI.BigInt(1000)),
         factoryAddress,
     );
@@ -53,10 +53,10 @@ describe("Trade", () => {
 
     it("can be constructed with NativeToken.Instance as input", () => {
         const trade = new Trade(
-            new Route([pair_wdc_0], testWDC, NativeToken.Instance),
+            new Route([pair_wdc_0], testWWDOGE, NativeToken.Instance),
             CurrencyAmount.dogechain(JSBI.BigInt(100)),
             TradeType.EXACT_INPUT,
-            testWDC,
+            testWWDOGE,
             factoryAddress,
         );
         expect(trade.inputAmount.currency).toEqual(NativeToken.Instance);
@@ -64,10 +64,10 @@ describe("Trade", () => {
     });
     it("can be constructed with NativeToken.Instance as input for exact output", () => {
         const trade = new Trade(
-            new Route([pair_wdc_0], testWDC, NativeToken.Instance, token0),
+            new Route([pair_wdc_0], testWWDOGE, NativeToken.Instance, token0),
             new CurrencyAmount(token0, JSBI.BigInt(100)),
             TradeType.EXACT_OUTPUT,
-            testWDC,
+            testWWDOGE,
             factoryAddress,
         );
         expect(trade.inputAmount.currency).toEqual(NativeToken.Instance);
@@ -76,10 +76,10 @@ describe("Trade", () => {
 
     it("can be constructed with NativeToken.Instance as output", () => {
         const trade = new Trade(
-            new Route([pair_wdc_0], testWDC, token0, NativeToken.Instance),
+            new Route([pair_wdc_0], testWWDOGE, token0, NativeToken.Instance),
             CurrencyAmount.dogechain(JSBI.BigInt(100)),
             TradeType.EXACT_OUTPUT,
-            testWDC,
+            testWWDOGE,
             factoryAddress,
         );
         expect(trade.inputAmount.currency).toEqual(token0);
@@ -87,10 +87,10 @@ describe("Trade", () => {
     });
     it("can be constructed with NativeToken.Instance as output for exact input", () => {
         const trade = new Trade(
-            new Route([pair_wdc_0], testWDC, token0, NativeToken.Instance),
+            new Route([pair_wdc_0], testWWDOGE, token0, NativeToken.Instance),
             new CurrencyAmount(token0, JSBI.BigInt(100)),
             TradeType.EXACT_INPUT,
-            testWDC,
+            testWWDOGE,
             factoryAddress,
         );
         expect(trade.inputAmount.currency).toEqual(token0);
@@ -104,7 +104,7 @@ describe("Trade", () => {
                     [],
                     new CurrencyAmount(token0, JSBI.BigInt(100)),
                     token2,
-                    testWDC,
+                    testWWDOGE,
                     factoryAddress,
                 ),
             ).toThrow("PAIRS");
@@ -115,7 +115,7 @@ describe("Trade", () => {
                     [pair_0_2],
                     new CurrencyAmount(token0, JSBI.BigInt(100)),
                     token2,
-                    testWDC,
+                    testWWDOGE,
                     factoryAddress,
                     {
                         maxHops: 0,
@@ -129,7 +129,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_2, pair_1_2],
                 new CurrencyAmount(token0, JSBI.BigInt(100)),
                 token2,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(2);
@@ -149,7 +149,7 @@ describe("Trade", () => {
                     [empty_pair_0_1],
                     new CurrencyAmount(token0, JSBI.BigInt(100)),
                     token1,
-                    testWDC,
+                    testWWDOGE,
                     factoryAddress,
                 ),
             ).toHaveLength(0);
@@ -160,7 +160,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_2, pair_1_2],
                 new CurrencyAmount(token0, JSBI.BigInt(10)),
                 token2,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
                 { maxHops: 1 },
             );
@@ -174,7 +174,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_2, pair_1_2],
                 new CurrencyAmount(token0, JSBI.BigInt(1)),
                 token2,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(1);
@@ -188,7 +188,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_2, pair_1_2],
                 new CurrencyAmount(token0, JSBI.BigInt(10)),
                 token2,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
                 { maxNumResults: 1 },
             );
@@ -201,7 +201,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_3, pair_1_3],
                 new CurrencyAmount(token0, JSBI.BigInt(10)),
                 token2,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(0);
@@ -212,15 +212,15 @@ describe("Trade", () => {
                 [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
                 CurrencyAmount.dogechain(JSBI.BigInt(100)),
                 token3,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(2);
             expect(result[0].inputAmount.currency).toEqual(NativeToken.Instance);
-            expect(result[0].route.path).toEqual([testWDC, token0, token1, token3]);
+            expect(result[0].route.path).toEqual([testWWDOGE, token0, token1, token3]);
             expect(result[0].outputAmount.currency).toEqual(token3);
             expect(result[1].inputAmount.currency).toEqual(NativeToken.Instance);
-            expect(result[1].route.path).toEqual([testWDC, token0, token3]);
+            expect(result[1].route.path).toEqual([testWWDOGE, token0, token3]);
             expect(result[1].outputAmount.currency).toEqual(token3);
         });
         it("works for NativeToken.Instance currency output", () => {
@@ -228,15 +228,15 @@ describe("Trade", () => {
                 [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
                 new CurrencyAmount(token3, JSBI.BigInt(100)),
                 NativeToken.Instance,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(2);
             expect(result[0].inputAmount.currency).toEqual(token3);
-            expect(result[0].route.path).toEqual([token3, token0, testWDC]);
+            expect(result[0].route.path).toEqual([token3, token0, testWWDOGE]);
             expect(result[0].outputAmount.currency).toEqual(NativeToken.Instance);
             expect(result[1].inputAmount.currency).toEqual(token3);
-            expect(result[1].route.path).toEqual([token3, token1, token0, testWDC]);
+            expect(result[1].route.path).toEqual([token3, token1, token0, testWWDOGE]);
             expect(result[1].outputAmount.currency).toEqual(NativeToken.Instance);
         });
     });
@@ -244,10 +244,10 @@ describe("Trade", () => {
     describe("#maximumAmountIn", () => {
         describe("tradeType = EXACT_INPUT", () => {
             const exactIn = new Trade(
-                new Route([pair_0_1, pair_1_2], testWDC, token0),
+                new Route([pair_0_1, pair_1_2], testWWDOGE, token0),
                 new CurrencyAmount(token0, JSBI.BigInt(100)),
                 TradeType.EXACT_INPUT,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             it("throws if less than 0", () => {
@@ -274,10 +274,10 @@ describe("Trade", () => {
         });
         describe("tradeType = EXACT_OUTPUT", () => {
             const exactOut = new Trade(
-                new Route([pair_0_1, pair_1_2], testWDC, token0),
+                new Route([pair_0_1, pair_1_2], testWWDOGE, token0),
                 new CurrencyAmount(token2, JSBI.BigInt(100)),
                 TradeType.EXACT_OUTPUT,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
 
@@ -308,10 +308,10 @@ describe("Trade", () => {
     describe("#minimumAmountOut", () => {
         describe("tradeType = EXACT_INPUT", () => {
             const exactIn = new Trade(
-                new Route([pair_0_1, pair_1_2], testWDC, token0),
+                new Route([pair_0_1, pair_1_2], testWWDOGE, token0),
                 new CurrencyAmount(token0, JSBI.BigInt(100)),
                 TradeType.EXACT_INPUT,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             it("throws if less than 0", () => {
@@ -338,10 +338,10 @@ describe("Trade", () => {
         });
         describe("tradeType = EXACT_OUTPUT", () => {
             const exactOut = new Trade(
-                new Route([pair_0_1, pair_1_2], testWDC, token0),
+                new Route([pair_0_1, pair_1_2], testWWDOGE, token0),
                 new CurrencyAmount(token2, JSBI.BigInt(100)),
                 TradeType.EXACT_OUTPUT,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
 
@@ -372,10 +372,10 @@ describe("Trade", () => {
     describe("#worstExecutionPrice", () => {
         describe("tradeType = EXACT_INPUT", () => {
             const exactIn = new Trade(
-                new Route([pair_0_1, pair_1_2], testWDC, token0),
+                new Route([pair_0_1, pair_1_2], testWWDOGE, token0),
                 new CurrencyAmount(token0, 100),
                 TradeType.EXACT_INPUT,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             it("throws if less than 0", () => {
@@ -392,10 +392,10 @@ describe("Trade", () => {
         });
         describe("tradeType = EXACT_OUTPUT", () => {
             const exactOut = new Trade(
-                new Route([pair_0_1, pair_1_2], testWDC, token0),
+                new Route([pair_0_1, pair_1_2], testWWDOGE, token0),
                 new CurrencyAmount(token2, 100),
                 TradeType.EXACT_OUTPUT,
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
 
@@ -422,7 +422,7 @@ describe("Trade", () => {
                     [],
                     token0,
                     new CurrencyAmount(token2, JSBI.BigInt(100)),
-                    testWDC,
+                    testWWDOGE,
                     factoryAddress,
                 ),
             ).toThrow("PAIRS");
@@ -433,7 +433,7 @@ describe("Trade", () => {
                     [pair_0_2],
                     token0,
                     new CurrencyAmount(token2, JSBI.BigInt(100)),
-                    testWDC,
+                    testWWDOGE,
                     factoryAddress,
                     {
                         maxHops: 0,
@@ -447,7 +447,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_2, pair_1_2],
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(100)),
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(2);
@@ -467,7 +467,7 @@ describe("Trade", () => {
                     [empty_pair_0_1],
                     token1,
                     new CurrencyAmount(token1, JSBI.BigInt(100)),
-                    testWDC,
+                    testWWDOGE,
                     factoryAddress,
                 ),
             ).toHaveLength(0);
@@ -478,7 +478,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_2, pair_1_2],
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(10)),
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
                 { maxHops: 1 },
             );
@@ -492,7 +492,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_2, pair_1_2],
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(1200)),
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(0);
@@ -503,7 +503,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_2, pair_1_2],
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(1050)),
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(1);
@@ -514,7 +514,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_2, pair_1_2],
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(10)),
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
                 { maxNumResults: 1 },
             );
@@ -527,7 +527,7 @@ describe("Trade", () => {
                 [pair_0_1, pair_0_3, pair_1_3],
                 token0,
                 new CurrencyAmount(token2, JSBI.BigInt(10)),
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(0);
@@ -538,15 +538,15 @@ describe("Trade", () => {
                 [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
                 NativeToken.Instance,
                 new CurrencyAmount(token3, JSBI.BigInt(100)),
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(2);
             expect(result[0].inputAmount.currency).toEqual(NativeToken.Instance);
-            expect(result[0].route.path).toEqual([testWDC, token0, token1, token3]);
+            expect(result[0].route.path).toEqual([testWWDOGE, token0, token1, token3]);
             expect(result[0].outputAmount.currency).toEqual(token3);
             expect(result[1].inputAmount.currency).toEqual(NativeToken.Instance);
-            expect(result[1].route.path).toEqual([testWDC, token0, token3]);
+            expect(result[1].route.path).toEqual([testWWDOGE, token0, token3]);
             expect(result[1].outputAmount.currency).toEqual(token3);
         });
         it("works for NativeToken.Instance currency output", () => {
@@ -554,15 +554,15 @@ describe("Trade", () => {
                 [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
                 token3,
                 CurrencyAmount.dogechain(JSBI.BigInt(100)),
-                testWDC,
+                testWWDOGE,
                 factoryAddress,
             );
             expect(result).toHaveLength(2);
             expect(result[0].inputAmount.currency).toEqual(token3);
-            expect(result[0].route.path).toEqual([token3, token0, testWDC]);
+            expect(result[0].route.path).toEqual([token3, token0, testWWDOGE]);
             expect(result[0].outputAmount.currency).toEqual(NativeToken.Instance);
             expect(result[1].inputAmount.currency).toEqual(token3);
-            expect(result[1].route.path).toEqual([token3, token1, token0, testWDC]);
+            expect(result[1].route.path).toEqual([token3, token1, token0, testWWDOGE]);
             expect(result[1].outputAmount.currency).toEqual(NativeToken.Instance);
         });
     });

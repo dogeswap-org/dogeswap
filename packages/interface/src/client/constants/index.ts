@@ -27,7 +27,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
  */
 export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
     [ChainId.MAINNET]: {
-        // e.g. [AMPL.address]: [DAI, WDC[ChainId.MAINNET]],
+        // e.g. [AMPL.address]: [DAI, WWDOGE[ChainId.MAINNET]],
     },
 };
 

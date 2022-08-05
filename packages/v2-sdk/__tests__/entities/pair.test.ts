@@ -1,7 +1,7 @@
 import { ChainId, CurrencyAmount, currencyEquals, Price, Token } from "@dogeswap/sdk-core";
 import { computePairAddress, Pair } from "../../src/entities/pair";
 import { InsufficientInputAmountError } from "../../src/errors";
-import { testWDC } from "../testUtils";
+import { testWWDOGE } from "../testUtils";
 
 const factoryAddress = "0x1111111111111111111111111111111111111111";
 
@@ -59,7 +59,7 @@ describe("Pair", () => {
     describe("constructor", () => {
         it("cannot be used for tokens on different chains", () => {
             expect(
-                () => new Pair(new CurrencyAmount(USDC, "100"), new CurrencyAmount(testWDC, "100"), factoryAddress),
+                () => new Pair(new CurrencyAmount(USDC, "100"), new CurrencyAmount(testWWDOGE, "100"), factoryAddress),
             ).toThrow("CHAIN_IDS");
         });
     });
@@ -141,7 +141,7 @@ describe("Pair", () => {
         });
 
         it("throws if invalid token", () => {
-            expect(() => pair.priceOf(testWDC)).toThrow("TOKEN");
+            expect(() => pair.priceOf(testWWDOGE)).toThrow("TOKEN");
         });
     });
 
@@ -162,7 +162,7 @@ describe("Pair", () => {
         it("throws if not in the pair", () => {
             expect(() =>
                 new Pair(new CurrencyAmount(DAI, "101"), new CurrencyAmount(USDC, "100"), factoryAddress).reserveOf(
-                    testWDC,
+                    testWWDOGE,
                 ),
             ).toThrow("TOKEN");
         });
@@ -191,7 +191,7 @@ describe("Pair", () => {
         ).toEqual(true);
         expect(
             new Pair(new CurrencyAmount(USDC, "100"), new CurrencyAmount(DAI, "100"), factoryAddress).involvesToken(
-                testWDC,
+                testWWDOGE,
             ),
         ).toEqual(false);
     });

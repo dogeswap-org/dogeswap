@@ -3,7 +3,7 @@ pragma solidity >=0.6.2;
 interface IDogeSwapV2Router01 {
     function factory() external view returns (address);
 
-    function WDC() external view returns (address);
+    function WWDOGE() external view returns (address);
 
     function addLiquidity(
         address tokenA,
@@ -22,7 +22,7 @@ interface IDogeSwapV2Router01 {
             uint liquidity
         );
 
-    function addLiquidityDC(
+    function addLiquidityWDOGE(
         address token,
         uint amountTokenDesired,
         uint amountTokenMin,
@@ -48,7 +48,7 @@ interface IDogeSwapV2Router01 {
         uint deadline
     ) external returns (uint amountA, uint amountB);
 
-    function removeLiquidityDC(
+    function removeLiquidityWDOGE(
         address token,
         uint liquidity,
         uint amountTokenMin,
@@ -71,7 +71,7 @@ interface IDogeSwapV2Router01 {
         bytes32 s
     ) external returns (uint amountA, uint amountB);
 
-    function removeLiquidityDCWithPermit(
+    function removeLiquidityWDOGEWithPermit(
         address token,
         uint liquidity,
         uint amountTokenMin,
@@ -100,14 +100,14 @@ interface IDogeSwapV2Router01 {
         uint deadline
     ) external returns (uint[] memory amounts);
 
-    function swapExactDCForTokens(
+    function swapExactWDOGEForTokens(
         uint amountOutMin,
         address[] calldata path,
         address to,
         uint deadline
     ) external payable returns (uint[] memory amounts);
 
-    function swapTokensForExactDC(
+    function swapTokensForExactWDOGE(
         uint amountOut,
         uint amountInMax,
         address[] calldata path,
@@ -115,7 +115,7 @@ interface IDogeSwapV2Router01 {
         uint deadline
     ) external returns (uint[] memory amounts);
 
-    function swapExactTokensForDC(
+    function swapExactTokensForWDOGE(
         uint amountIn,
         uint amountOutMin,
         address[] calldata path,
@@ -123,7 +123,7 @@ interface IDogeSwapV2Router01 {
         uint deadline
     ) external returns (uint[] memory amounts);
 
-    function swapDCForExactTokens(
+    function swapWDOGEForExactTokens(
         uint amountOut,
         address[] calldata path,
         address to,

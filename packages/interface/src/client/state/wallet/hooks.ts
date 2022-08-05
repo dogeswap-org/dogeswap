@@ -29,7 +29,7 @@ export function useDCBalances(uncheckedAddresses?: (string | undefined)[]): {
 
     const results = useSingleContractMultipleData(
         multicallContract,
-        "getDCBalance",
+        "getWDOGEBalance",
         addresses.map((address) => [address]),
     );
 

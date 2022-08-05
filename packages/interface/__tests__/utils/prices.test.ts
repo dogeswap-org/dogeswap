@@ -2,7 +2,7 @@ import { ChainId, CurrencyAmount, Token, TradeType } from "@dogeswap/sdk-core";
 import { Pair, Route, Trade } from "@dogeswap/v2-sdk";
 import JSBI from "jsbi";
 import { computeTradePriceBreakdown } from "../../src/utils/prices";
-import { testWDC } from "../../src/utils/testUtils";
+import { testWWDOGE } from "../../src/utils/testUtils";
 
 describe("prices", () => {
     const token1 = new Token(ChainId.MAINNET, "0x0000000000000000000000000000000000000001", 18, "");
@@ -30,10 +30,10 @@ describe("prices", () => {
             expect(
                 computeTradePriceBreakdown(
                     new Trade(
-                        new Route([pair12], testWDC, token1),
+                        new Route([pair12], testWWDOGE, token1),
                         new CurrencyAmount(token1, JSBI.BigInt(1000)),
                         TradeType.EXACT_INPUT,
-                        testWDC,
+                        testWWDOGE,
                     ),
                 ).realizedLPFee,
             ).toEqual(new CurrencyAmount(token1, JSBI.BigInt(3)));
@@ -43,10 +43,10 @@ describe("prices", () => {
             expect(
                 computeTradePriceBreakdown(
                     new Trade(
-                        new Route([pair12, pair23], testWDC, token1),
+                        new Route([pair12, pair23], testWWDOGE, token1),
                         new CurrencyAmount(token1, JSBI.BigInt(1000)),
                         TradeType.EXACT_INPUT,
-                        testWDC,
+                        testWWDOGE,
                     ),
                 ).realizedLPFee,
             ).toEqual(new CurrencyAmount(token1, JSBI.BigInt(5)));

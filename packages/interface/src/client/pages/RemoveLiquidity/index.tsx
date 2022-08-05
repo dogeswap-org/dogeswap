@@ -219,9 +219,9 @@ export default function RemoveLiquidity({
         let methodNames: string[], args: Array<string | string[] | number | boolean>;
         // we have approval, use normal remove liquidity
         if (approval === ApprovalState.APPROVED) {
-            // removeLiquidityDC
+            // removeLiquidityWDOGE
             if (oneCurrencyIsDC) {
-                methodNames = ["removeLiquidityDC", "removeLiquidityDCSupportingFeeOnTransferTokens"];
+                methodNames = ["removeLiquidityWDOGE", "removeLiquidityWDOGESupportingFeeOnTransferTokens"];
                 args = [
                     currencyBIsDC ? tokenA.address : tokenB.address,
                     liquidityAmount.raw.toString(),
@@ -247,11 +247,11 @@ export default function RemoveLiquidity({
         }
         // we have a signataure, use permit versions of remove liquidity
         else if (signatureData !== null) {
-            // removeLiquidityDCWithPermit
+            // removeLiquidityWDOGEWithPermit
             if (oneCurrencyIsDC) {
                 methodNames = [
-                    "removeLiquidityDCWithPermit",
-                    "removeLiquidityDCWithPermitSupportingFeeOnTransferTokens",
+                    "removeLiquidityWDOGEWithPermit",
+                    "removeLiquidityWDOGEWithPermitSupportingFeeOnTransferTokens",
                 ];
                 args = [
                     currencyBIsDC ? tokenA.address : tokenB.address,
@@ -266,7 +266,7 @@ export default function RemoveLiquidity({
                     signatureData.s,
                 ];
             }
-            // removeLiquidityDCWithPermit
+            // removeLiquidityWDOGEWithPermit
             else {
                 methodNames = ["removeLiquidityWithPermit"];
                 args = [
@@ -441,7 +441,7 @@ export default function RemoveLiquidity({
 
     const wrapped = useMemo(() => getToken("wwdoge", chainId), [chainId]);
     const oneCurrencyIsDC = currencyA === NativeToken.Instance || currencyB === NativeToken.Instance;
-    const oneCurrencyIsWDC = Boolean(
+    const oneCurrencyIsWWDOGE = Boolean(
         chainId &&
             wrapped &&
             ((currencyA && currencyEquals(wrapped, currencyA)) || (currencyB && currencyEquals(wrapped, currencyB))),
@@ -595,7 +595,7 @@ export default function RemoveLiquidity({
                                                 </Text>
                                             </RowFixed>
                                         </RowBetween>
-                                        {chainId && (oneCurrencyIsWDC || oneCurrencyIsDC) ? (
+                                        {chainId && (oneCurrencyIsWWDOGE || oneCurrencyIsDC) ? (
                                             <RowBetween style={{ justifyContent: "flex-end" }}>
                                                 {oneCurrencyIsDC && wrapped ? (
                                                     <StyledInternalLink
@@ -609,9 +609,9 @@ export default function RemoveLiquidity({
                                                                 : currencyIdB
                                                         }`}
                                                     >
-                                                        Receive WDC
+                                                        Receive WWDOGE
                                                     </StyledInternalLink>
-                                                ) : oneCurrencyIsWDC && wrapped ? (
+                                                ) : oneCurrencyIsWWDOGE && wrapped ? (
                                                     <StyledInternalLink
                                                         to={`/remove/${
                                                             currencyA && currencyEquals(currencyA, wrapped)
@@ -742,7 +742,7 @@ export default function RemoveLiquidity({
 
             {pair ? (
                 <AutoColumn style={{ minWidth: "20rem", marginTop: "1rem" }}>
-                    <MinimalPositionCard showUnwrapped={oneCurrencyIsWDC} pair={pair} />
+                    <MinimalPositionCard showUnwrapped={oneCurrencyIsWWDOGE} pair={pair} />
                 </AutoColumn>
             ) : null}
         </>

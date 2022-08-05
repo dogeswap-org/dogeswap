@@ -5,7 +5,7 @@ import { Pair } from "../src/entities/pair";
 import { Route } from "../src/entities/route";
 import { Trade } from "../src/entities/trade";
 import { Router } from "../src/router";
-import { testWDC } from "./testUtils";
+import { testWWDOGE } from "./testUtils";
 
 function checkDeadline(deadline: string[] | string): void {
     expect(typeof deadline).toBe("string");
@@ -27,7 +27,7 @@ describe("Router", () => {
     );
 
     const pair_wdc_0 = new Pair(
-        new CurrencyAmount(testWDC, "1000"),
+        new CurrencyAmount(testWWDOGE, "1000"),
         new CurrencyAmount(token0, "1000"),
         factoryAddress,
     );
@@ -37,9 +37,9 @@ describe("Router", () => {
             it("ether to token1", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactIn(
-                        new Route([pair_wdc_0, pair_0_1], testWDC, NativeToken.Instance, token1),
+                        new Route([pair_wdc_0, pair_0_1], testWWDOGE, NativeToken.Instance, token1),
                         CurrencyAmount.dogechain(JSBI.BigInt(100)),
-                        testWDC,
+                        testWWDOGE,
                         factoryAddress,
                     ),
                     {
@@ -48,10 +48,10 @@ describe("Router", () => {
                         allowedSlippage: new Percent("1", "100"),
                     },
                 );
-                expect(result.methodName).toEqual("swapExactDCForTokens");
+                expect(result.methodName).toEqual("swapExactWDOGEForTokens");
                 expect(result.args.slice(0, -1)).toEqual([
                     "0x51",
-                    [testWDC.address, token0.address, token1.address],
+                    [testWWDOGE.address, token0.address, token1.address],
                     "0x0000000000000000000000000000000000000004",
                 ]);
                 expect(result.value).toEqual("0x64");
@@ -61,9 +61,9 @@ describe("Router", () => {
             it("deadline specified", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactIn(
-                        new Route([pair_wdc_0, pair_0_1], testWDC, NativeToken.Instance, token1),
+                        new Route([pair_wdc_0, pair_0_1], testWWDOGE, NativeToken.Instance, token1),
                         CurrencyAmount.dogechain(JSBI.BigInt(100)),
-                        testWDC,
+                        testWWDOGE,
                         factoryAddress,
                     ),
                     {
@@ -72,10 +72,10 @@ describe("Router", () => {
                         allowedSlippage: new Percent("1", "100"),
                     },
                 );
-                expect(result.methodName).toEqual("swapExactDCForTokens");
+                expect(result.methodName).toEqual("swapExactWDOGEForTokens");
                 expect(result.args).toEqual([
                     "0x51",
-                    [testWDC.address, token0.address, token1.address],
+                    [testWWDOGE.address, token0.address, token1.address],
                     "0x0000000000000000000000000000000000000004",
                     "0x32",
                 ]);
@@ -85,9 +85,9 @@ describe("Router", () => {
             it("token1 to ether", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactIn(
-                        new Route([pair_0_1, pair_wdc_0], testWDC, token1, NativeToken.Instance),
+                        new Route([pair_0_1, pair_wdc_0], testWWDOGE, token1, NativeToken.Instance),
                         new CurrencyAmount(token1, JSBI.BigInt(100)),
-                        testWDC,
+                        testWWDOGE,
                         factoryAddress,
                     ),
                     {
@@ -96,11 +96,11 @@ describe("Router", () => {
                         allowedSlippage: new Percent("1", "100"),
                     },
                 );
-                expect(result.methodName).toEqual("swapExactTokensForDC");
+                expect(result.methodName).toEqual("swapExactTokensForWDOGE");
                 expect(result.args.slice(0, -1)).toEqual([
                     "0x64",
                     "0x51",
-                    [token1.address, token0.address, testWDC.address],
+                    [token1.address, token0.address, testWWDOGE.address],
                     "0x0000000000000000000000000000000000000004",
                 ]);
                 expect(result.value).toEqual("0x0");
@@ -109,9 +109,9 @@ describe("Router", () => {
             it("token0 to token1", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactIn(
-                        new Route([pair_0_1], testWDC, token0, token1),
+                        new Route([pair_0_1], testWWDOGE, token0, token1),
                         new CurrencyAmount(token0, JSBI.BigInt(100)),
-                        testWDC,
+                        testWWDOGE,
                         factoryAddress,
                     ),
                     {
@@ -135,9 +135,9 @@ describe("Router", () => {
             it("ether to token1", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactOut(
-                        new Route([pair_wdc_0, pair_0_1], testWDC, NativeToken.Instance, token1),
+                        new Route([pair_wdc_0, pair_0_1], testWWDOGE, NativeToken.Instance, token1),
                         new CurrencyAmount(token1, JSBI.BigInt(100)),
-                        testWDC,
+                        testWWDOGE,
                         factoryAddress,
                     ),
                     {
@@ -146,10 +146,10 @@ describe("Router", () => {
                         allowedSlippage: new Percent("1", "100"),
                     },
                 );
-                expect(result.methodName).toEqual("swapDCForExactTokens");
+                expect(result.methodName).toEqual("swapWDOGEForExactTokens");
                 expect(result.args.slice(0, -1)).toEqual([
                     "0x64",
-                    [testWDC.address, token0.address, token1.address],
+                    [testWWDOGE.address, token0.address, token1.address],
                     "0x0000000000000000000000000000000000000004",
                 ]);
                 expect(result.value).toEqual("0x80");
@@ -158,9 +158,9 @@ describe("Router", () => {
             it("token1 to ether", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactOut(
-                        new Route([pair_0_1, pair_wdc_0], testWDC, token1, NativeToken.Instance),
+                        new Route([pair_0_1, pair_wdc_0], testWWDOGE, token1, NativeToken.Instance),
                         CurrencyAmount.dogechain(JSBI.BigInt(100)),
-                        testWDC,
+                        testWWDOGE,
                         factoryAddress,
                     ),
                     {
@@ -169,11 +169,11 @@ describe("Router", () => {
                         allowedSlippage: new Percent("1", "100"),
                     },
                 );
-                expect(result.methodName).toEqual("swapTokensForExactDC");
+                expect(result.methodName).toEqual("swapTokensForExactWDOGE");
                 expect(result.args.slice(0, -1)).toEqual([
                     "0x64",
                     "0x80",
-                    [token1.address, token0.address, testWDC.address],
+                    [token1.address, token0.address, testWWDOGE.address],
                     "0x0000000000000000000000000000000000000004",
                 ]);
                 expect(result.value).toEqual("0x0");
@@ -182,9 +182,9 @@ describe("Router", () => {
             it("token0 to token1", () => {
                 const result = Router.swapCallParameters(
                     Trade.exactOut(
-                        new Route([pair_0_1], testWDC, token0, token1),
+                        new Route([pair_0_1], testWWDOGE, token0, token1),
                         new CurrencyAmount(token1, JSBI.BigInt(100)),
-                        testWDC,
+                        testWWDOGE,
                         factoryAddress,
                     ),
                     {
@@ -209,9 +209,9 @@ describe("Router", () => {
                 it("ether to token1", () => {
                     const result = Router.swapCallParameters(
                         Trade.exactIn(
-                            new Route([pair_wdc_0, pair_0_1], testWDC, NativeToken.Instance, token1),
+                            new Route([pair_wdc_0, pair_0_1], testWWDOGE, NativeToken.Instance, token1),
                             CurrencyAmount.dogechain(JSBI.BigInt(100)),
-                            testWDC,
+                            testWWDOGE,
                             factoryAddress,
                         ),
                         {
@@ -221,10 +221,10 @@ describe("Router", () => {
                             feeOnTransfer: true,
                         },
                     );
-                    expect(result.methodName).toEqual("swapExactDCForTokensSupportingFeeOnTransferTokens");
+                    expect(result.methodName).toEqual("swapExactWDOGEForTokensSupportingFeeOnTransferTokens");
                     expect(result.args.slice(0, -1)).toEqual([
                         "0x51",
-                        [testWDC.address, token0.address, token1.address],
+                        [testWWDOGE.address, token0.address, token1.address],
                         "0x0000000000000000000000000000000000000004",
                     ]);
                     expect(result.value).toEqual("0x64");
@@ -233,9 +233,9 @@ describe("Router", () => {
                 it("token1 to ether", () => {
                     const result = Router.swapCallParameters(
                         Trade.exactIn(
-                            new Route([pair_0_1, pair_wdc_0], testWDC, token1, NativeToken.Instance),
+                            new Route([pair_0_1, pair_wdc_0], testWWDOGE, token1, NativeToken.Instance),
                             new CurrencyAmount(token1, JSBI.BigInt(100)),
-                            testWDC,
+                            testWWDOGE,
                             factoryAddress,
                         ),
                         {
@@ -245,11 +245,11 @@ describe("Router", () => {
                             feeOnTransfer: true,
                         },
                     );
-                    expect(result.methodName).toEqual("swapExactTokensForDCSupportingFeeOnTransferTokens");
+                    expect(result.methodName).toEqual("swapExactTokensForWDOGESupportingFeeOnTransferTokens");
                     expect(result.args.slice(0, -1)).toEqual([
                         "0x64",
                         "0x51",
-                        [token1.address, token0.address, testWDC.address],
+                        [token1.address, token0.address, testWWDOGE.address],
                         "0x0000000000000000000000000000000000000004",
                     ]);
                     expect(result.value).toEqual("0x0");
@@ -258,9 +258,9 @@ describe("Router", () => {
                 it("token0 to token1", () => {
                     const result = Router.swapCallParameters(
                         Trade.exactIn(
-                            new Route([pair_0_1], testWDC, token0, token1),
+                            new Route([pair_0_1], testWWDOGE, token0, token1),
                             new CurrencyAmount(token0, JSBI.BigInt(100)),
-                            testWDC,
+                            testWWDOGE,
                             factoryAddress,
                         ),
                         {
@@ -286,9 +286,9 @@ describe("Router", () => {
                     expect(() =>
                         Router.swapCallParameters(
                             Trade.exactOut(
-                                new Route([pair_wdc_0, pair_0_1], testWDC, NativeToken.Instance, token1),
+                                new Route([pair_wdc_0, pair_0_1], testWWDOGE, NativeToken.Instance, token1),
                                 new CurrencyAmount(token1, JSBI.BigInt(100)),
-                                testWDC,
+                                testWWDOGE,
                                 factoryAddress,
                             ),
                             {
@@ -304,9 +304,9 @@ describe("Router", () => {
                     expect(() =>
                         Router.swapCallParameters(
                             Trade.exactOut(
-                                new Route([pair_0_1, pair_wdc_0], testWDC, token1, NativeToken.Instance),
+                                new Route([pair_0_1, pair_wdc_0], testWWDOGE, token1, NativeToken.Instance),
                                 CurrencyAmount.dogechain(JSBI.BigInt(100)),
-                                testWDC,
+                                testWWDOGE,
                                 factoryAddress,
                             ),
                             {
@@ -322,9 +322,9 @@ describe("Router", () => {
                     expect(() =>
                         Router.swapCallParameters(
                             Trade.exactOut(
-                                new Route([pair_0_1], testWDC, token0, token1),
+                                new Route([pair_0_1], testWWDOGE, token0, token1),
                                 new CurrencyAmount(token1, JSBI.BigInt(100)),
-                                testWDC,
+                                testWWDOGE,
                                 factoryAddress,
                             ),
                             {
