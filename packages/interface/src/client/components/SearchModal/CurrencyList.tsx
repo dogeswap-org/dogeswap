@@ -166,7 +166,7 @@ export default function CurrencyList({
     onCurrencySelect,
     otherCurrency,
     fixedListRef,
-    showDC,
+    showWDOGE,
 }: {
     height: number;
     currencies: Currency[];
@@ -174,9 +174,12 @@ export default function CurrencyList({
     onCurrencySelect: (currency: Currency) => void;
     otherCurrency?: Currency | null;
     fixedListRef?: MutableRefObject<FixedSizeList | undefined>;
-    showDC: boolean;
+    showWDOGE: boolean;
 }) {
-    const itemData = useMemo(() => (showDC ? [NativeToken.Instance, ...currencies] : currencies), [currencies, showDC]);
+    const itemData = useMemo(
+        () => (showWDOGE ? [NativeToken.Instance, ...currencies] : currencies),
+        [currencies, showWDOGE],
+    );
 
     const Row = useCallback(
         ({ data, index, style }) => {

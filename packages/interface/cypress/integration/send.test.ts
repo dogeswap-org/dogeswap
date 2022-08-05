@@ -5,7 +5,7 @@ describe("Send", () => {
     });
 
     it("should redirect with url params", () => {
-        cy.visit("/send?outputCurrency=DC&recipient=bob.argent.xyz");
-        cy.url().should("contain", "/swap?outputCurrency=DC&recipient=bob.argent.xyz");
+        cy.visit("/send?outputCurrency=WDOGE&recipient=bob.argent.xyz");
+        cy.url().should("contain", "/swap?outputCurrency=WDOGE&recipient=bob.argent.xyz");
     });
 });

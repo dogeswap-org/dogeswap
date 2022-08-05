@@ -39,7 +39,7 @@ describe("Trade", () => {
         factoryAddress,
     );
 
-    const pair_wdc_0 = new Pair(
+    const pair_wwdoge_0 = new Pair(
         new CurrencyAmount(testWWDOGE, JSBI.BigInt(1000)),
         new CurrencyAmount(token0, JSBI.BigInt(1000)),
         factoryAddress,
@@ -53,7 +53,7 @@ describe("Trade", () => {
 
     it("can be constructed with NativeToken.Instance as input", () => {
         const trade = new Trade(
-            new Route([pair_wdc_0], testWWDOGE, NativeToken.Instance),
+            new Route([pair_wwdoge_0], testWWDOGE, NativeToken.Instance),
             CurrencyAmount.dogechain(JSBI.BigInt(100)),
             TradeType.EXACT_INPUT,
             testWWDOGE,
@@ -64,7 +64,7 @@ describe("Trade", () => {
     });
     it("can be constructed with NativeToken.Instance as input for exact output", () => {
         const trade = new Trade(
-            new Route([pair_wdc_0], testWWDOGE, NativeToken.Instance, token0),
+            new Route([pair_wwdoge_0], testWWDOGE, NativeToken.Instance, token0),
             new CurrencyAmount(token0, JSBI.BigInt(100)),
             TradeType.EXACT_OUTPUT,
             testWWDOGE,
@@ -76,7 +76,7 @@ describe("Trade", () => {
 
     it("can be constructed with NativeToken.Instance as output", () => {
         const trade = new Trade(
-            new Route([pair_wdc_0], testWWDOGE, token0, NativeToken.Instance),
+            new Route([pair_wwdoge_0], testWWDOGE, token0, NativeToken.Instance),
             CurrencyAmount.dogechain(JSBI.BigInt(100)),
             TradeType.EXACT_OUTPUT,
             testWWDOGE,
@@ -87,7 +87,7 @@ describe("Trade", () => {
     });
     it("can be constructed with NativeToken.Instance as output for exact input", () => {
         const trade = new Trade(
-            new Route([pair_wdc_0], testWWDOGE, token0, NativeToken.Instance),
+            new Route([pair_wwdoge_0], testWWDOGE, token0, NativeToken.Instance),
             new CurrencyAmount(token0, JSBI.BigInt(100)),
             TradeType.EXACT_INPUT,
             testWWDOGE,
@@ -209,7 +209,7 @@ describe("Trade", () => {
 
         it("works for NativeToken.Instance currency input", () => {
             const result = Trade.bestTradeExactIn(
-                [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
+                [pair_wwdoge_0, pair_0_1, pair_0_3, pair_1_3],
                 CurrencyAmount.dogechain(JSBI.BigInt(100)),
                 token3,
                 testWWDOGE,
@@ -225,7 +225,7 @@ describe("Trade", () => {
         });
         it("works for NativeToken.Instance currency output", () => {
             const result = Trade.bestTradeExactIn(
-                [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
+                [pair_wwdoge_0, pair_0_1, pair_0_3, pair_1_3],
                 new CurrencyAmount(token3, JSBI.BigInt(100)),
                 NativeToken.Instance,
                 testWWDOGE,
@@ -535,7 +535,7 @@ describe("Trade", () => {
 
         it("works for NativeToken.Instance currency input", () => {
             const result = Trade.bestTradeExactOut(
-                [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
+                [pair_wwdoge_0, pair_0_1, pair_0_3, pair_1_3],
                 NativeToken.Instance,
                 new CurrencyAmount(token3, JSBI.BigInt(100)),
                 testWWDOGE,
@@ -551,7 +551,7 @@ describe("Trade", () => {
         });
         it("works for NativeToken.Instance currency output", () => {
             const result = Trade.bestTradeExactOut(
-                [pair_wdc_0, pair_0_1, pair_0_3, pair_1_3],
+                [pair_wwdoge_0, pair_0_1, pair_0_3, pair_1_3],
                 token3,
                 CurrencyAmount.dogechain(JSBI.BigInt(100)),
                 testWWDOGE,

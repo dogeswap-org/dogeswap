@@ -93,15 +93,15 @@ export interface BestTradeOptions {
  * In other words, if the currency is NativeToken.Instance, returns the WWDOGE token amount for the given chain. Otherwise, returns
  * the input currency amount.
  */
-function wrappedAmount(currencyAmount: CurrencyAmount, wdc: WrappedNativeToken): CurrencyAmount {
+function wrappedAmount(currencyAmount: CurrencyAmount, wwdoge: WrappedNativeToken): CurrencyAmount {
     if (currencyAmount.currency.isToken) return currencyAmount;
-    if (currencyAmount.currency.isNativeToken) return new CurrencyAmount(wdc, currencyAmount.raw);
+    if (currencyAmount.currency.isNativeToken) return new CurrencyAmount(wwdoge, currencyAmount.raw);
     throw new Error("CURRENCY");
 }
 
-function wrappedCurrency(currency: Currency, wdc: WrappedNativeToken): Token {
+function wrappedCurrency(currency: Currency, wwdoge: WrappedNativeToken): Token {
     if (currency.isToken) return currency;
-    if (currency === NativeToken.Instance) return wdc;
+    if (currency === NativeToken.Instance) return wwdoge;
     throw new Error("CURRENCY");
 }
 

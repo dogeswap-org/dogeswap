@@ -65,7 +65,7 @@ export function CurrencySearch({
 
     const showNativeQueries = useMemo(() => ["w", "wd", "wdo", "wdog", "wdoge"], []);
 
-    const showDC: boolean = useMemo(() => {
+    const showWDOGE: boolean = useMemo(() => {
         const s = searchQuery.toLowerCase().trim();
         return showNativeQueries.includes(s);
     }, [searchQuery]);
@@ -120,7 +120,7 @@ export function CurrencySearch({
         (e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") {
                 const s = searchQuery.toLowerCase().trim();
-                if (s === "dc") {
+                if (s === "wdoge") {
                     handleCurrencySelect(NativeToken.Instance);
                 } else if (filteredSortedTokens.length > 0) {
                     if (
@@ -181,7 +181,7 @@ export function CurrencySearch({
                     {({ height }) => (
                         <CurrencyList
                             height={height}
-                            showDC={showDC}
+                            showWDOGE={showWDOGE}
                             currencies={filteredSortedTokens}
                             onCurrencySelect={handleCurrencySelect}
                             otherCurrency={otherSelectedCurrency}

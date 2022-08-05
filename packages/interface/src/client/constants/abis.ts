@@ -5,17 +5,17 @@ import iDogeSwapV2Pair from "../../../../contracts-core/artifacts/contracts/inte
 import erc20 from "../../../../contracts-core/artifacts/contracts/interfaces/IERC20.sol/IERC20.json";
 import multicall from "../../../../contracts-periphery/artifacts/contracts/DogeSwapInterfaceMulticall.sol/DogeSwapInterfaceMulticall.json";
 import iDogeSwapV2Router02 from "../../../../contracts-periphery/artifacts/contracts/interfaces/IDogeSwapV2Router02.sol/IDogeSwapV2Router02.json";
-import wdcLocalnet from "../../../../contracts-periphery/artifacts/contracts/localnet/WWDOGE.sol/WWDOGE.json";
+import wwdogeLocalnet from "../../../../contracts-periphery/artifacts/contracts/localnet/WWDOGE.sol/WWDOGE.json";
 
 // TODO: Does this need to be updated per environment?
 export const erc20Abi = erc20.abi;
 
 export const erc20Interface = new Interface(erc20Abi);
 
-export const wdcAbiChainMap = {
-    [ChainId.MAINNET]: wdcLocalnet.abi,
-    [ChainId.TESTNET]: wdcLocalnet.abi,
-    [ChainId.LOCALNET]: wdcLocalnet.abi,
+export const wwdogeAbiChainMap = {
+    [ChainId.MAINNET]: wwdogeLocalnet.abi,
+    [ChainId.TESTNET]: wwdogeLocalnet.abi,
+    [ChainId.LOCALNET]: wwdogeLocalnet.abi,
 };
 
 export const multicallAbi = multicall.abi;

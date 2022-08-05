@@ -26,13 +26,14 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
                   ],
         [chainId, currency, wrapped],
     );
-    const [[dcPairState, dcPair], [usdcPairState, usdcPair], [usdcDCPairState, usdcDCPair]] = usePairs(tokenPairs);
+    const [[wdogePairState, wdogePair], [usdcPairState, usdcPair], [usdcWDOGEPairState, usdcWDOGEPair]] =
+        usePairs(tokenPairs);
 
     return useMemo(() => {
         if (!currency || !wrapped || !chainId || wwdoge == undefined || usdc == undefined) {
             return undefined;
         }
-        // handle wdc/dc
+        // handle wwdoge/wdoge
         if (wrapped.equals(wwdoge)) {
             if (usdcPair) {
                 const price = usdcPair.priceOf(wwdoge);
@@ -46,24 +47,45 @@ export default function useUSDCPrice(currency?: Currency): Price | undefined {
             return new Price(usdc, usdc, "1", "1");
         }
 
-        const dcPairDCAmount = dcPair?.reserveOf(wwdoge);
-        const dcPairDCUSDCValue: JSBI =
-            dcPairDCAmount && usdcDCPair ? usdcDCPair.priceOf(wwdoge).quote(dcPairDCAmount).raw : JSBI.BigInt(0);
+        const wdogePairWDOGEAmount = wdogePair?.reserveOf(wwdoge);
+        const wdogePairWDOGEUSDCValue: JSBI =
+            wdogePairWDOGEAmount && usdcWDOGEPair
+                ? usdcWDOGEPair.priceOf(wwdoge).quote(wdogePairWDOGEAmount).raw
+                : JSBI.BigInt(0);
 
         // all other tokens
         // first try the usdc pair
-        if (usdcPairState === PairState.EXISTS && usdcPair && usdcPair.reserveOf(usdc).greaterThan(dcPairDCUSDCValue)) {
+        if (
+            usdcPairState === PairState.EXISTS &&
+            usdcPair &&
+            usdcPair.reserveOf(usdc).greaterThan(wdogePairWDOGEUSDCValue)
+        ) {
             const price = usdcPair.priceOf(wrapped);
             return new Price(currency, usdc, price.denominator, price.numerator);
         }
-        if (dcPairState === PairState.EXISTS && dcPair && usdcDCPairState === PairState.EXISTS && usdcDCPair) {
-            if (usdcDCPair.reserveOf(usdc).greaterThan("0") && dcPair.reserveOf(wwdoge).greaterThan("0")) {
-                const dcUsdcPrice = usdcDCPair.priceOf(usdc);
-                const currencyDCPrice = dcPair.priceOf(wwdoge);
-                const usdcPrice = dcUsdcPrice.multiply(currencyDCPrice).invert();
+        if (
+            wdogePairState === PairState.EXISTS &&
+            wdogePair &&
+            usdcWDOGEPairState === PairState.EXISTS &&
+            usdcWDOGEPair
+        ) {
+            if (usdcWDOGEPair.reserveOf(usdc).greaterThan("0") && wdogePair.reserveOf(wwdoge).greaterThan("0")) {
+                const wdogeUsdcPrice = usdcWDOGEPair.priceOf(usdc);
+                const currencyWDOGEPrice = wdogePair.priceOf(wwdoge);
+                const usdcPrice = wdogeUsdcPrice.multiply(currencyWDOGEPrice).invert();
                 return new Price(currency, usdc, usdcPrice.denominator, usdcPrice.numerator);
             }
         }
         return undefined;
-    }, [chainId, currency, dcPair, dcPairState, usdcDCPair, usdcDCPairState, usdcPair, usdcPairState, wrapped]);
+    }, [
+        chainId,
+        currency,
+        wdogePair,
+        wdogePairState,
+        usdcWDOGEPair,
+        usdcWDOGEPairState,
+        usdcPair,
+        usdcPairState,
+        wrapped,
+    ]);
 }

@@ -9,9 +9,9 @@ import { useMulticallContract } from "../../hooks/useContract";
 import { isAddress } from "../../utils";
 
 /**
- * Returns a map of the given addresses to their eventually consistent DC balances.
+ * Returns a map of the given addresses to their eventually consistent WDOGE balances.
  */
-export function useDCBalances(uncheckedAddresses?: (string | undefined)[]): {
+export function useWDOGEBalances(uncheckedAddresses?: (string | undefined)[]): {
     [address: string]: CurrencyAmount | undefined;
 } {
     const multicallContract = useMulticallContract();
@@ -108,21 +108,21 @@ export function useCurrencyBalances(
     );
 
     const tokenBalances = useTokenBalances(account, tokens);
-    const containsDC: boolean = useMemo(
+    const containsWDOGE: boolean = useMemo(
         () => currencies?.some((currency) => currency === NativeToken.Instance) ?? false,
         [currencies],
     );
-    const dcBalance = useDCBalances(containsDC ? [account] : []);
+    const wdogeBalance = useWDOGEBalances(containsWDOGE ? [account] : []);
 
     return useMemo(
         () =>
             currencies?.map((currency) => {
                 if (!account || !currency) return undefined;
                 if (currency instanceof Token) return tokenBalances[currency.address];
-                if (currency === NativeToken.Instance) return dcBalance[account];
+                if (currency === NativeToken.Instance) return wdogeBalance[account];
                 return undefined;
             }) ?? [],
-        [account, currencies, dcBalance, tokenBalances],
+        [account, currencies, wdogeBalance, tokenBalances],
     );
 }
 

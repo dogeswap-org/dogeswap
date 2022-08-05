@@ -26,7 +26,7 @@ interface IDogeSwapV2Router01 {
         address token,
         uint amountTokenDesired,
         uint amountTokenMin,
-        uint amountDCMin,
+        uint amountWDOGEMin,
         address to,
         uint deadline
     )
@@ -34,7 +34,7 @@ interface IDogeSwapV2Router01 {
         payable
         returns (
             uint amountToken,
-            uint amountDC,
+            uint amountWDOGE,
             uint liquidity
         );
 
@@ -52,10 +52,10 @@ interface IDogeSwapV2Router01 {
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountDCMin,
+        uint amountWDOGEMin,
         address to,
         uint deadline
-    ) external returns (uint amountToken, uint amountDC);
+    ) external returns (uint amountToken, uint amountWDOGE);
 
     function removeLiquidityWithPermit(
         address tokenA,
@@ -75,14 +75,14 @@ interface IDogeSwapV2Router01 {
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountDCMin,
+        uint amountWDOGEMin,
         address to,
         uint deadline,
         bool approveMax,
         uint8 v,
         bytes32 r,
         bytes32 s
-    ) external returns (uint amountToken, uint amountDC);
+    ) external returns (uint amountToken, uint amountWDOGE);
 
     function swapExactTokensForTokens(
         uint amountIn,

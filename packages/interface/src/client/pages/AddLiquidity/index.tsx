@@ -145,18 +145,18 @@ export default function AddLiquidity({
             args: Array<string | string[] | number>,
             value: BigNumber | null;
         if (currencyA === NativeToken.Instance || currencyB === NativeToken.Instance) {
-            const tokenBIsDC = currencyB === NativeToken.Instance;
+            const tokenBIsWDOGE = currencyB === NativeToken.Instance;
             estimate = router.estimateGas.addLiquidityWDOGE;
             method = router.addLiquidityWDOGE;
             args = [
-                wrappedCurrency(tokenBIsDC ? currencyA : currencyB, chainId)?.address ?? "", // token
-                (tokenBIsDC ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
-                amountsMin[tokenBIsDC ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
-                amountsMin[tokenBIsDC ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
+                wrappedCurrency(tokenBIsWDOGE ? currencyA : currencyB, chainId)?.address ?? "", // token
+                (tokenBIsWDOGE ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
+                amountsMin[tokenBIsWDOGE ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
+                amountsMin[tokenBIsWDOGE ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
                 account,
                 deadlineFromNow,
             ];
-            value = BigNumber.from((tokenBIsDC ? parsedAmountB : parsedAmountA).raw.toString());
+            value = BigNumber.from((tokenBIsWDOGE ? parsedAmountB : parsedAmountA).raw.toString());
         } else {
             estimate = router.estimateGas.addLiquidity;
             method = router.addLiquidity;
@@ -268,7 +268,7 @@ export default function AddLiquidity({
                     history.push(`/add/${newCurrencyIdB}`);
                 }
             } else {
-                history.push(`/add/${currencyIdA ? currencyIdA : "DC"}/${newCurrencyIdB}`);
+                history.push(`/add/${currencyIdA ? currencyIdA : "WDOGE"}/${newCurrencyIdB}`);
             }
         },
         [currencyIdA, history, currencyIdB],

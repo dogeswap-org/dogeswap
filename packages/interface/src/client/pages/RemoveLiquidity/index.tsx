@@ -210,8 +210,8 @@ export default function RemoveLiquidity({
         const liquidityAmount = parsedAmounts[Field.LIQUIDITY];
         if (!liquidityAmount) throw new Error("missing liquidity amount");
 
-        const currencyBIsDC = currencyB === NativeToken.Instance;
-        const oneCurrencyIsDC = currencyA === NativeToken.Instance || currencyBIsDC;
+        const currencyBIsWDOGE = currencyB === NativeToken.Instance;
+        const oneCurrencyIsWDOGE = currencyA === NativeToken.Instance || currencyBIsWDOGE;
         const deadlineFromNow = Math.ceil(Date.now() / 1000) + deadline;
 
         if (!tokenA || !tokenB) throw new Error("could not wrap");
@@ -220,13 +220,13 @@ export default function RemoveLiquidity({
         // we have approval, use normal remove liquidity
         if (approval === ApprovalState.APPROVED) {
             // removeLiquidityWDOGE
-            if (oneCurrencyIsDC) {
+            if (oneCurrencyIsWDOGE) {
                 methodNames = ["removeLiquidityWDOGE", "removeLiquidityWDOGESupportingFeeOnTransferTokens"];
                 args = [
-                    currencyBIsDC ? tokenA.address : tokenB.address,
+                    currencyBIsWDOGE ? tokenA.address : tokenB.address,
                     liquidityAmount.raw.toString(),
-                    amountsMin[currencyBIsDC ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
-                    amountsMin[currencyBIsDC ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
+                    amountsMin[currencyBIsWDOGE ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
+                    amountsMin[currencyBIsWDOGE ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
                     account,
                     deadlineFromNow,
                 ];
@@ -248,16 +248,16 @@ export default function RemoveLiquidity({
         // we have a signataure, use permit versions of remove liquidity
         else if (signatureData !== null) {
             // removeLiquidityWDOGEWithPermit
-            if (oneCurrencyIsDC) {
+            if (oneCurrencyIsWDOGE) {
                 methodNames = [
                     "removeLiquidityWDOGEWithPermit",
                     "removeLiquidityWDOGEWithPermitSupportingFeeOnTransferTokens",
                 ];
                 args = [
-                    currencyBIsDC ? tokenA.address : tokenB.address,
+                    currencyBIsWDOGE ? tokenA.address : tokenB.address,
                     liquidityAmount.raw.toString(),
-                    amountsMin[currencyBIsDC ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
-                    amountsMin[currencyBIsDC ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
+                    amountsMin[currencyBIsWDOGE ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
+                    amountsMin[currencyBIsWDOGE ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
                     account,
                     signatureData.deadline,
                     false,
@@ -440,7 +440,7 @@ export default function RemoveLiquidity({
     );
 
     const wrapped = useMemo(() => getToken("wwdoge", chainId), [chainId]);
-    const oneCurrencyIsDC = currencyA === NativeToken.Instance || currencyB === NativeToken.Instance;
+    const oneCurrencyIsWDOGE = currencyA === NativeToken.Instance || currencyB === NativeToken.Instance;
     const oneCurrencyIsWWDOGE = Boolean(
         chainId &&
             wrapped &&
@@ -595,9 +595,9 @@ export default function RemoveLiquidity({
                                                 </Text>
                                             </RowFixed>
                                         </RowBetween>
-                                        {chainId && (oneCurrencyIsWWDOGE || oneCurrencyIsDC) ? (
+                                        {chainId && (oneCurrencyIsWWDOGE || oneCurrencyIsWDOGE) ? (
                                             <RowBetween style={{ justifyContent: "flex-end" }}>
-                                                {oneCurrencyIsDC && wrapped ? (
+                                                {oneCurrencyIsWDOGE && wrapped ? (
                                                     <StyledInternalLink
                                                         to={`/remove/${
                                                             currencyA === NativeToken.Instance
@@ -623,7 +623,7 @@ export default function RemoveLiquidity({
                                                                 : currencyIdB
                                                         }`}
                                                     >
-                                                        Receive DC
+                                                        Receive WDOGE
                                                     </StyledInternalLink>
                                                 ) : null}
                                             </RowBetween>

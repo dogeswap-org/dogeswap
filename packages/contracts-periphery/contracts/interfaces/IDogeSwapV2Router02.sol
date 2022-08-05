@@ -7,23 +7,23 @@ interface IDogeSwapV2Router02 is IDogeSwapV2Router01 {
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountDCMin,
+        uint amountWDOGEMin,
         address to,
         uint deadline
-    ) external returns (uint amountDC);
+    ) external returns (uint amountWDOGE);
 
     function removeLiquidityWDOGEWithPermitSupportingFeeOnTransferTokens(
         address token,
         uint liquidity,
         uint amountTokenMin,
-        uint amountDCMin,
+        uint amountWDOGEMin,
         address to,
         uint deadline,
         bool approveMax,
         uint8 v,
         bytes32 r,
         bytes32 s
-    ) external returns (uint amountDC);
+    ) external returns (uint amountWDOGE);
 
     function swapExactTokensForTokensSupportingFeeOnTransferTokens(
         uint amountIn,

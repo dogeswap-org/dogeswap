@@ -61,14 +61,14 @@ task("deploy")
     )
     .addParam("wallet", "The path to the encrypted JSON wallet file.", undefined, types.inputFile, false)
     .addOptionalParam(
-        "wdc",
+        "wwdoge",
         "The address to the WWDOGE contract, if it exists. If unpecified the WWDOGE contract will be created.",
         undefined,
         types.string,
     )
-    .setAction(async ({ contracts: contractsString, erc20: erc20String, factory, wallet: walletPath, wdc }, hre) => {
+    .setAction(async ({ contracts: contractsString, erc20: erc20String, factory, wallet: walletPath, wwdoge }, hre) => {
         const wallet = await getWallet(walletPath, hre);
         const contracts = contractsString === "*" ? contractsString : arrayify(contractsString);
         const erc20 = arrayify(erc20String);
-        await deployExternalContracts(wdc, factory, contracts, erc20, wallet, hre);
+        await deployExternalContracts(wwdoge, factory, contracts, erc20, wallet, hre);
     });

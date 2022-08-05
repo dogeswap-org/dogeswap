@@ -26,7 +26,7 @@ export default function useWrapCallback(
     typedValue: string | undefined,
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
     const { chainId, account } = useActiveWeb3React();
-    const wdcContract = useWwdogeContract();
+    const wwdogeContract = useWwdogeContract();
     const balance = useCurrencyBalance(account ?? undefined, inputCurrency);
     // we can always parse the amount typed as the input currency, since wrapping is 1:1
     const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue]);
@@ -34,7 +34,7 @@ export default function useWrapCallback(
 
     return useMemo(() => {
         const wrapped = getToken("wwdoge", chainId);
-        if (!wrapped || !wdcContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE;
+        if (!wrapped || !wwdogeContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE;
 
         const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount);
 
@@ -45,18 +45,18 @@ export default function useWrapCallback(
                     sufficientBalance && inputAmount
                         ? async () => {
                               try {
-                                  const txReceipt = await wdcContract.deposit({
+                                  const txReceipt = await wwdogeContract.deposit({
                                       value: `0x${inputAmount.raw.toString(16)}`,
                                   });
                                   addTransaction(txReceipt, {
-                                      summary: `Wrap ${inputAmount.toSignificant(6)} DC to WWDOGE`,
+                                      summary: `Wrap ${inputAmount.toSignificant(6)} WDOGE to WWDOGE`,
                                   });
                               } catch (error) {
                                   console.error("Could not deposit", error);
                               }
                           }
                         : undefined,
-                inputError: sufficientBalance ? undefined : "Insufficient DC balance",
+                inputError: sufficientBalance ? undefined : "Insufficient WDOGE balance",
             };
         } else if (currencyEquals(wrapped, inputCurrency) && outputCurrency === NativeToken.Instance) {
             return {
@@ -65,9 +65,9 @@ export default function useWrapCallback(
                     sufficientBalance && inputAmount
                         ? async () => {
                               try {
-                                  const txReceipt = await wdcContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
+                                  const txReceipt = await wwdogeContract.withdraw(`0x${inputAmount.raw.toString(16)}`);
                                   addTransaction(txReceipt, {
-                                      summary: `Unwrap ${inputAmount.toSignificant(6)} WWDOGE to DC`,
+                                      summary: `Unwrap ${inputAmount.toSignificant(6)} WWDOGE to WDOGE`,
                                   });
                               } catch (error) {
                                   console.error("Could not withdraw", error);
@@ -79,5 +79,5 @@ export default function useWrapCallback(
         } else {
             return NOT_APPLICABLE;
         }
-    }, [wdcContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction]);
+    }, [wwdogeContract, chainId, inputCurrency, outputCurrency, inputAmount, balance, addTransaction]);
 }

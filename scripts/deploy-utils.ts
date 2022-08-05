@@ -95,7 +95,7 @@ export const promptPassword = async () => {
 };
 
 export const deployExternalContracts = async (
-    wdcAddress: string | undefined,
+    wwdogeAddress: string | undefined,
     factoryAddress: string | undefined,
     contracts: string[] | "*",
     erc20Tokens: string[],
@@ -151,7 +151,7 @@ export const deployExternalContracts = async (
                 }
                 break;
             case "WWDOGE":
-                if (wdcAddress == undefined) {
+                if (wwdogeAddress == undefined) {
                     console.log("WWDOGE address unspecified. Deploying.");
                     await deployContract();
                 } else {
@@ -169,7 +169,7 @@ export const deployExternalContracts = async (
             case "DogeSwapV2Router":
                 await deployContract(
                     factoryAddress ?? addresses["DogeSwapV2Factory"],
-                    wdcAddress ?? addresses["WWDOGE"],
+                    wwdogeAddress ?? addresses["WWDOGE"],
                 );
                 break;
             default:

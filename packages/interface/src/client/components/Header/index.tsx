@@ -7,7 +7,7 @@ import styled from "styled-components";
 import Logo from "../../../../assets/embedded/logo.png";
 import { useActiveWeb3React } from "../../hooks";
 import { useDarkModeManager } from "../../state/user/hooks";
-import { useDCBalances } from "../../state/wallet/hooks";
+import { useWDOGEBalances } from "../../state/wallet/hooks";
 
 import { YellowCard } from "../Card";
 import Menu from "../Menu";
@@ -137,7 +137,7 @@ const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
 export default function Header() {
     const { account, chainId } = useActiveWeb3React();
 
-    const userDCBalance = useDCBalances(account ? [account] : [])?.[account ?? ""];
+    const userWDOGEBalance = useWDOGEBalances(account ? [account] : [])?.[account ?? ""];
     const [isDark] = useDarkModeManager();
 
     return (
@@ -159,9 +159,9 @@ export default function Header() {
                             )}
                         </TestnetWrapper>
                         <AccountElement active={!!account} style={{ pointerEvents: "auto" }}>
-                            {account && userDCBalance ? (
+                            {account && userWDOGEBalance ? (
                                 <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                                    {userDCBalance?.toSignificant(4)} SD
+                                    {userWDOGEBalance?.toSignificant(4)} WDOGE
                                 </BalanceText>
                             ) : null}
                             <Web3Status />

@@ -22,7 +22,7 @@ describe("Swap", () => {
         cy.get("#swap-currency-output .token-amount-input").type("0.0", { delay: 200 }).should("have.value", "0.0");
     });
 
-    it("can swap DC for DAI", () => {
+    it("can swap WDOGE for DAI", () => {
         cy.get("#swap-currency-output .open-currency-select-button").click();
         cy.get("#list-introduction-choose-a-list").click();
         cy.get("#list-row-tokens-uniswap-eth .select-button").click();

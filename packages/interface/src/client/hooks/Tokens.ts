@@ -82,7 +82,7 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-    const isDC = currencyId?.toUpperCase() === NativeToken.Instance.symbol;
-    const token = useToken(isDC ? undefined : currencyId);
-    return isDC ? NativeToken.Instance : token;
+    const isWDOGE = currencyId?.toUpperCase() === NativeToken.Instance.symbol;
+    const token = useToken(isWDOGE ? undefined : currencyId);
+    return isWDOGE ? NativeToken.Instance : token;
 }

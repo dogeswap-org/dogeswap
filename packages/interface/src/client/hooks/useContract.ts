@@ -2,7 +2,7 @@ import { Contract } from "@ethersproject/contracts";
 import { useMemo } from "react";
 import { getAddress } from "../../common/addresses";
 import { getToken } from "../../common/tokens";
-import { erc20Abi, iDogeSwapV2PairAbi, multicallAbi, wdcAbiChainMap } from "../constants/abis";
+import { erc20Abi, iDogeSwapV2PairAbi, multicallAbi, wwdogeAbiChainMap } from "../constants/abis";
 import { getContract } from "../utils";
 import { useActiveWeb3React } from "./index";
 
@@ -28,8 +28,8 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 export function useWwdogeContract(withSignerIfPossible?: boolean): Contract | null {
     const { chainId } = useActiveWeb3React();
     const wrapped = getToken("wwdoge", chainId);
-    const wdcAbi = chainId != undefined ? wdcAbiChainMap[chainId] : undefined;
-    return useContract(chainId ? wrapped?.address : undefined, wdcAbi, withSignerIfPossible);
+    const wwdogeAbi = chainId != undefined ? wwdogeAbiChainMap[chainId] : undefined;
+    return useContract(chainId ? wrapped?.address : undefined, wwdogeAbi, withSignerIfPossible);
 }
 
 // TODO: If these ENS functions are ever needed, fill in the ABI/resolver ABI variables as well as the contract address.
