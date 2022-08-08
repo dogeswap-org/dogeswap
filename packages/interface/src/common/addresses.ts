@@ -20,18 +20,18 @@ export const addresses = {
         } as InfrastructureAddress,
         tokens: {
             omnom: "0xe3fcA919883950c5cD468156392a6477Ff5d18de",
-            wwdoge: "0x0000000000000000000000000000000000000000",
+            wwdoge: "0xB7ddC6414bf4F5515b52D8BdD69973Ae205ff101",
         },
     },
     [ChainId.TESTNET]: {
         infrastructure: {
-            factory: "0xD2D5953507035cA8D877a29E71Be8e11F6D7B3Bb",
-            router: "0xC166cB989Bfd8aAd6C74cE47f78667F04B307f4A",
-            multicall: "0xc7954867C96E952DD238D85a1a921950ec35A4eE",
+            factory: "0x3D82cf3c8B34e13314A66645A97749910a0627B3",
+            router: "0xf78CB981272840292a1275224aF55C917d106983",
+            multicall: "0x05f10ef3dDB06842b6963BD6D766A09cD935c5a5",
             ensRegistrar: "0x0000000000000000000000000000000000000000",
         } as InfrastructureAddress,
         tokens: {
-            wwdoge: "0xdCcdbF44FCb6c99C91d25fB40794686C66b9DC66",
+            wwdoge: "0x2465086E721F68761e3275A54802C985FFd0D727",
             usdt: "0x5b5E34d03b1533877E23F68622f642ECb721B918",
             usdc: "0x1D0DD931c0101ba58bDB312e5416C5f8330c194D",
         },
