@@ -13,9 +13,9 @@ interface InfrastructureAddress {
 export const addresses = {
     [ChainId.MAINNET]: {
         infrastructure: {
-            factory: "0x2Ac38D8F5eDAee0cbFEbFD3b5a7ac5433B9D9E10",
-            router: "0x4fd1AdFf6c2cE65a20eA9c8a4158Ca631d3181e4",
-            multicall: "0xCE12Ba615EE0BD5b4994fd5f7a9c3C141f9ee821",
+            factory: "0xD27D9d61590874Bf9ee2a19b27E265399929C9C3",
+            router: "0xa4EE06Ce40cb7e8c04E127c1F7D3dFB7F7039C81",
+            multicall: "0xA04551f053294A096Bd4Bff946e24CBbCCd0692F",
             ensRegistrar: "0x0000000000000000000000000000000000000000",
         } as InfrastructureAddress,
         tokens: {
