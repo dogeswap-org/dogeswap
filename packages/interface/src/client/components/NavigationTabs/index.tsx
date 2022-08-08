@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
 import { darken } from "polished";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink, Link as HistoryLink } from "react-router-dom";
+import { Link as HistoryLink, NavLink } from "react-router-dom";
+import styled from "styled-components";
 
 import { ArrowLeft } from "react-feather";
-import { RowBetween } from "../Row";
 import QuestionHelper from "../QuestionHelper";
+import { RowBetween } from "../Row";
 
 const Tabs = styled.div`
     ${({ theme }) => theme.flexRowNoWrap}
@@ -52,7 +52,7 @@ const StyledArrowLeft = styled(ArrowLeft)`
     color: ${({ theme }) => theme.text1};
 `;
 
-export function SwapPoolTabs({ active }: { active: "swap" | "pool" }) {
+export function SwapPoolTabs({ active }: { active: "swap" | "pool" | "liquidity" }) {
     const { t } = useTranslation();
     return (
         <Tabs style={{ marginBottom: "20px" }}>
@@ -61,6 +61,9 @@ export function SwapPoolTabs({ active }: { active: "swap" | "pool" }) {
             </StyledNavLink>
             <StyledNavLink id={`pool-nav-link`} to={"/pool"} isActive={() => active === "pool"}>
                 {t("pool")}
+            </StyledNavLink>
+            <StyledNavLink id={`liquidity-nav-link`} to={"/liquidity"} isActive={() => active === "liquidity"}>
+                Liquidity
             </StyledNavLink>
         </Tabs>
     );
