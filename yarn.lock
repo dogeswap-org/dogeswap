@@ -606,15 +606,19 @@ __metadata:
     "@ethersproject/bytes": ^5.6.1
     "@ethersproject/constants": ^5.6.1
     "@ethersproject/providers": ^5.6.8
+    "@nomicfoundation/hardhat-chai-matchers": ^1.0.2
     "@nomicfoundation/hardhat-network-helpers": ^1.0.2
     "@nomicfoundation/hardhat-toolbox": ^1.0.2
     "@nomiclabs/hardhat-ethers": ^2.1.0
     "@nomiclabs/hardhat-etherscan": ^3.1.0
     "@typechain/ethers-v5": ^10.1.0
     "@typechain/hardhat": ^6.1.2
+    "@types/chai": ^4.3.1
     "@types/ethereumjs-util": ^6.1.0
+    "@types/mocha": ^9.1.1
     "@types/node": ^18.0.6
     "@uniswap/lib": 4.0.1-alpha
+    chai: ^4.3.6
     ethereumjs-util: ^7.1.5
     ethers: ^5.6.9
     hardhat: ^2.10.0
@@ -650,7 +654,7 @@ __metadata:
     "@types/jest": ^28.1.6
     "@types/jquery": ^3.5.14
     "@types/koa": ^2.13.5
-    "@types/koa-mount": ^4.0.1
+    "@types/koa-router": ^7.4.4
     "@types/koa-static": ^4.0.2
     "@types/lodash.flatmap": ^4.5.6
     "@types/mocha": ^9.1.1
@@ -700,6 +704,7 @@ __metadata:
     jest-environment-jsdom-fourteen: 1.0.1
     jsbi: ^3.1.4
     koa: ^2.13.4
+    koa-router: ^12.0.0
     koa-static: ^5.0.0
     lodash.flatmap: ^4.5.0
     mkdirp: ^1.0.4
@@ -709,6 +714,7 @@ __metadata:
     os-browserify: ^0.3.0
     polished: ^4.2.2
     process: ^0.11.10
+    prop-types: ^15.8.1
     qs: ^6.9.4
     react: ^16.13.1
     react-dev-utils: ^10.2.1
@@ -2035,7 +2041,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nomicfoundation/hardhat-chai-matchers@npm:^1.0.1":
+"@nomicfoundation/hardhat-chai-matchers@npm:^1.0.1, @nomicfoundation/hardhat-chai-matchers@npm:^1.0.2":
   version: 1.0.2
   resolution: "@nomicfoundation/hardhat-chai-matchers@npm:1.0.2"
   dependencies:
@@ -3057,12 +3063,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/koa-mount@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@types/koa-mount@npm:4.0.1"
+"@types/koa-router@npm:^7.4.4":
+  version: 7.4.4
+  resolution: "@types/koa-router@npm:7.4.4"
   dependencies:
     "@types/koa": "*"
-  checksum: c010bfe6b2d81e6b1ca163b7699a5a0c90414079fcbc1d44c4005c896486db0d22b8220bd5f68a1cca7be481dba6a3b4f1c05b6affd80954c724d81170532f33
+  checksum: 23ff5b725daa1427dc822602f5d4fdcecca5f990595af48879e41338a9c71819ae312326028eef4645beb6ea32ea852416e2f0761a2abd5bf80c2575a3301837
   languageName: node
   linkType: hard
 
@@ -10343,7 +10349,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"http-errors@npm:2.0.0":
+"http-errors@npm:2.0.0, http-errors@npm:^2.0.0":
   version: 2.0.0
   resolution: "http-errors@npm:2.0.0"
   dependencies:
@@ -12472,6 +12478,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"koa-router@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "koa-router@npm:12.0.0"
+  dependencies:
+    http-errors: ^2.0.0
+    koa-compose: ^4.1.0
+    methods: ^1.1.2
+    path-to-regexp: ^6.2.1
+  checksum: 29b02fd96972c037e805f6ce2626c971f4fd9cba04005bfedc080ab425d31b4b1cfe2ebc000b26e4a45e68215a3a3ed557f836ba486ea0d2f1e7e78fc95f8dca
+  languageName: node
+  linkType: hard
+
 "koa-send@npm:^5.0.0":
   version: 5.0.1
   resolution: "koa-send@npm:5.0.1"
@@ -13213,7 +13231,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"methods@npm:~1.1.2":
+"methods@npm:^1.1.2, methods@npm:~1.1.2":
   version: 1.1.2
   resolution: "methods@npm:1.1.2"
   checksum: 0917ff4041fa8e2f2fda5425a955fe16ca411591fbd123c0d722fcf02b73971ed6f764d85f0a6f547ce49ee0221ce2c19a5fa692157931cecb422984f1dcd13a
@@ -14720,6 +14738,13 @@ __metadata:
   dependencies:
     isarray: 0.0.1
   checksum: 709f6f083c0552514ef4780cb2e7e4cf49b0cc89a97439f2b7cc69a608982b7690fb5d1720a7473a59806508fc2dae0be751ba49f495ecf89fd8fbc62abccbcd
+  languageName: node
+  linkType: hard
+
+"path-to-regexp@npm:^6.2.1":
+  version: 6.2.1
+  resolution: "path-to-regexp@npm:6.2.1"
+  checksum: f0227af8284ea13300f4293ba111e3635142f976d4197f14d5ad1f124aebd9118783dd2e5f1fe16f7273743cc3dbeddfb7493f237bb27c10fdae07020cc9b698
   languageName: node
   linkType: hard
 
