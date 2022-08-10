@@ -4,7 +4,9 @@ import { SupportedToken, tokens } from "./tokens";
 
 const unlistedTokens: SupportedToken[] = ["wwdoge"];
 
-const chainLogoMap: Record<string, string> = {};
+const tokenLogoMap: Record<string, string> = {
+    omnom: "https://omnomtoken.com/doge.gif",
+};
 
 const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
     const listTokens = Object.entries(tokens[chainId])
@@ -15,7 +17,7 @@ const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
             name: token.name,
             symbol: token.symbol,
             decimals: token.decimals,
-            logoURI: chainLogoMap[token.symbol] ?? "https://about.dogeswap.org/assets/chain.svg",
+            logoURI: tokenLogoMap[token.symbol] ?? "https://about.dogeswap.org/assets/chain.svg",
         }));
 
     return {

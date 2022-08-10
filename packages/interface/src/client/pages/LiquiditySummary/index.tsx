@@ -54,7 +54,10 @@ export default function Pool() {
         const symbol0 = token0.symbol;
         const symbol1 = token1.symbol;
         pairAmounts.push(
-            <div key={pair.liquidityToken.address} style={{ display: "flex", justifyContent: "center" }}>
+            <div
+                key={pair.liquidityToken.address}
+                style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
                 <CurrencyLogo size="20px" currency={token0} />
                 <CurrencyLogo size="20px" style={{ marginRight: "8px" }} currency={token1} />
                 {symbol0}/{symbol1} - {formatEtherRounded(result[0])}/{formatEtherRounded(result[1])}
