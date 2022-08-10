@@ -17,8 +17,6 @@ import AppBody from "../AppBody";
 
 const PAIR_INTERFACE = new Interface(IDogeSwapV2PairABI);
 
-const resolveSymbol = (token: Token<string>) => (token.symbol === "WWDOGE" ? "WDOGE" : token.symbol);
-
 export default function Pool() {
     const theme = useContext(ThemeContext);
     const { account, chainId } = useActiveWeb3React();
@@ -49,7 +47,6 @@ export default function Pool() {
 
         const symbol0 = token0.symbol;
         const symbol1 = token1.symbol;
-        console.log(symbol0, symbol1);
         pairAmounts.push(
             <div key={pair.liquidityToken.address} style={{ display: "flex", justifyContent: "center" }}>
                 <CurrencyLogo size="20px" currency={token0} />
@@ -59,19 +56,29 @@ export default function Pool() {
         );
     }
 
+    const prerequisiteMessage = (
+        <LightCard padding="45px 10px">
+            <Text textAlign="center">Connect to a wallet to see liquidity info</Text>
+        </LightCard>
+    );
+
+    const amountsCard = (
+        <LightCard padding="8px">
+            <TYPE.body color={theme.text1} textAlign="center">
+                <Text fontWeight={500} fontSize={16}>
+                    {pairAmounts}
+                </Text>
+            </TYPE.body>
+        </LightCard>
+    );
+
     return (
         <>
             <AppBody>
                 <SwapPoolTabs active="liquidity" />
                 <AutoColumn gap="lg" justify="center">
                     <AutoColumn gap="12px" style={{ width: "100%" }}>
-                        <LightCard padding="8px">
-                            <TYPE.body color={theme.text1} textAlign="center">
-                                <Text fontWeight={500} fontSize={16}>
-                                    {pairAmounts}
-                                </Text>
-                            </TYPE.body>
-                        </LightCard>
+                        {account == undefined ? prerequisiteMessage : amountsCard}
                     </AutoColumn>
                 </AutoColumn>
             </AppBody>

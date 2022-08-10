@@ -63,7 +63,7 @@ export function SwapPoolTabs({ active }: { active: "swap" | "pool" | "liquidity"
                 {t("pool")}
             </StyledNavLink>
             <StyledNavLink id={`liquidity-nav-link`} to={"/liquidity"} isActive={() => active === "liquidity"}>
-                Liquidity
+                Info
             </StyledNavLink>
         </Tabs>
     );
