@@ -5,7 +5,7 @@ import { SupportedToken, tokens } from "./tokens";
 const unlistedTokens: SupportedToken[] = ["wwdoge"];
 
 const tokenLogoMap: Record<string, string> = {
-    omnom: "https://omnomtoken.com/doge.gif",
+    OMNOM: "https://omnomtoken.com/doge.gif",
 };
 
 const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
