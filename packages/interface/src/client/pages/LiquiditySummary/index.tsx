@@ -1,5 +1,6 @@
 import { Token } from "@dogeswap/sdk-core";
-import { formatEther, Interface } from "ethers/lib/utils";
+import { BigNumber, utils } from "ethers";
+import { Interface } from "ethers/lib/utils";
 import React, { useContext, useMemo } from "react";
 import { Text } from "rebass";
 import { ThemeContext } from "styled-components";
@@ -16,6 +17,11 @@ import { TYPE } from "../../theme";
 import AppBody from "../AppBody";
 
 const PAIR_INTERFACE = new Interface(IDogeSwapV2PairABI);
+
+const formatEtherRounded = (value: BigNumber) => {
+    const remainder = value.mod(1e14);
+    return utils.formatEther(value.sub(remainder));
+};
 
 export default function Pool() {
     const theme = useContext(ThemeContext);
@@ -51,7 +57,7 @@ export default function Pool() {
             <div key={pair.liquidityToken.address} style={{ display: "flex", justifyContent: "center" }}>
                 <CurrencyLogo size="20px" currency={token0} />
                 <CurrencyLogo size="20px" style={{ marginRight: "8px" }} currency={token1} />
-                {symbol0}/{symbol1} - {formatEther(result[0])}/{formatEther(result[1])}
+                {symbol0}/{symbol1} - {formatEtherRounded(result[0])}/{formatEtherRounded(result[1])}
             </div>,
         );
     }
