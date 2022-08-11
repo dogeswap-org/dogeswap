@@ -6,7 +6,6 @@ import styled from "styled-components";
 
 import Logo from "../../../../assets/embedded/logo.png";
 import { useActiveWeb3React } from "../../hooks";
-import { useDarkModeManager } from "../../state/user/hooks";
 import { useWDOGEBalances } from "../../state/wallet/hooks";
 
 import { YellowCard } from "../Card";
@@ -138,10 +137,13 @@ export default function Header() {
     const { account, chainId } = useActiveWeb3React();
 
     const userWDOGEBalance = useWDOGEBalances(account ? [account] : [])?.[account ?? ""];
-    const [isDark] = useDarkModeManager();
 
     return (
         <HeaderFrame>
+            <div style={{ background: "black", color: "white", width: "100%", textAlign: "center", padding: 4 }}>
+                Beware of scams! DogeSwap is open source and decentralised - anybody can create a token, and DogeSwap
+                does not verify the authenticity of tokens.
+            </div>
             <RowBetween style={{ alignItems: "flex-start" }} padding="1rem 1rem 0 1rem">
                 <HeaderElement>
                     <Title href=".">
