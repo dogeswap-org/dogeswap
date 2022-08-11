@@ -1,10 +1,7 @@
-import { ChainId } from "@dogeswap/sdk-core";
 import Koa from "koa";
-import Router from "koa-router";
 import serve from "koa-static";
 import path from "path";
 import yargs from "yargs";
-import { tokenLists } from "../common/tokenLists";
 
 const run = async () => {
     const args = await yargs(process.argv.slice(2))
@@ -16,10 +13,6 @@ const run = async () => {
         .default("c", 31337)
         .parse();
 
-    const router = new Router().get("/tokenlist.json", (ctx) => {
-        ctx.body = tokenLists[args.c as ChainId];
-    });
-
     new Koa()
         .use(async (ctx, next) => {
             ctx.cookies.set("chainId", args.c.toString(), { httpOnly: false });
@@ -27,8 +20,6 @@ const run = async () => {
         })
         .use(serve(path.resolve(__dirname, "..", "client")))
         .use(serve(path.resolve(__dirname, "..", "client", "assets", "images")))
-        .use(router.allowedMethods())
-        .use(router.routes())
         .listen(args.p);
 
     console.log(`DogeSwap interface running. Port: ${args.p}. Chain ID: ${args.c}.`);
