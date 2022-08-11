@@ -1,0 +1,28 @@
+{
+    "name": "Testnet Token List",
+    "logoURI": "https://www.dogeswap.org/assets/images/192x192_App_Icon.png",
+    "keywords": [],
+    "tags": {
+        "testnet": {
+            "name": "Testnet",
+            "description": "Testnet tokens for testing"
+        }
+    },
+    "timestamp": "2022-08-11T00:00:00+00:00",
+    "tokens": [
+        {
+            "chainId": 31337,
+            "address": "0x1D0DD931c0101ba58bDB312e5416C5f8330c194D",
+            "symbol": "TUSDC",
+            "name": "Test USDC",
+            "decimals": 18,
+            "logoURI": "https://www.dogeswap.org/assets/images/192x192_App_Icon.png",
+            "tags": ["testnet"]
+        }
+    ],
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    }
+}

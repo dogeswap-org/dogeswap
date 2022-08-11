@@ -14,9 +14,6 @@ const tokenMetadata: Record<SupportedToken, TokenMetadata> = {
     dst: {
         name: "DogeSwap Token",
     },
-    dai: {
-        name: "Dai Stablecoin",
-    },
     omnom: {
         name: "DogeEatDoge",
     },

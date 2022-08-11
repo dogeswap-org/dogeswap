@@ -7,7 +7,6 @@ import multicall from "../../../../contracts-periphery/artifacts/contracts/DogeS
 import iDogeSwapV2Router02 from "../../../../contracts-periphery/artifacts/contracts/interfaces/IDogeSwapV2Router02.sol/IDogeSwapV2Router02.json";
 import wwdogeLocalnet from "../../../../contracts-periphery/artifacts/contracts/localnet/WWDOGE.sol/WWDOGE.json";
 
-// TODO: Does this need to be updated per environment?
 export const erc20Abi = erc20.abi;
 
 export const erc20Interface = new Interface(erc20Abi);

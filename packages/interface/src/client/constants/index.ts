@@ -13,12 +13,7 @@ type ChainTokenList = {
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     [ChainId.MAINNET]: [tokens[ChainId.MAINNET].wwdoge],
     [ChainId.TESTNET]: [tokens[ChainId.TESTNET].wwdoge],
-    [ChainId.LOCALNET]: [
-        tokens[ChainId.LOCALNET].wwdoge,
-        tokens[ChainId.LOCALNET].dai,
-        tokens[ChainId.LOCALNET].usdc,
-        tokens[ChainId.LOCALNET].usdt,
-    ],
+    [ChainId.LOCALNET]: [tokens[ChainId.LOCALNET].wwdoge, tokens[ChainId.LOCALNET].usdc, tokens[ChainId.LOCALNET].usdt],
 };
 
 /**
@@ -38,10 +33,7 @@ export const SUGGESTED_BASES: ChainTokenList = { ...BASES_TO_CHECK_TRADES_AGAINS
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = { ...BASES_TO_CHECK_TRADES_AGAINST };
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
-    [ChainId.LOCALNET]: [
-        [tokens[ChainId.LOCALNET].usdc, tokens[ChainId.LOCALNET].usdt],
-        [tokens[ChainId.LOCALNET].dai, tokens[ChainId.LOCALNET].usdt],
-    ],
+    [ChainId.LOCALNET]: [[tokens[ChainId.LOCALNET].usdc, tokens[ChainId.LOCALNET].usdt]],
 };
 
 export interface WalletInfo {

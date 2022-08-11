@@ -1,4 +1,4 @@
-export const localListUrl = "__LOCAL_LIST_URL__";
+const localListUrl = "__LOCAL_LIST_URL__";
 
 export const DEFAULT_TOKEN_LIST_URL = localListUrl;
 

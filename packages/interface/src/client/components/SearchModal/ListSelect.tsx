@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Text } from "rebass";
 import styled from "styled-components";
 import DropDown from "../../../../assets/embedded/dropdown.svg";
+import { DEFAULT_TOKEN_LIST_URL } from "../../constants/lists";
 import { useFetchListCallback } from "../../hooks/useFetchListCallback";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
@@ -177,45 +178,48 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
                     </StyledListUrlText>
                 </Row>
             </Column>
-            <StyledMenu ref={node as any}>
-                <ButtonOutlined
-                    style={{
-                        width: "2rem",
-                        padding: ".8rem .35rem",
-                        borderRadius: "12px",
-                        fontSize: "14px",
-                        marginRight: "0.5rem",
-                    }}
-                    onClick={toggle}
-                    ref={setReferenceElement}
-                >
-                    <img src={DropDown} />
-                </ButtonOutlined>
-
-                {open && (
-                    <PopoverContainer
-                        show={true}
-                        ref={setPopperElement as any}
-                        style={styles.popper}
-                        {...attributes.popper}
+            {listUrl !== DEFAULT_TOKEN_LIST_URL && (
+                <StyledMenu ref={node as any}>
+                    <ButtonOutlined
+                        style={{
+                            width: "2rem",
+                            padding: ".8rem .35rem",
+                            borderRadius: "12px",
+                            fontSize: "14px",
+                            marginRight: "0.5rem",
+                        }}
+                        onClick={toggle}
+                        ref={setReferenceElement}
                     >
-                        <div>{list && listVersionLabel(list.version)}</div>
-                        <SeparatorDark />
-                        <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>View list</ExternalLink>
-                        <UnpaddedLinkStyledButton
-                            onClick={handleRemoveList}
-                            disabled={Object.keys(listsByUrl).length === 1}
+                        <img src={DropDown} />
+                    </ButtonOutlined>
+
+                    {open && (
+                        <PopoverContainer
+                            show={true}
+                            ref={setPopperElement as any}
+                            style={styles.popper}
+                            {...attributes.popper}
                         >
-                            Remove list
-                        </UnpaddedLinkStyledButton>
-                        {pending && (
-                            <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>
-                                Update list
+                            <div>{list && listVersionLabel(list.version)}</div>
+                            <SeparatorDark />
+                            <ExternalLink href={listUrl}>View list</ExternalLink>
+                            <UnpaddedLinkStyledButton
+                                onClick={handleRemoveList}
+                                disabled={Object.keys(listsByUrl).length === 1}
+                            >
+                                Remove list
                             </UnpaddedLinkStyledButton>
-                        )}
-                    </PopoverContainer>
-                )}
-            </StyledMenu>
+                            {pending && (
+                                <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>
+                                    Update list
+                                </UnpaddedLinkStyledButton>
+                            )}
+                        </PopoverContainer>
+                    )}
+                </StyledMenu>
+            )}
+
             {isSelected ? (
                 <ButtonPrimary
                     disabled={true}
@@ -361,7 +365,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
                     <SearchInput
                         type="text"
                         id="list-add-input"
-                        placeholder="https:// or ipfs:// or ENS name"
+                        placeholder="https://"
                         value={listUrlInput}
                         onChange={handleInput}
                         onKeyDown={handleEnterKey}
@@ -385,11 +389,11 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
                     <ListRow key={listUrl} listUrl={listUrl} onBack={onBack} />
                 ))}
             </ListContainer>
-            <Separator />
+            {/* <Separator />
 
             <div style={{ padding: "16px", textAlign: "center" }}>
                 <ExternalLink href="https://tokenlists.org">Browse lists</ExternalLink>
-            </div>
+            </div> */}
         </Column>
     );
 }

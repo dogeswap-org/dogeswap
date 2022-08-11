@@ -1,7 +1,6 @@
 import { ChainId, Currency, CurrencyAmount, NativeToken, Token } from "@dogeswap/sdk-core";
 import { getToken } from "../../common/tokens";
 
-// TODO: update this to use DS instead of NativeToken.Instance and update currency to accept DS instead of NativeToken.Instance
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {
     const wrapped = getToken("wwdoge", chainId);
     return chainId && currency === NativeToken.Instance ? wrapped : currency instanceof Token ? currency : undefined;

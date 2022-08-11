@@ -1,16 +1,30 @@
 import { ChainId } from "@dogeswap/sdk-core";
-import { TokenList } from "@uniswap/token-lists";
+import { Tags, TokenList } from "@uniswap/token-lists";
 import schema from "@uniswap/token-lists/src/tokenlist.schema.json";
 import Ajv from "ajv";
 import { tokenLists } from "../../common/tokenLists";
-import { localListUrl } from "../constants/lists";
+import { DEFAULT_TOKEN_LIST_URL } from "../constants/lists";
 import contenthashToUri from "./contenthashToUri";
 import { parseENSAddress } from "./parseENSAddress";
 import uriToHttp from "./uriToHttp";
 
 const tokenListValidator = new Ajv({ allErrors: true }).compile(schema);
 
-const getRemoteTokenList = async (listUrl: string, resolveENSContentHash: (ensName: string) => Promise<string>) => {
+const emptyTokenList: TokenList = {
+    name: "",
+    timestamp: new Date(0).toISOString(),
+    version: {
+        major: 0,
+        minor: 0,
+        patch: 0,
+    },
+    tokens: [],
+};
+
+const getRemoteTokenList = async (
+    listUrl: string,
+    resolveENSContentHash: (ensName: string) => Promise<string>,
+): Promise<TokenList> => {
     const parsedENS = parseENSAddress(listUrl);
     let urls: string[];
     if (parsedENS) {
@@ -73,10 +87,20 @@ export default async function getTokenList(
     resolveENSContentHash: (ensName: string) => Promise<string>,
     chainId: ChainId | undefined,
 ): Promise<TokenList> {
-    // TODO: extract local token list to file and add testnet/mainnet tokens
-    return listUrl === localListUrl
-        ? chainId != undefined
-            ? tokenLists[chainId]
-            : []
-        : getRemoteTokenList(listUrl, resolveENSContentHash);
+    if (chainId == undefined) {
+        return emptyTokenList;
+    }
+
+    const defaultList = tokenLists[chainId];
+    if (listUrl === DEFAULT_TOKEN_LIST_URL) {
+        return defaultList;
+    }
+
+    const remoteList = await getRemoteTokenList(listUrl, resolveENSContentHash);
+    return {
+        ...remoteList,
+        tokens: [...defaultList.tokens, ...remoteList.tokens],
+        keywords: [...(defaultList.keywords ?? []), ...(remoteList.keywords ?? [])],
+        tags: { ...(defaultList.tags ?? ({} as Tags)), ...(remoteList.tags ?? {}) },
+    };
 }

@@ -4,16 +4,17 @@ import ReactGA from "react-ga";
 import { useTranslation } from "react-i18next";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
-import { Text } from "rebass";
+import { Card, Text } from "rebass";
 import { ThemeContext } from "styled-components";
 import { useActiveWeb3React } from "../../hooks";
 import { useAllTokens, useToken } from "../../hooks/Tokens";
 import { useSelectedListInfo } from "../../state/lists/hooks";
-import { CloseIcon } from "../../theme";
+import { CloseIcon, LinkStyledButton, TYPE } from "../../theme";
 import { isAddress } from "../../utils";
 import Column from "../Column";
+import ListLogo from "../ListLogo";
 import QuestionHelper from "../QuestionHelper";
-import { RowBetween } from "../Row";
+import Row, { RowBetween } from "../Row";
 import CommonBases from "./CommonBases";
 import CurrencyList from "./CurrencyList";
 import { filterTokens } from "./filtering";
@@ -62,13 +63,6 @@ export function CurrencySearch({
             });
         }
     }, [isAddressSearch]);
-
-    const showNativeQueries = useMemo(() => ["w", "wd", "wdo", "wdog", "wdoge"], []);
-
-    const showWDOGE: boolean = useMemo(() => {
-        const s = searchQuery.toLowerCase().trim();
-        return showNativeQueries.includes(s);
-    }, [searchQuery]);
 
     const tokenComparator = useTokenComparator(invertSearchOrder);
 
@@ -181,7 +175,7 @@ export function CurrencySearch({
                     {({ height }) => (
                         <CurrencyList
                             height={height}
-                            showWDOGE={showWDOGE}
+                            showWDOGE
                             currencies={filteredSortedTokens}
                             onCurrencySelect={handleCurrencySelect}
                             otherCurrency={otherSelectedCurrency}
@@ -192,33 +186,34 @@ export function CurrencySearch({
                 </AutoSizer>
             </div>
 
-            {/* TODO: enable to show list selection UI */}
-            {/* <Separator />
+            <Separator />
             <Card>
-                <RowBetween>
-                    {selectedListInfo.current ? (
-                        <Row>
-                            {selectedListInfo.current.logoURI ? (
-                                <ListLogo
-                                    style={{ marginRight: 12 }}
-                                    logoURI={selectedListInfo.current.logoURI}
-                                    alt={`${selectedListInfo.current.name} list logo`}
-                                />
-                            ) : null}
-                            <TYPE.main id="currency-search-selected-list-name">
-                                {selectedListInfo.current.name}
-                            </TYPE.main>
-                        </Row>
-                    ) : null}
-                    <LinkStyledButton
-                        style={{ fontWeight: 500, color: theme.text2, fontSize: 16 }}
-                        onClick={onChangeList}
-                        id="currency-search-change-list-button"
-                    >
-                        {selectedListInfo.current ? "Change" : "Select a list"}
-                    </LinkStyledButton>
-                </RowBetween>
-            </Card> */}
+                <PaddedColumn gap="14px" style={{ marginBottom: 8 }}>
+                    <RowBetween>
+                        {selectedListInfo.current ? (
+                            <Row>
+                                {selectedListInfo.current.logoURI ? (
+                                    <ListLogo
+                                        style={{ marginRight: 12 }}
+                                        logoURI={selectedListInfo.current.logoURI}
+                                        alt={`${selectedListInfo.current.name} list logo`}
+                                    />
+                                ) : null}
+                                <TYPE.main id="currency-search-selected-list-name">
+                                    {selectedListInfo.current.name}
+                                </TYPE.main>
+                            </Row>
+                        ) : null}
+                        <LinkStyledButton
+                            style={{ fontWeight: 500, color: theme.text2, fontSize: 16 }}
+                            onClick={onChangeList}
+                            id="currency-search-change-list-button"
+                        >
+                            {selectedListInfo.current ? "Change token list" : "Select a list"}
+                        </LinkStyledButton>
+                    </RowBetween>
+                </PaddedColumn>
+            </Card>
         </Column>
     );
 }

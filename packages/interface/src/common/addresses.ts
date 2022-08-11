@@ -33,7 +33,7 @@ export const addresses = {
         tokens: {
             wwdoge: "0x2465086E721F68761e3275A54802C985FFd0D727",
             usdt: "0x5b5E34d03b1533877E23F68622f642ECb721B918",
-            usdc: "0x1D0DD931c0101ba58bDB312e5416C5f8330c194D",
+            // usdc: "0x1D0DD931c0101ba58bDB312e5416C5f8330c194D", Can trade using the testnet token list
         },
     },
     [ChainId.LOCALNET]: {
@@ -47,7 +47,7 @@ export const addresses = {
             dst: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
             usdt: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
             usdc: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-            dai: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+            // dai: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9", Can trade using the local token list
             wwdoge: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
         },
     },

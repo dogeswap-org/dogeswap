@@ -15,7 +15,6 @@ import UserUpdater from "../../state/user/updater";
 import { defaultChainId as envChainId } from "../../utils/chainId";
 
 export const UpdaterProvider = (props: PropsWithChildren<{}>) => {
-    // TODO: we'll probably want to handle changing chain IDs at some point, at which time this will need refactoring.
     const chainId = useWeb3React().chainId ?? envChainId;
     const [providerBlockNumber, setProviderBlockNumber] = useState<number>();
     const [contract, setContract] = useState<Contract>();

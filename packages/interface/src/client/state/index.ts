@@ -11,8 +11,7 @@ import swap from "./swap/reducer";
 import transactions from "./transactions/reducer";
 import user from "./user/reducer";
 
-// TODO: verify that we want to persist these, e.g. persisting "lists" can cause problems with localnet
-const PERSISTED_KEYS: string[] = ["user", "transactions"];
+const PERSISTED_KEYS: string[] = ["user", "transactions", "lists"];
 
 const store = configureStore({
     reducer: {

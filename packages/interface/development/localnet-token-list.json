@@ -1,0 +1,28 @@
+{
+    "name": "Local Token List",
+    "logoURI": "https://www.dogeswap.org/assets/images/192x192_App_Icon.png",
+    "keywords": [],
+    "tags": {
+        "local": {
+            "name": "Local",
+            "description": "Local tokens for testing"
+        }
+    },
+    "timestamp": "2022-08-11T00:00:00+00:00",
+    "tokens": [
+        {
+            "chainId": 31337,
+            "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+            "symbol": "DAI",
+            "name": "Test DAI",
+            "decimals": 18,
+            "logoURI": "https://www.dogeswap.org/assets/images/192x192_App_Icon.png",
+            "tags": ["local"]
+        }
+    ],
+    "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+    }
+}
