@@ -126,11 +126,12 @@ export const DisclaimerPopup = () => {
             style={{
                 backgroundColor: "rgba(0, 0, 0, 0.8)",
                 display: "flex",
-                height: "100vh",
+                height: "max-content",
+                minHeight: "100%",
                 width: "100vw",
                 alignItems: "center",
                 justifyContent: "center",
-                position: "fixed",
+                position: "absolute",
                 zIndex: 1000,
             }}
         >
