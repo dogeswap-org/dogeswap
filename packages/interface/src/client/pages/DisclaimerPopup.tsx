@@ -137,7 +137,7 @@ export const DisclaimerPopup = () => {
             }}
         >
             <div style={{ backgroundColor: "white", margin: 32, padding: 16 }}>
-                {window.location.hash === "#/swap" ? (
+                {window.location.hash === "#/swap" || window.location.hash === "#/" ? (
                     <HomeMessage onDismiss={() => setIsDismissed(true)} />
                 ) : (
                     <OtherMessage onDismiss={() => setIsDismissed(true)} />
