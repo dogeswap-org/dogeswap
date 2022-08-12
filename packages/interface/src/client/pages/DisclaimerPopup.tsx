@@ -11,24 +11,22 @@ const HomeMessage = ({ onDismiss }: DismissableProps) => {
             <h1>User Warning!</h1>
             <ol>
                 <li>
+                    DogeSwap is decentralised, so anybody can list a token. We do not endorse nor guarantee the
+                    legitimacy of any tokens listed on DogeSwap, and there are a number of ways that swapping these
+                    tokens could result in 100% loss.
+                    <br />
+                    <br />
+                </li>
+                <li>
                     DogeSwap is currently in Beta and has not yet had any audits completed. There could be bugs with the
                     code that could result in loss of user funds.
                     <br />
                     <br />
                 </li>
                 <li>
-                    DogeSwap is decentralised, so anybody can list a token. We do not endorse nor guarantee the
-                    legitimacy of any tokens listed on DogeSwap, and there are a number of ways that buying these tokens
-                    could result in 100% loss.
-                    <br />
-                    <br />
-                </li>
-                <li>
-                    We did not expect such heavy use of DogeSwap immediately. It's great that everybody is excited, but
-                    we were expecting maybe a few small transactions of people buying and selling OMNOM (our joke/meme
-                    token just to try DogeSwap out and help us add new features). If you are swapping anything other
-                    than OMNOM, we are unable to offer user support for this. Many tokens have non-standard transfer
-                    functions when selling the tokens, and some might turn out to be scams.
+                    We do not offer support for tokens other than OMNOM at this stage. Many tokens have non-standard
+                    transfer functions when selling or transferring the tokens, and some tokens might turn out to be
+                    scams.
                     <br />
                     <br />
                 </li>
@@ -78,7 +76,7 @@ const OtherMessage = ({ onDismiss }: DismissableProps) => {
                 </li>
                 <li>
                     ⚠️ We do not offer support for tokens other than OMNOM at this stage. Many tokens have non-standard
-                    transfer functions when selling or transferring the tokens, and some tokens might turn out to be
+                    transfer functions when swapping or transferring the tokens, and some tokens might turn out to be
                     scams.
                     <br />
                     <br />

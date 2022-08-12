@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { GitHub, Info, MessageCircle } from "react-feather";
+import { GitHub, MessageCircle } from "react-feather";
 import styled from "styled-components";
 import MenuIcon from "../../../../assets/embedded/menu.svg";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
@@ -92,10 +92,6 @@ export default function Menu() {
             </StyledMenuButton>
             {open && (
                 <MenuFlyout>
-                    <MenuItem id="link" href="https://about.dogeswap.org/">
-                        <Info size={14} />
-                        About
-                    </MenuItem>
                     <MenuItem id="link" href="https://github.com/Dogeswap-org/dogeswap">
                         <GitHub size={14} />
                         GitHub
