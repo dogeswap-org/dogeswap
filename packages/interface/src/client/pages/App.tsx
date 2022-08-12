@@ -12,6 +12,7 @@ import {
     RedirectOldAddLiquidityPathStructure,
     RedirectToAddLiquidity,
 } from "./AddLiquidity/redirects";
+import { DisclaimerPopup } from "./DisclaimerPopup";
 import LiquiditySummary from "./LiquiditySummary";
 import Pool from "./Pool";
 import PoolFinder from "./PoolFinder";
@@ -62,6 +63,7 @@ export default function App() {
                 <Route component={GoogleAnalyticsReporter} />
                 <Route component={DarkModeQueryParamReader} />
                 <AppWrapper>
+                    <DisclaimerPopup />
                     <HeaderWrapper>
                         <Header />
                     </HeaderWrapper>

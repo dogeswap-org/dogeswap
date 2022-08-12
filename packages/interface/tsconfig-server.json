@@ -5,7 +5,7 @@
     ],
     "files": [],
     "compilerOptions": {
-        "outDir": "dist",
+        "outDir": "dist/server",
         "skipLibCheck": true
     }
 }
