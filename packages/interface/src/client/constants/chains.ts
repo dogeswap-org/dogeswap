@@ -2,7 +2,7 @@ import { ChainId, NativeToken } from "@dogeswap/sdk-core";
 
 export const chains = {
     [ChainId.MAINNET]: {
-        urls: ["https://rpc01-sg.dogechain.dog", "https://rpc02-sg.dogechain.dog", "https://rpc03-sg.dogechain.dog"],
+        urls: ["https://rpc03-sg.dogechain.dog", "https://rpc02-sg.dogechain.dog", "https://rpc01-sg.dogechain.dog"],
         name: "Dogechain Mainnet",
         nativeCurrency: NativeToken.Instance,
     },
