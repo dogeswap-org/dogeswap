@@ -1,8 +1,23 @@
 import { ChainId, NativeToken } from "@dogeswap/sdk-core";
 
+// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+function shuffleArray<T>(array: T[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
+}
+
 export const chains = {
     [ChainId.MAINNET]: {
-        urls: ["https://rpc03-sg.dogechain.dog", "https://rpc02-sg.dogechain.dog", "https://rpc01-sg.dogechain.dog"],
+        // Random each time. If one is down then refreshing the page should lead to another.
+        urls: shuffleArray([
+            "https://rpc01-sg.dogechain.dog",
+            "https://rpc02-sg.dogechain.dog",
+            "https://rpc03-sg.dogechain.dog",
+        ]),
         name: "Dogechain Mainnet",
         nativeCurrency: NativeToken.Instance,
     },

@@ -11,8 +11,8 @@ const HomeMessage = ({ onDismiss }: DismissableProps) => {
             <h1>User Warning!</h1>
             <ol>
                 <li>
-                    DogeSwap is decentralised, so anybody can list a token. We do not endorse nor guarantee the
-                    legitimacy of any tokens listed on DogeSwap, and there are a number of ways that swapping these
+                    DogeSwap is decentralised, and anybody can create a token. We do not endorse nor guarantee the
+                    legitimacy of any tokens tradable on DogeSwap, and there are a number of ways that swapping these
                     tokens could result in 100% loss.
                     <br />
                     <br />
