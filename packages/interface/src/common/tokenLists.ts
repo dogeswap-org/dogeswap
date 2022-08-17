@@ -7,6 +7,11 @@ const unlistedTokens: SupportedToken[] = ["wwdoge"];
 
 const tokenLogoMap: Record<string, string> = {
     OMNOM: "https://omnomtoken.com/doge.gif",
+    ETH: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+    USDC: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+    DAI: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+    USDT: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
+    WBTC: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
 };
 
 const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
@@ -18,7 +23,7 @@ const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
             name: token.name,
             symbol: token.symbol,
             decimals: token.decimals,
-            logoURI: tokenLogoMap[token.symbol] ?? "https://about.dogeswap.org/assets/chain.svg",
+            logoURI: tokenLogoMap[token.symbol?.toUpperCase()] ?? "https://about.dogeswap.org/assets/chain.svg",
         }));
 
     return {
