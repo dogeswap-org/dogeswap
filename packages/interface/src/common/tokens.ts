@@ -17,14 +17,23 @@ const tokenMetadata: Record<SupportedToken, TokenMetadata> = {
     omnom: {
         name: "DogeEatDoge",
     },
+    wwdoge: {
+        name: "Wrapped wrapped Dogecoin",
+    },
+    eth: {
+        name: "Ethereum",
+    },
     usdc: {
-        name: "USD//C",
+        name: "USD Coin",
+    },
+    dai: {
+        name: "Dai Stablecoin",
     },
     usdt: {
         name: "Tether USD",
     },
-    wwdoge: {
-        name: "Wrapped wrapped Dogecoin",
+    wbtc: {
+        name: "Wrapped BTC",
     },
 };
 

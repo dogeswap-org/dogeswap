@@ -23,9 +23,11 @@ import { Trade } from "@dogeswap/v2-sdk";
 import JSBI from "jsbi";
 import Loader from "../../components/Loader";
 import { INITIAL_ALLOWED_SLIPPAGE } from "../../constants";
+import { DEFAULT_TOKEN_LIST_URL } from "../../constants/lists";
 import { useActiveWeb3React } from "../../hooks";
 import { useCurrency } from "../../hooks/Tokens";
 import { ApprovalState, useApproveCallbackFromTrade } from "../../hooks/useApproveCallback";
+import { useFetchListCallback } from "../../hooks/useFetchListCallback";
 import { useSwapCallback } from "../../hooks/useSwapCallback";
 import useWrapCallback, { WrapType } from "../../hooks/useWrapCallback";
 import { useToggleSettingsMenu, useWalletModalToggle } from "../../state/application/hooks";
@@ -45,6 +47,12 @@ import { ClickableText } from "../Pool/styleds";
 
 export default function Swap() {
     const loadedUrlParams = useDefaultsFromURLSearch();
+
+    // Fetch the default token list on every load.
+    const fetchList = useFetchListCallback();
+    useEffect(() => {
+        fetchList(DEFAULT_TOKEN_LIST_URL);
+    }, []);
 
     // token warning stuff
     const [loadedInputCurrency, loadedOutputCurrency] = [
