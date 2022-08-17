@@ -8,6 +8,7 @@ export type SupportedToken = AddressableTokenMap[keyof AddressableTokenMap];
 
 interface TokenMetadata {
     name: string;
+    decimals?: number;
 }
 
 const tokenMetadata: Record<SupportedToken, TokenMetadata> = {
@@ -25,22 +26,25 @@ const tokenMetadata: Record<SupportedToken, TokenMetadata> = {
     },
     usdc: {
         name: "USD Coin",
+        decimals: 6,
     },
     dai: {
         name: "Dai Stablecoin",
     },
     usdt: {
         name: "Tether USD",
+        decimals: 6,
     },
     wbtc: {
         name: "Wrapped BTC",
+        decimals: 8,
     },
 };
 
 const createTokens = <T extends ChainId>(chainId: T) => {
     return Object.entries(addresses[chainId]["tokens"]).reduce((r, [symbol, address]) => {
-        const { name } = tokenMetadata[symbol as SupportedToken];
-        r[symbol as ChainToken<T>] = new Token(chainId, address, 18, symbol.toUpperCase(), name);
+        const { name, decimals } = tokenMetadata[symbol as SupportedToken];
+        r[symbol as ChainToken<T>] = new Token(chainId, address, decimals ?? 18, symbol.toUpperCase(), name);
         return r;
     }, {} as Record<ChainToken<T>, Token>);
 };

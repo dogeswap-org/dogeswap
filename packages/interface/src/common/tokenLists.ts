@@ -25,7 +25,7 @@ const createTokenList = <TChain extends ChainId>(chainId: TChain) => {
         name: "Default",
         timestamp: new Date().toISOString(),
         version: {
-            major: 1,
+            major: 2,
             minor: 0,
             patch: 0,
         },
