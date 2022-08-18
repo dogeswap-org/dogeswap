@@ -14,6 +14,10 @@ export const chains = {
     [ChainId.MAINNET]: {
         // Random each time. If one is down then refreshing the page should lead to another.
         urls: shuffleArray([
+            "https://rpc-sg.dogechain.dog",
+            "https://rpc-us.dogechain.dog",
+            "https://rpc.dogechain.dog",
+
             "https://rpc01-sg.dogechain.dog",
             "https://rpc02-sg.dogechain.dog",
             "https://rpc03-sg.dogechain.dog",

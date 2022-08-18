@@ -4,7 +4,6 @@ import styled from "styled-components";
 import GoogleAnalyticsReporter from "../components/analytics/GoogleAnalyticsReporter";
 import Header from "../components/Header";
 import Popups from "../components/Popups";
-import { Sounds } from "../components/Sounds";
 import Web3ReactManager from "../components/Web3ReactManager";
 import DarkModeQueryParamReader from "../theme/DarkModeQueryParamReader";
 import AddLiquidity from "./AddLiquidity";
@@ -72,7 +71,6 @@ export default function App() {
                     </HeaderWrapper>
                     <BodyWrapper>
                         <Popups />
-                        <Sounds />
                         <Web3ReactManager>
                             <Switch>
                                 <Route exact strict path="/swap" component={Swap} />
