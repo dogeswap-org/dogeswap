@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { GitHub, MessageCircle } from "react-feather";
+import { BookOpen, GitHub, MessageCircle } from "react-feather";
 import styled from "styled-components";
 import MenuIcon from "../../../../assets/embedded/menu.svg";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
@@ -99,6 +99,13 @@ export default function Menu() {
                     <MenuItem id="link" href="https://t.me/+6eGjC6hMjf5iYWIy">
                         <MessageCircle size={14} />
                         Telegram
+                    </MenuItem>
+                    <MenuItem
+                        id="link"
+                        href="https://www.gizmotimes.com/blockchain/cryptocurrency/buy-dogechain-based-shitcoins-tokens-on-dogeswap-dex/44769"
+                    >
+                        <BookOpen size={14} />
+                        Guide
                     </MenuItem>
                 </MenuFlyout>
             )}
